@@ -1,0 +1,40 @@
+# 网站核心基础配置（Jekyll/Academic Pages 必备）
+title: Quantum Physics & Coding Portfolio
+description: A BASIS high school student's research and project showcase.
+author: Steven Zhu
+email: wuhua_zhu@hotmail.com  # 可选：补充你的邮箱，用于SEO
+baseurl: ""  # 根目录部署（你的仓库是 steven-zhuzhu.github.io，必须为空）
+url: "https://steven-zhuzhu.github.io"  # 你的 GitHub Pages 地址
+permalink: /:title/  # 页面路径规则（匹配菜单URL）
+
+# Jekyll 构建配置（保证模板正常解析）
+markdown: kramdown
+remote_theme: academicpages/academicpages.github.io  # 替换minima为Academic Pages模板
+plugins:
+  - jekyll-remote-theme  # 加载远程模板必备
+  - jekyll-feed
+  - jekyll-seo-tag
+
+# 导航菜单（完全匹配你的菜单名称+正确路径）
+nav_links:
+  - title: Home
+    url: /  # 对应根目录的 index.md/index.html
+    icon: fas fa-home  # 可选：添加图标，更美观
+  - title: Physics Projects
+    url: /research/  # 对应 _pages/research.md
+    icon: fas fa-flask
+  - title: Coding Apps
+    url: /coding/  # 对应 _pages/coding.md
+    icon: fas fa-code
+  - title: Awards
+    url: /awards/  # 对应 _pages/awards.md（你的成就/奖项页面）
+    icon: fas fa-trophy
+  - title: About
+    url: /about/  # 对应 _pages/about.md
+    icon: fas fa-user
+  - title: Contact
+    url: /contact/  # 对应 _pages/contact.md
+    icon: fas fa-envelope
+
+# 外观适配（可选，匹配你的页面风格）
+theme_color: "#001f3f"  # 深蓝色主色调，和之前的Portfolio风格统一

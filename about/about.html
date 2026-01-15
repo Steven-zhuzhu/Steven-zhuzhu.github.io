@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Steven Zhu</title>
+    <style>
+        /* 全站统一样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { display: flex; background: #f0f8ff; }
+        .sidebar { width: 250px; background: #001f3f; padding: 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; justify-content: space-between; }
+        .sidebar a { display: block; color: white; text-decoration: none; padding: 10px 0; margin: 5px 0; border-radius: 5px; padding-left: 15px; }
+        .sidebar a.active { background: #0074d9; }
+        .main-content { margin-left: 250px; padding: 40px; width: calc(100% - 250px); }
+        .section-heading { color: #001f3f; font-size: 2rem; margin-bottom: 20px; border-bottom: 2px solid #0074d9; padding-bottom: 10px; }
+        .about-content { line-height: 1.8; color: #34495e; font-size: 1.1rem; }
+        .about-content p { margin-bottom: 20px; }
+        .about-content h3 { color: #001f3f; margin: 30px 0 15px 0; font-size: 1.5rem; }
+        .about-content ul { list-style: disc; padding-left: 30px; margin-bottom: 20px; }
+        /* 侧边栏底部信息 */
+        .sidebar-footer { padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.2); margin-top: 20px; color: #fff; font-size: 0.9rem; }
+        .sidebar-footer .contact-item { margin: 8px 0; padding-left: 15px; }
+        .sidebar-footer a { color: #4fc3f7; text-decoration: none; display: inline; padding: 0; margin: 0; }
+        .sidebar-footer a:hover { text-decoration: underline; }
+        .creator-info { margin-top: 15px; font-size: 0.8rem; color: rgba(255,255,255,0.7); padding-left: 15px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <!-- 所有链接都加 ../ 指向根目录 -->
+            <a href="../index.html">Home</a>
+            <a href="about.html" class="active">About Me</a>
+            <!-- 核心修复：添加 ../ 指向根目录的achievements文件夹 -->
+            <a href="../achievements/achievements.html">Achievements</a>
+            <a href="../research.html">Research Interests</a>
+            <a href="../physics-projects.html">Physics Projects</a>
+            <a href="../competitions.html">Physics Competitions</a>
+            <a href="../coding.html">Coding Apps</a>
+            <a href="../clubs.html">My Clubs</a>
+            <a href="../hobbies.html">Leisure Hobbies</a>
+            <a href="../contact.html">Contact</a>
+        </div>
+
+        <!-- 侧边栏底部Contact+创作者标注 -->
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="contact-item">
+                <span>Portfolio:</span>
+                <a href="../physics-projects.html">Quantum Projects</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="section-heading">About Wuhua (Steven) Zhu</h2>
+        <div class="about-content">
+            <p>Being part of Canada's Physics Olympiad National Team, I hold a profound passion for physics and astronomy. As a club leader, I rally peers with similar interests to engage in advanced academic work. I aspire to be the Prometheus who sparks academic inspiration and am committed to contributing to society with my research rigor and hands-on initiatives.</p>
+            
+            <h3>Academic Focus</h3>
+            <ul>
+                <li>Quantum Entanglement & Environmental Decoherence</li>
+                <li>Quantum Computing for Condensed Matter Physics Simulation</li>
+                <li>Experimental Verification of Quantum Superposition Principles</li>
+            </ul>
+
+            <h3>Competitive Highlights</h3>
+            <p>My journey in physics competitions has been defined by a drive to test my knowledge against global peers—from winning bronze at the 55th IPhO in France (2025) to securing the 2nd place in Canada's CAP Prize Exam (2025). These experiences have deepened my understanding of experimental physics and collaborative problem-solving.</p>
+
+            <h3>Leadership & Outreach</h3>
+            <p>As the leader of my school's Physics & Quantum Computing Club, I organize workshops, guest lectures, and competition training to make advanced physics accessible to all students. I believe that scientific curiosity thrives in community, and I aim to inspire the next generation of Canadian physicists.</p>
+        </div>
+    </div>
+</body>
+</html>

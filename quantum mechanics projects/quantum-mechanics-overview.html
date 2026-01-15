@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Mechanics Projects - Overview - Steven Zhu</title>
+    <style>
+        /* 全站统一样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { display: flex; background: #f0f8ff; }
+        .sidebar { width: 250px; background: #001f3f; padding: 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; justify-content: space-between; }
+        /* 主导航样式（可点击） */
+        .sidebar .main-nav { display: block; color: white; text-decoration: none; padding: 10px 0; margin: 5px 0; border-radius: 5px; padding-left: 15px; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
+        .sidebar .main-nav.active { background: #0074d9; }
+        .sidebar .main-nav:hover { background: #003566; }
+        /* 子导航容器（默认隐藏，此处展开） */
+        .sidebar .sub-nav-container { display: block; }
+        /* 子导航样式（字体更小+缩进） */
+        .sidebar .sub-nav { display: block; color: #e0e0e0; text-decoration: none; padding: 8px 0; margin: 2px 0 2px 20px; border-radius: 5px; padding-left: 10px; font-size: 0.9rem; transition: background 0.3s; }
+        .sidebar .sub-nav.active { background: #004788; color: white; }
+        .sidebar .sub-nav:hover { background: #002b50; color: white; }
+        .main-content { margin-left: 250px; padding: 40px; width: calc(100% - 250px); }
+        .section-heading { color: #001f3f; font-size: 2rem; margin-bottom: 20px; border-bottom: 2px solid #0074d9; padding-bottom: 10px; }
+        /* 简介模块样式 */
+        .overview-module { margin: 30px 0; }
+        .overview-module h3 { color: #001f3f; font-size: 1.5rem; margin-bottom: 15px; border-left: 4px solid #0074d9; padding-left: 10px; }
+        .overview-module p { line-height: 1.8; color: #34495e; margin-bottom: 15px; }
+        .overview-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); margin: 20px 0; }
+        .overview-card h4 { color: #0074d9; margin-bottom: 10px; font-size: 1.2rem; }
+        .overview-card a { color: #0074d9; text-decoration: none; font-weight: bold; }
+        .overview-card a:hover { text-decoration: underline; }
+        .sidebar-footer { padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.2); margin-top: 20px; color: #fff; font-size: 0.9rem; }
+        .sidebar-footer .contact-item { margin: 8px 0; padding-left: 15px; }
+        .sidebar-footer a { color: #4fc3f7; text-decoration: none; display: inline; padding: 0; margin: 0; }
+        .sidebar-footer a:hover { text-decoration: underline; }
+        .creator-info { margin-top: 15px; font-size: 0.8rem; color: rgba(255,255,255,0.7); padding-left: 15px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../index.html" class="main-nav">Home</a>
+            <a href="../about/about.html" class="main-nav">About Me</a>
+            <a href="../achievements/achievements.html" class="main-nav">Achievements</a>
+            <!-- 量子项目主入口（激活+展开子目录） -->
+            <div class="main-nav quantum-main-nav active">Quantum Mechanics Projects</div>
+            <div class="sub-nav-container quantum-sub-nav">
+                <a href="project-1-particle-in-box/project1.html" class="sub-nav">Project1: Particle in a Box</a>
+                <a href="project-2-quantum-tunneling/project2.html" class="sub-nav">Project2: Quantum Tunneling</a>
+                <a href="coding/coding.html" class="sub-nav">Coding: Quantum Visualization</a>
+            </div>
+            <!-- 其他导航 -->
+            <a href="../physics-projects.html" class="main-nav">Physics Projects</a>
+            <a href="../competitions.html" class="main-nav">Physics Competitions</a>
+            <a href="../coding.html" class="main-nav">Coding Apps</a>
+            <a href="../clubs.html" class="main-nav">My Clubs</a>
+            <a href="../hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../contact.html" class="main-nav">Contact</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="contact-item">
+                <span>Portfolio:</span>
+                <a href="quantum-mechanics-overview.html">Quantum Projects</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <h2 class="section-heading">Quantum Mechanics Projects - Overview</h2>
+        
+        <!-- 整体简介 -->
+        <div class="overview-module">
+            <h3>Abstract (Overall)</h3>
+            <p>This series of quantum mechanics projects aims to demystify core quantum phenomena through computational modeling and interactive visualization. By translating abstract quantum equations (Schrödinger equation, wavefunctions, tunneling) into intuitive visual outputs (plots, animations), the projects bridge the gap between theoretical quantum physics and practical understanding. The work focuses on two foundational quantum models (particle in a box, quantum tunneling) and the computational tools developed to visualize them, serving as an educational resource for students and enthusiasts new to quantum mechanics.</p>
+        </div>
+
+        <!-- 子项目快速入口卡片（每个带简介） -->
+        <div class="overview-module">
+            <h3>Project Series</h3>
+            
+            <div class="overview-card">
+                <h4>Project 1: Quantum Particle in a Box</h4>
+                <p><strong>Core Intro</strong>: A visualization of the simplest quantum bound state model, exploring discrete energy levels, wavefunctions, and probability densities. Key focus: classical vs. quantum behavior in confined spaces. This project breaks down the foundational "particle in a box" model into interactive plots, making quantized energy levels tangible for learners.</p>
+                <a href="project-1-particle-in-box/project1.html">View Full Details →</a>
+            </div>
+
+            <div class="overview-card">
+                <h4>Project 2: Quantum Tunneling</h4>
+                <p><strong>Core Intro</strong>: An exploration of the counterintuitive quantum effect where particles penetrate potential barriers despite insufficient energy. Includes real-world applications (STM, radioactive decay) and transmission probability calculations. This project explains why quantum particles can "tunnel" through barriers that classical particles cannot cross.</p>
+                <a href="project-2-quantum-tunneling/project2.html">View Full Details →</a>
+            </div>
+
+            <div class="overview-card">
+                <h4>Coding: Computational Quantum Visualization</h4>
+                <p><strong>Core Intro</strong>: The Python-based computational framework behind the visualizations, including numerical solutions to the Schrödinger equation, animation techniques, and optimization for educational use. This project provides the codebase to reproduce all quantum visualizations, with well-commented scripts for learning.</p>
+                <a href="coding/coding.html">View Full Details →</a>
+            </div>
+        </div>
+
+        <!-- 研究背景 -->
+        <div class="overview-module">
+            <h3>Research Background</h3>
+            <p>Quantum mechanics is a cornerstone of modern physics, yet its counterintuitive principles often pose challenges for learners. These projects leverage computational physics to make quantum phenomena tangible—through interactive visualizations, students can observe how wavefunctions evolve, how particles tunnel through barriers, and how quantum behavior diverges from classical physics. The codebase is open-source and well-documented, designed to be adaptable for classroom use or self-directed learning.</p>
+        </div>
+    </div>
+
+    <script>
+        // 保持子目录展开状态
+        localStorage.setItem('quantumSubNavExpanded', 'true');
+        
+        // 点击主入口可收起（可选）
+        const quantumMainNav = document.querySelector('.quantum-main-nav');
+        const quantumSubNav = document.querySelector('.quantum-sub-nav');
+        quantumMainNav.addEventListener('click', function() {
+            if (quantumSubNav.style.display === 'block') {
+                quantumSubNav.style.display = 'none';
+                localStorage.setItem('quantumSubNavExpanded', 'false');
+            } else {
+                quantumSubNav.style.display = 'block';
+                localStorage.setItem('quantumSubNavExpanded', 'true');
+            }
+        });
+    </script>
+</body>
+</html>

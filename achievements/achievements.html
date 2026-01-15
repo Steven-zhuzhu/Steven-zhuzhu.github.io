@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - Steven Zhu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { display: flex; background: #f0f8ff; }
+        .sidebar { width: 250px; background: #001f3f; padding: 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; justify-content: space-between; }
+        /* 主导航样式 */
+        .sidebar .main-nav { display: block; color: white; text-decoration: none; padding: 10px 0; margin: 5px 0; border-radius: 5px; padding-left: 15px; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
+        .sidebar .main-nav.active { background: #0074d9; }
+        .sidebar .main-nav:hover { background: #003566; }
+        /* 子导航样式（默认隐藏+字体更小+缩进） */
+        .sidebar .sub-nav-container { display: none; }
+        .sidebar .sub-nav { display: block; color: #e0e0e0; text-decoration: none; padding: 8px 0; margin: 2px 0 2px 20px; border-radius: 5px; padding-left: 10px; font-size: 0.9rem; transition: background 0.3s; }
+        .sidebar .sub-nav.active { background: #004788; color: white; }
+        .sidebar .sub-nav:hover { background: #002b50; color: white; }
+        .main { margin-left: 250px; padding: 40px; width: calc(100% - 250px); }
+        .main h2 { color: #001f3f; font-size: 2rem; margin-bottom: 20px; border-bottom: 2px solid #0074d9; padding-bottom: 10px; }
+        .achievements-table { width: 100%; border-collapse: collapse; max-width: 1100px; }
+        .achievements-table th, .achievements-table td { padding: 12px 15px; border: 1px solid #ddd; text-align: left; }
+        .achievements-table th { background: #001f3f; color: white; }
+        .achievements-table tr:nth-child(even) { background: #f2f2f2; }
+        /* 证书按钮样式 */
+        .cert-preview, .cert-download { display: inline-block; margin-right: 8px; text-decoration: none; padding: 4px 8px; border-radius: 4px; font-size: 0.9rem; }
+        .cert-preview { background: #0074d9; color: white; }
+        .cert-preview:hover { background: #0056b3; }
+        .cert-download { background: #3d9970; color: white; }
+        .cert-download:hover { background: #2e7d58; }
+
+        /* 弹窗样式 */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.8); 
+            z-index: 9999; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .modal-content { 
+            position: relative; 
+            max-width: 90%; 
+            max-height: 90%; 
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .modal-img { 
+            max-width: 100%; 
+            max-height: 90vh; 
+            border: 4px solid white; 
+            display: block;
+            margin: 0 auto;
+        }
+        .close-modal { 
+            position: absolute; 
+            top: -20px; 
+            right: -20px; 
+            background: red; 
+            color: white; 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            text-align: center; 
+            line-height: 40px; 
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            z-index: 10000; 
+            border: 2px solid white; 
+        }
+        .loader { 
+            display: none; 
+            width: 50px; 
+            height: 50px; 
+            border: 5px solid #f3f3f3; 
+            border-top: 5px solid #0074d9; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+            z-index: 9998;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        /* 侧边栏底部信息 */
+        .sidebar-footer { padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.2); margin-top: 20px; color: #fff; font-size: 0.9rem; }
+        .sidebar-footer .contact-item { margin: 8px 0; padding-left: 15px; }
+        .sidebar-footer a { color: #4fc3f7; text-decoration: none; display: inline; padding: 0; margin: 0; }
+        .sidebar-footer a:hover { text-decoration: underline; }
+        .creator-info { margin-top: 15px; font-size: 0.8rem; color: rgba(255,255,255,0.7); padding-left: 15px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../index.html" class="main-nav">Home</a>
+            <a href="../about/about.html" class="main-nav">About Me</a>
+            <a href="achievements.html" class="main-nav active">Achievements</a>
+            <!-- 量子项目主入口（可折叠） -->
+            <div class="main-nav quantum-main-nav">Quantum Mechanics Projects</div>
+            <div class="sub-nav-container quantum-sub-nav">
+                <a href="../quantum-mechanics-projects/project-1-particle-in-box/project1.html" class="sub-nav">Project1: Particle in a Box</a>
+                <a href="../quantum-mechanics-projects/project-2-quantum-tunneling/project2.html" class="sub-nav">Project2: Quantum Tunneling</a>
+                <a href="../quantum-mechanics-projects/coding/coding.html" class="sub-nav">Coding: Quantum Visualization</a>
+            </div>
+            <!-- 其他导航 -->
+            <a href="../physics-projects.html" class="main-nav">Physics Projects</a>
+            <a href="../competitions.html" class="main-nav">Physics Competitions</a>
+            <a href="../coding.html" class="main-nav">Coding Apps</a>
+            <a href="../clubs.html" class="main-nav">My Clubs</a>
+            <a href="../hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../contact.html" class="main-nav">Contact</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="contact-item">
+                <span>Portfolio:</span>
+                <a href="../quantum-mechanics-projects/quantum-mechanics-overview.html">Quantum Projects</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+    <div class="main">
+        <h2>Academic & Competition Achievements</h2>
+        <table class="achievements-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Achievement Name</th>
+                    <th>Level / Significance</th>
+                    <th>Certificate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025</td>
+                    <td>2025 Canada National Physics Olympiad Team Member</td>
+                    <td>National Team Member </td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../assets/certificates/canada-physics-team.png">Preview</a>
+                        <a href="../assets/certificates/canada-physics-team.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2025</td>
+                    <td>55th International Physics Olympiad in France 2025 </td>
+                    <td>Bronze Medal</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../assets/certificates/IPho.jpg">Preview</a>
+                        <a href="../assets/certificates/IPho.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2025</td>
+                    <td>Canadian Association of Physicists Prize Exam (CAP) </td>
+                    <td>The 2nd Place</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../assets/certificates/cap-prize-exam.jpg">Preview</a>
+                        <a href="https://phas-outreach.sites.olt.ubc.ca/files/2025/05/2025Top20_May62025.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>Global Silver Award, British Physics Olympiad BPhO Round 2  2025</td>
+                    <td>Global Silver Award</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../assets/certificates/bpho2.jpg">Preview</a>
+                        <a href="../assets/certificates/bpho2.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>British Physics Olympiad BPhO Round 1 2025</td>
+                    <td>Global Top Gold</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../assets/certificates/bpho1.jpg">Preview</a>
+                        <a href="../assets/certificates/bpho1.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>American Mathematics Competition （AMC 12） 2024</td>
+                    <td>Top 5%</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../assets/certificates/amc12.jpg">Preview</a>
+                        <a href="../assets/certificates/amc12.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td> Sir Isaac Newton Contest (SIN)  2024</td>
+                    <td>National Gold & Global Top 150</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../assets/certificates/sin.jpg">Preview</a>
+                        <a href="../assets/certificates/sin.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>Thirty-Eighth Annual AAPT PhysicsBowl Contest</td>
+                    <td>National Gold (Division 1)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../assets/certificates/bowl.jpg">Preview</a>
+                        <a href="../assets/certificates/bowl.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 证书预览弹窗 -->
+    <div id="certModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="loader" class="loader"></div>
+            <img id="modalImg" class="modal-img" src="" alt="Certificate Preview">
+        </div>
+    </div>
+
+    <script>
+        // 1. 证书预览弹窗逻辑
+        const modal = document.getElementById('certModal');
+        const modalImg = document.getElementById('modalImg');
+        const loader = document.getElementById('loader');
+        const previewBtns = document.querySelectorAll('.cert-preview');
+        const closeBtn = document.querySelector('.close-modal');
+
+        // 点击预览按钮
+        previewBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const imgSrc = this.getAttribute('data-img');
+                modal.style.display = 'flex';
+                loader.style.display = 'block';
+                modalImg.style.display = 'none';
+                
+                // 加载图片
+                const img = new Image();
+                img.onload = function() {
+                    modalImg.src = imgSrc;
+                    loader.style.display = 'none';
+                    modalImg.style.display = 'block';
+                };
+                img.onerror = function() {
+                    loader.style.display = 'none';
+                    modalImg.src = '';
+                    modalImg.alt = 'Image not found';
+                    modalImg.style.display = 'block';
+                    modalImg.textContent = 'Certificate image not found!';
+                };
+                img.src = imgSrc;
+            });
+        });
+
+        // 关闭弹窗
+        closeBtn.addEventListener('click', function() {
+            modal.style.display = 'none';
+        });
+
+        // 点击弹窗外区域关闭
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                modal.style.display = 'none';
+            }
+        });
+
+        // 2. 量子项目导航折叠逻辑（后续统一）
+        const quantumMainNav = document.querySelector('.quantum-main-nav');
+        const quantumSubNav = document.querySelector('.quantum-sub-nav');
+        quantumMainNav.addEventListener('click', function() {
+            // 跳转到量子项目总览页
+            window.location.href = '../quantum-mechanics-projects/quantum-mechanics-overview.html';
+            // 展开子目录（在目标页面生效）
+            localStorage.setItem('quantumSubNavExpanded', 'true');
+        });
+    </script>
+</body>
+</html>

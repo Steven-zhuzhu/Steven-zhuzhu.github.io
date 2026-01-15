@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Physics Research Projects</title>
+    <!-- 引入CSS样式，路径对应根目录css文件夹 -->
+    <link rel="stylesheet" href="../css/style.css">
+    <!-- 引入MathJax用于量子力学公式渲染（学术展示必备） -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+    <!-- 导航栏：保持与全站样式一致，当前页添加active -->
+    <div class="nav">
+        <ul>
+            <li>< a href=" ">Home</ a></li>
+            <li>< a href="physics-portfolio/physics/projects.html" class="active">Physics Projects</ a></li>
+            <li>< a href="competitions.html">Physics Competitions</ a></li>
+            <li>< a href="../coding/apps.html">Coding Apps</ a></li>
+        </ul>
+    </div>
+
+    <!-- 内容容器：适配CSS的布局样式 -->
+    <div class="container">
+        <!-- 项目主标题 -->
+        <h1>Quantum Physics Research Projects</h1>
+
+        <!-- 量子纠缠研究项目板块 -->
+        <section class="project-section">
+            <h2>Two-Qubit Quantum Entanglement Study (Independent Research 2025)</h2>
+            <p>Explored the mathematical framework of Bell states and simulated entanglement dynamics using Python. Tested CHSH inequality violation with numerical methods, verifying the non-local properties of quantum entanglement.</p >
+            
+            <!-- 核心公式展示（MathJax渲染） -->
+            <div class="formula-box">
+                <p>Bell State \(|\Phi^+\rangle = \frac{1}{\sqrt{2}}(|00\rangle + |11\rangle)\)</p >
+                <p>CHSH Inequality: \(S = |E(a,b) - E(a,b') + E(a',b) + E(a',b')| \leq 2\) (classical) / \(S \leq 2\sqrt{2}\) (quantum)</p >
+            </div>
+
+            <!-- 项目图片：路径对应physics/images文件夹 -->
+            <div class="img-box">
+                < img src="images/entanglement.jpg" alt="Bell States Visualization & CHSH Inequality Test">
+                <p class="img-caption">Figure 1: Bell States Visualization and CHSH Inequality Violation Simulation</p >
+            </div>
+
+            <!-- 子项目：量子态模拟工具 -->
+            <h3>Subproject: Quantum State Simulation Tool</h3>
+            <p>Built with NumPy & Matplotlib to model two-qubit state evolution and visualize entanglement metrics. The tool enables real-time adjustment of quantum parameters to observe state changes.</p >
+            <p>< a href="../coding/apps.html#quantum-simulator" class="btn">View Coding Implementation</ a></p >
+        </section>
+
+        <!-- 双缝实验项目板块 -->
+        <section class="project-section" style="margin-top: 60px;">
+            <h2>Double-Slit Experiment Quantum Superposition Analysis</h2>
+            <p>Combined experimental data collection and theoretical derivation to quantify the superposition principle in the double-slit experiment. Analyzed the transition from quantum to classical behavior with varying particle detection methods.</p >
+            
+            <!-- 实验公式 -->
+            <div class="formula-box">
+                <p>Probability Amplitude: \(\psi(x) = \psi_1(x) + \psi_2(x)\), \(P(x) = |\psi(x)|^2 = |\psi_1|^2 + |\psi_2|^2 + 2\mathrm{Re}(\psi_1^*\psi_2)\)</p >
+            </div>
+
+            <!-- 实验图片 -->
+            <div class="img-box">
+                < img src="images/doubleslit.jpg" alt="Double-Slit Interference Pattern">
+                <p class="img-caption">Figure 2: Double-Slit Interference Pattern with Electron Beams</p >
+            </div>
+            <p>< a href="../files/doubleslit_research.pdf" class="btn">Download Research Paper</ a></p >
+        </section>
+    </div>
+
+    <!-- 自定义项目板块样式（补充到CSS中） -->
+    <style>
+        .project-section {
+            padding: 25px;
+            background-color: #f8f9fa;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        .formula-box {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #eef2f7;
+            border-left: 4px solid #4a69bd;
+            font-family: 'Times New Roman', serif;
+        }
+        .img-caption {
+            text-align: center;
+            font-style: italic;
+            color: #555;
+            margin-top: 10px;
+        }
+    </style>
+</body>
+</html>

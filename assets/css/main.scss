@@ -1,0 +1,78 @@
+---
+---
+
+/*
+ * This file controls what is imported from /_sass
+ *
+ * Note that the files are processed in the order they are imported, so they are partly
+   sorted by the dependencies. Also, the first two lines of the file are required by Jekyll.
+ */
+
+ // @import "vendor/breakpoint/breakpoint",
+ /* 全局布局优化 */
+body {
+  display: flex;
+  margin: 0;
+  padding: 0;
+  font-family: 'Times New Roman', serif; /* 学术常用字体 */
+  color: #202124;
+  background-color: #fafafa;
+}
+
+/* 侧边导航样式 */
+.sidebar {
+  width: 250px;
+  background-color: #202124;
+  color: white;
+  padding: 30px 20px;
+  height: 100vh;
+  position: fixed;
+}
+.sidebar a {
+  color: #8ab4f8;
+  display: block;
+  margin: 15px 0;
+  text-decoration: none;
+  font-size: 18px;
+}
+.sidebar a:hover {
+  color: #ffffff;
+}
+
+/* 主内容区域 */
+.main-content {
+  margin-left: 250px;
+  padding: 50px 80px;
+  max-width: 900px;
+}
+
+/* 标题样式 */
+h1 {
+  color: #1a73e8;
+  font-size: 36px;
+  font-weight: normal;
+  border-bottom: 3px solid #e8eaed;
+  padding-bottom: 15px;
+  margin-bottom: 30px;
+}
+
+h2 {
+  color: #202124;
+  font-size: 24px;
+  margin-top: 40px;
+}
+
+/* 段落/列表样式 */
+p, li {
+  font-size: 16px;
+  line-height: 1.8;
+}
+
+/* 项目卡片样式 */
+.project-card {
+  background: white;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  margin-bottom: 30px;
+}

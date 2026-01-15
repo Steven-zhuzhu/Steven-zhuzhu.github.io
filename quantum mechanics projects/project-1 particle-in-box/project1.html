@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project 1: Quantum Particle in a Box - Steven Zhu</title>
+    <style>
+        /* 全站统一样式 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { display: flex; background: #f0f8ff; }
+        .sidebar { width: 250px; background: #001f3f; padding: 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; justify-content: space-between; }
+        /* 主导航样式（可点击） */
+        .sidebar .main-nav { display: block; color: white; text-decoration: none; padding: 10px 0; margin: 5px 0; border-radius: 5px; padding-left: 15px; font-size: 1rem; cursor: pointer; transition: background 0.3s; }
+        .sidebar .main-nav.active { background: #0074d9; }
+        .sidebar .main-nav:hover { background: #003566; }
+        /* 子导航容器（展开） */
+        .sidebar .sub-nav-container { display: block; }
+        /* 子导航样式（字体更小+缩进） */
+        .sidebar .sub-nav { display: block; color: #e0e0e0; text-decoration: none; padding: 8px 0; margin: 2px 0 2px 20px; border-radius: 5px; padding-left: 10px; font-size: 0.9rem; transition: background 0.3s; }
+        .sidebar .sub-nav.active { background: #004788; color: white; }
+        .sidebar .sub-nav:hover { background: #002b50; color: white; }
+        .main-content { margin-left: 250px; padding: 40px; width: calc(100% - 250px); }
+        .section-heading { color: #001f3f; font-size: 2rem; margin-bottom: 20px; border-bottom: 2px solid #0074d9; padding-bottom: 10px; }
+        /* 项目模块样式 */
+        .project-module { margin: 30px 0; }
+        .project-module h3 { color: #001f3f; font-size: 1.5rem; margin-bottom: 15px; border-left: 4px solid #0074d9; padding-left: 10px; }
+        .project-module p { line-height: 1.8; color: #34495e; margin-bottom: 15px; }
+        .abstract-box { background: #e8f4fd; padding: 20px; border-radius: 8px; margin-bottom: 20px; }
+        /* 图片展示样式 */
+        .image-gallery { display: flex; flex-wrap: wrap; gap: 20px; margin: 20px 0; }
+        .image-card { flex: 1; min-width: 300px; background: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); text-align: center; }
+        .image-card img { max-width: 100%; height: auto; border-radius: 4px; margin-bottom: 10px; }
+        .image-card p { font-size: 0.95rem; color: #2c3e50; }
+        .back-link { display: inline-block; margin-bottom: 20px; color: #0074d9; text-decoration: none; font-weight: bold; }
+        .back-link:hover { text-decoration: underline; }
+        .sidebar-footer { padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.2); margin-top: 20px; color: #fff; font-size: 0.9rem; }
+        .sidebar-footer .contact-item { margin: 8px 0; padding-left: 15px; }
+        .sidebar-footer a { color: #4fc3f7; text-decoration: none; display: inline; padding: 0; margin: 0; }
+        .sidebar-footer a:hover { text-decoration: underline; }
+        .creator-info { margin-top: 15px; font-size: 0.8rem; color: rgba(255,255,255,0.7); padding-left: 15px; }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../../index.html" class="main-nav">Home</a>
+            <a href="../../about/about.html" class="main-nav">About Me</a>
+            <a href="../../achievements/achievements.html" class="main-nav">Achievements</a>
+            <!-- 量子项目主入口（激活） -->
+            <div class="main-nav quantum-main-nav active">Quantum Mechanics Projects</div>
+            <div class="sub-nav-container quantum-sub-nav">
+                <!-- 子项目激活 -->
+                <a href="project1.html" class="sub-nav active">Project1: Particle in a Box</a>
+                <a href="../project-2-quantum-tunneling/project2.html" class="sub-nav">Project2: Quantum Tunneling</a>
+                <a href="../coding/coding.html" class="sub-nav">Coding: Quantum Visualization</a>
+            </div>
+            <!-- 其他导航 -->
+            <a href="../../physics-projects.html" class="main-nav">Physics Projects</a>
+            <a href="../../competitions.html" class="main-nav">Physics Competitions</a>
+            <a href="../../coding.html" class="main-nav">Coding Apps</a>
+            <a href="../../clubs.html" class="main-nav">My Clubs</a>
+            <a href="../../hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../contact.html" class="main-nav">Contact</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="contact-item">
+                <span>Portfolio:</span>
+                <a href="../quantum-mechanics-overview.html">Quantum Projects</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <a href="../quantum-mechanics-overview.html" class="back-link">← Back to Quantum Mechanics Projects Overview</a>
+        <h2 class="section-heading">Project 1: Quantum Particle in a Box - Visualizing Wavefunctions</h2>
+        
+        <!-- 1. Abstract 模块 -->
+        <div class="project-module abstract-box">
+            <h3>Abstract</h3>
+            <p>This project aims to demystify the fundamental quantum mechanical model of a "particle in a one-dimensional box" through interactive visualizations. By computationally generating wavefunction plots, probability density distributions, and time-evolution animations, we bridge the gap between theoretical quantum principles and intuitive understanding. The results demonstrate the discrete energy levels of confined quantum particles and contrast classical vs. quantum behavior, providing an educational tool for students new to quantum mechanics.</p>
+        </div>
+
+        <!-- 2. 原理描述模块 -->
+        <div class="project-module">
+            <h3>Fundamental Principles</h3>
+            <p>The "particle in a box" (PIB) model describes a quantum particle confined to a one-dimensional region of space (0 ≤ x ≤ L) with infinite potential barriers at the boundaries. Key principles include:</p>
+            <ul style="list-style: disc; padding-left: 30px; line-height: 1.8; color: #34495e; margin-bottom: 15px;">
+                <li><strong>Boundary Conditions</strong>: The wavefunction ψ(x) = 0 at x=0 and x=L (particle cannot exist outside the box).</li>
+                <li><strong>Discrete Energy Levels</strong>: Energy is quantized as Eₙ = (n²π²ℏ²)/(2mL²), where n=1,2,3... (quantum number), m=particle mass, L=box length.</li>
+                <li><strong>Wavefunction Form</strong>: ψₙ(x) = √(2/L) sin(nπx/L) - describes the quantum state of the particle.</li>
+                <li><strong>Probability Density</strong>: |ψₙ(x)|² - the likelihood of finding the particle at position x (contrasts with classical uniform probability).</li>
+            </ul>
+            <p>Unlike classical particles (which can have any energy and uniform position probability), quantum particles in a box exhibit standing wave patterns and non-uniform probability distributions—key hallmarks of quantum behavior.</p>
+        </div>
+
+        <!-- 3. 实验图片模块 -->
+        <div class="project-module">
+            <h3>Experimental Visualizations</h3>
+            <div class="image-gallery">
+                <div class="image-card">
+                    <img src="images/particle-box-wavefunction.png" alt="Wavefunctions for n=1 to n=5">
+                    <p>Figure 1: Wavefunctions (ψₙ) for n=1 to n=5 energy levels</p>
+                </div>
+                <div class="image-card">
+                    <img src="images/particle-box-probability.png" alt="Probability Densities for n=1 to n=5">
+                    <p>Figure 2: Probability densities (|ψₙ|²) showing particle position likelihood</p>
+                </div>
+            </div>
+            <p><em>Note</em>: All visualizations are generated using Python (NumPy + Matplotlib). The code is optimized for clarity and can be found in my GitHub repository linked in the sidebar.</p>
+        </div>
+
+        <!-- 补充：技术实现 -->
+        <div class="project-module">
+            <h3>Technical Implementation</h3>
+            <p>Built with Python (NumPy for numerical calculations, Matplotlib for plotting, Matplotlib.animation for time evolution). The code is optimized for clarity and interactivity, making it suitable for educational purposes on a personal website. Key features include:</p>
+            <ul style="list-style: disc; padding-left: 30px; line-height: 1.8; color: #34495e;">
+                <li>Interactive plots of wavefunctions for different energy levels (n=1 to n=5)</li>
+                <li>Probability density visualization showing where the particle is most likely to be found</li>
+                <li>Animation of wavefunction time evolution (stationary vs. superposition states)</li>
+                <li>Comparison of classical vs. quantum behavior in a confined space</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        // 保持子目录展开
+        localStorage.setItem('quantumSubNavExpanded', 'true');
+    </script>
+</body>
+</html>

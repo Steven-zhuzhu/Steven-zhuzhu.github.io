@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - Steven Zhu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { display: flex; background: #f0f8ff; }
+        .sidebar { width: 250px; background: #001f3f; padding: 20px; height: 100vh; position: fixed; }
+        .sidebar a { display: block; color: white; text-decoration: none; padding: 10px 0; margin: 5px 0; border-radius: 5px; padding-left: 15px; }
+        .sidebar a.active { background: #0074d9; }
+        .main { margin-left: 250px; padding: 40px; width: calc(100% - 250px); }
+        .main h2 { color: #001f3f; font-size: 2rem; margin-bottom: 20px; border-bottom: 2px solid #0074d9; padding-bottom: 10px; }
+        .achievements-table { width: 100%; border-collapse: collapse; max-width: 1100px; }
+        .achievements-table th, .achievements-table td { padding: 12px 15px; border: 1px solid #ddd; text-align: left; }
+        .achievements-table th { background: #001f3f; color: white; }
+        .achievements-table tr:nth-child(even) { background: #f2f2f2; }
+        /* 证书按钮样式 */
+        .cert-preview, .cert-download { display: inline-block; margin-right: 8px; text-decoration: none; padding: 4px 8px; border-radius: 4px; font-size: 0.9rem; }
+        .cert-preview { background: #0074d9; color: white; }
+        .cert-preview:hover { background: #0056b3; }
+        .cert-download { background: #3d9970; color: white; }
+        .cert-download:hover { background: #2e7d58; }
+        /* 弹窗样式 */
+        .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
+        .modal-content { position: relative; max-width: 90%; max-height: 90%; }
+        .modal-img { max-width: 100%; max-height: 90vh; border: 4px solid white; }
+        .close-modal { position: absolute; top: -20px; right: -20px; background: red; color: white; width: 40px; height: 40px; border-radius: 50%; text-align: center; line-height: 40px; font-size: 1.2rem; cursor: pointer; }
+        /* 加载动画样式 */
+        .loader { display: none; width: 50px; height: 50px; border: 5px solid #f3f3f3; border-top: 5px solid #0074d9; border-radius: 50%; animation: spin 1s linear infinite; position: absolute; }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href=" ">Home</a>
+        <a href="about.html">About Me</a>
+        <a href="achievements.html" class="active">Achievements</a>
+        <a href="research.html">Research Interests</a>
+        <a href="physics-projects.html">Physics Projects</a>
+        <a href="competitions.html">Physics Competitions</a>
+        <a href="coding.html">Coding Apps</a>
+        <a href="clubs.html">My Clubs</a>
+        <a href="hobbies.html">Leisure Hobbies</a>
+        <a href="contact.html">Contact</a>
+    </div>
+    <div class="main">
+        <h2>Academic & Competition Achievements</h2>
+        <table class="achievements-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Achievement Name</th>
+                    <th>Level / Significance</th>
+                    <th>Certificate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2026</td>
+                    <td>Canadian Physics Olympiad National Team Member</td>
+                    <td>National (Top selection for Canadian Physics Olympiad)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="assets/certificates/canada-physics-team.png">Preview</a>
+                        <a href="assets/certificates/canada-physics-team.png" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2025</td>
+                    <td>Canadian Association of Physicists (CAP) Prize Exam - First Prize</td>
+                    <td>Provincial (Top 5% in Ontario)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="assets/certificates/cap-prize-exam.jpg">Preview</a>
+                        <a href="assets/certificates/cap-prize-exam.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>Canadian Computing Competition (CCC) - Senior Division Regional Finalist</td>
+                    <td>Regional (Top 10% of 1000+ participants)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="assets/certificates/ccc-regional.jpg">Preview</a>
+                        <a href="assets/certificates/ccc-regional.pdf" class="cert-download" download>Download PDF</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 通用证书预览弹窗 -->
+    <div id="certModal" class="modal">
+        <span class="close-modal">&times;</span>
+        <div class="modal-content">
+            <div id="loader" class="loader"></div>
+            <img id="modalImg" class="modal-img" src="" alt="Certificate Preview" style="display: none;">
+        </div>
+    </div>
+
+    <!-- 引入外部JS文件 -->
+    <script src="js/certPreview.js"></script>
+</body>
+</html>
