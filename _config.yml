@@ -1,0 +1,29 @@
+# 基础配置
+title: Steven Zhu - Physics Portfolio
+description: Quantum mechanics projects & physics competition achievements
+author: Steven Zhu
+baseurl: ""
+url: "https://steven-zhuzhu.github.io"
+permalink: /:title/
+markdown: kramdown
+
+# 模板配置（关键！替换默认模板）
+remote_theme: academicpages/academicpages.github.io
+plugins:
+  - jekyll-remote-theme
+  - jekyll-feed
+
+# 导航菜单
+nav_links:
+  - title: Home
+    url: /
+  - title: Physics Projects
+    url: /research/
+  - title: Coding Apps
+    url: /coding/
+  - title: Awards
+    url: /awards/
+  - title: About
+    url: /about/
+  - title: Contact
+    url: /contact/
