@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Competition Awards - Steven Zhu</title>
+    <style>
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            /* 新增：全局样式重置，解决显白/跳转异常 */
+            text-decoration: none;
+            list-style: none;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+        }
+
+        /* 左侧侧边栏：修复样式优先级 + 层级 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00c8ff;
+            /* 新增：确保侧边栏层级高于内容 */
+            z-index: 100;
+        }
+        .sidebar .main-nav { 
+            display: block !important; /* 强制显示主导航 */
+            color: #e0e0ff !important; /* 强制文字颜色，避免显白 */
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            /* 新增：兜底背景，避免点击后背景丢失 */
+            background: transparent;
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%) !important; 
+            color: white !important; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 200, 255, 0.1) !important; 
+            color: #00c8ff !important; 
+        }
+        /* 子导航容器：与achievements.html一致 */
+        .sub-nav-container { 
+            display: block !important; 
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        /* 子按钮：修复样式优先级 */
+        .sidebar .sub-nav { 
+            display: block !important; /* 强制显示所有子按钮 */
+            color: #e0e0ff !important; /* 强制文字颜色 */
+            text-decoration: none; 
+            padding: 8px 10px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .sidebar .sub-nav:hover, .sidebar .sub-nav.active { 
+            background: rgba(0, 200, 255, 0.1) !important; 
+            color: #00c8ff !important; 
+            font-weight: 500;
+        }
+
+        /* 右侧主内容（原有样式保留 + 优化） */
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+        }
+        h1 { 
+            color: #00c8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00c8ff; 
+            padding-bottom: 15px;
+        }
+        .achievements-table { 
+            width: 100%; 
+            border-collapse: collapse; 
+            max-width: 1100px; 
+            background: rgba(10, 15, 37, 0.5);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td { 
+            padding: 12px 15px; 
+            border: 1px solid rgba(0,200,255,0.3); 
+            text-align: left; 
+        }
+        th { 
+            background: rgba(10, 15, 37, 0.8); 
+            color: #00c8ff; 
+        }
+        tr:nth-child(even) { 
+            background: rgba(10, 15, 37, 0.6); 
+        }
+        tr:hover { 
+            background: rgba(0, 200, 255, 0.1); 
+        }
+        .cert-preview, .cert-download { 
+            display: inline-block; 
+            margin-right: 8px; 
+            text-decoration: none; 
+            padding: 4px 8px; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            /* 新增：强制文字颜色 */
+            color: white !important;
+        }
+        .cert-preview { 
+            background: #0077ff; 
+        }
+        .cert-preview:hover { 
+            background: #0056b3; 
+            box-shadow: 0 0 8px rgba(0,200,255,0.3);
+        }
+        .cert-download { 
+            background: #3d9970; 
+        }
+        .cert-download:hover { 
+            background: #2e7d58; 
+        }
+
+        /* 弹窗样式（原有保留） */
+        .modal { 
+            display: none; 
+            position: fixed; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            background: rgba(0,0,0,0.8); 
+            z-index: 9999; 
+            justify-content: center; 
+            align-items: center;
+        }
+        .modal-content { 
+            position: relative; 
+            max-width: 90%; 
+            max-height: 90%; 
+        }
+        .modal-img { 
+            max-width: 100%; 
+            max-height: 90vh; 
+            border: 4px solid #00c8ff; 
+            border-radius: 8px;
+        }
+        .close-modal { 
+            position: absolute; 
+            top: -20px; 
+            right: -20px; 
+            background: #7a00ff; 
+            color: white; 
+            width: 40px; 
+            height: 40px; 
+            border-radius: 50%; 
+            text-align: center; 
+            line-height: 40px; 
+            font-size: 1.2rem; 
+            cursor: pointer; 
+            border: 2px solid #00c8ff; 
+        }
+        .loader { 
+            display: none; 
+            width: 50px; 
+            height: 50px; 
+            border: 5px solid #f3f3f3; 
+            border-top: 5px solid #00c8ff; 
+            border-radius: 50%; 
+            animation: spin 1s linear infinite; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%; 
+            transform: translate(-50%, -50%); 
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* 侧边栏底部：与achievements.html完全一致 */
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0, 200, 255, 0.2); 
+            color: #e0e0ff; 
+            font-size: 0.9rem; 
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+        .sidebar-footer a { 
+            color: #00c8ff !important; 
+            text-decoration: none; 
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.7); 
+            padding-left: 15px; 
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧侧边栏：修正所有跳转路径，适配文件夹结构 -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <!-- 修正：基于competition.html位置（achievements/competition-awards/），回退2级到根目录 -->
+            <a href="../../home/index.html" class="main-nav">Home</a>
+            <a href="../../about/about.html" class="main-nav">About Me</a>
+            <a href="../achievements.html" class="main-nav active">Achievements</a>
+            
+            <!-- 子导航：Competition Awards高亮，修正子页面路径 -->
+            <div class="sub-nav-container">
+                <a href="./competition.html" class="sub-nav active">Competition Awards</a>
+                <a href="../academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="../others/others.html" class="sub-nav">Others</a>
+            </div>
+
+            <!-- 修正：跳转到physics-research下的量子项目（补充层级） -->
+            <a href="../../physics-research/quantum-projects/quantum-overview.html" class="main-nav">Physics Research</a>
+            
+            <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
+            <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../../leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../../contact/index.html" class="main-nav">Contact</a>
+        </div>
+
+        <!-- 侧边栏底部：样式修复 -->
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧主内容：修正证书图片路径（回退2级到根目录/images） -->
+    <div class="main">
+        <h1>Competition Awards</h1>
+        <table class="achievements-table">
+            <thead>
+                <tr>
+                    <th>Time</th>
+                    <th>Achievement Name</th>
+                    <th>Level</th>
+                    <th>Certificate</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>2025</td>
+                    <td>Canada National Physics Olympiad Team Member</td>
+                    <td>National</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/canada-physics-team.png">Preview</a>
+                        <!--<a href="../../images/canada-physics-team.pdf" class="cert-download" download>Download PDF</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>2025</td>
+                    <td>55th International Physics Olympiad (IPhO)</td>
+                    <td>International (Bronze Medal)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/IPho.jpg">Preview</a>
+                        <!--<a href="../../images/IPho.pdf" class="cert-download" download>Download PDF</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>2025</td>
+                    <td>CAP Prize Exam</td>
+                    <td>National (2nd Place)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/cap-prize-exam.jpg">Preview</a>
+                       <!-- <a href="https://phas-outreach.sites.olt.ubc.ca/files/2025/05/2025Top20_May62025.pdf" class="cert-download" download>Download PDF</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>BPhO Round 2</td>
+                    <td>Global (Silver Award)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/bpho2.jpg">Preview</a>
+                        <!--<a href="../../images/bpho2.pdf" class="cert-download" download>Download PDF</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>BPhO Round 1</td>
+                    <td>Global (Top Gold)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/bpho1.jpg">Preview</a>
+                        <!--<a href="../../images/bpho1.pdf" class="cert-download" download>Download PDF</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>AMC 12</td>
+                    <td>Global (Top 5%)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/amc12.jpg">Preview</a>
+                        <!--<a href="../../images/amc12.pdf" class="cert-download" download>Download PDF</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>Sir Isaac Newton Contest (SIN)</td>
+                    <td>National Gold / Global Top 150</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/sin.jpg">Preview</a>
+                        <!--<a href="../../images/sin.pdf" class="cert-download" download>Download PDF</a>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>AAPT PhysicsBowl</td>
+                    <td>National Gold (Division 1)</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/bowl.jpg">Preview</a>
+                        <!--<a href="../../images/bowl.pdf" class="cert-download" download>Download PDF</a>-->
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 证书预览弹窗（原有逻辑保留） -->
+    <div id="certModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="loader" class="loader"></div>
+            <img id="modalImg" class="modal-img" src="" alt="Certificate">
+        </div>
+    </div>
+
+    <script>
+        // 弹窗逻辑（原有保留 + 优化）
+        const modal = document.getElementById('certModal');
+        const modalImg = document.getElementById('modalImg');
+        const loader = document.getElementById('loader');
+        const previewBtns = document.querySelectorAll('.cert-preview');
+        const closeBtn = document.querySelector('.close-modal');
+
+        previewBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                const imgSrc = this.getAttribute('data-img');
+                modal.style.display = 'flex';
+                loader.style.display = 'block';
+                modalImg.style.display = 'none';
+                
+                const img = new Image();
+                img.onload = function() {
+                    modalImg.src = imgSrc;
+                    loader.style.display = 'none';
+                    modalImg.style.display = 'block';
+                };
+                img.onerror = function() {
+                    loader.style.display = 'none';
+                    modalImg.src = '';
+                    modalImg.textContent = 'Image not found in /images folder! Please check the path: ' + imgSrc;
+                    modalImg.style.display = 'block';
+                    modalImg.style.color = '#00c8ff';
+                    modalImg.style.padding = '20px';
+                };
+                img.src = imgSrc;
+            });
+        });
+
+        // 关闭弹窗
+        closeBtn.addEventListener('click', () => modal.style.display = 'none');
+        window.addEventListener('click', (e) => {
+            if (e.target === modal) modal.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

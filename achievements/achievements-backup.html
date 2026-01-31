@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Achievements - Steven Zhu</title>
+    <style>
+        /* 全局样式：保留深蓝科技风，移除所有可能隐藏按钮的样式 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            text-decoration: none;
+            list-style: none;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+        }
+
+        /* 左侧侧边栏：核心修改 - 子目录默认隐藏，通过JS控制显隐 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00c8ff;
+            z-index: 100;
+        }
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: #e0e0ff !important; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%) !important; 
+            color: white !important; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 200, 255, 0.1) !important; 
+            color: #00c8ff !important; 
+        }
+
+        /* 子目录容器：默认隐藏！只有当前激活的菜单才显示子目录 */
+        .sub-nav-container, .physics-sub-container { 
+            display: none; /* 核心：默认隐藏 */
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        /* 激活状态：显示当前菜单的子目录 */
+        .sub-nav-container.active, .physics-sub-container.active {
+            display: block !important;
+        }
+
+        /* 子菜单样式统一 */
+        .sub-nav, .physics-sub-level2, .physics-sub-level3 { 
+            display: block !important;
+            color: #e0e0ff !important; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .sub-nav {
+            padding: 8px 10px; 
+            font-size: 0.9rem; 
+        }
+        .physics-sub-level2 {
+            padding: 10px 15px;
+            font-size: 0.95rem;
+        }
+        .physics-sub-level3 {
+            padding: 8px 10px;
+            margin: 3px 0 3px 15px;
+            font-size: 0.9rem;
+        }
+        .sub-nav:hover, .physics-sub-level2:hover, .physics-sub-level3:hover { 
+            background: rgba(0, 200, 255, 0.1) !important; 
+            color: #00c8ff !important; 
+        }
+
+        /* 右侧主内容区样式不变 */
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8;
+        }
+        .main h1 { 
+            color: #00c8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00c8ff; 
+            padding-bottom: 15px;
+        }
+        .achieve-section {
+            background: linear-gradient(135deg, rgba(0, 119, 255, 0.2), rgba(106, 0, 255, 0.2));
+            border-radius: 10px;
+            padding: 20px 25px;
+            margin-bottom: 25px;
+            max-width: 900px;
+            box-shadow: 0 0 12px rgba(0,200,255,0.15);
+        }
+        .achieve-section h3 {
+            color: #00c8ff;
+            font-size: 1.3rem;
+            margin-bottom: 10px;
+        }
+        .achieve-section .achievement-list {
+            padding-left: 20px;
+            margin-top: 10px;
+            list-style: disc !important;
+        }
+        .achieve-section .achievement-list li {
+            margin: 8px 0;
+            font-size: 1.1rem;
+            list-style: disc !important;
+        }
+        .placeholder-text {
+            color: rgba(255,255,255,0.7);
+            font-style: italic;
+            margin-top: 10px;
+        }
+        .toggle-btn {
+            margin-top: 12px;
+            padding: 6px 18px;
+            border: none;
+            border-radius: 6px;
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            color: white;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .toggle-btn:hover {
+            box-shadow: 0 0 10px rgba(0,200,255,0.3);
+        }
+        .hidden-item {
+            display: none;
+        }
+        .btn-group { 
+            display: flex !important; 
+            gap: 20px; 
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+        .achieve-btn { 
+            display: inline-block !important; 
+            padding: 12px 30px; 
+            border: none; 
+            border-radius: 8px; 
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%); 
+            color: white !important; 
+            font-size: 1.1rem; 
+            cursor: pointer; 
+            transition: all 0.3s; 
+            box-shadow: 0 0 10px rgba(0,200,255,0.2);
+            text-decoration: none; 
+        }
+        .achieve-btn:hover { 
+            transform: translateY(-3px); 
+            box-shadow: 0 0 18px rgba(0,200,255,0.4);
+        }
+        .achieve-btn.active {
+            background: rgba(0, 200, 255, 0.2) !important;
+            color: #00c8ff !important;
+            font-weight: 500;
+        }
+
+        /* 侧边栏底部 */
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0, 200, 255, 0.2); 
+            color: #e0e0ff; 
+            font-size: 0.9rem; 
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+        .sidebar-footer a { 
+            color: #00c8ff; 
+            text-decoration: none; 
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.7); 
+            padding-left: 15px; 
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航：给一级菜单和子目录容器添加ID，用于JS控制 -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../home/index.html" class="main-nav" data-target="none">Home</a>
+            <a href="../about/about.html" class="main-nav" data-target="none">About Me</a>
+            
+            <!-- Achievements 一级菜单 + 子目录容器 -->
+            <a href="./achievements.html" class="main-nav active" data-target="achievements-sub">Achievements</a>
+            <div class="sub-nav-container active" id="achievements-sub">
+                <a href="./competition-awards/competition.html" class="sub-nav" id="sub-competition">Competition Awards</a>
+                <a href="./academic-awards/academic.html" class="sub-nav" id="sub-academic">Academic Awards</a>
+                <a href="./others/others.html" class="sub-nav" id="sub-others">Others</a>
+            </div>
+
+            <!-- Physics Research 一级菜单 + 子目录容器 -->
+            <a href="../physics-research/physics-research.html" class="main-nav" data-target="physics-sub">Physics Research</a>
+            <div class="physics-sub-container" id="physics-sub">
+                <a href="../physics-research/quantum-projects/quantum-overview.html" class="physics-sub-level2">Quantum Mechanics Projects</a>
+                <div class="physics-sub-container">
+                    <a href="../physics-research/quantum-projects/project-1-particle-in-box/project1.html" class="physics-sub-level3">Project1: Particle in a Box</a>
+                    <a href="../physics-research/quantum-projects/project-2-quantum-tunneling/project2.html" class="physics-sub-level3">Project2: Quantum Tunneling</a>
+                    <a href="../physics-research/quantum-projects/coding/coding.html" class="physics-sub-level3">Coding: Quantum Visualization</a>
+                    <a href="../physics-research/quantum-projects/quantum-overview.html" class="physics-sub-level3">Quantum Projects Overview</a>
+                </div>
+                <a href="../physics-research/climate-modeling-project/climate.html" class="physics-sub-level2">Climate Modeling Project</a>
+                <div class="physics-sub-container">
+                    <a href="../physics-research/climate-modeling-project/introduction/introduction.html" class="physics-sub-level3">Introduction</a>
+                    <a href="../physics-research/climate-modeling-project/literature-review/review.html" class="physics-sub-level3">Literature Review</a>
+                    <a href="../physics-research/climate-modeling-project/math-model/mathematic-model.html" class="physics-sub-level3">Mathematical Model</a>
+                    <a href="../physics-research/climate-modeling-project/coding/coding.html" class="physics-sub-level3">Coding Implementation</a>
+                    <a href="../physics-research/climate-modeling-project/climate.html" class="physics-sub-level3">Climate Project Overview</a>
+                </div>
+            </div>
+
+            
+            <a href="../coding-apps/coding.html" class="main-nav" data-target="none">Coding Apps</a>
+            <a href="../my-clubs/clubs.html" class="main-nav" data-target="none">My Clubs</a>
+            <a href="../leisure-hobbies/hobbies.html" class="main-nav" data-target="none">Leisure Hobbies</a>
+            <a href="../contact/contact.html" class="main-nav" data-target="none">Contact</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧主内容：无修改 -->
+    <div class="main">
+        <h1>My Academic & Competition Achievements</h1>
+        
+        <div class="achieve-section">
+            <h3>Competition Achievements</h3>
+            <ul class="achievement-list" id="competition-list">
+                <li>Bronze Medal at the 55th International Physics Olympiad (IPhO)</li>
+                <li>Member of Canada National Physics Olympiad Team (2025)</li>
+                <li>Global Silver Award in British Physics Olympiad (BPhO) Round 2 (2025)</li>
+                <li>Global Top Gold in British Physics Olympiad (BPhO) Round 1 (2025)</li>
+                <li class="hidden-item">2nd Place in Canadian Association of Physicists (CAP) Prize Exam (2025)</li>
+                <li class="hidden-item">National Gold (Division 1) in AAPT PhysicsBowl Contest (2024)</li>
+                <li class="hidden-item">Top 5% in American Mathematics Competition (AMC 12) (2024)</li>
+                <li class="hidden-item">National Gold & Global Top 150 in Sir Isaac Newton Contest (SIN) (2024)</li>
+            </ul>
+            <button class="toggle-btn" id="toggle-competition">Show More</button>
+        </div>
+
+        <div class="achieve-section">
+            <h3>Academic Performance</h3>
+            <ul class="achievement-list">
+                <li>Won the title of "Excellent Student" of the school for two consecutive years in high school</li>
+                <li>Maintained outstanding grades in core physics and mathematics courses</li>
+                <li>Consistently ranked top 3 in class for overall academic performance</li>
+            </ul>
+        </div>
+
+        <div class="achieve-section">
+            <h3>Other Achievements</h3>
+            <p class="placeholder-text">More achievements will be added soon.</p>
+        </div>
+
+        <div class="btn-group">
+            <a href="./competition-awards/competition.html" class="achieve-btn" id="btn-competition">View Competition Awards</a>
+            <a href="./academic-awards/academic.html" class="achieve-btn" id="btn-academic">View Academic Awards</a>
+            <a href="./others/others.html" class="achieve-btn" id="btn-others">View Other Achievements</a>
+        </div>
+    </div>
+
+    <script>
+        // 1. Show More/Less逻辑（保留）
+        const toggleBtn = document.getElementById('toggle-competition');
+        const hiddenItems = document.querySelectorAll('.hidden-item');
+        toggleBtn.addEventListener('click', function() {
+            if (this.textContent === 'Show More') {
+                hiddenItems.forEach(item => item.style.display = 'list-item');
+                this.textContent = 'Show Less';
+            } else {
+                hiddenItems.forEach(item => item.style.display = 'none');
+                this.textContent = 'Show More';
+            }
+        });
+
+        // 2. 子导航与功能按钮联动逻辑（保留）
+        const subBtns = {
+            competition: document.getElementById('sub-competition'),
+            academic: document.getElementById('sub-academic'),
+            others: document.getElementById('sub-others')
+        };
+        const funcBtns = {
+            competition: document.getElementById('btn-competition'),
+            academic: document.getElementById('btn-academic'),
+            others: document.getElementById('btn-others')
+        };
+        function highlightActive(type) {
+            Object.values(subBtns).forEach(btn => btn.classList.remove('active'));
+            Object.values(funcBtns).forEach(btn => btn.classList.remove('active'));
+            subBtns[type].classList.add('active');
+            funcBtns[type].classList.add('active');
+        }
+        subBtns.competition.addEventListener('click', () => highlightActive('competition'));
+        subBtns.academic.addEventListener('click', () => highlightActive('academic'));
+        subBtns.others.addEventListener('click', () => highlightActive('others'));
+        funcBtns.competition.addEventListener('click', () => highlightActive('competition'));
+        funcBtns.academic.addEventListener('click', () => highlightActive('academic'));
+        funcBtns.others.addEventListener('click', () => highlightActive('others'));
+        const currentPath = window.location.pathname;
+        if (currentPath.includes('competition-awards')) highlightActive('competition');
+        else if (currentPath.includes('academic-awards')) highlightActive('academic');
+        else if (currentPath.includes('others')) highlightActive('others');
+
+        // ========== 核心新增：一级菜单互斥展开逻辑 ==========
+        const mainNavs = document.querySelectorAll('.main-nav');
+        mainNavs.forEach(nav => {
+            nav.addEventListener('click', function(e) {
+                // 1. 移除所有一级菜单的active状态
+                mainNavs.forEach(n => n.classList.remove('active'));
+                // 2. 给当前点击的菜单添加active状态
+                this.classList.add('active');
+
+                // 3. 隐藏所有子目录容器
+                const allSubContainers = document.querySelectorAll('.sub-nav-container, .physics-sub-container');
+                allSubContainers.forEach(container => container.classList.remove('active'));
+
+                // 4. 获取当前菜单对应的子目录ID，显示该子目录
+                const targetSubId = this.getAttribute('data-target');
+                if (targetSubId !== 'none' && targetSubId) {
+                    const targetSub = document.getElementById(targetSubId);
+                    if (targetSub) {
+                        targetSub.classList.add('active');
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

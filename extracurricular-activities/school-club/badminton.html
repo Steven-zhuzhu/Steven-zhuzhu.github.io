@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Badminton Club | Steven Zhu</title>
+    <style>
+        /* 全局样式统一 - 匹配astronomy.html的深色主题和色彩体系 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0F172A; /* 全局统一深色背景 */
+            color: #F8FAFC;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 侧边栏样式 - 1:1复用astronomy.html */
+        .sidebar {
+            width: 280px;
+            background-color: #0F172A;
+            color: #fff;
+            padding: 30px 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 3px solid #165DFF; /* 统一主蓝色 */
+        }
+
+        .sidebar-nav-item {
+            color: #E2E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 4px 0;
+        }
+
+        .sidebar-nav-item.active {
+            background-color: #165DFF; /* 激活态主蓝色背景 */
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .sidebar-nav-item:hover:not(.active) {
+            background-color: #1E293B; /* hover深色背景 */
+            color: #38BDF8; /* hover浅蓝色文字 */
+        }
+
+        .level1-menu {
+            margin: 8px 0;
+        }
+
+        /* 核心样式：匹配astronomy.html的层级菜单样式 */
+        .level1-text {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .level1-text.active {
+            color: #FFFFFF; /* 激活态白色文字 */
+            font-weight: 600;
+        }
+
+        .level1-text:hover {
+            color: #38BDF8; /* hover浅蓝色 */
+            background-color: #1E293B; /* hover深色背景 */
+        }
+
+        .level2-container {
+            display: none;
+            padding-left: 20px;
+            margin-top: 2px;
+        }
+
+        .level2-text {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .level2-text.active {
+            color: #165DFF; /* 二级激活态主蓝色文字 */
+            font-weight: 500;
+        }
+
+        .level2-text:hover {
+            color: #38BDF8; /* 二级hover浅蓝色 */
+            background-color: #1E293B;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid #1E293B;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .contact-item span {
+            color: #94A3B8;
+            margin-right: 8px;
+        }
+
+        .contact-item a {
+            color: #38BDF8;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: #7DD3FC;
+            text-decoration: underline;
+        }
+
+        .creator-info {
+            margin-top: 30px;
+            color: #64748B;
+            font-size: 13px;
+        }
+
+        /* 主体内容区域 - 完全匹配astronomy.html */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px 60px;
+            background-color: #0F172A; /* 和全局背景一致 */
+            min-height: 100vh;
+            color: #F8FAFC;
+        }
+
+        .section-heading {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #F8FAFC;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #165DFF; /* 统一主蓝色边框 */
+        }
+
+        .intro-text {
+            line-height: 1.8;
+            color: #94A3B8;
+            margin-bottom: 30px;
+            font-size: 1.05em;
+        }
+
+        /* 羽毛球社卡片样式 - 匹配astronomy.html的卡片风格 */
+        .club-detail-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .detail-card {
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05)); /* 主蓝色渐变 */
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(22, 93, 255, 0.2);
+            padding: 30px;
+            margin-bottom: 30px;
+            border-left: 3px solid #165DFF; /* 统一主蓝色边框 */
+        }
+
+        .detail-card h3 {
+            color: #F8FAFC;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .detail-card h3 i {
+            color: #38BDF8; /* 浅蓝色图标 */
+        }
+
+        .detail-card p {
+            line-height: 1.8;
+            color: #94A3B8;
+            margin-bottom: 20px;
+            font-size: 1.05em;
+        }
+
+        .activity-list {
+            list-style-type: disc;
+            padding-left: 25px;
+            color: #94A3B8;
+            line-height: 1.9;
+            margin-bottom: 20px;
+        }
+
+        .activity-list li {
+            margin-bottom: 10px;
+        }
+
+        /* 新增图片画廊样式 - 两行两列布局 */
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 两列 */
+            grid-template-rows: repeat(2, 1fr);    /* 两行 */
+            gap: 20px; /* 图片间距 */
+            margin-top: 20px;
+        }
+
+        .gallery-image {
+            width: 100%; /* 自适应列宽 */
+            height: 250px; /* 统一图片高度 */
+            object-fit: cover; /* 保持图片比例，裁剪溢出部分 */
+            border-radius: 8px; /* 圆角 */
+            border: 2px solid #165DFF; /* 边框装饰 */
+            transition: transform 0.3s ease;
+        }
+
+        .gallery-image:hover {
+            transform: scale(1.03); /* hover放大效果 */
+        }
+
+        .back-btn {
+            background-color: #165DFF; /* 统一主蓝色按钮 */
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 500;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .back-btn:hover {
+            background-color: #38BDF8; /* hover浅蓝色 */
+            color: #0F172A;
+            transform: scale(1.05);
+        }
+
+        /* 响应式适配 - 完全匹配astronomy.html */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 3px solid #165DFF;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 30px 20px;
+            }
+
+            /* 响应式下图片画廊改为单列 */
+            .image-gallery {
+                grid-template-columns: 1fr;
+                grid-template-rows: repeat(4, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏 - 完全匹配astronomy.html的结构和交互 -->
+    <nav class="sidebar">
+        <a href="../../home/index.html" class="sidebar-nav-item">Home</a>
+        <a href="../../about/about.html" class="sidebar-nav-item">About Me</a>
+        <a href="../../achievements/achievements.html" class="sidebar-nav-item">Achievements</a>
+        <a href="../../physics-research/physics-research.html" class="sidebar-nav-item">Physics Research</a>
+        <a href="../../climate-modeling-project/climate.html" class="sidebar-nav-item">Climate Modeling Project</a>
+        <a href="../../medcine-AI/medcineAI.html" class="sidebar-nav-item">Medcine AI App Design</a>
+        <a href="../../extracurricular-activities/activities.html" class="sidebar-nav-item active">Extracurricular Activities</a>
+        
+        <div class="level1-menu">
+             <a href="./school-club.html" class="level1-text active" id="schoolClubBtn">School Club</a>
+            
+            <div class="level2-container" id="schoolClubSub">
+                <a href="./astronomy.html" class="level2-text">Astronomy Club</a>
+                <a href="./physics.html" class="level2-text">Physics Club</a>
+                <a href="./badminton.html" class="level2-text active">Badminton Club</a>
+                <a href="./mun.html" class="level2-text">MUN</a>
+                <a href="./talkshow.html" class="level2-text">Talkshow Club</a>
+            </div>
+        </div>
+        
+            <div class="level1-menu">
+            <a href="../volunteer-and-services/volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</div>
+
+     
+        <div class="level2-container" id="volunteerSub">
+            <a href="../../extracurricular-activities/volunteer-and-services/reading-club.html" class="level2-text">Reading Club</a>
+            <a href="../../extracurricular-activities/volunteer-and-services/voice-museum.html" class="level2-text">Voice Museum</a>
+            <a href="../../extracurricular-activities/volunteer-and-services/science.html" class="level2-text">Science Museum Volunteer</a>
+        </div>
+
+        <a href="../../my-leisure-hobbies/hobbies.html" class="sidebar-nav-item">Leisure Hobbies</a>
+        <a href="../../my-favorite-books/my-books.html" class="sidebar-nav-item">Reading to the World</a>
+        <a href="../../contact/index.html" class="sidebar-nav-item">Contact</a>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © 2025 Wuhua (Steven) Zhu <br>
+                All Rights Reserved
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主体内容区域 - 适配astronomy.html的布局结构 -->
+    <main class="main-content">
+        <h2 class="section-heading">Badminton Team -- Dedicated Member</h2>
+        <p class="intro-text"></p>
+       
+        <div class="club-detail-container">
+            <div class="detail-card">
+                <li>Life is not all contemplation. On the badminton court.</li>
+                <li>Every smash fuels my spirit, gifting me a split-second boldness that echoes in all walks of life.</li>
+            </div>
+
+            <div class="detail-card">
+                <h3><i>🏸</i>Our Team Training & 🏆 Competition Achievements</h3>
+                <ul class="activity-list">
+                    <li>Stuck to intense weekly training (basic skills coaching and friendly matches)</li>
+                    <li>Organized school badminton tournament (singles & doubles, over 80 participants)</li>
+                    <li>Hosted inter-school friendly matches in cooperation with 3 local high schools</li>
+                    <li>Invited professional coaches to deliver badminton skill improvement workshops</li>
+                    <li>Represented the school at the Greater Bay Area Badminton Championships and claimed the championship title 🏆</li>
+                </ul>
+               
+                <div class="image-gallery">   
+                    <img src="../school-club/badminton/badminton-1.jpg" alt="Badminton scene 1" class="gallery-image">
+                    <img src="../school-club/badminton/badminton-2.jpg" alt="Badminton scene 2" class="gallery-image">
+                    <img src="../school-club/badminton/badminton-3.jpg" alt="Badminton scene 3" class="gallery-image">
+                    <img src="../school-club/badminton/badminton-4.jpg" alt="Badminton scene 4" class="gallery-image">
+                </div>            
+            </div>
+
+            <a href="./school-club.html" class="back-btn">← Back to School Club List</a>
+        </div>
+    </main>
+
+    <!-- 交互脚本 - 完全匹配astronomy.html的菜单交互 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const schoolClubBtn = document.getElementById('schoolClubBtn');
+            const schoolClubSub = document.getElementById('schoolClubSub');
+            const volunteerBtn = document.getElementById('volunteerBtn');
+            const volunteerSub = document.getElementById('volunteerSub');
+
+            // 默认展开School Club二级菜单
+            schoolClubSub.style.display = 'block';
+
+            // School Club菜单展开/收起
+            schoolClubBtn.addEventListener('click', () => {
+                const isDisplayed = schoolClubSub.style.display === 'block';
+                schoolClubSub.style.display = isDisplayed ? 'none' : 'block';
+                volunteerSub.style.display = 'none';
+                schoolClubBtn.classList.toggle('active', !isDisplayed);
+                volunteerBtn.classList.remove('active');
+            });
+
+            // Volunteer & Services菜单展开/收起
+            volunteerBtn.addEventListener('click', () => {
+                const isDisplayed = volunteerSub.style.display === 'block';
+                volunteerSub.style.display = isDisplayed ? 'none' : 'block';
+                schoolClubSub.style.display = 'none';
+                volunteerBtn.classList.toggle('active', !isDisplayed);
+                schoolClubBtn.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

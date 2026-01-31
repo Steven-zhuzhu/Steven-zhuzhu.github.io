@@ -1,0 +1,419 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomy Club | Steven Zhu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Inter', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #111827, #16213F, #0F172A);
+            color: #F8FAFC;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 280px;
+            background-color: transparent;
+            padding: 30px 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 3px solid #165DFF;
+        }
+
+        .sidebar-nav-item {
+            color: #E2E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 4px 0;
+        }
+
+        .sidebar-nav-item.active {
+            background-color: #165DFF;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .sidebar-nav-item:hover:not(.active) {
+            background-color: #1E293B;
+            color: #38BDF8;
+        }
+
+        .level1-menu {
+            margin: 8px 0;
+        }
+
+        .level1-text {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .level1-text.active {
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .level1-text:hover {
+            color: #38BDF8;
+            background-color: #1E293B;
+        }
+
+        .level2-container {
+            display: none;
+            padding-left: 20px;
+            margin-top: 2px;
+        }
+
+        .level2-text {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .level2-text.active {
+            color: #165DFF;
+            font-weight: 500;
+        }
+
+        .level2-text:hover {
+            color: #38BDF8;
+            background-color: #1E293B;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid #1E293B;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+
+        .contact-item {
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .contact-item span {
+            color: #94A3B8;
+            margin-right: 8px;
+        }
+
+        .contact-item a {
+            color: #38BDF8;
+            text-decoration: none;
+        }
+
+        .contact-item a:hover {
+            color: #7DD3FC;
+            text-decoration: underline;
+        }
+
+        .creator-info {
+            margin-top: 30px;
+            color: #64748B;
+            font-size: 13px;
+        }
+
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 25px 40px;
+            background-color: transparent;
+            min-height: 100vh;
+            color: #F8FAFC;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .section-heading {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #FFFFFF;
+            margin-bottom: 20px;
+            padding-bottom: 8px;
+            border-bottom: 3px solid #165DFF;
+            letter-spacing: 0.5px;
+        }
+
+        .club-detail-container {
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        .detail-card {
+            background-color: rgba(30, 41, 59, 0.85);
+            border-radius: 8px;
+            padding: 15px 20px;
+            margin-bottom: 12px;
+            border-left: 4px solid #165DFF;
+            backdrop-filter: blur(4px);
+        }
+
+        .detail-card h3 {
+            color: #38BDF8;
+            font-size: 1.1em;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .detail-card p {
+            color: #E2E8F0;
+            margin-bottom: 0;
+            font-size: 0.95em;
+        }
+        
+        /* 卡片内链接样式，与整体风格统一 */
+        .detail-card a {
+            color: #38BDF8;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        
+        .detail-card a:hover {
+            color: #7DD3FC;
+            text-decoration: underline;
+        }
+
+        .activity-list {
+            list-style: none;
+            padding-left: 0;
+        }
+
+        /* 窄行间距设置，活动列表更紧凑 */
+        .activity-list li {
+            color: #E2E8F0;
+            padding: 2px 0;
+            padding-left: 20px;
+            position: relative;
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+
+        .activity-list li::before {
+            content: "•";
+            color: #165DFF;
+            position: absolute;
+            left: 0;
+            font-size: 1.2em;
+        }
+
+        .image-gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 25px;
+            margin-top: 10px;
+        }
+
+        .gallery-item {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .gallery-caption {
+            font-size: 14px;
+            color: #94A3B8;
+            line-height: 1.6;
+            padding: 8px 12px;
+            background-color: rgba(30, 41, 59, 0.85);
+            border-radius: 6px;
+            backdrop-filter: blur(4px);
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+            border: 2px solid rgba(30, 41, 59, 0.85);
+        }
+        
+        .gallery-image:hover {
+            transform: scale(1.03);
+            border-color: #165DFF;
+        }
+
+        /* 移动端响应式适配 */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 3px solid #165DFF;
+                background-color: rgba(15, 23, 42, 0.95);
+            }
+            .main-content {
+                margin-left: 0;
+                padding: 20px 15px;
+                font-size: 14px;
+            }
+            .image-gallery {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .gallery-image {
+                height: auto;
+            }
+            .detail-card {
+                padding: 12px 15px;
+                background-color: rgba(30, 41, 59, 0.95);
+            }
+            .gallery-caption {
+                background-color: rgba(30, 41, 59, 0.95);
+            }
+            .section-heading {
+                font-size: 1.6em;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="sidebar">
+        <a href="../../home/index.html" class="sidebar-nav-item">Home</a>
+        <a href="../../about/about.html" class="sidebar-nav-item">About Me</a>
+        <a href="../../achievements/achievements.html" class="sidebar-nav-item">Achievements</a>
+        <a href="../../physics-research/physics-research.html" class="sidebar-nav-item">Physics Research</a>
+        <a href="../../climate-modeling-project/climate.html" class="sidebar-nav-item">Climate Modeling Project</a>
+        <a href="../../medcine-AI/medcineAI.html" class="sidebar-nav-item">Medcine AI App Design</a>
+        <a href="../../extracurricular-activities/activities.html" class="sidebar-nav-item active">Extracurricular Activities</a>
+        
+        <div class="level1-menu">
+            <a href="../school-club/school-club.html" class="level1-text active" id="schoolClubBtn">School Club</a>
+            <div class="level2-container" id="schoolClubSub" style="display: block;">
+                <a href="../school-club/astronomy.html" class="level2-text active">Astronomy Club</a>
+                <a href="../school-club/physics.html" class="level2-text">Physics Club</a>
+                <a href="../school-club/badminton.html" class="level2-text">Badminton Club</a>
+                <a href="../school-club/mun.html" class="level2-text">MUN</a>
+                <a href="../school-club/talkshow.html" class="level2-text">Talkshow Club</a>
+            </div>
+        </div>
+        
+        <div class="level1-text" id="volunteerBtn">Volunteer & Services</div>
+        <div class="level2-container" id="volunteerSub">
+            <a href="../volunteer-and-services/reading.html" class="level2-text">Reading Club</a>
+            <a href="../volunteer-and-services/voice.html" class="level2-text">Voice Museum</a>
+            <a href="../volunteer-and-services/science.html" class="level2-text">Science Museum Volunteer</a>
+        </div>
+
+        <a href="../../my-leisure-hobbies/hobbies.html" class="sidebar-nav-item">Leisure Hobbies</a>
+        <a href="../../my-favorite-books/my-books.html" class="sidebar-nav-item">Reading to the World</a>
+        <a href="../../contact/index.html" class="sidebar-nav-item">Contact</a>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © 2025 Wuhua (Steven) Zhu <br>
+                All Rights Reserved
+            </div>
+        </div>
+    </nav>
+
+    <main class="main-content">
+        <h2 class="section-heading">Astronomy Club---- President (2024-Present)</h2>
+        
+        <div class="club-detail-container">
+            <div class="detail-card">
+                <h3><i>🌌</i> Club Introduction</h3>
+                <p>The Astronomy Club was founded in 2022 with over 30 active members. As the president of the Astronomy Club, I am committed to spreading astronomical knowledge and inspiring students' interest in space exploration through diverse activities. </p>
+                <!-- 可点击俱乐部链接，新窗口打开，样式与页面统一 -->
+                <p>Our Astonomy Club webste Link: <a href="https://www.astrobiph.org/" target="_blank">https://www.astrobiph.org/</a></p>
+           
+                <h3><i>🔭</i> Our Activities</h3>
+                <ul class="activity-list">
+                    <li>Weekly astronomical knowledge lectures (covering solar system, galaxy, black hole, etc.)</li>
+                    <li>Monthly outdoor stargazing activities (equipped with professional telescopes)</li>
+                    <li>Solar system model making and exhibition</li>
+                    <li>Collaboration with local planetarium for academic exchanges</li>
+                    <li>Astronomical photography competition and works exhibition</li>
+                </ul>
+            </div>
+        </div>
+
+        <h2 class="section-heading">Astronomy Club - Activity Gallery</h2>
+        
+        <div class="image-gallery">
+            <div class="gallery-item">
+                <img src="../school-club/astronomy/astronomy-0.png" alt="Stargazing activity with telescope" class="gallery-image">
+                <p class="gallery-caption">Our astronomical observation dome for stargazing</p>
+            </div>
+            <div class="gallery-item">
+                <img src="../school-club/astronomy/astronomy-2.png" alt="Solar system model exhibition" class="gallery-image">
+                <p class="gallery-caption">Our large astronomical observation telescope</p>
+            </div>
+            <div class="gallery-item">
+                <img src="../school-club/astronomy/astronomy-3.png" alt="Astronomy lecture scene" class="gallery-image">
+                <p class="gallery-caption">M57 Ring Nebula, planetary nebula in Lyra constellation. 2600 ly distance. Seestar 50, 20 minutes integration</p>
+            </div>
+            <div class="gallery-item">
+                <img src="../school-club/astronomy/astronomy-4.png" alt="Astronomy popularization exhibition" class="gallery-image">
+                <p class="gallery-caption">M31 Andromeda Galaxy, 76 minutes exposure with RedCat51, processed with Siril and PS.</p>
+            </div>
+            <div class="gallery-item">
+                <img src="../school-club/astronomy/astronomy-5.png" alt="Astronomy photography sharing" class="gallery-image">
+                <p class="gallery-caption">M57 Ring Nebula, planetary nebula in Lyra constellation. 2600 ly distance. Seestar 50, 20 minutes integration</p>
+            </div>
+            <div class="gallery-item">
+                <img src="../school-club/astronomy/astronomy-6.png" alt="Cooperation with astronomy museum" class="gallery-image">
+                <p class="gallery-caption">M57 Ring Nebula, planetary nebula in Lyra constellation. 2600 ly distance. Seestar 50, 10 minutes integration</p>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const schoolClubBtn = document.getElementById('schoolClubBtn');
+            const schoolClubSub = document.getElementById('schoolClubSub');
+            const volunteerBtn = document.getElementById('volunteerBtn');
+            const volunteerSub = document.getElementById('volunteerSub');
+
+            schoolClubBtn.addEventListener('click', () => {
+                const isDisplayed = schoolClubSub.style.display === 'block';
+                schoolClubSub.style.display = isDisplayed ? 'none' : 'block';
+                volunteerSub.style.display = 'none';
+                schoolClubBtn.classList.toggle('active', !isDisplayed);
+                volunteerBtn.classList.remove('active');
+            });
+
+            volunteerBtn.addEventListener('click', () => {
+                const isDisplayed = volunteerSub.style.display === 'block';
+                volunteerSub.style.display = isDisplayed ? 'none' : 'block';
+                schoolClubSub.style.display = 'none';
+                volunteerBtn.classList.toggle('active', !isDisplayed);
+                schoolClubBtn.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

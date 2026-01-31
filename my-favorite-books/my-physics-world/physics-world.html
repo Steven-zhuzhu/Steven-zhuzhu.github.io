@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Physics World - Steven Zhu</title>
+    <!-- 引入外部资源 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* ========== physics-world-1.html 侧边栏样式 ========== */
+        :root {
+            --quantum-blue: #00c8ff;      
+            --quantum-purple: #7a00ff;    
+            --dark-blue: #0a0f25;         
+            --sidebar-bg: rgba(10,15,37,0.95); 
+            --card-bg: linear-gradient(135deg, rgba(0,30,80,0.95), rgba(40,10,90,0.95)); 
+            --card-border: 1px solid rgba(0,200,255,0.3); 
+            --shadow-light: 0 0 20px rgba(0,200,255,0.2); 
+            --shadow-deep: 0 0 30px rgba(122,0,255,0.15); 
+            --text-white: #ffffff;
+            --text-light: #e0e0ff;
+            --text-gray: #ccc;
+            --nav-border-radius: 6px;
+            --nav-hover-bg: rgba(0,200,255,0.2);
+            --sub-nav-hover-bg: rgba(122,0,255,0.2);
+            --btn-gradient: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            --btn-hover-gradient: linear-gradient(90deg, #00b0e6, #6a00e0);
+            
+            /* 修改后的配色变量 - 保持蓝色背景白色文字 */
+            --primary-color: #0056b3; /* 调整为更统一的蓝色主色调 */
+            --secondary-color: rgba(0, 86, 179, 0.2); /* 浅蓝色-辅助色（透明） */
+            --accent-color: #ff6b35; /* 强调色 */
+            --text-color: #ffffff; /* 文字改为白色 */
+            --light-gray: #0a1428; /* 浅灰色背景改为深蓝色 */
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            text-decoration: none;
+            list-style: none;
+        }
+        
+        body { 
+            display: flex; 
+            min-height: 100vh;
+            background: var(--dark-blue);
+            background-image: 
+                radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px),
+                radial-gradient(rgba(122,0,255,0.03) 2px, transparent 2px);
+            background-size: 50px 50px, 20px 20px, 80px 80px;
+            background-position: 0 0, 10px 10px, 20px 20px;
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            padding: 20px 15px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 1px solid rgba(0,200,255,0.2);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .menu-item, .sub-menu-item {
+            position: relative;
+        }
+
+        .menu-toggle {
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .toggle-label {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--quantum-blue);
+            font-size: 0.8rem;
+        }
+
+        .physics-sub, .quantum-sub, .climate-sub, .reading-sub {
+            display: none !important;
+            margin: 5px 0 15px 0;
+            padding-left: 20px;
+        }
+
+        .main-nav-wrapper {
+            position: relative;
+            padding-left: 20px;
+        }
+        .main-nav {
+            color: var(--text-white);
+            padding: 12px 0;
+            margin: 6px 0;
+            font-size: 0.95rem;
+            display: block;
+            border-radius: var(--nav-border-radius);
+            transition: all 0.3s ease;
+        }
+        .main-nav.active {
+            color: var(--quantum-blue);
+            background: linear-gradient(90deg, rgba(0,200,255,0.3), rgba(122,0,255,0.2));
+            padding-left: 8px;
+            border-left: 4px solid var(--quantum-blue);
+        }
+        .main-nav:hover:not(.active) {
+            background: var(--nav-hover-bg);
+            color: var(--quantum-blue);
+            padding-left: 8px;
+            transform: translateX(2px);
+        }
+
+        .sub-nav-level2 {
+            color: var(--text-light);
+            padding: 10px 0;
+            margin: 4px 0;
+            font-size: 0.9rem;
+            display: block;
+            border-radius: var(--nav-border-radius);
+            transition: all 0.3s ease;
+        }
+        .sub-nav-level2.active {
+            color: var(--quantum-blue);
+            background: var(--sub-nav-hover-bg);
+            padding-left: 8px;
+            border-left: 2px solid var(--quantum-blue);
+        }
+        .sub-nav-level2:hover {
+            background: var(--sub-nav-hover-bg);
+            color: var(--quantum-blue);
+            padding-left: 8px;
+            transform: translateX(2px);
+        }
+
+        .sub-nav-level3 {
+            color: var(--text-gray);
+            padding: 8px 0;
+            margin: 3px 0;
+            font-size: 0.85rem;
+            display: block;
+            border-radius: var(--nav-border-radius);
+            transition: all 0.3s ease;
+        }
+        .sub-nav-level3:hover {
+            background: rgba(122,0,255,0.15);
+            color: var(--quantum-blue);
+            padding-left: 8px;
+            transform: translateX(2px);
+        }
+
+        .nav-link {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+
+        #toggle-physics:checked ~ .physics-sub {
+            display: block !important;
+        }
+        #toggle-quantum:checked ~ .quantum-sub {
+            display: block !important;
+        }
+        #toggle-climate:checked ~ .climate-sub {
+            display: block !important;
+        }
+        #toggle-reading:checked ~ .reading-sub {
+            display: block !important;
+        }
+
+        .sidebar-footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,200,255,0.2);
+            font-size: 0.85rem;
+        }
+        .contact-item {
+            margin: 8px 0;
+        }
+        .contact-item a {
+            color: var(--quantum-blue);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .contact-item a:hover {
+            text-decoration: underline;
+            color: var(--quantum-purple);
+        }
+
+        /* ========== physics-world.html 主体内容样式 ========== */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px 40px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+            background-color: var(--light-gray); /* 蓝色背景 */
+            color: var(--text-color); /* 白色文字 */
+        }
+
+        /* 内容章节样式 */
+        .chapter {
+            background-color: rgba(0, 40, 80, 0.8); /* 半透明深蓝色卡片背景 */
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-left: 4px solid var(--primary-color);
+            color: var(--text-color); /* 白色文字 */
+        }
+
+        .chapter-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+
+        .chapter-header h2 {
+            color: var(--quantum-blue); /* 标题改为亮蓝色 */
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 0.5rem;
+        }
+
+        .chapter-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        .chapter-content {
+            font-size: 1.05rem;
+            color: var(--text-white); /* 确保内容文字为白色 */
+        }
+
+        .chapter-content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+            color: var(--text-white); /* 段落文字白色 */
+        }
+
+        /* 图文布局 */
+        .img-text-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            margin: 2rem 0;
+        }
+
+        .img-box {
+            flex: 1;
+            min-width: 300px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            transition: transform 0.3s ease;
+            border: 1px solid rgba(0,200,255,0.3);
+        }
+
+        .img-box:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,200,255,0.2);
+        }
+
+        .img-box img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        .text-box {
+            flex: 2;
+            min-width: 300px;
+        }
+
+        /* 引用卡片 */
+        .quote-card {
+            background-color: rgba(0, 86, 179, 0.3); /* 半透明蓝色引用背景 */
+            border-left: 4px solid var(--quantum-blue);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: var(--text-white); /* 引用文字白色 */
+            font-size: 1.1rem;
+        }
+
+        /* 书籍列表样式 */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .book-card {
+            background-color: rgba(0, 40, 80, 0.7); /* 书籍卡片深蓝色背景 */
+            border-radius: 8px;
+            padding: 1.2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0,200,255,0.2);
+        }
+
+        .book-card:hover {
+            background-color: rgba(0, 86, 179, 0.5); /* 悬停时加深蓝色 */
+            transform: translateY(-3px);
+            box-shadow: 0 4px 10px rgba(0,200,255,0.2);
+            border-color: var(--quantum-blue);
+        }
+
+        .book-card h5 {
+            color: var(--quantum-blue); /* 书籍标题亮蓝色 */
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-card p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-bottom: 0;
+            color: var(--text-light); /* 书籍作者浅白色 */
+        }
+
+        /* 移动端适配 */
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            z-index: 1001;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            cursor: pointer;
+        }
+
+        .mobile-toggle:active {
+            transform: scale(0.95);
+            background-color: #0b3a63;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+            z-index: 999;
+            transition: opacity 0.3s ease;
+        }
+
+        .sidebar-overlay.show {
+            display: block;
+        }
+
+        /* 章节导航按钮 */
+        .section-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+        }
+        .section-nav-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: var(--btn-gradient);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .section-nav-btn.active {
+            background: var(--btn-hover-gradient);
+            box-shadow: 0 0 10px rgba(0,200,255,0.4);
+        }
+        .section-nav-btn:hover:not(.active) {
+            background: var(--btn-hover-gradient);
+            transform: translateY(-2px);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 992px) {
+            .sidebar {
+                transform: translateX(-100%);
+                width: 240px;
+                z-index: 1000;
+            }
+
+            .sidebar.show {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem 1.5rem;
+            }
+
+            .mobile-toggle {
+                display: block;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .img-text-wrapper {
+                flex-direction: column;
+            }
+
+            .chapter {
+                padding: 1.5rem;
+            }
+
+            .main-content {
+                padding: 1.5rem 1rem;
+                margin-top: 3rem;
+                width: 100%;
+            }
+            
+            .section-nav {
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .section-nav-btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 移动端菜单按钮 -->
+    <button class="mobile-toggle" id="mobileToggle">
+        <i class="bi bi-list"></i>
+    </button>
+
+    <!-- 侧边栏遮罩层 -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- 左侧侧边栏 (来自physics-world-1.html) -->
+    <nav class="sidebar" id="sidebar">
+        <ul style="list-style: none; padding: 0;">
+            <li class="main-nav-wrapper">
+                <a href="../../home/index.html" class="main-nav nav-link">Home</a>
+            </li>
+            <li class="main-nav-wrapper">
+                <a href="../../about/about.html" class="main-nav nav-link">About Me</a>
+            </li>
+            <li class="main-nav-wrapper">
+                <a href="../../achievements/achievements.html" class="main-nav nav-link">Achievements</a>
+            </li>
+            
+            <li class="menu-item main-nav-wrapper">
+                <input type="checkbox" id="toggle-physics" class="menu-toggle">
+                <label for="toggle-physics" class="toggle-label">▶</label>
+                <a href="../../physics-research/physics-research.html" class="main-nav nav-link">Physics Research</a>
+                <div class="physics-sub">
+                    <div class="sub-menu-item main-nav-wrapper">
+                        <input type="checkbox" id="toggle-quantum" class="menu-toggle">
+                        <label for="toggle-quantum" class="toggle-label">▶</label>
+                        <a href="../../quantum-projects/quantum-overview.html" class="sub-nav-level2 nav-link">Quantum Mechanics Projects</a>
+                        <div class="quantum-sub">
+                            <a href="../../quantum-projects/project-1-particle-in-box/project1.html" class="sub-nav-level3 nav-link">Project1: Particle in a Box</a>
+                            <a href="../../quantum-projects/project-2-quantum-tunneling/project2.html" class="sub-nav-level3 nav-link">Project2: Quantum Tunneling</a>
+                            <a href="../../quantum-projects/coding/coding.html" class="sub-nav-level3 nav-link">Coding: Quantum Visualization</a>
+                            <a href="../../quantum-projects/quantum-overview.html" class="sub-nav-level3 nav-link">Quantum Projects Overview</a>
+                        </div>
+                    </div>
+                    <div class="sub-menu-item main-nav-wrapper">
+                        <input type="checkbox" id="toggle-climate" class="menu-toggle">
+                        <label for="toggle-climate" class="toggle-label">▶</label>
+                        <a href="../../climate-modeling-project/climate.html" class="sub-nav-level2 nav-link">Climate Modeling Project</a>
+                        <div class="climate-sub">
+                            <a href="../../climate-modeling-project/introduction/introduction.html" class="sub-nav-level3 nav-link">Introduction</a>
+                            <a href="../../climate-modeling-project/literature-review/review.html" class="sub-nav-level3 nav-link">Literature Review</a>
+                            <a href="../../climate-modeling-project/math-model/mathematic-model.html" class="sub-nav-level3 nav-link">Mathematical Model</a>
+                            <a href="../../climate-modeling-project/coding/coding.html" class="sub-nav-level3 nav-link">Coding Implementation</a>
+                            <a href="../../climate-modeling-project/climate.html" class="sub-nav-level3 nav-link">Climate Project Overview</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="main-nav-wrapper">
+                <a href="../../medcine-AI/medcineAI.html" class="main-nav nav-link">Medcine AI App Design</a>
+            </li>
+            <li class="main-nav-wrapper">
+                <a href="../../extracurricular-activities/activities.html" class="main-nav nav-link">Extracurricular Activities</a>
+            </li>
+            <li class="main-nav-wrapper">
+                <a href="../../my-leisure-hobbies/hobbies.html" class="main-nav nav-link">Leisure Hobbies</a>
+            </li>
+            
+            <li class="menu-item main-nav-wrapper">
+                <input type="checkbox" id="toggle-reading" class="menu-toggle" checked>
+                <label for="toggle-reading" class="toggle-label">▼</label>
+                <a href="../my-books.html" class="main-nav active nav-link">Reading to the World</a>
+                <div class="reading-sub">
+                    <a href="../my-childhood-audio-book/audio-books.html" class="sub-nav-level2 nav-link">My Childhood Audio Book</a>
+                    <a href="./physics-world.html" class="sub-nav-level2 active nav-link">My Physics World</a>
+                </div>
+            </li>
+
+            <li class="main-nav-wrapper">
+                <a href="../../contact/index.html" class="main-nav nav-link">Contact</a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info" style="margin-top: 12px; font-size: 0.75rem; color: rgba(255,255,255,0.7);">
+                © 2025 Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </nav>
+
+    <!-- 右侧主体内容 (来自physics-world.html) -->
+    <main class="main-content">
+        <!-- 章节1：引言 -->
+        <section class="chapter" id="intro">
+            <div class="chapter-header">
+                <h2>My Physics World</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <img src="./image-1.jpg" alt="Universe and Quantum Particles">
+                    </div>
+                    <div class="text-box">
+                        <p>Physics is the language I use to decode the universe—from the smallest quantum particles to the vast cosmic scales. My journey in learning this language has been driven by an autonomous and deepening curiosity, where passionate reading and rigorous self-study continually bridge the gap between abstract theory and tangible reality.</p>
+                        <div class="quote-card">
+                            "Physics is not just a collection of facts, but a predictive toolkit to understand the universe."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 章节2：Defining Turn -->
+        <section class="chapter" id="defining-turn">
+            <div class="chapter-header">
+                <h2>Defining Turn</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="text-box">
+                        <p>This quest took a defining turn in middle school with the book “The Quantum Universe.” It captivated me not just by describing quantum oddities, but by demonstrating how to calculate them—using the least action principle to explore everything from entanglement to stellar limits.</p>
+                        <p>This revealed physics as a predictive toolkit, not just a collection of facts. That spark led me to seek a firmer foundation, eventually guiding me to the formal rigor of Griffiths and Schroeter’s Introduction to Quantum Mechanics through self-study.</p>
+                    </div>
+                    <div class="img-box">
+                        <img src="./book-1.jpg" alt="The Quantum Universe Book">
+                        
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 章节3：Crystallized Understanding -->
+        <section class="chapter" id="crystallized">
+            <div class="chapter-header">
+                <h2>Crystallized Understanding</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <img src="./book-2.jpg" alt="MIT OpenCourseWare Lecture">
+                    </div>
+                    <div class="text-box">
+                        <p>My textbook understanding was powerfully crystallized when I watched an MIT OpenCourseWare lecture by a 2023 Nobel laureate on quantum dots https://ocw.mit.edu/. He explained how this cutting-edge technology rests on the potential well model—a concept I recognized as foundational from my reading.</p>
+                        <p>Seeing an introductory theory engineered at the nanoscale to control light fascinated me. It prompted specific, driving questions: What precise potential well models describe quantum dots in heterostructures or doped systems? How can we move beyond the standard “particle-in-a-box” to accurately predict their emission from UV to infrared?</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 章节4：Active Investigation -->
+        <section class="chapter" id="active-investigation">
+            <div class="chapter-header">
+                <h2>Active Investigation</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="text-box">
+                        <p>These questions propelled me from passive learning to active investigation. I conducted a literature review, grappling with research papers that revealed the complexity of real systems.</p>
+                        <p>I understood that true modeling required moving from idealized, infinite wells to finite, asymmetric, and layered potentials—a challenging but exhilarating leap from textbook exercises to the correlated intricacies of actual materials science.</p>
+                    </div>
+                    <div class="img-box">
+                        <img src="./book-3.jpg" alt="Research Papers and Physics Modeling">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 章节5：Broader Foundation -->
+        <section class="chapter" id="broader-foundation">
+            <div class="chapter-header">
+                <h2>Broader Foundation</h2>
+            </div>
+            <div class="chapter-content">
+                <p>To fully engage with such questions, I knew I needed a broader foundation. This passion has driven me to explore physics far beyond my high school curriculum through disciplined self-study.</p>
+                 <p>Griffiths’ Introduction to Electrodynamics and Kong’s Electromagnetic Wave Theory became my guides to the invisible architecture of light and force, teaching me how Maxwell’s equations weave the fabric of reality. In Schroeder’s An Introduction to Thermal Physics, the abstract concept of entropy transformed into a profound narrative of time’s arrow, allowing me to model climate feedback loops and grasp how microscopic dynamics scale into planetary crises.</p>
+                <p>Throughout this quest, the comprehensive Mathematical Methods for Physics and Engineering served as my constant companion, teaching me that mathematics is the essential grammar that turns qualitative wonder into quantitative prediction.</p>
+                <div class="books-grid">
+                    <div class="book-card">
+                        <div class="img-box">
+                        <img src="./book-4.jpg" alt="Research Papers and Physics Modeling">
+                    </div>
+                                            
+                    </div>
+                    <div class="book-card">
+                        <div class="img-box">
+                        <img src="./book-5.jpg" alt="Research Papers and Physics Modeling">
+                        
+                    </div>
+                    </div>
+                    <div class="books-grid"></div>
+                    <div class="book-card">
+                        <div class="img-box">
+                        <img src="./book-8.jpg" alt="Research Papers and Physics Modeling">
+                    </div>
+                    </div>
+                    <div class="book-card">
+                        <div class="img-box">
+                        <img src="./book-7.jpg" alt="Research Papers and Physics Modeling">
+                        
+                    </div>
+                </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- 章节6：Reflection -->
+        <section class="chapter" id="reflection">
+            <div class="chapter-header">
+                <h2>Reflection</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <img src="./book-6.jpg" alt="Physics Journey Reflection">
+                    </div>
+                    <div class="text-box">
+                        <p>Looking back, this journey has shaped more than my academic profile. Physics, through these books and the endless questions they spawn, has cultivated in me a specific mode of thought: a blend of audacious imagination tempered by empirical rigor.</p>
+                        <p>It has given me the humility to recognize the boundaries of current knowledge and the ambition to seek what lies beyond. My world is written in the language of physics, and I am eager to continue this essential conversation at a higher level.</p>
+                        <div class="quote-card">
+                            "My world is written in the language of physics, and I am eager to continue this essential conversation at a higher level."
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 章节导航按钮 -->
+        <div class="section-nav">
+            <a href="../my-books.html" class="section-nav-btn">Reading to the World (Main)</a>
+            <a href="./physics-world.html" class="section-nav-btn active">My Physics World</a>
+        </div>
+    </main>
+
+    <!-- 引入JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 获取DOM元素
+        const mobileToggle = document.getElementById('mobileToggle');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+        const navLinks = document.querySelectorAll('.nav-link');
+        
+        // 移动端菜单切换核心逻辑
+        function toggleSidebar() {
+            sidebar.classList.toggle('show');
+            sidebarOverlay.classList.toggle('show');
+            const icon = mobileToggle.querySelector('i');
+            
+            // 切换菜单/关闭图标
+            if (sidebar.classList.contains('show')) {
+                icon.classList.remove('bi-list');
+                icon.classList.add('bi-x');
+                document.body.style.overflow = 'hidden'; // 防止背景滚动
+            } else {
+                icon.classList.remove('bi-x');
+                icon.classList.add('bi-list');
+                document.body.style.overflow = ''; // 恢复滚动
+            }
+        }
+
+        // 点击菜单按钮切换侧边栏
+        mobileToggle.addEventListener('click', toggleSidebar);
+        
+        // 点击遮罩层关闭侧边栏
+        sidebarOverlay.addEventListener('click', toggleSidebar);
+
+        // 导航链接点击事件
+        navLinks.forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                // 排除侧边栏内部的导航链接（保留原有跳转逻辑）
+                if (!this.closest('.sidebar') && this.getAttribute('href').startsWith('#')) {
+                    e.preventDefault();
+                    
+                    // 移动端点击后关闭菜单
+                    if (window.innerWidth < 992 && sidebar.classList.contains('show')) {
+                        toggleSidebar();
+                    }
+
+                    // 平滑滚动到目标位置
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+
+                        // 激活当前导航项，取消其他项激活状态
+                        navLinks.forEach(link => link.classList.remove('active'));
+                        this.classList.add('active');
+                    }
+                }
+            });
+        });
+
+        // 滚动时更新激活的导航项
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('.chapter');
+            let currentSection = '';
+
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                // 滚动位置偏移200px，提前激活导航项
+                if (window.scrollY >= (sectionTop - 200)) {
+                    currentSection = '#' + section.getAttribute('id');
+                }
+            });
+
+            // 更新激活状态（仅针对章节内导航）
+            document.querySelectorAll('.chapter-content .nav-link').forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // 窗口大小变化时重置侧边栏状态
+        window.addEventListener('resize', () => {
+            if (window.innerWidth >= 992) {
+                sidebar.classList.remove('show');
+                sidebarOverlay.classList.remove('show');
+                mobileToggle.querySelector('i').classList.remove('bi-x');
+                mobileToggle.querySelector('i').classList.add('bi-list');
+                document.body.style.overflow = '';
+            }
+        });
+
+        // 初始化 - 确保页面加载时导航项状态正确
+        document.addEventListener('DOMContentLoaded', () => {
+            // 触发一次滚动事件，初始化激活的导航项
+            window.dispatchEvent(new Event('scroll'));
+            
+            // 初始化侧边栏折叠/展开状态的图标
+            document.querySelectorAll('.menu-toggle').forEach(toggle => {
+                const label = toggle.nextElementSibling;
+                if (toggle.checked) {
+                    label.textContent = '▼';
+                } else {
+                    label.textContent = '▶';
+                }
+                
+                // 监听折叠/展开切换
+                toggle.addEventListener('change', function() {
+                    if (this.checked) {
+                        label.textContent = '▼';
+                    } else {
+                        label.textContent = '▶';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>

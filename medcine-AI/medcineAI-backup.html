@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine AI - Steven Zhu</title>
+    <style>
+        /* 全局样式：延续深蓝科技风，微调医疗AI适配 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+        }
+
+        /* 左侧侧边栏：完全沿用原有结构+新增Medicine AI导航 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00b8ff; /* 微调为医疗蓝 */
+        }
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%); /* 医疗AI专属渐变蓝 */
+            color: white; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff;
+        }
+        /* 一级子导航容器 */
+        .sub-nav-container { 
+            display: block !important; 
+            margin-left: 0; /* 左对齐 */
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: 100%;
+        }
+        /* 二级子导航容器 */
+        .sub-sub-nav-container {
+            display: block !important;
+            margin-left: 0;
+            margin-top: 5px;
+            margin-bottom: 10px;
+            width: 100%;
+        }
+        /* 一级子按钮样式 */
+        .sub-nav { 
+            display: block !important; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 8px 15px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            width: 100%;
+        }
+        /* 二级子按钮样式 - 医疗AI配色微调 */
+        .sub-sub-nav {
+            display: block !important;
+            color: #c5c8ff; 
+            text-decoration: none; 
+            padding: 6px 15px; 
+            margin: 2px 0; 
+            border-radius: 4px; 
+            font-size: 0.75rem; 
+            transition: all 0.3s;
+            text-align: left; 
+            white-space: nowrap; 
+            width: 100%;
+        }
+        .sub-nav:hover, .sub-nav.active { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff; 
+            font-weight: 500;
+        }
+        .sub-sub-nav:hover, .sub-sub-nav.active { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff; 
+            font-weight: 500;
+        }
+
+        /* 右侧主内容区 - 医疗AI适配 */
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8;
+            text-align: left;
+            overflow-x: auto;
+        }
+        .main h1 { 
+            color: #00b8ff; /* 医疗蓝标题 */
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00b8ff; 
+            padding-bottom: 15px;
+        }
+        /* 医疗AI栏目样式 - 微调渐变 */
+        .ai-section {
+            background: linear-gradient(135deg, rgba(0, 136, 255, 0.2), rgba(0, 102, 204, 0.2));
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            max-width: 1000px;
+            box-shadow: 0 0 12px rgba(0,184,255,0.15);
+            text-align: left;
+        }
+        .ai-section h3 {
+            color: #1ab8ff; 
+            font-size: 1.3rem; 
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        /* 医疗AI专属图标 */
+        .ai-section h3::before {
+            content: "🏥"; /* 医院图标，替代原实验室图标 */
+            font-size: 1.1rem;
+        }
+        .ai-section h4 {
+            color: #a8d0ff; 
+            font-size: 1.0rem; 
+            margin: 15px 0 10px 0;
+        }
+        .ai-section p {
+            font-size: 1.0rem; 
+            color: #d0d4ff; 
+            margin-bottom: 10px;
+        }
+        .ai-section ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        .ai-section li {
+            margin: 8px 0;
+            font-size: 0.95rem; 
+            color: #d0d4ff;
+        }
+        /* 医疗AI按钮样式 */
+        .ai-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        .ai-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0,184,255,0.3);
+        }
+
+        /* 侧边栏底部 - 沿用原有样式 */
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0, 184, 255, 0.2); 
+            color: #d0d4ff; 
+            font-size: 0.85rem; 
+            text-align: left;
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+        .sidebar-footer a { 
+            color: #1ab8ff; 
+            text-decoration: none; 
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.75rem; 
+            color: rgba(220, 224, 255, 0.7); 
+            padding-left: 15px; 
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧侧边栏：新增Medicine AI主导航（高亮） -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../home/index.html" class="main-nav">Home</a>
+            <a href="../about/about.html" class="main-nav">About Me</a>
+            <a href="../achievements/achievements.html" class="main-nav">Achievements</a>
+            
+            <!-- Achievements子导航 -->
+            <div class="sub-nav-container">
+                <a href="../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="../achievements/others/others.html" class="sub-nav">Others</a>
+            </div>
+
+            <a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a>
+            <!-- Physics Research子导航 -->
+            <div class="sub-nav-container">
+                <a href="../physics-research/quantum-projects/quantum-overview.html" class="sub-nav">Quantum Projects</a>
+                <div class="sub-sub-nav-container">
+                    <a href="../physics-research/quantum-projects/project-1-particle-in-box/project1.html" class="sub-sub-nav">Project 1: Particle in Box</a>
+                    <a href="../physics-research/quantum-projects/project-2-quantum-tunneling/project2.html" class="sub-sub-nav">Project 2: Quantum Tunneling</a>
+                    <a href="../physics-research/quantum-projects/coding/coding.html" class="sub-sub-nav">Coding for Quantum</a>
+                </div>
+                <a href="../physics-research/climate-modeling-project/climate-modeling.html" class="sub-nav">Climate Modeling Project</a>
+            </div>
+
+            <!-- 新增：Medicine AI主导航（当前页高亮） -->
+            <a href="./medicineAI.html" class="main-nav active">Medicine AI</a>
+            <!-- Medicine AI子导航 -->
+            <div class="sub-nav-container">
+                <a href="./ai-applications/applications.html" class="sub-nav">AI Applications</a>
+                <div class="sub-sub-nav-container">
+                    <a href="./ai-applications/disease-detection/detection.html" class="sub-sub-nav">Disease Detection</a>
+                    <a href="./ai-applications/drug-discovery/discovery.html" class="sub-sub-nav">Drug Discovery</a>
+                    <a href="./ai-applications/medical-imaging/imaging.html" class="sub-sub-nav">Medical Imaging</a>
+                </div>
+                <a href="./ai-models/models.html" class="sub-nav">AI Models & Coding</a>
+            </div>
+
+            <!-- 原有其他导航项 -->
+            <a href="../coding-apps/coding.html" class="main-nav">Coding Apps</a>
+            <a href="../my-clubs/clubs.html" class="main-nav">My Clubs</a>
+            <a href="../leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../contact/contact.html" class="main-nav">Contact</a>
+        </div>
+
+        <!-- 侧边栏底部 -->
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧主内容：医疗AI核心内容 -->
+    <div class="main">
+        <h1>Medicine AI Research & Applications</h1>
+        
+        <!-- AI概述 -->
+        <div class="ai-section">
+            <h3>Grandpa’s Pill: AI-Powered Medication Reminder</h3>
+            <p>My grandfather, now 85 years old, first inspired my interest in science long before I could speak. He now frequently forgets to take his medication. I couldn't accept the possibility that he could be in danger because he missed a simple dose. So I called on several like-minded friends and developed a "smart medication reminder" app. </p>
+            <p></p>
+        </div>
+
+        <!-- 核心研究方向 -->
+        <div class="ai-section">
+            <h3>Key Research Directions</h3>
+            <h4>1. AI-Powered Disease Detection</h4>
+            <p>Develop ML models to identify early-stage diseases (e.g., cancer, cardiovascular diseases) from patient data, electronic health records (EHRs), and lab results.</p>
+            
+            <h4>2. AI in Drug Discovery</h4>
+            <p>Use deep learning to predict molecular properties, simulate drug-target interactions, and shorten the drug development cycle from years to months.</p>
+            
+            <h4>3. Medical Imaging Analysis</h4>
+            <p>Build CNN (Convolutional Neural Network) models to analyze X-rays, CT scans, and MRIs, automating lesion detection and segmentation with high precision.</p>
+        </div>
+
+        <!-- 技术实现 -->
+        <div class="ai-section">
+            <h3>Technical Implementation</h3>
+            <ul>
+                <li>Programming Languages: Python (NumPy, Pandas, Scikit-learn, TensorFlow/PyTorch)</li>
+                <li>Data Sources: Public medical datasets (TCGA, MIMIC), clinical trial data, medical imaging datasets</li>
+                <li>Model Optimization: Transfer learning, hyperparameter tuning, model interpretability (SHAP/LIME)</li>
+            </ul>
+            <a href="./ai-models/models.html" class="ai-link">View AI Models & Code</a>
+        </div>
+    </div>
+</body>
+</html>

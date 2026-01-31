@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Climate Modeling - Physics Research</title>
+    <!-- 保留MathJax渲染LaTeX公式 -->
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        /* 全局样式 - 替换为climate.html的基础样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+        }
+
+        /* 替换后的左侧栏样式（完全复用climate.html的sidebar样式） */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00c8ff;
+        }
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%); 
+            color: white; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 200, 255, 0.1); 
+            color: #00c8ff; 
+        }
+        .sub-nav-container { 
+            display: block !important; 
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .sub-sub-nav-container {
+            display: block !important;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        .sub-nav { 
+            display: block !important; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 8px 10px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+        }
+        .sub-sub-nav {
+            display: block !important;
+            color: #e0e0ff;
+            text-decoration: none;
+            padding: 6px 10px;
+            margin: 2px 0;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .sub-nav:hover, .sub-nav.active,
+        .sub-sub-nav:hover, .sub-sub-nav.active { 
+            background: rgba(0, 200, 255, 0.1); 
+            color: #00c8ff; 
+            font-weight: 500;
+        }
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0, 200, 255, 0.2); 
+            color: #e0e0ff; 
+            font-size: 0.9rem; 
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+        .sidebar-footer a { 
+            color: #00c8ff; 
+            text-decoration: none; 
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.7); 
+            padding-left: 15px; 
+        }
+
+        /* 右侧主内容区 - 布局不变，样式替换为climate.html的蓝色系 */
+        .main-content {
+            margin-left: 250px; /* 匹配新sidebar的宽度 */
+            padding: 60px 80px;
+            width: calc(100% - 250px);
+            min-height: 100vh;
+            line-height: 1.8;
+        }
+        .main-content h1 {
+            font-size: 2.2rem;
+            color: #00c8ff;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #00c8ff;
+            padding-bottom: 15px;
+        }
+        .main-content .author {
+            font-size: 16px;
+            color: #e0e0ff;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+        .main-content h2 {
+            font-size: 1.8rem;
+            color: #00c8ff;
+            margin: 25px 0 15px;
+        }
+        .main-content h3 {
+            font-size: 1.4rem;
+            color: #00c8ff;
+            margin: 20px 0 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .main-content h3::before {
+            content: "🔬";
+            font-size: 1.2rem;
+        }
+        .main-content p {
+            line-height: 1.8;
+            color: #e0e0ff;
+            margin-bottom: 12px;
+            text-align: justify;
+            font-size: 1.1rem;
+        }
+        .main-content ul, .main-content ol {
+            margin: 10px 0 10px 30px;
+            line-height: 1.8;
+            color: #e0e0ff;
+            font-size: 1.05rem;
+        }
+        .main-content table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(10, 15, 37, 0.5);
+        }
+        .main-content table th, .main-content table td {
+            border: 1px solid #00c8ff;
+            padding: 10px;
+            text-align: left;
+            color: #e0e0ff;
+        }
+        .main-content table th {
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            color: white;
+        }
+        .main-content .equation {
+            text-align: center;
+            margin: 15px 0;
+            font-size: 16px;
+            color: #e0e0ff;
+        }
+        .main-content .figure {
+            margin: 20px 0;
+            text-align: center;
+        }
+        .main-content .figure p {
+            font-size: 14px;
+            color: #e0e0ff;
+            margin-top: 5px;
+            opacity: 0.8;
+        }
+        .main-content .reference {
+            font-size: 14px;
+            line-height: 1.8;
+            color: #e0e0ff;
+            margin: 5px 0;
+            opacity: 0.8;
+        }
+        /* 新增：给段落块添加渐变背景（匹配climate.html的research-section） */
+        .main-content .content-block {
+            background: linear-gradient(135deg, rgba(0, 119, 255, 0.2), rgba(106, 0, 255, 0.2));
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            max-width: 1000px;
+            box-shadow: 0 0 12px rgba(0,200,255,0.15);
+        }
+
+        
+
+               /* 页面整体布局 - 左侧内容 + 右侧图片栏 */
+        .container {            
+display: flex;            
+width: 100%;            
+max-width: 1200px;            
+margin: 0 auto;
+        }
+        /* 左侧内容区（可根据你的需求调整宽度） */
+        .main-content {            
+flex: 1;            
+padding: 20px;
+        }
+        /* 右侧图片栏核心样式 */
+        .right-image-bar {            
+width: 450px; /* 右侧栏总宽度，可根据需要调整 */            
+padding: 20px;
+        }
+        /* 图片容器 - 关键：设置为flex且不换行 */
+        .image-group {            
+display: flex;          /* 启用flex布局 */            
+flex-wrap: nowrap;      /* 禁止换行（核心！） */            
+justify-content: space-between; /* 图片之间均匀分布 */            
+gap: 5px;               /* 图片之间的间距 */            
+width: 100%;            /* 占满父容器宽度 */
+        }
+        /* 图片样式 */
+        .image-item {            
+flex: 1;                /* 三张图片等分宽度 */            
+width: calc(100% / 3 - 10px); /* 兼容写法，减去间距 */            
+height: auto;           /* 保持图片比例 */            
+object-fit: cover;      /* 图片裁剪填充，保持比例 */            
+border-radius: 4px;     /* 可选：圆角 */
+        }
+    
+
+        
+
+
+    </style>
+</head>
+<body>
+    <!-- 替换为climate.html的左侧栏结构 -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../../home/index.html" class="main-nav">Home</a>
+            <a href="../../about/about.html" class="main-nav">About Me</a>
+            <a href="../../achievements/achievements.html" class="main-nav">Achievements</a>
+            <div class="sub-nav-container">
+                <a href="../../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="../../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="../../achievements/others/others.html" class="sub-nav">Others</a>
+            </div>
+            <a href="../physics-research.html" class="main-nav active">Physics Research</a>
+            <div class="sub-nav-container">
+                <a href="../quantum-projects/quantum-overview.html" class="sub-nav">Quantum Projects</a>
+                <a href="../climate-modeling-project/climate.html" class="sub-nav">Climate Modeling Project</a>
+                <div class="sub-sub-nav-container">
+                    <a href="./climate-modeling.html" class="sub-sub-nav active">Climate Modeling</a>
+                   
+                </div>
+            </div>
+            <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
+            <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../../contact/contact.html" class="main-nav">Contact</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+
+    
+
+    <!-- 右侧主内容区 - 保留原有结构，仅样式替换 -->
+   
+        <!-- 右侧主内容区 -->
+    <div class="main-content">
+        <h1>Energy Balance Climate Modelling with Radiative Forcing and Deep-Ocean Heat Uptake</h1>
+        <div class="author">
+            by Wuhua Zhu,   Patrick Xiang,  Rory Wu<br>
+        </div>
+        
+        <div class="content-block">
+        <h2>Abstract</h2>
+        <p>This study uses an energy balance model (EBM) to simulate changes in the global mean surface air temperature. The model incorporates radiative forcing from greenhouse gases, atmospheric aerosols, and volcanic aerosols, and is extended to include heat exchange between the Earth’s surface and the deep ocean in order to represent the ocean’s role as a heat reservoir.</p>
+        <p>Simulations were performed using two model configurations: a baseline model without deep ocean heat uptake and an extended model that includes deep ocean dynamics. The simulated surface temperature anomalies were compared with observational data to assess model performance. The inclusion of deep ocean heat uptake improves agreement between simulated and observed temperature anomalies. Using mean absolute error (MAE) as a performance metric, the extended model produces lower error than the baseline configuration.</p>
+        <p>The model is further used to examine the effects of changes in radiative forcing parameters and climate feedback strength on temperature response. In addition, the physical implications and limitations of several global cooling strategies are discussed within the simplified modeling framework.</p>
+        <p>Overall, the results highlight the importance of deep ocean heat exchange in regulating surface temperature changes and demonstrate that relatively simple energy balance models can capture key features of the global climate response to external forcing.</p>
+        </div>
+
+         <div class="content-block">
+        <h2>1 Introduction</h2>
+        <p>In the summer of 2021, my mother’s hometown suffered a once-in-a-century flood, with daily rainfall almost reaching the local annual average. The town was submerged, and the post-disaster scene was shocking. In August 2025, I personally witnessed a super typhoon in Sanya destroying the tranquil island in an instant. These two extreme weather events made me deeply aware of the ferocity of natural forces and the imminent threat of climate change, and also made me determined to use my knowledge to understand and even attempt to predict these phenomena.</p>
+        <p>Recent extreme weather events have highlighted the direct impacts of strong storms on populated regions and raised public interest in understanding climate drivers. In late September 2025, Super Typhoon Ragasa-a powerful tropical cyclone in the Northwest Pacific-approached southern China and made landfall in Guangdong Province, bringing heavy winds, intense rainfall, and extensive disruptions to transportation and daily life in the Pearl River Delta and surrounding areas Rag [2025]. Winds exceeded 140 kph near landfall and authorities issued the highest tropical cyclone warnings as coastal cities faced flood risks and storm surge warnings. Such events motivate further inquiry into the mechanisms that influence climate variability and extreme weather patterns.</p>
+        <p>Earth’s climate is largely affected by the balance between energy received from the Sun and energy reemitted into space. This balance is captured by an energy balance model, which incorporates the effects of radiative forcing on Earth’s surface temperature. Changes in radiative forcing arise from both natural and anthropogenic sources and have been shown to significantly alter climate dynamics Shindell [2013].</p>
+        <p>Earth reaches radiative equilibrium and a corresponding planetary equilibrium temperature when net radiative forcing is zero. This equilibrium can be disrupted by greenhouse gases, which allow short-wave solar radiation to pass through Earth’s atmosphere while inhibiting the escape of long-wave radiation emitted by the Earth’s surface Wild [2013]. This trapped radiation produces positive radiative forcing and leads to an increase in global surface temperature. Conversely, most atmospheric aerosols produce negative radiative forcing by reflecting incoming solar radiation back into space, thereby cooling the Earth’s surface Charlson [1992].</p>
+        <p>In addition to radiative forcing, Earth’s climate is strongly influenced by the ocean’s ability to absorb and store heat. The deep ocean, in particular, absorbs a substantial fraction of excess heat due to its large heat capacity, which exceeds that of the atmosphere, land surface, and upper ocean combined Geoffroy et al. [2013]. This heat uptake acts to moderate the rate of surface temperature increase Menzel and Merlis [2019].</p>
+        <p>This study models changes in Earth’s global mean surface air temperature by incorporating radiative forcing from greenhouse gases, atmospheric aerosols, and heat exchange with the deep ocean.</p>
+        </div>
+
+
+         <div class="content-block">
+        <h2>2 Model Formulation</h2>
+        <p>The model considered in this study is an energy balance model designed to describe Earth’s global mean surface temperature. This class of models is based on the fundamental physical principle that changes in Earth’s internal energy are equal to the difference between energy received by and energy emitted from the Earth’s surface. Mathematically, this relationship can be expressed as</p>
+        <div class="equation">
+            \[
+            \text{Heat content} = \text{Heat capacity} \times \text{Temperature} = C\, T
+            \tag{1}
+            \]
+        </div>
+        <p>where \(C\) denotes the effective heat capacity of the climate system and \(T\) represents the global mean surface temperature.</p>
+        <p>Assuming that Earth’s heat capacity \(C\) is constant and differentiating Eq. (1) with respect to time \(t\), a preliminary energy balance equation is obtained as</p>
+        <div class="equation">
+            \[
+            C \frac{d T}{d t}=E_{\text{in }}-E_{\text{out }}
+            \tag{2}
+            \]
+        </div>
+        <p>where \(E_{\text{in }}\) and \(E_{\text{out }}\) represent the average incoming and outgoing energy fluxes per unit surface area of the Earth, respectively.</p>
+        <p>The final form of the model is derived by decomposing the energy fluxes into specific physical processes that separately influence the energy received or retained by the Earth and the energy emitted from the system. The incoming energy term is expressed as</p>
+        <div class="equation">
+            \[
+            E_{\text{in}}=E_{\text{sol}}+E_{\text{gas}}+E_{\text{vol}}+E_{\text{aer}}
+            \tag{3}
+            \]
+        </div>
+        <p>while the outgoing energy term is given by</p>
+        <div class="equation">
+            \[
+            E_{\text{out}}=G(T)+E_{\text{ocean}}
+            \tag{4}
+            \]
+        </div>
+        <p>Here, \(E_{\text{sol }}\) represents incoming solar radiation, \(E_{\text{gas }}\) accounts for radiative forcing due to greenhouse gases, \(E_{\text{vol }}\) and \(E_{\text{aer }}\) represent radiative effects associated with volcanic and anthropogenic aerosols, respectively. The function \(G(T)\) describes outgoing longwave radiation as a function of temperature, and \(E_{\text{ocean }}\) represents heat exchange between the surface and the deep ocean.</p>
+
+        <h3>2.1 Solar Radiation (\(E_{\text{sol }}\))</h3>
+        <p>The incoming solar energy received by the Earth, denoted by \(E_{\text{sol }}\), is estimated by approximating the Earth as a sphere and assuming that solar radiation is emitted in parallel rays. Under these assumptions, the effective cross-sectional area intercepting solar radiation is circular, as illustrated in Fig. 1.</p>
+        <div class="figure">
+           <!-- 用你的图片举例 -->
+    <img src="./气候/solar_radiation_model.png" alt=""   width="720">
+            <p>Figure 1: Schematic illustration of the simplified solar radiation model.</p>
+        </div>
+        <p>Under this geometric approximation, the total solar energy intercepted by the Earth is given by \(S_{0} \pi R_{e}^{2}\), where \(S_{0}\) denotes the solar constant and \(R_{e}\) is the radius of the Earth. This energy is distributed over the entire surface area of the Earth, \(4 \pi R_{e}^{2}\). Consequently, the average incoming solar radiation per unit surface area is</p>
+        <div class="equation">
+         \[
+        \frac{S_0 \pi R_e^2}{4 \pi R_e^2} = \frac{S_0}{4}
+        \tag{5}
+          \]
+        </div>
+
+        <p>A fraction of the incoming radiation is reflected back into space due to the Earth’s albedo, denoted by \(\alpha\). Accounting for this effect, the net solar radiation absorbed by the Earth is expressed as</p>
+        <div class="equation">
+            \[
+            E_{\text{sol}}=\frac{(1-\alpha) S_{0}}{4}
+            \tag{6}
+            \]
+        </div>
+        <p>where \(\alpha \approx 0.3\) and \(S_{0} \approx 1368 ~W ~m^{-2}\).</p>
+
+        <h3>2.2 Greenhouse Effects (\(E_{\text{gas }}\))</h3>
+        <p>Greenhouse gases, in particular carbon dioxide (\(CO_{2}\)), methane (\(CH_{4}\)), and nitrous oxide (\(N_{2} O\)), partially inhibit the escape of longwave radiation emitted from the Earth’s surface into space. This trapped radiation leads to an increase in surface temperature and is commonly represented in climate models through radiative forcing terms.</p>
+        <p>In this model, the radiative forcing contributions of the three major greenhouse gases are parameterized using empirical relationships reported in the literature. The corresponding radiative forcing equations and associated constants are summarized in Table 1.</p>
+      
+         <table>        
+<caption>Table 1: Radiative forcing parameterizations for CO₂, CH₄, and N₂O, adapted from.</caption>        
+<thead>            
+<tr>                
+<th>Gas</th>                
+<th>Radiative forcing equation</th>                
+<th>Constants</th>            
+</tr>        
+</thead>        
+<tbody>            
+<tr>                
+<td>CO₂</td>                
+<td class="math">\(\Delta F_{\text{CO}_2} = \alpha \ln\left(\frac{C}{C_0}\right) + \beta \left(\sqrt{C} - \sqrt{C_0}\right)\)</td>                
+<td class="math">\(\alpha = 4.841, \beta = 0.0906\)</td>            
+</tr>            
+<tr>                
+<td>CH₄</td>                
+<td class="math">\(\Delta F_{\text{CH}_4} = \alpha \left(\sqrt{M} - \sqrt{M_0}\right) - f(M, N_0) - f(M_0, N_0)\)</td>                
+<td class="math">\(\alpha = 0.036\)</td>            
+</tr>            
+<tr>                
+<td>N₂O</td>                
+<td class="math">\(\Delta F_{\text{N}_2\text{O}} = \alpha \left(\sqrt{N} - \sqrt{N_0}\right) - f(M_0, N) - f(M_0, N_0)\)</td>                
+<td class="math">\(\alpha = 0.12\)</td>            
+</tr>        
+</tbody>    
+</table>
+
+
+
+
+        <p>Here, \(C\), \(M\), and \(N\) denote the atmospheric concentrations of \(CO_{2}\), \(CH_{4}\), and \(N_{2} O\), respectively, while \(C_{0}\), \(M_{0}\), and \(N_{0}\) represent their corresponding pre-industrial reference concentrations. The overlap function \(f(M, N)\) accounts for spectral interactions between methane and nitrous oxide and is defined following established formulations in radiative forcing studies.</p>
+        <p>The total additional energy retained by the Earth due to greenhouse gases is then expressed as the sum of the individual radiative forcing contributions,</p>
+        <div class="equation">
+            \[
+            E_{\text{gas }}=\Delta F_{CO_{2}}+\Delta F_{CH_{4}}+\Delta F_{N_{2} O}
+            \tag{7}
+            \]
+        </div>
+
+        <h3>2.3 Volcanic Aerosols (\(E_{\text{vol}}\))</h3>
+        <p>Aerosols emitted during volcanic eruptions reduce the amount of solar radiation reaching the Earth’s surface by reflecting incoming radiation back into space. This process leads to a temporary cooling effect and is incorporated into the model through the following system of equations:</p>
+        <div class="equation">
+            \[
+            \frac{d OT^{\text{vol}}}{d t}=E_{\text{vol}}^{\text{src}}-\frac{1}{\tau^{\text{vol}}} OT^{\text{vol}}
+            \]
+        </div>
+        <div class="equation">
+            \[
+            E_{\text{vol}}=c^{\text{vol}} OT^{\text{vol}}
+            \tag{9}
+            \]
+        </div>
+        <p>where \(OT ^{\text{vol}}\) denotes the optical thickness of volcanic aerosols, \(E_{\text{vol}}^{\text{src}}\) represents the aerosol injection rate, \(\tau^{\text{vol}}\) is the characteristic decay timescale, and \(E_{\text{vol}}(W m^{-2})\) denotes the radiative forcing contribution associated with volcanic aerosols.</p>
+
+        <h3>2.4 Anthropogenic Aerosols (\(E_{\text{aer }}\))</h3>
+        <p>Anthropogenic aerosols, predominantly sulphur dioxide emissions, exert a radiative forcing effect similar to that of volcanic aerosols by reflecting solar radiation back into space. The contribution of human-caused aerosols to the Earth’s energy balance is parameterized as</p>
+        <div class="equation">
+            \[
+            E_{\text{aer }}=c^{\text{aer }}\left(E^{SO_{2}}(t)-E^{SO_{2}}(0)\right)
+            \tag{10}
+            \]
+        </div>
+        <p>where \(E^{SO_{2}}(t)(10^{9} ~kg yr^{-1})\) denotes the mass of sulphur dioxide emitted at time \(t\), \(E^{SO_{2}}(0)\) is the corresponding pre-industrial emission level, and \(c^{\text{aer }}\) is a dimensionless scaling coefficient.</p>
+
+        <h3>2.5 Outgoing Longwave Radiation</h3>
+        <p>In typical energy balance models, the Earth is approximated as a grey body that emits longwave radiation according to the Stefan–Boltzmann law,</p>
+        <div class="equation">
+            \[
+            j^{*}=\sigma \varepsilon T^{4}
+            \tag{11}
+            \]
+        </div>
+        <p>where \(\sigma=5.6703 ×10^{-8} ~W ~m^{-2} ~K^{-4}\) is the Stefan–Boltzmann constant, \(\varepsilon\) is the effective emissivity of the Earth (\(0<\varepsilon<1\)), and \(T\) denotes the global mean surface temperature.</p>
+        <p>Empirical observations indicate that the blackbody approximation alone does not fully capture the Earth’s outgoing radiation response. Instead, a linear approximation of the outgoing radiative flux is commonly adopted Kaper and Engler [2013]. This approximation is obtained by performing a first-order Taylor expansion of \(G(T)\) about the pre-industrial equilibrium temperature \(T_{0}=14^{\circ} C\):</p>
+        <div class="equation">
+            \[
+            G(T) \approx G\left(T_{0}\right)+G'\left(T_{0}\right)\left(T-T_{0}\right)=-A-B T
+            \tag{12}
+            \]
+        </div>
+        <p>where \(B<0\) is the climate feedback parameter ensuring model stability and \(A(~W ~m^{-2})\) is a constant determined by imposing pre-industrial energy balance.</p>
+        <p>Under pre-industrial equilibrium conditions, the net energy balance satisfies</p>
+        <div class="equation">
+            \[
+            E_{\text{in}}=E_{\text{out}}
+            \tag{13}
+            \]
+        </div>
+        <p>which yields</p>
+        <div class="equation">
+            \[
+            A=\frac{S_{0}(1-\alpha)}{4}+B T_{0} \approx 221.2 W m^{-2}
+            \tag{14}
+            \]
+        </div>
+        <p>A substantial fraction of excess energy in the Earth’s climate system is absorbed and stored by the deep ocean, typically at depths greater than 500 m. Owing to its large heat capacity, the deep ocean acts as a long-term heat reservoir and moderates the rate of increase in surface temperature. This heat exchange between the surface and deep ocean is incorporated into the model through the following parameterization:</p>
+        <div class="equation">
+            \[
+            E_{\text{ocean }}=\gamma\left(T_{\text{deep }}-T_{\text{surface }}\right)
+            \tag{15}
+            \]
+        </div>
+        <p>where \(T_{\text{surface }}\) denotes the surface ocean temperature (at depths shallower than 500 m), \(T_{\text{deep }}\) represents the temperature of the deep ocean, and \(\gamma(W m^{-2} ~K^{-1})\) is an empirically derived coupling coefficient that governs the rate of heat exchange between the surface and deep ocean layers.</p>
+
+        <h3>2.6 Final Model</h3>
+        <p>Combining the parameterizations for incoming solar radiation, greenhouse gas forcing, aerosol effects, outgoing longwave radiation, and deep ocean heat uptake, the final energy balance model governing the evolution of the global mean surface air temperature is expressed as</p>
+        <div class="equation">
+            \[
+            C \frac {dT}{dt}=\frac {S_{0}(1-\alpha )}{4}-(A-BT)-E_{\text{ocean}}+\Delta F_{CO_{2}}+\Delta F_{CH_{4}}+\Delta F_{N_{2} O}+E_{\text{vol}}+E_{\text{aer}}
+            \tag{16}
+            \]
+        </div>
+        <p>where \(C\) denotes the effective heat capacity of the climate system and \(T\) represents the global mean surface air temperature. Descriptions, units, and physical interpretations of all model variables and parameters are provided in Appendix B.</p>
+        </div>
+
+        <div class="content-block">
+        <h2>3 Data and Methods</h2>
+        <p>The energy balance model described in Section 2 was implemented as a numerical simulation using Python in a Jupyter notebook environment. The simulation was executed on the Google Colab platform, and the source code is provided in Appendix D. Model inputs consist of time series data for atmospheric greenhouse gas concentrations, volcanic and anthropogenic aerosol emissions, and observed global mean surface air temperature used for model validation.</p>
+        <p>Atmospheric concentrations of carbon dioxide (\(CO_{2}\)), methane (\(CH_{4}\)), and nitrous oxide (\(N_{2} O\)) were obtained from two primary sources. Recent observational estimates covering the period from 1979 to 2019 were sourced from the National Oceanic and Atmospheric Administration (NOAA). Earlier estimates extending back to year 1 AD were obtained from ice core records collected at Law Dome, Antarctica. These datasets provide annual mean concentrations of \(CO_{2}\) (ppm) and \(CH_{4}\) and \(N_{2} O\) (ppb), which were used as inputs for the radiative forcing calculations.</p>
+        <p>Data for sulphur dioxide (\(SO_{2}\)) emissions and volcanic aerosol loading were obtained from the Carbonator Climate Model. This dataset provides annual values of visible aerosol optical depth at a wavelength of 550 nm, as well as global \(SO_{2}\) emissions reported on 5- and 10-year intervals. Annual \(SO_{2}\) emission levels were estimated by linear interpolation between consecutive reported values. The resulting time series is illustrated in Figure 2.</p>
+        <div class="figure">
+       
+      
+            
+        <!-- 图片展示区域 -->    
+        <div class="image-container">        
+        <!-- 第一张图片 + 说明 -->        
+        <div class="image-item">            
+        <img src="./气候/ch4.png" alt="(a) CH4 concentration">            
+        <p class="image-desc">(a) CH4 concentration</p>        
+        </div>        
+        <!-- 第二张图片 + 说明 -->        
+        <div class="image-item">            
+        <img src="./气候/n2o.png" alt="N2O concentration">            
+        <p class="image-desc">N2O concentration</p>        
+        </div>        
+        <!-- 第三张图片 + 说明 -->        
+        <div class="image-item">            
+        <img src="./气候/co2.png" alt="CO2 concentration">            
+        <p class="image-desc">CO2 concentration</p>        
+        </div>    
+        </div>
+
+
+             
+            
+        <p>Figure 2: Annual atmospheric concentrations of \(CO_{2}\), \(CH_{4}\), and \(N_{2} O\)</p>
+        </div>
+        <p>Model validation was performed using observational surface temperature data from NASA’s Land–Ocean Temperature Index (LOTI). This dataset reports annual global mean temperature anomalies relative to the pre-industrial baseline period (1850). To obtain absolute surface air temperatures, a constant offset of 14.15 ◦C was added to the reported anomalies. The resulting
+temperature series was compared with simulated model outputs to assess model performance.</p>
+        </div>
+        
+        <div class="content-block">
+        <h2>4 Results</h2>
+        <p>Initial simulations were conducted using an energy balance model that did not incorporate heat exchange between the surface and the deep ocean. An extended version of the model, which includes deep ocean heat uptake, was then evaluated to assess the impact of this process on model performance.</p>
+        <p>Simulated and observed global mean surface temperature anomalies were compared for the two model configurations. Temperature anomalies are defined relative to the pre-industrial baseline (1850), with an absolute reference temperature of 14.15 ◦C used to compute annual simulated and observed temperatures.</p>
+        <p>Model performance was quantified using the mean absolute error (MAE) between simulated and observed temperature anomalies. For the baseline model excluding deep ocean heat uptake, the MAE was found to be 0.167 ◦C. In contrast, the extended model incorporating deep ocean dynamics achieved a reduced MAE of 0.154 ◦C.</p>
+        <p>These results demonstrate that inclusion of deep ocean heat exchange improves agreement between simulated and observed surface temperature anomalies.</p>
+        </div>
+
+        <div class="content-block">
+        <h2>5 Model Evaluation</h2>
+        <p>This section presents a qualitative evaluation and physical interpretation of the model behaviour, focusing on how different radiative forcings influence the mean global surface temperature, the timescale over which the system responds to these forcings, and the transfer of energy between the surface and the deep ocean. The implications of these behaviours for different global cooling strategies are also examined.</p>
+        <p>A series of diagnostic plots is used to analyse the response of the model to changes in radiative forcing from \(CO_{2}\), \(CH_{4}\), \(N_{2} O\), \(SO_{2}\), and volcanic aerosols, alongside the corresponding surface and deep ocean temperature anomalies, as shown in Figure A1.</p>
+        <p>Sensitivity analyses are performed by varying forcing coefficients to explore both short- and long-term temperature responses and the conditions under which the model approaches energy balance.</p>
+        <p>Since aerosols produce negative radiative forcing, their forcing coefficients are negative, and reducing their magnitude leads to a decrease in temperature. It can be observed that decreasing the forcing coefficient associated with volcanic emissions primarily affects temperature in the short term and has a limited impact on long-term temperature trends, as shown in Figure A2(b). In contrast, decreasing the forcing coefficient associated with \(SO_{2}\) results in a reduction in temperature over the long term, as shown in Figure A2(d). When all forcing coefficients are set to zero, the model reaches energy balance and a constant temperature is obtained, as shown in Figure A2(e) and Figure A2(f).</p>
+        <p>The time required for surface temperature to respond to changes in radiative forcing also depends strongly on the heat capacity of the surface and deep ocean, as well as the rate at which heat is transferred into the ocean and emitted into space. Another plotting feature in the Jupyter notebook is used to demonstrate this behaviour. It visualises surface and deep ocean temperature anomalies alongside the effective temperature anomaly resulting from incoming solar energy and outgoing blackbody radiation. Interactive sliders allow the heat capacity of the surface and deep ocean to be adjusted, as well as the rate of heat transfer between the ocean and the atmosphere.</p>
+        <p>The heat capacity of a reservoir determines the amount of heat required to produce a change in temperature. Specifically, the surface heat capacity affects how sensitive the surface temperature is to changes in radiative forcing. This effect can be highlighted by increasing the albedo to simulate a planet that reflects a large proportion of incoming solar radiation (for instance, an ice-covered planet). This reduces the constant incoming heat energy, such that perturbations due to radiative forcing imbalances can be accentuated. When the surface heat capacity is reduced, greater dips in surface temperature are observed following volcanic eruptions, demonstrating the high sensitivity of surface temperature to changes in radiative forcing, as shown in Figure A3(b). A similar, though slightly delayed, effect is observed in the deep ocean temperature when the deep ocean heat capacity is also reduced, as shown in Figure A3(c).</p>
+        <p>The climate feedback parameter represents a form of negative feedback and, within the compartmental model, describes the rate at which heat energy is transferred to the sink. As a result, the climate feedback parameter determines how efficiently the Earth can naturally cool by emitting heat energy into space. Increasing the absolute value of this parameter leads to a more stable system in which the overall temperature of both the surface and deep ocean is less affected by positive radiative forcing, thereby slowing global warming. In this case, temperature increases occur more gradually and remain below 2◦C until approximately the year 2600, as shown in Figure A4(a). Conversely, decreasing the absolute value of the climate feedback parameter reduces system stability, accelerating the effects of global warming and causing the surface temperature to rise above 2◦C by the year 2017, as shown in Figure A4(b).</p>
+        </div>
+
+        <div class="content-block">
+        <h2>6 Implications and Limitations</h2>
+        <p>The goal of the Paris Agreement is to ensure that the rise in mean global temperature remains below 1.5◦C above pre-industrial levels United Nations [2015]. Model projections indicate that if anthropogenic greenhouse gas emissions continue to increase following the observed cubic trends shown in Figure A5(a), (b), and (c), the global mean surface temperature will exceed the 1.5◦C threshold by approximately the year 2040, as shown in Figure A1(b).</p>
+        <p>\(CO_{2}\) is well known to have the strongest impact on climate among anthropogenic greenhouse gases. Figure A1(b) shows that \(CO_{2}\) produces the greatest positive radiative forcing and thus exerts a larger influence on rising temperature than \(CH_{4}\) and \(N_{2} O\). However, the model fails to accurately simulate the effects of reducing future \(CO_{2}\) emissions, as it does not explicitly consider the carbon cycle. Incorporating the carbon cycle would allow the absorption and release of carbon and \(CO_{2}\) by the upper and deep ocean, as well as uptake by vegetation and soils, followed by the delayed release of \(CO_{2}\) back into the atmosphere. This would make it possible to simulate delayed radiative forcing associated with dormant \(CO_{2}\) and carbon stored within the Earth system.</p>
+        <p>As a result, the model produces an unrealistic projection in which surface temperatures would cease to rise if net-zero greenhouse gas emissions were achieved in 2021, maintaining a stable equilibrium temperature approximately 1◦C above the pre-industrial level. More advanced climate models demonstrate that temperatures would continue to increase for some time after net-zero emissions are reached, before stabilising at a new equilibrium. This equilibrium would depend primarily on atmospheric \(CO_{2}\) concentrations and the amount of carbon stored in the ocean and terrestrial reservoirs at the time net-zero emissions are achieved. This suggests that realistic global cooling strategies would require the removal of \(CO_{2}\) from the atmosphere to prevent temperatures from rising beyond 1.5◦C.</p>
+        <p>The IPCC targets the removal of 100–1000 Gt of \(CO_{2}\) within this century in order to limit warming to a 1.5◦C equilibrium temperature National Research Council [2015]. Selecting 500 Gt as a representative target, a rough estimate indicates that this would correspond to an atmospheric \(CO_{2}\) concentration of approximately 316.8 ppm by the year 2100. Further details of this calculation are provided in Appendix C.</p>
+        <p>By projecting atmospheric \(CO_{2}\) concentrations to decrease linearly from 414 ppm in 2021 to 316.8 ppm in 2100, the model simulates a temperature increase that remains well below that envisioned by the IPCC, as shown in Figure 3. However, the model cannot accurately assess global cooling strategies that involve direct extraction of \(CO_{2}\) from the atmosphere, such as bioenergy with carbon capture and storage (BECCS) and direct air capture, as it does not represent the persistence of \(CO_{2}\) and carbon within the climate system. As a result, the model would significantly underestimate future temperature increases following reductions in atmospheric \(CO_{2}\) levels.</p>
+        <div class="figure">
+                       
+            <div style="border:1px solid #ddd; padding:10px; display:inline-block;"></div> 
+           <!-- 用你的图片举例 -->
+        <img src="./气候/d2.png" alt=""   width="720">
+            
+            
+            <p>Figure 3</p>
+        </div>
+        <p>Solar geoengineering refers to a class of climate engineering approaches aimed at reducing the amount of solar energy entering the Earth’s climate system. One such method, known as Marine Cloud Brightening (MCB), involves increasing cloud reflectivity over the oceans, thereby increasing the planetary albedo. Increasing the albedo linearly from 0.31 to 0.35 between 2021 and 2100 simulates MCB counteracting the radiative forcing associated with cubic growth in \(CO_{2}\) emissions, as shown in Figure 4.</p>
+        <p>However, this approach cannot be extended indefinitely, as albedo is a bounded ratio with an upper limit of 1. MCB may therefore serve as a rapidly effective and relatively inexpensive short-term cooling strategy Hill and Ming [2010], while longer-term solutions must focus on reversing the greenhouse effect and removing greenhouse gases from the atmosphere.</p>
+        <div class="figure">
+            <div style="border:1px solid #ddd; padding:10px; display:inline-block;">
+                  <!-- 用你的图片举例 -->
+        <img src="./气候/d4.png" alt=""   width="720">
+            </div>
+            <p>Figure 4</p>
+        </div>
+        <p>Stratospheric Aerosol Injection (SAI) represents another solar geoengineering approach, in which aerosols (such as sulphur dioxide) are released into the stratosphere to induce negative radiative forcing. Considering only the radiative forcing associated with \(CO_{2}\) and \(SO_{2}\), Figure 5 illustrates the \(SO_{2}\) emission rates required to offset the positive radiative forcing produced by cubic growth in \(CO_{2}\) emissions.</p>
+        <p>However, studies suggest that SAI may lead to a range of harmful side effects, including changes in rainfall distribution and impacts on water resources in certain regions. MCB may exhibit similar environmental risks associated with increased sulphur emissions, although it is generally considered a safer and more viable alternative.</p>
+        <div class="figure">
+            <div style="border:1px solid #ddd; padding:10px; display:inline-block;">
+             <!-- 用你的图片举例 -->
+        <img src="./气候/d5.png" alt=""   width="720">
+            </div>
+            <p>Figure 5</p>
+        </div>
+        <p>Other global cooling strategies involve enhancing ocean heat uptake. Increasing ocean alkalinity by dispersing pulverised carbonate minerals onto the sea surface is one approach that can increase the ocean’s capacity to absorb heat. Another proposed strategy involves restoring coastal blue carbon ecosystems, such as mangroves and seagrasses, which have the potential to remove substantial amounts of carbon from the atmosphere.</p>
+        <p>These cooling strategies can be partially simulated within the model by increasing the rate of heat transfer between the surface and deep ocean. However, enhanced ocean heat uptake leads to increased ocean temperatures and, consequently, sea level rise. Increasing the ocean feedback parameter from 0.73 to 1.5 and the deep ocean heat capacity from 109 to 120 results in a reduction of the projected surface temperature in 2050 from 1.7◦C to 1.4◦C, as shown in Figure 6.</p>
+        <p>These results indicate that enhancing ocean heat uptake may reduce surface temperatures, but must be applied with caution due to its potential to accelerate sea level rise.</p>
+        <div class="figure">
+
+           <!-- 用你的图片举例 -->
+        <img src="./气候/d6.png" alt=""   width="720">    
+             
+           
+            <p>Figure 6<br>
+            Note. The rate of ocean energy transfer was adjusted from 0.73 to 1.5 and ocean heat capacity was increased from 109 to 120</p>
+        </div>
+       </div>
+
+
+        <div class="content-block">
+        <h2>7 Conclusion</h2>
+        <p>This study presents a simplified energy balance model for simulating changes in global mean surface air temperature. The model accounts for radiative forcing from greenhouse gases, atmospheric aerosols, and volcanic activity, and includes an extension that represents heat exchange between the surface and the deep ocean.</p>
+        <p>Comparisons between model configurations show that incorporating deep ocean heat uptake leads to improved agreement with observed surface temperature anomalies. Quantitative evaluation using mean absolute error indicates that the extended model performs better than the baseline model without deep ocean dynamics. This result delivers the role of the ocean in moderating surface temperature changes over time.</p>
+        <p>The model is also used to explore how variations in radiative forcing and climate feedback parameters influence temperature response. While the simplified framework limits the ability to capture regional effects and complex feedbacks, it provides a clear and interpretable representation of the dominant physical processes governing global temperature change.</p>
+        <p>Overall, this study demonstrates that relatively simple energy balance models can offer useful insight into the relationship between external forcing, ocean heat uptake, and global temperature evolution. Such models provide a valuable foundation for understanding more complex climate models and for interpreting the physical implications of climate mitigation strategies.</p>
+
+        <h2>References</h2>
+        <div class="reference">Super typhoon ragasa makes landfall in southern china. https://www.reuters.com/business/ environment/hong-kong-reopens-after-worlds-most-powerful-cyclone-ragasa-2025-09-25/, 2025. Accessed 25 September 2025.</div>
+        <div class="reference">R. J. Charlson. Climate forcing by anthropogenic aerosols. Science, 255:423–430, 1992.</div>
+        <div class="reference">O. Geoffroy, D. Saint-Martin, D. J. L. Olivi´e, A. Voldoire, G. Bellon, and S. Tyteca. Transient climate response in a two-layer energy-balance model. Journal of Climate, 26:1841–1857, 2013.</div>
+        <div class="reference">S. A. Hill and Y. Ming. December climate response to a geo-engineered brightening of subtropical boundary clouds. AGU Fall Meeting Abstracts, 2010.</div>
+        <div class="reference">H. Kaper and H. Engler, editors. Mathematics and Climate. Society for Industrial and Applied Mathematics, 2013.</div>
+        <div class="reference">M. E. Menzel and T. M. Merlis. Connecting direct effects of co2 radiative forcing to ocean heat uptake. Journal of Advances in Modeling Earth Systems, 11:2163–2176, 2019.</div>
+        <div class="reference">National Research Council. Climate Intervention: Carbon Dioxide Removal and Reliable Sequestration. National Academies Press, 2015.</div>
+        <div class="reference">D. Shindell. Radiative forcing in climate change. Climate Dynamics, 2013.</div>
+        <div class="reference">United Nations. Paris agreement, 2015.</div>
+        <div class="reference">M. Wild. The global energy balance. Climate Dynamics, 2013.</div>
+        </div>
+        
+        <div class="content-block">
+        <h2>A Additional Figures</h2>
+        <div class="figure">
+            <div style="border:1px solid #ddd; padding:10px; display:inline-block;">
+              <img src="./气候/c1.png" alt=""   width="720"> 
+            </div>
+            <p>Figure A1: Radiative forcing imbalances and corresponding surface temperature anomalies.</p>
+        </div>
+        <div class="figure">
+            <div style="border:1px solid #ddd; padding:10px; display:inline-block;">
+                 <img src="./气候/c2.png" alt=""   width="720"> 
+            </div>
+            <p>Figure A2: Simulated radiative forcing imbalances and corresponding surface temperature responses. Panels (a), (c), and (e) show changes in radiative forcing due to volcanic aerosols, \(SO_{2}\), and all forcings set to zero, respectively. Panels (b), (d), and (f) show the resulting surface temperature anomalies under the corresponding forcing configurations.</p>
+        </div>
+        <div class="figure">
+            <div style="border:1px solid #ddd; padding:10px; display:inline-block;">
+                 <img src="./气候/c3.png" alt=""   width="720"> 
+            </div>
+            <p>Figure A3: Surface and deep ocean temperature anomalies under different model parameter configurations. Panels (a)–(c) show simulations using empirically determined parameters, modified surface heat capacity, and increased albedo, respectively.</p>
+        </div>
+        <div class="figure">
+            <div style="border:1px solid #ddd; padding:10px; display:inline-block;">
+                 <img src="./气候/c4.png" alt=""   width="720"> 
+            </div>
+            <p>Figure A4: Simulated surface temperature anomalies under different values of the climate feedback parameter. Panel (a) shows the response when the feedback parameter is reduced from −1.3 to −10, while panel (b) shows the response when it is reduced from −1.3 to −0.1.</p>
+        </div>
+        <div class="figure">
+            <div style="border:1px solid #ddd; padding:10px; display:inline-block;">
+                 <img src="./气候/d1.png" alt=""   width="720"> 
+            </div>
+            <p>Figure A5</p>
+        </div>
+
+        <h2>B Additional Table</h2>
+        <h3>Table B1: Description, units and dimensions of model variables</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Variable</th>
+                    <th>Description</th>
+                    <th>Unit</th>
+                    <th>Dimension</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>T</td>
+                    <td>Global annual surface temperature</td>
+                    <td>◦ C</td>
+                    <td>θ</td>
+                </tr>
+                <tr>
+                    <td>E sol</td>
+                    <td>Solar energy received by Earth</td>
+                    <td>W m − 2</td>
+                    <td>M T − 3</td>
+                </tr>
+                <tr>
+                    <td>∆ F CO 2</td>
+                    <td>Radiative forcing of carbon dioxide</td>
+                    <td>W m − 2</td>
+                    <td>M T − 3</td>
+                </tr>
+                <tr>
+                    <td>C CO 2</td>
+                    <td>Mass of CO 2</td>
+                    <td>10 9 kg</td>
+                    <td>M</td>
+                </tr>
+                <tr>
+                    <td>F CO 2 ( t )</td>
+                    <td>Mass of CO 2 emitted per unit time</td>
+                    <td>10 9 kg t − 1</td>
+                    <td>M T − 1</td>
+                </tr>
+                <tr>
+                    <td>τ CO 2</td>
+                    <td>Half-life of CO 2 in atmosphere</td>
+                    <td>t − 1</td>
+                    <td>T − 1</td>
+                </tr>
+                <tr>
+                    <td>∆ F CH 4</td>
+                    <td>Radiative forcing of methane</td>
+                    <td>W m − 2</td>
+                    <td>M T − 3</td>
+                </tr>
+                <tr>
+                    <td>C CH 4</td>
+                    <td>Mass of CH 4</td>
+                    <td>10 9 kg</td>
+                    <td>M</td>
+                </tr>
+                <tr>
+                    <td>F CH 4 ( t )</td>
+                    <td>Mass of CH 4 emitted per unit time</td>
+                    <td>10 9 kg t − 1</td>
+                    <td>M T − 1</td>
+                </tr>
+                <tr>
+                    <td>τ CH 4</td>
+                    <td>Half-life of CH 4 in atmosphere</td>
+                    <td>t − 1</td>
+                    <td>T − 1</td>
+                </tr>
+                <tr>
+                    <td>∆ F N 2 O</td>
+                    <td>Radiative forcing of nitrous oxide</td>
+                    <td>W m − 2</td>
+                    <td>M T − 3</td>
+                </tr>
+                <tr>
+                    <td>C N 2 O</td>
+                    <td>Mass of N 2 O</td>
+                    <td>10 9 kg</td>
+                    <td>M</td>
+                </tr>
+                <tr>
+                    <td>F N 2 O ( t )</td>
+                    <td>Mass of N 2 O emitted per unit time</td>
+                    <td>10 9 kg t − 1</td>
+                    <td>M T − 1</td>
+                </tr>
+                <tr>
+                    <td>τ N 2 O</td>
+                    <td>Half-life of N 2 O in atmosphere</td>
+                    <td>t − 1</td>
+                    <td>T − 1</td>
+                </tr>
+</div>

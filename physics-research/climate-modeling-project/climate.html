@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Mechanics Projects - Steven Zhu</title>
+    <style>
+        /* 原有样式完全保留 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+        }
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00c8ff;
+        }
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%); 
+            color: white; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 200, 255, 0.1); 
+            color: #00c8ff; 
+        }
+        .sub-nav-container { 
+            display: block !important; 
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .sub-sub-nav-container {
+            display: block !important;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        .sub-nav { 
+            display: block !important; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 8px 10px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+        }
+        .sub-sub-nav {
+            display: block !important;
+            color: #e0e0ff;
+            text-decoration: none;
+            padding: 6px 10px;
+            margin: 2px 0;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .sub-nav:hover, .sub-nav.active,
+        .sub-sub-nav:hover, .sub-sub-nav.active { 
+            background: rgba(0, 200, 255, 0.1); 
+            color: #00c8ff; 
+            font-weight: 500;
+        }
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8;
+        }
+        .main h1 { 
+            color: #00c8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00c8ff; 
+            padding-bottom: 15px;
+        }
+        .research-section {
+            background: linear-gradient(135deg, rgba(0, 119, 255, 0.2), rgba(106, 0, 255, 0.2));
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            max-width: 1000px;
+            box-shadow: 0 0 12px rgba(0,200,255,0.15);
+        }
+        .research-section h3 {
+            color: #00c8ff;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .research-section h3::before {
+            content: "🔬";
+            font-size: 1.2rem;
+        }
+        .research-section p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .research-section ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        .research-section li {
+            margin: 8px 0;
+            font-size: 1.05rem;
+        }
+        .project-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+        }
+        .project-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0,200,255,0.3);
+        }
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0, 200, 255, 0.2); 
+            color: #e0e0ff; 
+            font-size: 0.9rem; 
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+        .sidebar-footer a { 
+            color: #00c8ff; 
+            text-decoration: none; 
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.7); 
+            padding-left: 15px; 
+        }
+
+        /* 新增图片网格样式 - 实现两列四行布局 */
+        .img-grid-section {
+            margin-top: 20px;
+            width: 100%;
+        }
+        .img-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 两列 */
+            grid-gap: 15px; /* 图片间距 */
+            max-width: 800px; /* 网格最大宽度 */
+        }
+        .img-item {
+            width: 100%;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 8px rgba(0,200,255,0.2);
+        }
+        .img-item img {
+            width: 100%;
+            height: 200px; /* 统一图片高度 */
+            object-fit: cover; /* 保持图片比例，裁剪多余部分 */
+            transition: transform 0.3s ease;
+        }
+        .img-item img:hover {
+            transform: scale(1.02); /* 鼠标悬停轻微放大 */
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航 -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../../home/index.html" class="main-nav">Home</a>
+            <a href="../../about/about.html" class="main-nav">About Me</a>
+            <a href="../../achievements/achievements.html" class="main-nav">Achievements</a>
+            <div class="sub-nav-container">
+                <a href="../../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="../../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="../../achievements/others/others.html" class="sub-nav">Others</a>
+            </div>
+            <a href="../physics-research.html" class="main-nav active">Physics Research</a>
+            <div class="sub-nav-container">
+                <a href="../quantum-projects/quantum-overview.html" class="sub-nav">Quantum Projects</a>
+                <a href="../climate-modeling-project/climate.html" class="sub-nav active">Climate Modeling Project</a>
+                <div class="sub-sub-nav-container">
+                    <a href="./climate-modeling.html" class="sub-sub-nav">Climate Modeling</a>
+                    
+                </div>
+            </div>
+            <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
+            <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../../contact/contact.html" class="main-nav">Contact</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧内容 -->
+    <div class="main">
+        <h1>Climate Modeling Projects</h1>
+        
+        <div class="research-section">
+            <h3>Motivation</h3>
+            <p>In the summer of 2021, my mother’s hometown suffered a once-in-a-century flood, with daily rainfall almost reaching the local annual average. The town was submerged, and the post-disaster scene was shocking. In August 2025, I personally witnessed a super typhoon in Sanya destroying the tranquil island in an instant. These two extreme weather events made me deeply aware of the ferocity of natural forces and the imminent threat of climate change, and also made me determined to use my knowledge to understand and even attempt to predict these phenomena.</p>
+        </div>
+
+<div class="research-section">
+            <h3>Our team Members</h3>
+            <p>I know achieving a goal requires like-minded companions with shared aspirations. So I gathered two close childhood friends – one good at mathematics and the other good at computer science. We co-founded a Climate Research Team and set out to study climate in complex </p>
+
+        <div class="research-section">
+            <h3>The Scenes of Zhengzhou and Sanya in the Aftermath of Torrential Rains and Typhoons</h3>
+
+            <!-- 郑州三亚灾后图片：二列四排 -->
+            <div class="img-grid-section">
+                <div class="img-grid">
+                    <!-- 第1行 -->
+                    <div class="img-item"><img src="../climate-modeling-project/images/climate-1.jpg" alt="Zhengzhou after torrential rains 1"></div>
+                    <div class="img-item"><img src="../climate-modeling-project/images/climate-2.jpg" alt="Sanya after typhoon 1"></div>
+                    <!-- 第2行 -->
+                    <div class="img-item"><img src="../climate-modeling-project/images/climate-3.jpg" alt="Zhengzhou after torrential rains 2"></div>
+                    <div class="img-item"><img src="../climate-modeling-project/images/climate-4.jpg" alt="Sanya after typhoon 2"></div>
+                    <!-- 第3行 -->
+                    <div class="img-item"><img src="../climate-modeling-project/images/climate-5.jpg" alt="Zhengzhou after torrential rains 3"></div>
+                    <div class="img-item"><img src="../climate-modeling-project/images/climate-6.jpg" alt="Sanya after typhoon 3"></div>
+                    <!-- 第4行 -->
+                    <div class="img-item"><img src="../climate-modeling-project/images/climate-7.jpg" alt="Zhengzhou after torrential rains 4"></div>
+                    <div class="img-item"><img src="../climate-modeling-project/images/climate-8.jpg" alt="Sanya after typhoon 4"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

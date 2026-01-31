@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Academic Awards - Steven Zhu</title>
+    <style>
+        /* 复用achievements.html的样式，修复优先级 + 全局重置 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            /* 新增：全局样式重置，解决显白/跳转异常 */
+            text-decoration: none;
+            list-style: none;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff; 
+            min-height: 100vh; 
+        }
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10,15,37,0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00c8ff;
+            /* 新增：确保侧边栏层级 */
+            z-index: 100;
+        }
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: #e0e0ff !important; /* 强制文字颜色 */
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            transition: all 0.3s;
+            /* 新增：兜底背景 */
+            background: transparent;
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%) !important; 
+            color: white !important; 
+            font-weight: 500; 
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0,200,255,0.1) !important; 
+            color: #00c8ff !important; 
+        }
+        .sub-nav-container { 
+            display: block !important; 
+            margin-left: 15px; 
+            margin-top: 5px; 
+            margin-bottom: 15px; 
+        }
+        .sidebar .sub-nav { 
+            display: block !important; 
+            color: #e0e0ff !important; /* 强制文字颜色 */
+            text-decoration: none; 
+            padding: 8px 10px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .sidebar .sub-nav.active { 
+            background: rgba(0,200,255,0.1) !important; 
+            color: #00c8ff !important; 
+        }
+        .sidebar .sub-nav:hover { 
+            background: #002b50 !important; 
+            color: #00c8ff !important; 
+        }
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8; 
+        }
+        .main h1 { 
+            color: #00c8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00c8ff; 
+            padding-bottom: 15px; 
+        }
+        .academic-section { 
+            background: linear-gradient(135deg, rgba(0,119,255,0.2), rgba(106,0,255,0.2)); 
+            border-radius: 10px; 
+            padding: 20px 25px; 
+            max-width: 900px; 
+            box-shadow: 0 0 12px rgba(0,200,255,0.15); 
+        }
+        .academic-section h3 { 
+            color: #00c8ff; 
+            font-size: 1.3rem; 
+            margin-bottom: 15px; 
+        }
+        .academic-section ul { 
+            padding-left: 20px; 
+            /* 恢复列表样式 */
+            list-style: disc !important;
+        }
+        .academic-section li { 
+            margin: 10px 0; 
+            font-size: 1.1rem; 
+            list-style: disc !important;
+        }
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0,200,255,0.2); 
+            color: #e0e0ff; 
+            font-size: 0.9rem; 
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+        .sidebar-footer a { 
+            color: #00c8ff !important; 
+            text-decoration: none; 
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.7); 
+            padding-left: 15px; 
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <!-- 修正：基于academic.html位置（achievements/academic-awards/），回退2级到根目录 -->
+            <a href="../../home/index.html" class="main-nav">Home</a>
+            <a href="../../about/about.html" class="main-nav">About Me</a>
+            <a href="../achievements.html" class="main-nav active">Achievements</a>
+            <div class="sub-nav-container">
+                <a href="../competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="./academic.html" class="sub-nav active">Academic Awards</a>
+                <a href="../others/others.html" class="sub-nav">Others</a>
+            </div>
+            <!-- 修正：跳转到physics-research下的量子项目（补充层级） -->
+            <a href="../../physics-research/physics-research.html" class="main-nav">Physics Research</a>
+           
+            <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
+            <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../../leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../../contact/index.html" class="main-nav">Contact</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">© Created by Wuhua (Steven) Zhu</div>
+        </div>
+    </div>
+    <div class="main">
+        <h1>Academic Awards</h1>
+        <div class="academic-section">
+            <h3>High School Academic Achievements</h3>
+            <ul>
+                <li>Earn the Distinguished Honor Roll of the school for Three consecutive years 2023-2025</li>
+                <li>Maintained outstanding grades 4.0/4.0 in all courses (2023-2025)</li>
+                <li>Top 3 in class for overall academic performance for 2023-2025 consecutive semesters</li>
+                <li>Academic Excellence Scholarship (highest honor) in 2023-2025</li>
+                <li>Winner of School Science Innovation Competition (2024)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomy Club | Steven Zhu</title>
+    <style>
+        /* 复用统一样式 - 替换为reading.html的深色主题 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0F172A; /* 统一深色背景 */
+            color: #F8FAFC;
+            display: flex;
+            min-height: 100vh;
+            flex-wrap: wrap;
+        }
+        /* 侧边栏核心配色调整 - 完全匹配reading.html格式 */
+        .sidebar {
+            width: 280px;
+            background-color: #0F172A;
+            color: #fff;
+            padding: 30px 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 3px solid #165DFF; /* 统一主蓝色边框 */
+        }
+        .sidebar ul { list-style: none; margin-bottom: 40px; }
+        .sidebar li { margin: 8px 0; }
+        .main-nav {
+            color: #E2E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            margin: 4px 0;
+        }
+        .main-nav.active {
+            background-color: #165DFF; /* 激活态主蓝色背景 */
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        .main-nav:hover:not(.active) {
+            background-color: #1E293B; /* hover深色背景 */
+            color: #38BDF8; /* hover浅蓝色文字 */
+        }
+        .sub-nav-container {
+            display: block;
+            padding-left: 20px;
+            margin-top: 4px;
+        }
+        .sub-nav {
+            color: #94A3B8; /* 子导航基础文字色 */
+            text-decoration: none;
+            font-size: 14px;
+            padding: 6px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .sub-nav.active { 
+            color: #165DFF; /* 二级激活态主蓝色文字 */
+            font-weight: 500; 
+        } 
+        .sub-nav:hover { 
+            color: #38BDF8; /* 二级hover浅蓝色 */
+            background-color: #1E293B; 
+        }
+        .sidebar-footer {
+            border-top: 1px solid #1E293B; /* 底部分隔线色 */
+            padding-top: 20px;
+        }
+        .contact-item { margin: 15px 0; font-size: 14px; }
+        .contact-item span { color: #94A3B8; margin-right: 8px; }
+        .contact-item a { color: #38BDF8; text-decoration: none; } /* 联系方式链接色 */
+        .contact-item a:hover { color: #7DD3FC; text-decoration: underline; } /* 链接悬浮色 */
+        .creator-info { margin-top: 30px; color: #64748B; font-size: 13px; } /* 底部信息文字色 */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px 60px;
+            background-color: #0F172A; /* 主内容区同步深色背景 */
+            min-height: 100vh;
+            color: #F8FAFC;
+        }
+        .club-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .club-detail-header h2 {
+            font-size: 2em;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+        .club-detail-header i {
+            font-size: 2em;
+            color: #38BDF8;
+        }
+        .club-role {
+            background-color: #165DFF;
+            color: #FFFFFF;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .club-detail-content {
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05));
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            padding: 30px;
+            line-height: 1.8;
+            color: #94A3B8;
+            border-left: 3px solid #165DFF;
+        }
+        .club-detail-content h4 {
+            color: #F8FAFC;
+            font-size: 1.2em;
+            margin: 20px 0 10px;
+        }
+        .club-detail-content ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 3px solid #165DFF; /* 移动端底部边框色同步 */
+            }
+            .main-content { margin-left: 0; padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏导航 -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="../../home/index.html" class="main-nav">Home</a></li>
+            <li><a href="../../about/about.html" class="main-nav">About Me</a></li>
+            <li><a href="../../achievements/achievements.html" class="main-nav">Achievements</a></li>
+            <li><a href="../../physics-research/physics-research.html" class="main-nav">Physics Research</a></li>
+            
+            <li><a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a></li>
+            <!-- 课外活动导航 + 子菜单（Astronomy Club激活） -->
+            <li>
+                <a href="../activities.html" class="main-nav active">Extracurricular Activities</a>
+                <div class="sub-nav-container">
+                    <a href="../school-club/school-club.html" class="sub-nav">School Club</a>
+                    
+                    <div class="sub-nav-container" style="padding-left: 15px;">
+                        <a href="../school-club/astronomy.html" class="sub-nav">Astronomy Club</a>
+                        <a href="../school-club/physics.html" class="sub-nav">Physics Club</a>
+                        <a href="../school-club/badminton.html" class="sub-nav">Badminton Club</a>
+                        <a href="../school-club/mun.html" class="sub-nav">MUN</a>
+                        <a href="../school-club/talkshow.html" class="sub-nav">Talkshow Club</a>
+                    </div>
+                </div>
+            </li>
+            <a href="../../extracurricular-activities/volunteer-and-services/volunteer-services.html" class="sub-nav">Volunteer & Services</a>
+
+            <div class="sub-nav-container">
+                   
+            <div class="sub-nav-container" style="padding-left: 15px;">
+                        <a href="./reading.html" class="sub-nav">Reading Club</a>
+                        <a href="./voice.html" class="sub-nav">Voice Museum</a>
+                        <a href="./science.html" class="sub-nav  active">Science Museum Volunteer</a>
+                    </div>
+
+            <li><a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a></li>
+            <li><a href="../../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a></li>
+            <li><a href="../../contact/index.html" class="main-nav">Contact</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © 2025 Wuhua (Steven) Zhu <br>
+                All Rights Reserved
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="club-detail-header">
+            <i>🌌</i>
+            <h2>Shenzhen Science Museum</h2>
+        </div>
+        <div class="club-role">Club Leader (2024 - Present)</div>
+        
+        <div class="club-detail-content">
+            <p>As the leader of the Astronomy Club, I aim to popularize astronomical knowledge and cultivate peers' interest in space science. The club currently has 32 members, covering grades 10-12.</p>
+            
+            <h4>Key Activities Organized:</h4>
+            <ul>
+                <li>Monthly stargazing sessions (using school telescopes to observe the moon, Jupiter's satellites, etc.)</li>
+                <li>Astronomical knowledge lectures (e.g., "Black Hole Basics" "Mars Exploration Progress")</li>
+                <li>School solar system model exhibition (attracted 100+ visitors)</li>
+                <li>Collaboration with local astronomy association to watch meteor shower events</li>
+            </ul>
+            
+            <h4>My Responsibilities:</h4>
+            <ul>
+                <li>Plan activity schedules and coordinate school resources (telescopes, activity venues)</li>
+                <li>Invite university astronomy students to give lectures</li>
+                <li>Train new members on basic astronomical observation skills</li>
+            </ul>
+        </div>
+    </main>
+</body>
+</html>

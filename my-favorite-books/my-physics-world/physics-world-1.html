@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Physics World - Steven Zhu</title>
+    <style>
+        :root {
+            --quantum-blue: #00c8ff;      
+            --quantum-purple: #7a00ff;    
+            --dark-blue: #0a0f25;         
+            --sidebar-bg: rgba(10,15,37,0.95); 
+            --card-bg: linear-gradient(135deg, rgba(0,30,80,0.95), rgba(40,10,90,0.95)); 
+            --card-border: 1px solid rgba(0,200,255,0.3); 
+            --shadow-light: 0 0 20px rgba(0,200,255,0.2); 
+            --shadow-deep: 0 0 30px rgba(122,0,255,0.15); 
+            --text-white: #ffffff;
+            --text-light: #e0e0ff;
+            --text-gray: #ccc;
+            --nav-border-radius: 6px;
+            --nav-hover-bg: rgba(0,200,255,0.2);
+            --sub-nav-hover-bg: rgba(122,0,255,0.2);
+            --btn-gradient: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            --btn-hover-gradient: linear-gradient(90deg, #00b0e6, #6a00e0);
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            text-decoration: none;
+            list-style: none;
+        }
+        body { 
+            display: flex; 
+            min-height: 100vh;
+            background: var(--dark-blue);
+            background-image: 
+                radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px),
+                radial-gradient(rgba(122,0,255,0.03) 2px, transparent 2px);
+            background-size: 50px 50px, 20px 20px, 80px 80px;
+            background-position: 0 0, 10px 10px, 20px 20px;
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+        }
+
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            padding: 20px 15px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 1px solid rgba(0,200,255,0.2);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        .menu-item, .sub-menu-item {
+            position: relative;
+        }
+
+        .menu-toggle {
+            position: absolute;
+            opacity: 0;
+            z-index: -1;
+        }
+
+        .toggle-label {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 20px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--quantum-blue);
+            font-size: 0.8rem;
+        }
+
+        .physics-sub, .quantum-sub, .climate-sub, .reading-sub {
+            display: none !important;
+            margin: 5px 0 15px 0;
+            padding-left: 20px;
+        }
+
+        .main-nav-wrapper {
+            position: relative;
+            padding-left: 20px;
+        }
+        .main-nav {
+            color: var(--text-white);
+            padding: 12px 0;
+            margin: 6px 0;
+            font-size: 0.95rem;
+            display: block;
+            border-radius: var(--nav-border-radius);
+            transition: all 0.3s ease;
+        }
+        .main-nav.active {
+            color: var(--quantum-blue);
+            background: linear-gradient(90deg, rgba(0,200,255,0.3), rgba(122,0,255,0.2));
+            padding-left: 8px;
+            border-left: 4px solid var(--quantum-blue);
+        }
+        .main-nav:hover:not(.active) {
+            background: var(--nav-hover-bg);
+            color: var(--quantum-blue);
+            padding-left: 8px;
+            transform: translateX(2px);
+        }
+
+        .sub-nav-level2 {
+            color: var(--text-light);
+            padding: 10px 0;
+            margin: 4px 0;
+            font-size: 0.9rem;
+            display: block;
+            border-radius: var(--nav-border-radius);
+            transition: all 0.3s ease;
+        }
+        .sub-nav-level2.active {
+            color: var(--quantum-blue);
+            background: var(--sub-nav-hover-bg);
+            padding-left: 8px;
+            border-left: 2px solid var(--quantum-blue);
+        }
+        .sub-nav-level2:hover {
+            background: var(--sub-nav-hover-bg);
+            color: var(--quantum-blue);
+            padding-left: 8px;
+            transform: translateX(2px);
+        }
+
+        .sub-nav-level3 {
+            color: var(--text-gray);
+            padding: 8px 0;
+            margin: 3px 0;
+            font-size: 0.85rem;
+            display: block;
+            border-radius: var(--nav-border-radius);
+            transition: all 0.3s ease;
+        }
+        .sub-nav-level3:hover {
+            background: rgba(122,0,255,0.15);
+            color: var(--quantum-blue);
+            padding-left: 8px;
+            transform: translateX(2px);
+        }
+
+        .nav-link {
+            color: inherit;
+            text-decoration: none;
+            display: block;
+            width: 100%;
+        }
+
+        #toggle-physics:checked ~ .physics-sub {
+            display: block !important;
+        }
+        #toggle-quantum:checked ~ .quantum-sub {
+            display: block !important;
+        }
+        #toggle-climate:checked ~ .climate-sub {
+            display: block !important;
+        }
+        #toggle-reading:checked ~ .reading-sub {
+            display: block !important;
+        }
+
+        .sidebar-footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,200,255,0.2);
+            font-size: 0.85rem;
+        }
+        .contact-item {
+            margin: 8px 0;
+        }
+        .contact-item a {
+            color: var(--quantum-blue);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .contact-item a:hover {
+            text-decoration: underline;
+            color: var(--quantum-purple);
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 30px 40px;
+            width: calc(100% - 260px);
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #111835 100%);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* 以下保留原physics-world.html的样式（如果有），请替换/补充 */
+        /* ===== 原physics-world.html的样式开始 ===== */
+        .section-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 0;
+            flex-wrap: wrap;
+        }
+        .section-nav-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: var(--btn-gradient);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .section-nav-btn.active {
+            background: var(--btn-hover-gradient);
+            box-shadow: 0 0 10px rgba(0,200,255,0.4);
+        }
+        .section-nav-btn:hover:not(.active) {
+            background: var(--btn-hover-gradient);
+            transform: translateY(-2px);
+        }
+
+        .content-card {
+            background: var(--card-bg);
+            padding: 35px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            border: var(--card-border);
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            color: var(--quantum-blue);
+            text-align: center;
+            margin-bottom: 30px;
+            background: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0,200,255,0.3);
+        }
+        /* ===== 原physics-world.html的样式结束 ===== */
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid rgba(0,200,255,0.2);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px 15px;
+            }
+            .content-card {
+                padding: 20px;
+            }
+            .page-title {
+                font-size: 1.5rem;
+            }
+            .section-nav {
+                gap: 10px;
+                margin-top: 20px;
+            }
+            .section-nav-btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 完全移植audio-books.html的左侧侧边栏 -->
+    <nav class="sidebar">
+        <ul style="list-style: none; padding: 0;">
+            <li class="main-nav-wrapper">
+                <a href="../../home/index.html" class="main-nav nav-link">Home</a>
+            </li>
+            <li class="main-nav-wrapper">
+                <a href="../../about/about.html" class="main-nav nav-link">About Me</a>
+            </li>
+            <li class="main-nav-wrapper">
+                <a href="../../achievements/achievements.html" class="main-nav nav-link">Achievements</a>
+            </li>
+            
+            <li class="menu-item main-nav-wrapper">
+                <input type="checkbox" id="toggle-physics" class="menu-toggle">
+                <label for="toggle-physics" class="toggle-label">▶</label>
+                <a href="../../physics-research/physics-research.html" class="main-nav nav-link">Physics Research</a>
+                <div class="physics-sub">
+                    <div class="sub-menu-item main-nav-wrapper">
+                        <input type="checkbox" id="toggle-quantum" class="menu-toggle">
+                        <label for="toggle-quantum" class="toggle-label">▶</label>
+                        <a href="../../quantum-projects/quantum-overview.html" class="sub-nav-level2 nav-link">Quantum Mechanics Projects</a>
+                        <div class="quantum-sub">
+                            <a href="../../quantum-projects/project-1-particle-in-box/project1.html" class="sub-nav-level3 nav-link">Project1: Particle in a Box</a>
+                            <a href="../../quantum-projects/project-2-quantum-tunneling/project2.html" class="sub-nav-level3 nav-link">Project2: Quantum Tunneling</a>
+                            <a href="../../quantum-projects/coding/coding.html" class="sub-nav-level3 nav-link">Coding: Quantum Visualization</a>
+                            <a href="../../quantum-projects/quantum-overview.html" class="sub-nav-level3 nav-link">Quantum Projects Overview</a>
+                        </div>
+                    </div>
+                    <div class="sub-menu-item main-nav-wrapper">
+                        <input type="checkbox" id="toggle-climate" class="menu-toggle">
+                        <label for="toggle-climate" class="toggle-label">▶</label>
+                        <a href="../../climate-modeling-project/climate.html" class="sub-nav-level2 nav-link">Climate Modeling Project</a>
+                        <div class="climate-sub">
+                            <a href="../../climate-modeling-project/introduction/introduction.html" class="sub-nav-level3 nav-link">Introduction</a>
+                            <a href="../../climate-modeling-project/literature-review/review.html" class="sub-nav-level3 nav-link">Literature Review</a>
+                            <a href="../../climate-modeling-project/math-model/mathematic-model.html" class="sub-nav-level3 nav-link">Mathematical Model</a>
+                            <a href="../../climate-modeling-project/coding/coding.html" class="sub-nav-level3 nav-link">Coding Implementation</a>
+                            <a href="../../climate-modeling-project/climate.html" class="sub-nav-level3 nav-link">Climate Project Overview</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li class="main-nav-wrapper">
+                <a href="../../medcine-AI/medcineAI.html" class="main-nav nav-link">Medcine AI App Design</a>
+            </li>
+            <li class="main-nav-wrapper">
+                <a href="../../extracurricular-activities/activities.html" class="main-nav nav-link">Extracurricular Activities</a>
+            </li>
+            <li class="main-nav-wrapper">
+                <a href="../../leisure-hobbies/hobbies.html" class="main-nav nav-link">Leisure Hobbies</a>
+            </li>
+            
+            <li class="menu-item main-nav-wrapper">
+                <input type="checkbox" id="toggle-reading" class="menu-toggle" checked>
+                <label for="toggle-reading" class="toggle-label">▼</label>
+                <a href="../my-books.html" class="main-nav active nav-link">Reading to the World</a>
+                <div class="reading-sub">
+                    <a href="../my-childhood-audio-book/audio-books.html" class="sub-nav-level2 nav-link">My Childhood Audio Book</a>
+                    <a href="./physics-world.html" class="sub-nav-level2 active nav-link">My Physics World</a>
+                </div>
+            </li>
+
+            <li class="main-nav-wrapper">
+                <a href="../../contact/index.html" class="main-nav nav-link">Contact</a>
+            </li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info" style="margin-top: 12px; font-size: 0.75rem; color: rgba(255,255,255,0.7);">
+                © 2025 Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </nav>
+
+    <!-- 保留原physics-world.html的右侧主体内容，替换下方占位符即可 -->
+    <main class="main-content">
+        <!-- ===== 以下替换为原physics-world.html的右侧内容 ===== -->
+        <div class="content-card">
+            <h1 class="page-title">My Physics World</h1>
+            <div class="audio-book-content">
+                <!-- 原physics-world.html的内容写在这里 -->
+                <p>这里替换为My Physics World的原有内容...</p>
+            </div>
+        </div>
+
+        <div class="section-nav">
+            <a href="../my-books.html" class="section-nav-btn">Reading to the World (Main)</a>
+            <a href="./physics-world.html" class="section-nav-btn active">My Physics World</a>
+        </div>
+        <!-- ===== 原physics-world.html的右侧内容结束 ===== -->
+    </main>
+</body>
+</html>

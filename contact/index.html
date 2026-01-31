@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Me | Steven Zhu</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            /* 优雅无衬线字体组合，兼顾各设备显示 */
+            font-family: 'Segoe UI', 'Inter', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #0F172A; /* 全局深色背景，与其他页一致 */
+            color: #F8FAFC;
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* 侧边栏：1:1复用现有样式，颜色、交互、结构完全统一 */
+        .sidebar {
+            width: 280px;
+            background-color: #0F172A;
+            padding: 30px 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 3px solid #165DFF; /* 主蓝色边框 */
+        }
+
+        .sidebar-nav-item {
+            color: #E2E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 4px 0;
+        }
+
+        .sidebar-nav-item.active {
+            background-color: #165DFF; /* 激活态主蓝色背景 */
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .sidebar-nav-item:hover:not(.active) {
+            background-color: #1E293B;
+            color: #38BDF8; /* hover浅蓝色文字 */
+        }
+
+        .level1-menu {
+            margin: 8px 0;
+        }
+
+        .level1-text {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .level1-text.active {
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+
+        .level1-text:hover {
+            color: #38BDF8;
+            background-color: #1E293B;
+        }
+
+        .level2-container {
+            display: none;
+            padding-left: 20px;
+            margin-top: 2px;
+        }
+
+        .level2-text {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .level2-text.active {
+            color: #165DFF;
+            font-weight: 500;
+        }
+
+        .level2-text:hover {
+            color: #38BDF8;
+            background-color: #1E293B;
+        }
+
+        .sidebar-footer {
+            border-top: 1px solid #1E293B;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+
+        .sidebar-contact-item {
+            margin: 15px 0;
+            font-size: 14px;
+        }
+
+        .sidebar-contact-item span {
+            color: #94A3B8;
+            margin-right: 8px;
+        }
+
+        .sidebar-contact-item a {
+            color: #38BDF8;
+            text-decoration: none;
+        }
+
+        .sidebar-contact-item a:hover {
+            color: #7DD3FC;
+            text-decoration: underline;
+        }
+
+        .creator-info {
+            margin-top: 30px;
+            color: #64748B;
+            font-size: 13px;
+        }
+
+        /* 主体内容区：简洁居中，突出联系信息 */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 60px 80px;
+            background-color: #0F172A;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start;
+            max-width: 1200px;
+        }
+
+        /* 联系信息卡片：匹配现有渐变卡片样式，视觉统一 */
+        .contact-card {
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05));
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(22, 93, 255, 0.2);
+            padding: 50px 40px;
+            border-left: 4px solid #165DFF;
+            width: 100%;
+            max-width: 600px;
+        }
+
+        /* 标题样式：层级清晰，大小适中 */
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #F8FAFC;
+            margin-bottom: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #165DFF;
+        }
+
+        .site-name {
+            font-size: 18px;
+            color: #94A3B8;
+            margin-bottom: 20px;
+            letter-spacing: 1px;
+        }
+
+        .my-name {
+            font-size: 36px;
+            font-weight: 700;
+            color: #F8FAFC;
+            margin-bottom: 30px;
+            line-height: 1.2;
+        }
+
+        /* 联系项容器：统一间距和样式 */
+        .contact-item {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 25px;
+        }
+
+        .contact-item label {
+            font-size: 16px;
+            color: #94A3B8;
+            font-weight: 500;
+        }
+
+        /* 核心：邮箱和GitHub链接颜色完全统一 */
+        .contact-link {
+            font-size: 20px;
+            color: #38BDF8; /* 与侧边栏链接、hover色一致的浅蓝 */
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .contact-link i {
+            font-size: 22px;
+            color: #165DFF; /* 主蓝色图标，点缀视觉 */
+        }
+
+        .contact-link:hover {
+            color: #7DD3FC;
+            transform: translateX(5px);
+        }
+
+        /* 响应式适配：移动端单列，字号自适应 */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 3px solid #165DFF;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 40px 20px;
+                justify-content: flex-start;
+                padding-top: 50px;
+                align-items: center;
+            }
+
+            .contact-card {
+                padding: 30px 20px;
+                max-width: 100%;
+            }
+
+            .page-title {
+                font-size: 28px;
+            }
+
+            .my-name {
+                font-size: 30px;
+            }
+
+            .contact-link {
+                font-size: 18px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏导航：Contact 激活，与其他页结构/交互完全一致 -->
+    <nav class="sidebar">
+        <a href="../home/index.html" class="sidebar-nav-item">Home</a>
+        <a href="../about/about.html" class="sidebar-nav-item">About Me</a>
+        <a href="../achievements/achievements.html" class="sidebar-nav-item">Achievements</a>
+        <a href="../physics-research/physics-research.html" class="sidebar-nav-item">Physics Research</a>
+        <!--<a href="../climate-modeling-project/climate.html" class="sidebar-nav-item">Climate Modeling Project</a>-->
+        <a href="../medcine-AI/medcineAI.html" class="sidebar-nav-item">Medcine AI App Design</a>
+        <a href="../extracurricular-activities/activities.html" class="sidebar-nav-item">Extracurricular Activities</a>
+        
+        <div class="level1-menu">
+            <a href="../extracurricular-activities/school-club/school-club.html" class="level1-text" id="schoolClubBtn">School Club</a>
+            <div class="level2-container" id="schoolClubSub">
+                <a href="../extracurricular-activities/school-club/astronomy.html" class="level2-text">Astronomy Club</a>
+                <a href="../extracurricular-activities/school-club/physics.html" class="level2-text">Physics Club</a>
+                <a href="../extracurricular-activities/school-club/badminton.html" class="level2-text">Badminton Club</a>
+                <a href="../extracurricular-activities/school-club/mun.html" class="level2-text">MUN</a>
+                <a href="../extracurricular-activities/school-club/talkshow.html" class="level2-text">Talkshow Club</a>
+            </div>
+        </div>
+        
+        <div class="level1-text" id="volunteerBtn">Volunteer & Services</div>
+        <div class="level2-container" id="volunteerSub">
+            <a href="../extracurricular-activities/volunteer-and-services/reading.html" class="level2-text">Reading Club</a>
+            <a href="../extracurricular-activities/volunteer-and-services/voice.html" class="level2-text">Voice Museum</a>
+            <a href="../extracurricular-activities/volunteer-and-services/science.html" class="level2-text">Science Museum Volunteer</a>
+        </div>
+
+        <a href="../my-leisure-hobbies/hobbies.html" class="sidebar-nav-item">Leisure Hobbies</a>
+        <a href="../my-favorite-books/my-books.html" class="sidebar-nav-item">Reading to the World</a>
+        <a href="./index.html" class="sidebar-nav-item active">Contact</a>
+
+        <!-- 侧边栏底部：联系方式+版权，与其他页一致 -->
+        <div class="sidebar-footer">
+            <div class="sidebar-contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="sidebar-contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © 2025 Wuhua (Steven) Zhu <br>
+                All Rights Reserved
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主体内容：展示名字、网站名、邮箱/GitHub（颜色统一） -->
+    <main class="main-content">
+        <div class="contact-card">
+            <h2 class="page-title">Get In Touch</h2>
+            <!--<div class="site-name">Steven Zhu's Personal Website</div>-->
+            <h1 class="my-name">Wuhua (Steven) Zhu</h1>
+
+            <div class="contact-item">
+                <label>Email Address:</label>
+                <a href="mailto:wuhua_zhu@hotmail.com" class="contact-link">
+                    <i>✉️</i>
+                    wuhua_zhu@hotmail.com
+                </a>
+            </div>
+
+            <div class="contact-item">
+                <label>Steven Zhu's Personal Website:</label>
+                <a href="https://github.com/Steven-Zhu" target="_blank" class="contact-link">
+                    <i>🌐</i>
+                    steven-zhuzhu.github.io
+                </a>
+            </div>
+        </div>
+    </main>
+
+    <!-- 侧边栏菜单展开/收起脚本，与其他页交互一致 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const schoolClubBtn = document.getElementById('schoolClubBtn');
+            const schoolClubSub = document.getElementById('schoolClubSub');
+            const volunteerBtn = document.getElementById('volunteerBtn');
+            const volunteerSub = document.getElementById('volunteerSub');
+
+            // School Club菜单展开/收起
+            schoolClubBtn.addEventListener('click', () => {
+                const isDisplayed = schoolClubSub.style.display === 'block';
+                schoolClubSub.style.display = isDisplayed ? 'none' : 'block';
+                volunteerSub.style.display = 'none';
+                schoolClubBtn.classList.toggle('active', !isDisplayed);
+                volunteerBtn.classList.remove('active');
+            });
+
+            // Volunteer & Services菜单展开/收起
+            volunteerBtn.addEventListener('click', () => {
+                const isDisplayed = volunteerSub.style.display === 'block';
+                volunteerSub.style.display = isDisplayed ? 'none' : 'block';
+                schoolClubSub.style.display = 'none';
+                volunteerBtn.classList.toggle('active', !isDisplayed);
+                schoolClubBtn.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

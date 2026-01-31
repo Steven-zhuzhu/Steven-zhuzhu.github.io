@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Astronomy Club | Steven Zhu</title>
+    <style>
+        /* 复用统一样式 - 替换为reading.html的深色主题 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0F172A; /* 统一深色背景 */
+            color: #F8FAFC;
+            display: flex;
+            min-height: 100vh;
+            flex-wrap: wrap;
+        }
+        /* 侧边栏样式 - 完全复用reading.html的配色和布局 */
+        .sidebar {
+            width: 280px;
+            background-color: #0F172A;
+            color: #fff;
+            padding: 30px 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 3px solid #165DFF; /* 统一主蓝色边框 */
+        }
+        .sidebar-nav-item {
+            color: #E2E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 4px 0;
+        }
+        .sidebar-nav-item.active {
+            background-color: #165DFF; /* 激活态主蓝色背景 */
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        .sidebar-nav-item:hover:not(.active) {
+            background-color: #1E293B; /* hover深色背景 */
+            color: #38BDF8; /* hover浅蓝色文字 */
+        }
+        .level1-menu {
+            margin: 8px 0;
+        }
+        /* 一级子菜单样式 - 匹配reading.html */
+        .level1-text {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .level1-text.active {
+            color: #FFFFFF; /* 激活态白色文字（无背景） */
+            font-weight: 600;
+        }
+        .level1-text:hover {
+            color: #38BDF8; /* hover浅蓝色文字 */
+            background-color: #1E293B; /* hover深色背景 */
+        }
+        /* 二级子菜单样式 - 匹配reading.html */
+        .level2-container {
+            display: none;
+            padding-left: 20px;
+            margin-top: 2px;
+        }
+        .level2-text {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+        .level2-text.active {
+            color: #165DFF; /* 二级激活态主蓝色文字 */
+            font-weight: 500;
+        }
+        .level2-text:hover {
+            color: #38BDF8; /* 二级hover浅蓝色 */
+            background-color: #1E293B;
+        }
+        .sidebar-footer {
+            border-top: 1px solid #1E293B;
+            padding-top: 20px;
+            margin-top: 30px;
+        }
+        .contact-item { 
+            margin: 15px 0; 
+            font-size: 14px; 
+        }
+        .contact-item span { 
+            color: #94A3B8; 
+            margin-right: 8px; 
+        }
+        .contact-item a { 
+            color: #38BDF8; 
+            text-decoration: none; 
+        }
+        .contact-item a:hover { 
+            color: #7DD3FC; 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 30px; 
+            color: #64748B; 
+            font-size: 13px; 
+        }
+        /* 主内容区样式 - 保留原有布局，适配深色背景 */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px 60px;
+            background-color: #0F172A;
+            min-height: 100vh;
+            color: #F8FAFC;
+        }
+        .club-detail-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .club-detail-header h2 {
+            font-size: 2em;
+            font-weight: 700;
+            color: #F8FAFC;
+        }
+        .club-detail-header i {
+            font-size: 2em;
+            color: #165DFF;
+        }
+        .club-role {
+            background-color: #165DFF;
+            color: #FFFFFF;
+            font-weight: 600;
+            padding: 5px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+        .club-detail-content {
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05));
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(22, 93, 255, 0.2);
+            padding: 30px;
+            line-height: 1.8;
+            color: #94A3B8;
+            border-left: 3px solid #165DFF;
+        }
+        .club-detail-content h4 {
+            color: #F8FAFC;
+            font-size: 1.2em;
+            margin: 20px 0 10px;
+        }
+        .club-detail-content ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        /* 响应式适配 - 匹配reading.html */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 3px solid #165DFF;
+            }
+            .main-content { 
+                margin-left: 0; 
+                padding: 30px 20px; 
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏导航 - 调整为reading.html的结构和样式类 -->
+    <nav class="sidebar">
+        <a href="../../home/index.html" class="sidebar-nav-item">Home</a>
+        <a href="../../about/about.html" class="sidebar-nav-item">About Me</a>
+        <a href="../../achievements/achievements.html" class="sidebar-nav-item">Achievements</a>
+        <a href="../../physics-research/physics-research.html" class="sidebar-nav-item">Physics Research</a>
+        <a href="../../medcine-AI/medcineAI.html" class="sidebar-nav-item">Medcine AI App Design</a>
+        <a href="../../extracurricular-activities/activities.html" class="sidebar-nav-item active">Extracurricular Activities</a>
+        
+        <!-- School Club 菜单 -->
+        <div class="level1-menu">
+            <a href="../school-club/school-club.html" class="level1-text" id="schoolClubBtn">School Club</a>
+            <div class="level2-container" id="schoolClubSub">
+                <a href="../school-club/astronomy.html" class="level2-text">Astronomy Club</a>
+                <a href="../school-club/physics.html" class="level2-text">Physics Club</a>
+                <a href="../school-club/badminton.html" class="level2-text">Badminton Club</a>
+                <a href="../school-club/mun.html" class="level2-text">MUN</a>
+                <a href="../school-club/talkshow.html" class="level2-text">Talkshow Club</a>
+            </div>
+        </div>
+       
+        <!-- Volunteer & Services 菜单（默认展开+激活） -->
+        <a href="./volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</a>
+        <div class="level2-container" id="volunteerSub">
+            <a href="./reading.html" class="level2-text">Reading Club</a>
+            <a href="./voice.html" class="level2-text active">Voice Museum</a>
+            <a href="./science.html" class="level2-text">Science Museum Volunteer</a>
+        </div>
+
+        <a href="../../my-leisure-hobbies/hobbies.html" class="sidebar-nav-item">Leisure Hobbies</a>
+        <a href="../../my-favorite-books/my-books.html" class="sidebar-nav-item">Reading to the World</a>
+        <a href="../../contact/index.html" class="sidebar-nav-item">Contact</a>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © 2025 Wuhua (Steven) Zhu <br>
+                All Rights Reserved
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 -->
+    <main class="main-content">
+        <div class="club-detail-header">
+            <i>🌌</i>
+            <h2>Voice Club</h2>
+        </div>
+        <div class="club-role">Club Leader (2024 - Present)</div>
+        
+        <div class="club-detail-content">
+            <p>As the leader of the Astronomy Club, I aim to popularize astronomical knowledge and cultivate peers' interest in space science. The club currently has 32 members, covering grades 10-12.</p>
+            
+            <h4>Key Activities Organized:</h4>
+            <ul>
+                <li>Monthly stargazing sessions (using school telescopes to observe the moon, Jupiter's satellites, etc.)</li>
+                <li>Astronomical knowledge lectures (e.g., "Black Hole Basics" "Mars Exploration Progress")</li>
+                <li>School solar system model exhibition (attracted 100+ visitors)</li>
+                <li>Collaboration with local astronomy association to watch meteor shower events</li>
+            </ul>
+            
+            <h4>My Responsibilities:</h4>
+            <ul>
+                <li>Plan activity schedules and coordinate school resources (telescopes, activity venues)</li>
+                <li>Invite university astronomy students to give lectures</li>
+                <li>Train new members on basic astronomical observation skills</li>
+            </ul>
+        </div>
+    </main>
+
+    <!-- 交互脚本 - 匹配reading.html的菜单逻辑 -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const schoolClubBtn = document.getElementById('schoolClubBtn');
+            const schoolClubSub = document.getElementById('schoolClubSub');
+            const volunteerBtn = document.getElementById('volunteerBtn');
+            const volunteerSub = document.getElementById('volunteerSub');
+
+            // 默认展开Volunteer & Services二级菜单
+            volunteerSub.style.display = 'block';
+
+            // School Club菜单展开/收起
+            schoolClubBtn.addEventListener('click', () => {
+                const isDisplayed = schoolClubSub.style.display === 'block';
+                schoolClubSub.style.display = isDisplayed ? 'none' : 'block';
+                volunteerSub.style.display = 'none';
+                schoolClubBtn.classList.toggle('active', !isDisplayed);
+                volunteerBtn.classList.remove('active');
+            });
+
+            // Volunteer & Services菜单展开/收起
+            volunteerBtn.addEventListener('click', () => {
+                const isDisplayed = volunteerSub.style.display === 'block';
+                volunteerSub.style.display = isDisplayed ? 'none' : 'block';
+                schoolClubSub.style.display = 'none';
+                volunteerBtn.classList.toggle('active', !isDisplayed);
+                schoolClubBtn.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>

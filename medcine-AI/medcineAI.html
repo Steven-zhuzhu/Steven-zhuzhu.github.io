@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine AI - Steven Zhu</title>
+    <style>
+        /* 全局样式：延续深蓝科技风 + 统一对齐基准 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            vertical-align: baseline;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 左侧侧边栏：滚动条+子菜单默认隐藏 + 精准对齐 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px 15px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00b8ff; 
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin; 
+            scrollbar-color: #0088ff rgba(10, 15, 37, 0.5); 
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        /* Chrome/Safari/Edge 自定义滚动条 */
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: rgba(10, 15, 37, 0.5); border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #0088ff; border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: #00b8ff; }
+
+        .sidebar-nav { 
+            flex: 1; 
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        /* 主导航样式：可点击展开/关闭子菜单 + 精准对齐 */
+        .sidebar .main-nav { 
+            display: block; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            position: relative; 
+            text-align: left;
+            width: 100%;
+        }
+        /* 主导航右侧添加展开/关闭箭头（精准定位） */
+        .main-nav::after {
+            content: "▶";
+            font-size: 0.7rem;
+            color: #00b8ff;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            line-height: 1;
+        }
+        /* 展开时箭头旋转 */
+        .main-nav.expanded::after {
+            transform: translateY(-50%) rotate(90deg);
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%); 
+            color: white; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff;
+        }
+
+        /* 子菜单默认隐藏 + 统一缩进对齐 */
+        .sub-nav-container, .sub-sub-nav-container {
+            display: none; 
+            margin-left: 15px; 
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: calc(100% - 15px); 
+        }
+        /* 展开主菜单时显示对应子菜单 */
+        .main-nav.expanded + .sub-nav-container {
+            display: block;
+        }
+
+        /* 子导航样式：精准对齐 */
+        .sub-nav { 
+            display: block; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 8px 15px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            width: 100%;
+            text-align: left; 
+        }
+        .sub-sub-nav {
+            display: block;
+            color: #c5c8ff; 
+            text-decoration: none; 
+            padding: 6px 15px; 
+            margin: 2px 0; 
+            border-radius: 4px; 
+            font-size: 0.75rem; 
+            transition: all 0.3s;
+            text-align: left; 
+            white-space: nowrap; 
+            width: 100%;
+        }
+        .sub-nav:hover, .sub-nav.active { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff; 
+            font-weight: 500;
+        }
+        .sub-sub-nav:hover, .sub-sub-nav.active { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff; 
+            font-weight: 500;
+        }
+
+        /* 右侧主内容区：统一对齐 + 消除偏移 */
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8;
+            text-align: left;
+            overflow-x: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .main h1 { 
+            color: #00b8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00b8ff; 
+            padding-bottom: 15px;
+            width: 100%;
+            max-width: 1000px; 
+        }
+        .ai-section {
+            background: linear-gradient(135deg, rgba(0, 136, 255, 0.2), rgba(0, 102, 204, 0.2));
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            max-width: 1000px;
+            box-shadow: 0 0 12px rgba(0,184,255,0.15);
+            text-align: left;
+            width: 100%;
+        }
+        .ai-section h3 {
+            color: #1ab8ff; 
+            font-size: 1.3rem; 
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            line-height: 1;
+        }
+        .ai-section h3::before {
+            content: "🏥"; 
+            font-size: 1.1rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .ai-section p {
+            font-size: 1.0rem; 
+            color: #d0d4ff; 
+            margin-bottom: 10px;
+            line-height: 1.8;
+        }
+        /* 图片展示样式：两行两列 + 无切割 + 尺寸一致 */
+        .ai-image-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr; 
+            gap: 20px; 
+            margin-top: 15px;
+            width: 100%; 
+            justify-items: stretch; 
+            align-items: stretch;
+        }
+        .ai-image-item {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .ai-image-item img {
+            width: 100%;
+            height: 250px; /* 固定高度保证尺寸一致 */
+            border-radius: 8px;
+            box-shadow: 0 0 8px rgba(0,184,255,0.2);
+            border: 1px solid #00b8ff;
+            /* 移除object-fit: cover（取消图片切割），改为保持原始比例 */
+            object-fit: contain; 
+            background-color: #ffffff10; /* 可选：添加浅背景，适配透明图片 */
+        }
+        .ai-image-item p {
+            text-align: center;
+            margin-top: 8px;
+            font-size: 0.9rem;
+            color: #a8d0ff;
+            width: 100%;
+            line-height: 1.2;
+            margin-bottom: 0;
+        }
+
+        /* 侧边栏底部：精准对齐 */
+        .sidebar-footer { 
+            padding: 20px 15px; 
+            border-top: 1px solid rgba(0, 184, 255, 0.2); 
+            color: #d0d4ff; 
+            font-size: 0.85rem; 
+            text-align: left;
+            margin-top: auto;
+            width: 100%;
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 0; 
+            display: flex;
+            align-items: center;
+            gap: 5px; 
+        }
+        .sidebar-footer a { 
+            color: #1ab8ff; 
+            text-decoration: none;
+            flex: 1;
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.75rem; 
+            color: rgba(220, 224, 255, 0.7); 
+            padding-left: 0; 
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <!-- Home：无Sub菜单 -->
+            <a href="../home/index.html" class="main-nav">Home</a>
+            
+            <!-- About Me：无Sub菜单 -->
+            <a href="../about/about.html" class="main-nav">About Me</a>
+            
+            <!-- Achievements：带Sub菜单，默认关闭 -->
+            <a href="../achievements/achievements.html" class="main-nav">Achievements</a>
+            <div class="sub-nav-container">
+                <a href="../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="../achievements/others/others.html" class="sub-nav">Others</a>
+            </div>
+
+            <!-- Physics Research：带Sub菜单，默认关闭 -->
+            <a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a>
+            <div class="sub-nav-container">
+                <a href="../physics-research/quantum-projects/quantum-overview.html" class="sub-nav">Quantum Projects</a>
+                <div class="sub-sub-nav-container">
+                    <a href="../physics-research/quantum-projects/project-1-particle-in-box/project1.html" class="sub-sub-nav">Project 1: Particle in Box</a>
+                    <a href="../physics-research/quantum-projects/project-2-quantum-tunneling/project2.html" class="sub-sub-nav">Project 2: Quantum Tunneling</a>
+                    <a href="../physics-research/quantum-projects/coding/coding.html" class="sub-sub-nav">Coding for Quantum</a>
+                </div>
+                <a href="../physics-research/climate-modeling-project/climate-modeling.html" class="sub-nav">Climate Modeling Project</a>
+            </div>
+
+            <!-- Medicine AI：当前页，默认展开Sub菜单 -->
+            <a href="./medicineAI.html" class="main-nav active expanded">Medicine AI APP Design</a>
+            <div class="sub-nav-container">
+                <a href="./plan-report.html" class="sub-nav">Project Plan & Business Report</a>
+                <a href="./plan-report.html" class="sub-nav">Website link & Programm Code</a>
+                
+            </div>
+
+            <!-- 其他主导航 -->
+            <a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            
+            <a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a>
+            <a href="../contact/index.html" class="main-nav">Contact</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <h1>Medicine AI Research & Applications</h1>
+        
+        <div class="ai-section">
+            <h3>Grandpa’s Pill: AI-Powered Medication Reminder</h3>
+            <p>My grandfather, now 85 years old, first inspired my interest in science long before I could speak. He now frequently forgets to take his medication. I couldn't accept the possibility that he could be in danger because he missed a simple dose. So I called on several like-minded friends and developed a "smart medication reminder" app. </p>
+        </div>
+        
+        <div class="ai-section">
+            <h3>Brand & Team & Interfaces</h3>
+            <!-- 调整图片容器为两行两列，精准对齐 -->
+            <div class="ai-image-container">
+                <!-- 第一行第一个：Medicine AI Logo -->
+                <div class="ai-image-item">
+                    <img src="./images/logo.png" alt="Medicine AI Logo">
+                    <p>Medicine AI Logo</p>
+                </div>
+                <!-- 第一行第二个：Our Team Member -->
+                <div class="ai-image-item">
+                    <img src="./images/team-member.png" alt="Our Team Member">
+                    <p>Our Team Member</p>
+                </div>
+                <!-- 第二行第一个：Visualization Interface -->
+                <div class="ai-image-item">
+                    <img src="./images/interface.png" alt="Visualization Interface">
+                    <p>Visualization Interface</p>
+                </div>
+                <!-- 第二行第二个：User Interface -->
+                <div class="ai-image-item">
+                    <img src="./images/user-interface.png" alt="User Interface">
+                    <p>User Interface</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- 新增JS：实现点击主导航展开/关闭子菜单 -->
+    <script>
+        // 获取所有带Sub菜单的主导航
+        const mainNavs = document.querySelectorAll('.main-nav');
+        
+        mainNavs.forEach(nav => {
+            // 排除无Sub菜单的主导航（如Home、About Me）
+            const hasSubMenu = nav.nextElementSibling && nav.nextElementSibling.classList.contains('sub-nav-container');
+            if (!hasSubMenu) {
+                nav.style.pointerEvents = 'auto'; // 纯链接，正常跳转
+                return;
+            }
+
+            // 点击主导航时切换展开/关闭状态
+            nav.addEventListener('click', (e) => {
+                // 阻止默认跳转（如果需要点击既展开又跳转，可注释这行）
+                e.preventDefault();
+                
+                // 关闭其他所有展开的子菜单
+                mainNavs.forEach(otherNav => {
+                    if (otherNav !== nav) {
+                        otherNav.classList.remove('expanded');
+                    }
+                });
+                
+                // 切换当前主菜单的展开状态
+                nav.classList.toggle('expanded');
+                
+                // 如果需要点击展开后仍跳转，可添加这行：
+                // window.location.href = nav.getAttribute('href');
+            });
+        });
+    </script>
+</body>
+</html>

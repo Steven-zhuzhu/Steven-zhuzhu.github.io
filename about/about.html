@@ -5,44 +5,449 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Me - Steven Zhu</title>
     <style>
-        /* 全站统一样式 */
-        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
-        body { display: flex; background: #f0f8ff; }
-        .sidebar { width: 250px; background: #001f3f; padding: 20px; height: 100vh; position: fixed; display: flex; flex-direction: column; justify-content: space-between; }
-        .sidebar a { display: block; color: white; text-decoration: none; padding: 10px 0; margin: 5px 0; border-radius: 5px; padding-left: 15px; }
-        .sidebar a.active { background: #0074d9; }
-        .main-content { margin-left: 250px; padding: 40px; width: calc(100% - 250px); }
-        .section-heading { color: #001f3f; font-size: 2rem; margin-bottom: 20px; border-bottom: 2px solid #0074d9; padding-bottom: 10px; }
-        .about-content { line-height: 1.8; color: #34495e; font-size: 1.1rem; }
-        .about-content p { margin-bottom: 20px; }
-        .about-content h3 { color: #001f3f; margin: 30px 0 15px 0; font-size: 1.5rem; }
-        .about-content ul { list-style: disc; padding-left: 30px; margin-bottom: 20px; }
-        /* 侧边栏底部信息 */
-        .sidebar-footer { padding: 20px 0; border-top: 1px solid rgba(255,255,255,0.2); margin-top: 20px; color: #fff; font-size: 0.9rem; }
-        .sidebar-footer .contact-item { margin: 8px 0; padding-left: 15px; }
-        .sidebar-footer a { color: #4fc3f7; text-decoration: none; display: inline; padding: 0; margin: 0; }
-        .sidebar-footer a:hover { text-decoration: underline; }
-        .creator-info { margin-top: 15px; font-size: 0.8rem; color: rgba(255,255,255,0.7); padding-left: 15px; }
+        /* 全局变量 */
+        :root {
+            --primary-blue: #00c8ff;
+            --primary-purple: #7a00ff;
+            --bg-dark: #0a0f25;
+            --card-gradient: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            --text-white: #ffffff;
+            --text-light: #e0e0ff;
+            --shadow: 0 0 20px rgba(0, 200, 255, 0.2);
+            --btn-gradient: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
+            --btn-hover: linear-gradient(90deg, #00b0e6, #6a00e0);
+            --meta-text-color: #ffd700;
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            text-decoration: none;
+            list-style: none;
+        }
+
+        body { 
+            display: flex; 
+            background: var(--bg-dark); 
+            color: var(--text-light);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px);
+            background-size: 50px 50px, 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        /* 左侧侧边栏：和主页完全一致的样式 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid var(--primary-blue);
+            z-index: 100;
+        }
+
+        /* 一级导航按钮：和主页完全一致 */
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: var(--text-light) !important; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        .sidebar .main-nav.active { 
+            background: var(--card-gradient) !important; 
+            color: white !important; 
+            font-weight: 500;
+        }
+
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 200, 255, 0.1) !important; 
+            color: var(--primary-blue) !important; 
+        }
+
+        /* 子目录容器：和主页完全一致的显隐逻辑 */
+        .sub-nav-container, .physics-sub-container { 
+            display: none; /* 默认隐藏 */
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+
+        .sub-nav-container.active, .physics-sub-container.active {
+            display: block !important; /* 激活时显示 */
+        }
+
+        /* 子菜单样式：和主页完全统一 */
+        .sub-nav, .physics-sub-level2, .physics-sub-level3 { 
+            display: block !important;
+            color: var(--text-light) !important; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+
+        .sub-nav {
+            padding: 8px 10px; 
+            font-size: 0.9rem; 
+        }
+
+        .physics-sub-level2 {
+            padding: 10px 15px;
+            font-size: 0.95rem;
+        }
+
+        .physics-sub-level3 {
+            padding: 8px 10px;
+            margin: 3px 0 3px 15px;
+            font-size: 0.9rem;
+        }
+
+        .sub-nav:hover, .physics-sub-level2:hover, .physics-sub-level3:hover { 
+            background: rgba(0, 200, 255, 0.1) !important; 
+            color: var(--primary-blue) !important; 
+        }
+
+        /* 侧边栏底部：和主页完全一致 */
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0, 200, 255, 0.2); 
+            color: var(--text-light); 
+            font-size: 0.9rem; 
+        }
+
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+
+        .sidebar-footer a { 
+            color: var(--primary-blue); 
+            text-decoration: none; 
+        }
+
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.7); 
+            padding-left: 15px; 
+        }
+
+        /* 右侧主内容区：保留原有内容，仅适配导航栏宽度 */
+        .main-content {
+            margin-left: 250px; 
+            padding: 30px 40px; 
+            width: calc(100% - 250px); 
+            position: relative;
+            z-index: 1;
+            line-height: 1.8;
+        }
+
+        .card {
+            background: var(--card-gradient);
+            padding: 25px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: var(--shadow);
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .card h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 8px;
+            color: var(--primary-blue);
+            text-align: center;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        .card p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        .bio-content {
+            max-height: 120px;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            max-width: 100%;
+        }
+
+        .bio-content.expanded {
+            max-height: 600px;
+        }
+
+        .toggle-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: var(--btn-gradient);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 8px rgba(0, 200, 255, 0.2);
+            margin-top: 10px;
+        }
+
+        .toggle-btn:hover {
+            background: var(--btn-hover);
+            box-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* 诗歌样式：保留原有设计 */
+        .poem-container {
+            margin-top: 20px;
+            width: 100%;
+            text-align: center;
+        }
+
+        .poem-block {
+            background-image: url('https://images.unsplash.com/photo-1462331940025-496dfbfc7564?q=80&w=1949&auto=format&fit=crop');
+            background-size: cover;
+            background-position: center;
+            background-blend-mode: soft-light;
+            background-color: rgba(10, 15, 37, 0.1);
+            padding: 30px 20px;
+            border-radius: 12px;
+            border: 2px solid;
+            border-image: linear-gradient(to right, var(--primary-blue), var(--primary-purple)) 1;
+            line-height: 1.0;
+            font-size: 1.05rem;
+            width: 100%;
+            text-align: center;
+            display: inline-block;
+            box-shadow: 0 0 30px rgba(0,200,255,0.4);
+        }
+
+        .poem-stanza {
+            margin-bottom: 40px !important;
+        }
+
+        .poem-block span {
+            display: block;
+            transition: all 0.3s ease;
+            color: #00c8ff;
+            text-shadow: 0 0 2px #ffffff, 0 0 3px #000000;
+            font-weight: 500;
+        }
+
+        .poem-block span:hover {
+            color: #00e5ff;
+            text-shadow: 0 0 8px #00e5ff, 0 0 15px var(--primary-purple), 0 0 2px #ffffff;
+            transform: scale(1.03);
+        }
+
+        .poem-meta {
+            font-style: italic;
+            color: #e0f7ff !important;
+            text-shadow: 0 0 2px #ffffff, 0 0 3px #000;
+            font-weight: 600;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        /* 新增图片展示区域样式（修改为适配8张图片） */
+        .image-gallery {
+            max-width: 900px;
+            margin: 30px auto;
+            padding: 25px;
+            background: var(--card-gradient);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+        }
+
+        .image-gallery h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 8px;
+            color: var(--primary-blue);
+            text-align: center;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* 核心修改：大屏4列布局，适配8张图片 */
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr); /* 大屏4列 */
+            gap: 15px; /* 缩小间距，适配更多图片 */
+        }
+
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 160px; /* 略微降低高度，适配4列布局 */
+            object-fit: cover;
+            display: block;
+        }
+
+        .cartoon-astronaut {
+            position: absolute;
+            top: 30%;
+            right: 20px;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 100px;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/6134/6134422.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px var(--primary-blue));
+            animation: astronaut-float 10s ease-in-out infinite;
+        }
+
+        @keyframes astronaut-float {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            50% { transform: translateY(-55%) rotate(3deg); }
+            100% { transform: translateY(-50%) rotate(0deg); }
+        }
+
+        /* 响应式适配：优化8张图片的布局 */
+        @media (max-width: 1024px) {
+            /* 中屏改为2列 */
+            .gallery-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .gallery-item img {
+                height: 180px; /* 恢复高度 */
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--primary-blue);
+            }
+
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+            }
+
+            .card {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .poem-block {
+                border: 1px solid var(--primary-blue);
+                border-image: none;
+                padding: 20px;
+                line-height: 1.0;
+                background-color: rgba(10, 15, 37, 0.2);
+            }
+
+            .poem-stanza {
+                margin-bottom: 30px !important;
+            }
+
+            .poem-block span:hover {
+                transform: none;
+                text-shadow: 0 0 2px #ffffff, 0 0 3px #000 !important;
+            }
+
+            .cartoon-astronaut {
+                display: none;
+            }
+
+            /* 小屏改为1列 */
+            .image-gallery {
+                max-width: 100%;
+                padding: 20px;
+            }
+
+            .gallery-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .gallery-item img {
+                height: 200px; /* 进一步提高高度，优化显示 */
+            }
+        }
     </style>
 </head>
 <body>
+    <!-- 左侧导航栏：按键名称完全匹配图片 -->
     <div class="sidebar">
         <div class="sidebar-nav">
-            <!-- 所有链接都加 ../ 指向根目录 -->
-            <a href="../index.html">Home</a>
-            <a href="about.html" class="active">About Me</a>
-            <!-- 核心修复：添加 ../ 指向根目录的achievements文件夹 -->
-            <a href="../achievements/achievements.html">Achievements</a>
-            <a href="../research.html">Research Interests</a>
-            <a href="../physics-projects.html">Physics Projects</a>
-            <a href="../competitions.html">Physics Competitions</a>
-            <a href="../coding.html">Coding Apps</a>
-            <a href="../clubs.html">My Clubs</a>
-            <a href="../hobbies.html">Leisure Hobbies</a>
-            <a href="../contact.html">Contact</a>
+            <!-- 匹配图片的导航按键名称 -->
+            <a href="../home/index.html" class="main-nav" data-target="none">Home</a>
+            <a href="./about.html" class="main-nav active" data-target="none">About Me</a>
+            <a href="../achievements/achievements.html" class="main-nav" data-target="none">Achievements</a>
+            <div class="sub-nav-container" id="achievements-sub">
+                <a href="../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="../achievements/others/others.html" class="sub-nav">Others</a>
+            </div>
+            <a href="../physics-research/physics-research.html" class="main-nav" data-target="none">Physics Research</a>
+            <div class="physics-sub-container" id="physics-sub">
+                <a href="../physics-research/quantum-projects/quantum-overview.html" class="physics-sub-level2">Quantum Mechanics Projects</a>
+                <div class="physics-sub-container">
+                    <a href="../physics-research/quantum-projects/project-1-particle-in-box/project1.html" class="physics-sub-level3">Project1: Particle in a Box</a>
+                    <a href="../physics-research/quantum-projects/project-2-quantum-tunneling/project2.html" class="physics-sub-level3">Project2: Quantum Tunneling</a>
+                    <a href="../physics-research/quantum-projects/coding/coding.html" class="physics-sub-level3">Coding: Quantum Visualization</a>
+                    <a href="../physics-research/quantum-projects/quantum-overview.html" class="physics-sub-level3">Quantum Projects Overview</a>
+                </div>
+                <a href="../physics-research/climate-modeling-project/climate.html" class="physics-sub-level2">Climate Modeling Project</a>
+                <div class="physics-sub-container">
+                    <a href="../physics-research/climate-modeling-project/introduction/introduction.html" class="physics-sub-level3">Introduction</a>
+                    <a href="../physics-research/climate-modeling-project/literature-review/review.html" class="physics-sub-level3">Literature Review</a>
+                    <a href="../physics-research/climate-modeling-project/math-model/mathematic-model.html" class="physics-sub-level3">Mathematical Model</a>
+                    <a href="../physics-research/climate-modeling-project/coding/coding.html" class="physics-sub-level3">Coding Implementation</a>
+                    <a href="../physics-research/climate-modeling-project/climate.html" class="physics-sub-level3">Climate Project Overview</a>
+                </div>
+            </div>
+            <!-- 替换为图片中的名称 -->
+            <a href="../medcine-AI/medcineAI.html" class="main-nav" data-target="none">Medcine AI App Design</a>
+            <a href="../extracurricular-activities/activities.html" class="main-nav" data-target="none">Extracurricular Activities</a>
+            <a href="../my-leisure-hobbies/hobbies.html" class="main-nav" data-target="none">Leisure Hobbies</a>
+            <a href="../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../contact/index.html" class="main-nav" data-target="none">Contact</a>
         </div>
 
-        <!-- 侧边栏底部Contact+创作者标注 -->
+        <!-- 侧边栏底部：保留原有内容 -->
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -54,7 +459,7 @@
             </div>
             <div class="contact-item">
                 <span>Portfolio:</span>
-                <a href="../physics-projects.html">Quantum Projects</a>
+                <a href="../quantum-projects/quantum-overview.html">Quantum Projects</a>
             </div>
             <div class="creator-info">
                 © Created by Wuhua (Steven) Zhu
@@ -62,24 +467,94 @@
         </div>
     </div>
 
-    <div class="main-content">
-        <h2 class="section-heading">About Wuhua (Steven) Zhu</h2>
-        <div class="about-content">
-            <p>Being part of Canada's Physics Olympiad National Team, I hold a profound passion for physics and astronomy. As a club leader, I rally peers with similar interests to engage in advanced academic work. I aspire to be the Prometheus who sparks academic inspiration and am committed to contributing to society with my research rigor and hands-on initiatives.</p>
-            
-            <h3>Academic Focus</h3>
-            <ul>
-                <li>Quantum Entanglement & Environmental Decoherence</li>
-                <li>Quantum Computing for Condensed Matter Physics Simulation</li>
-                <li>Experimental Verification of Quantum Superposition Principles</li>
-            </ul>
-
-            <h3>Competitive Highlights</h3>
-            <p>My journey in physics competitions has been defined by a drive to test my knowledge against global peers—from winning bronze at the 55th IPhO in France (2025) to securing the 2nd place in Canada's CAP Prize Exam (2025). These experiences have deepened my understanding of experimental physics and collaborative problem-solving.</p>
-
-            <h3>Leadership & Outreach</h3>
-            <p>As the leader of my school's Physics & Quantum Computing Club, I organize workshops, guest lectures, and competition training to make advanced physics accessible to all students. I believe that scientific curiosity thrives in community, and I aim to inspire the next generation of Canadian physicists.</p>
+    <!-- 右侧主内容区：保留原有所有内容，新增8张图片展示区域 -->
+    <main class="main-content">
+        <div class="card">
+            <h2>A Different Kind of Supernova: My Journey</h2>
+            <div class="bio-content" id="bioContent">
+                <p>I am drawn to astronomy, for in the universe’s boundless grandeur, I find my own worries vanishingly small.<p>
+                <p>I am equally drawn to physics, driven by the desire to peel back the surface of things and uncover the underlying laws that bind all matter. </p>
+                <p>Yet life is not all contemplation. On the badminton court, every smash fuels my spirit, gifting me a split-second boldness that echoes in all walks of life.</p>
+                <p>In quieter moments, I write poems and stage plays for children, trying to speak plain truths in simple words. </p>
+                <P>And when words do run out, I turn to my violin—music never struggles to express what language can’t.<p>
+                <p>All these threads—the wonder, the logic, the release, and the expression—weave together into what I hold dearest: a commitment to supporting people with physical disabilities. It is how I pay forward the kindness I once received as a child while struggling with speech articulation difficulties.</p>  
+            </div>
+            <button class="toggle-btn" id="bioToggleBtn">Show More</button>
         </div>
-    </div>
+        
+        <!-- 新增8张图片展示区域 -->
+        <div class="image-gallery">
+            <h2>My Life & Moments</h2>
+            <div class="gallery-grid">
+                <!-- 第1-4张图片（原有） -->
+                <div class="gallery-item">
+                    <img src="../images/about1.jpg" alt="Astronomy observation">
+                </div>
+                <div class="gallery-item">
+                    <img src="../images/about2.jpg" alt="Physics experiment">
+                </div>
+                <div class="gallery-item">
+                    <img src="../images/about3.jpg" alt="Badminton game">
+                </div>
+                <div class="gallery-item">
+                    <img src="../images/about4.jpg" alt="Violin playing">
+                </div>
+                <!-- 新增第5-8张图片 -->
+                <div class="gallery-item">
+                    <img src="../images/about5.jpg" alt="Poem writing">
+                </div>
+                <div class="gallery-item">
+                    <img src="../images/about6.jpg" alt="Children's play rehearsal">
+                </div>
+                <div class="gallery-item">
+                    <img src="../images/about7.jpg" alt="Coding project">
+                </div>
+                <div class="gallery-item">
+                    <img src="../images/about8.jpg" alt="Volunteer work for disabled">
+                </div>
+            </div>
+        </div>
+
+        <div class="cartoon-astronaut"></div>
+    </main>
+
+    <script>
+        // 1. 保留原有bio展开/收起逻辑
+        const bioContent = document.getElementById('bioContent');
+        const bioToggleBtn = document.getElementById('bioToggleBtn');
+        bioToggleBtn.addEventListener('click', function() {
+            bioContent.classList.toggle('expanded');
+            bioToggleBtn.textContent = bioContent.classList.contains('expanded') ? 'Show Less' : 'Show More';
+        });
+
+        // 2. 完全复刻主页的菜单互斥展开逻辑
+        const mainNavs = document.querySelectorAll('.main-nav');
+        mainNavs.forEach(nav => {
+            nav.addEventListener('click', function(e) {
+                // 阻止有子菜单的导航默认跳转（和主页逻辑一致）
+                const targetSubId = this.getAttribute('data-target');
+                if (targetSubId && targetSubId !== 'none') {
+                    e.preventDefault();
+                }
+
+                // 移除所有一级菜单的active状态
+                mainNavs.forEach(n => n.classList.remove('active'));
+                // 给当前点击的菜单添加active状态
+                this.classList.add('active');
+
+                // 隐藏所有子目录容器
+                const allSubContainers = document.querySelectorAll('.sub-nav-container, .physics-sub-container');
+                allSubContainers.forEach(container => container.classList.remove('active'));
+
+                // 显示当前菜单对应的子目录
+                if (targetSubId !== 'none' && targetSubId) {
+                    const targetSub = document.getElementById(targetSubId);
+                    if (targetSub) {
+                        targetSub.classList.add('active');
+                    }
+                }
+            });
+        });
+    </script>
 </body>
 </html>

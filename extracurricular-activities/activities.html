@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Extracurricular Activities | Steven Zhu</title>
+    <style>
+        /* 全局样式 - 统一蓝色系基调（与其他页面一致） */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #0F172A; /* 与其他页面统一的深色背景 */
+            color: #F8FAFC;
+            display: flex;
+            min-height: 100vh;
+            flex-wrap: wrap;
+        }
+        /* 侧边栏样式（完全保持与其他页面一致） */
+        .sidebar {
+            width: 280px;
+            background-color: #0F172A;
+            color: #fff;
+            padding: 30px 20px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 3px solid #165DFF; /* 主蓝色边框，与其他页面统一 */
+        }
+        .sidebar ul { list-style: none; margin-bottom: 40px; }
+        .sidebar li { margin: 4px 0; }
+        .main-nav {
+            color: #E2E8F0;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 500;
+            padding: 10px 12px;
+            display: block;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .main-nav.active {
+            background-color: #165DFF;
+            color: #FFFFFF;
+            font-weight: 600;
+        }
+        .main-nav:hover:not(.active) {
+            background-color: #1E293B;
+            color: #38BDF8;
+        }
+        .sub-nav-container-level1 {
+            display: none;
+            padding-left: 20px;
+            margin-top: 2px;
+        }
+        .sub-nav-level1 {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+        .sub-nav-level1.active { color: #165DFF; font-weight: 600; }
+        .sub-nav-level1:hover { color: #38BDF8; background-color: #1E293B; }
+        .sub-nav-container-level2 {
+            display: none;
+            padding-left: 15px;
+            margin-top: 2px;
+        }
+        .sub-nav-level2 {
+            color: #94A3B8;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            display: block;
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+        .sub-nav-level2.active { color: #165DFF; font-weight: 500; }
+        .sub-nav-level2:hover { color: #38BDF8; background-color: #1E293B; }
+        .sidebar-footer {
+            border-top: 1px solid #1E293B;
+            padding-top: 20px;
+        }
+        .contact-item { margin: 15px 0; font-size: 14px; }
+        .contact-item span { color: #94A3B8; margin-right: 8px; }
+        .contact-item a { color: #38BDF8; text-decoration: none; }
+        .contact-item a:hover { color: #7DD3FC; text-decoration: underline; }
+        .creator-info { margin-top: 30px; color: #64748B; font-size: 13px; }
+        
+        /* 主内容区 - 核心：两个卡片统一配色（与其他页面一致） */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            padding: 40px 60px;
+            background-color: #0F172A;
+            min-height: 100vh;
+        }
+        .section-heading {
+            font-size: 1.8em;
+            font-weight: 700;
+            color: #F8FAFC;
+            margin-bottom: 30px;
+            padding-bottom: 10px;
+            border-bottom: 3px solid #165DFF; /* 与侧边栏边框统一 */
+        }
+        /* 统一卡片样式：与其他页面蓝色风格一致 */
+        .activity-card {
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05)); /* 统一主蓝色渐变 */
+            border-radius: 8px;
+            box-shadow: 0 2px 15px rgba(22, 93, 255, 0.2); /* 统一蓝色阴影 */
+            padding: 25px;
+            margin-bottom: 25px;
+            transition: transform 0.3s ease;
+            border-left: 3px solid #165DFF; /* 统一主蓝色边框 */
+            border-top: 1px solid rgba(22, 93, 255, 0.3);
+        }
+        /* 统一hover效果 */
+        .activity-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(22, 93, 255, 0.3);
+        }
+        .activity-card h3 {
+            color: #F8FAFC;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        /* 统一图标颜色 */
+        .activity-card h3 i { color: #38BDF8; /* 统一浅蓝色图标，与其他页面呼应 */ }
+        .activity-card p {
+            line-height: 1.8;
+            color: #94A3B8; /* 统一正文颜色，保证可读性 */
+            margin-bottom: 20px;
+        }
+        /* 统一按钮配色：与其他页面按钮风格一致 */
+        .activity-btn {
+            background-color: #165DFF;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: 600;
+            text-decoration: none;
+            display: inline-block;
+            transition: all 0.3s ease;
+        }
+        .activity-btn:hover {
+            background-color: #38BDF8;
+            color: #0F172A;
+            transform: scale(1.05);
+        }
+        /* 响应式（保持与其他页面一致） */
+        @media (max-width: 992px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 3px solid #165DFF;
+            }
+            .main-content { margin-left: 0; padding: 30px 20px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 侧边栏导航（内容完全保留） -->
+    <nav class="sidebar">
+        <ul>
+            <li><a href="../home/index.html" class="main-nav">Home</a></li>
+            <li><a href="../about/about.html" class="main-nav">About Me</a></li>
+            <li><a href="../achievements/achievements.html" class="main-nav">Achievements</a></li>
+            <li><a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a></li>
+            
+            <li><a href="../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a></li>
+            
+            <li>
+                <div class="main-nav active" id="extracurricularMainBtn">Extracurricular Activities</div>
+                <div class="sub-nav-container-level1" id="extracurricularSubLevel1">
+                 <div class="sub-nav-container"></div>   
+                
+                <a href="./school-club/school-club.html" class="sub-nav-level1"  id="schoolClubBtn">School Club</a>
+                    
+                    
+                    <div class="sub-nav-container-level2" id="schoolClubSubLevel2">
+                        <a href="./school-club/astronomy.html" class="sub-nav-level2">Astronomy Club</a>
+                        <a href="./school-club/physics.html" class="sub-nav-level2">Physics Club</a>
+                        <a href="./school-club/badminton.html" class="sub-nav-level2">Badminton Club</a>
+                        <a href="./school-club/mun.html" class="sub-nav-level2">MUN</a>
+                        <a href="./school-club/talkshow.html" class="sub-nav-level2">Talkshow Club</a>
+                    </div>
+                <a href="./volunteer-and-services/volunteer-services.html" class="sub-nav-level1"  id="volunteerBtn">Volunteer & Services</a>
+                  
+                    <div class="sub-nav-container-level2" id="volunteerSubLevel2">
+                        <a href="./volunteer-and-services/reading.html" class="sub-nav-level2">Reading Club</a>
+                        <a href="./volunteer-and-services/voice.html" class="sub-nav-level2">Voice Museum</a>
+                        <a href="./volunteer-and-services/science.html" class="sub-nav-level2">Science Museum Volunteer</a>
+                    </div>
+                </div>
+            </li>
+
+            <li><a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a></li>
+            <li><a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a></li>
+            <li><a href="../contact/index.html" class="main-nav">Contact</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © 2025 Wuhua (Steven) Zhu <br>
+                All Rights Reserved
+            </div>
+        </div>
+    </nav>
+
+    <!-- 主内容区 - 两个卡片完全统一配色 -->
+    <main class="main-content">
+        <h2 class="section-heading">Extracurricular Activities</h2>
+        
+        <!-- 卡片1：School Club - 统一配色 -->
+        <div class="activity-card">
+            <h3><<i>🏫</</i> School Club</h3>
+            <p>Participate in & lead 5+ school clubs covering academics, sports and public speaking — including Astronomy Club, Physics Club, Badminton Club, MUN and Talkshow Club. Organize regular activities, competitions and knowledge-sharing sessions for peers.</p>
+            <a href="./school-club/school-club.html" class="activity-btn">Explore School Clubs</a>
+        </div>
+
+        <!-- 卡片2：Volunteer & Services - 统一配色（与上一个卡片完全一致） -->
+        <div class="activity-card">
+            <h3><<i>🤝</</i> Volunteer & Services</h3>
+            <p>Engage in 3+ community service projects focused on academic popularization and public welfare — including Reading Club, Voice Museum volunteer, and Science Museum interactive explanation.</p>
+            <a href="./volunteer-services/volunteer-services.html" class="activity-btn">Explore Volunteer Works</a>
+        </div>
+    </main>
+
+    <!-- JS交互（逻辑完全保留） -->
+    <script>
+        const extracurricularMainBtn = document.getElementById('extracurricularMainBtn');
+        const extracurricularSubLevel1 = document.getElementById('extracurricularSubLevel1');
+        extracurricularSubLevel1.style.display = 'block';
+
+        extracurricularMainBtn.addEventListener('click', function() {
+            extracurricularSubLevel1.style.display = extracurricularSubLevel1.style.display === 'block' ? 'none' : 'block';
+        });
+
+        const schoolClubBtn = document.getElementById('schoolClubBtn');
+        const schoolClubSubLevel2 = document.getElementById('schoolClubSubLevel2');
+        
+        schoolClubBtn.addEventListener('click', function() {
+            schoolClubSubLevel2.style.display = schoolClubSubLevel2.style.display === 'block' ? 'none' : 'block';
+        });
+
+        const volunteerBtn = document.getElementById('volunteerBtn');
+        const volunteerSubLevel2 = document.getElementById('volunteerSubLevel2');
+        
+        volunteerBtn.addEventListener('click', function() {
+            volunteerSubLevel2.style.display = volunteerSubLevel2.style.display === 'block' ? 'none' : 'block';
+        });
+
+        document.addEventListener('click', function(e) {
+            const sidebar = document.querySelector('.sidebar');
+            if (!sidebar.contains(e.target)) {
+                extracurricularSubLevel1.style.display = 'none';
+                schoolClubSubLevel2.style.display = 'none';
+                volunteerSubLevel2.style.display = 'none';
+            }
+        });
+    </script>
+</body>
+</html>

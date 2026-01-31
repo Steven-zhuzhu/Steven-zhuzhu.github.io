@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wuhua (Steven) Zhu - Physics Portfolio</title>
+    <style>
+        /* 全局变量 */
+        :root {
+            --quantum-blue: #00c8ff;      
+            --quantum-purple: #7a00ff;    
+            --dark-blue: #0a0f25;         
+            --sidebar-bg: rgba(10,15,37,0.95); 
+            --card-bg: linear-gradient(135deg, rgba(0,30,80,0.95), rgba(40,10,90,0.95)); 
+            --card-border: 1px solid rgba(0,200,255,0.3); 
+            --shadow-light: 0 0 20px rgba(0,200,255,0.2); 
+            --shadow-deep: 0 0 30px rgba(122,0,255,0.15); 
+            --text-white: #ffffff;
+            --text-light: #e0e0ff;
+            --text-gray: #ccc;
+            --nav-border-radius: 6px;
+            --nav-hover-bg: rgba(0,200,255,0.2);
+            --sub-nav-hover-bg: rgba(122,0,255,0.2);
+            --collapse-btn-bg: rgba(0,30,80,0.85);
+            --collapse-btn-hover: linear-gradient(90deg, rgba(0,200,255,0.2), rgba(122,0,255,0.15));
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            text-decoration: none;
+            list-style: none;
+        }
+        body { 
+            display: flex; 
+            min-height: 100vh;
+            background: var(--dark-blue);
+            background-image: 
+                radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px),
+                radial-gradient(rgba(122,0,255,0.03) 2px, transparent 2px);
+            background-size: 50px 50px, 20px 20px, 80px 80px;
+            background-position: 0 0, 10px 10px, 20px 20px;
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+        }
+
+        /* ========== 左侧导航栏核心样式 ========== */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            padding: 20px 15px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 1px solid rgba(0,200,255,0.2);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+
+        /* 菜单容器相对定位（替代内联样式） */
+        .menu-item, .sub-menu-item {
+            position: relative;
+        }
+
+        /* 隐藏复选框（核心开关） */
+        .menu-toggle {
+            display: none;
+        }
+
+        /* 所有导航按钮基础样式 */
+        .main-nav, .sub-nav-level2, .sub-nav-level3 {
+            display: block;
+            text-decoration: none;
+            border-radius: var(--nav-border-radius);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+            cursor: pointer;
+        }
+
+        /* 修复链接样式继承问题 */
+        .main-nav-link, .sub-nav-link {
+            text-decoration: none;
+            color: inherit;
+            display: block; /* 让链接占满整个点击区域 */
+        }
+
+        /* 一级导航 */
+        .main-nav {
+            color: var(--text-white);
+            padding: 12px 15px;
+            margin: 6px 0;
+            font-size: 0.95rem;
+        }
+        .main-nav.active {
+            background: linear-gradient(90deg, rgba(0,200,255,0.3), rgba(122,0,255,0.2));
+            border-left: 4px solid var(--quantum-blue);
+        }
+        .main-nav:hover:not(.active) {
+            background: var(--nav-hover-bg);
+            color: var(--quantum-blue);
+            transform: translateX(2px);
+        }
+
+        /* 二级导航 */
+        .sub-nav-level2 {
+            color: var(--text-light);
+            padding: 10px 15px;
+            margin: 4px 0 4px 15px;
+            font-size: 0.9rem;
+        }
+        .sub-nav-level2:hover {
+            background: var(--sub-nav-hover-bg);
+            color: var(--quantum-blue);
+            transform: translateX(2px);
+        }
+
+        /* 三级导航 */
+        .sub-nav-level3 {
+            color: var(--text-gray);
+            padding: 8px 15px;
+            margin: 3px 0 3px 30px;
+            font-size: 0.85rem;
+        }
+        .sub-nav-level3:hover {
+            background: rgba(122,0,255,0.15);
+            color: var(--quantum-blue);
+            transform: translateX(2px);
+        }
+
+        /* hover下划线动效 */
+        .main-nav::after, .sub-nav-level2::after, .sub-nav-level3::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            transition: width 0.3s ease;
+        }
+        .main-nav:hover::after, .sub-nav-level2:hover::after, .sub-nav-level3:hover::after {
+            width: 100%;
+        }
+
+        /* ========== CSS 核心：复选框控制菜单显隐 ========== */
+        /* 子菜单默认隐藏 */
+        .sub-nav-container {
+            display: none;
+            margin: 5px 0 15px 0;
+        }
+
+        /* 点击一级按钮 → 显示一级子菜单 */
+        #toggle-physics:checked ~ .physics-sub {
+            display: block;
+        }
+
+        /* 点击二级按钮 → 显示二级子菜单 */
+        #toggle-quantum:checked ~ .quantum-sub {
+            display: block;
+        }
+        #toggle-climate:checked ~ .climate-sub {
+            display: block;
+        }
+
+        /* 侧边栏底部 */
+        .sidebar-footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,200,255,0.2);
+            font-size: 0.85rem;
+        }
+        .contact-item {
+            margin: 8px 0;
+        }
+        .contact-item a {
+            color: var(--quantum-blue);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .contact-item a:hover {
+            text-decoration: underline;
+            color: var(--quantum-purple);
+        }
+
+        /* ========== 右侧主内容区 ========== */
+        .main-content {
+            margin-left: 260px;
+            padding: 20px 30px;
+            width: calc(100% - 260px);
+            background: linear-gradient(135deg, var(--dark-blue) 0%, #111835 100%);
+            position: relative;
+            min-height: 100vh;
+        }
+
+        /* 第一栏目：上下排列+居中+字体调整（核心修改） */
+        .content-area {
+            display: flex;
+            flex-direction: column; /* 上下排列 */
+            align-items: center;     /* 水平居中 */
+            justify-content: center; /* 垂直居中 */
+            gap: 25px;
+            background: var(--card-bg);
+            padding: 40px 30px;      
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            border: var(--card-border);
+            width: 100%; 
+            min-width: unset; 
+            margin-bottom: 25px;
+            text-align: center;      /* 文本居中 */
+        }
+        .avatar-section {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px; /* 增加间距 */
+        }
+        .avatar {
+            width: 200px; 
+            height: 200px;
+            border-radius: 50%;
+            border: 3px solid var(--quantum-blue);
+            object-fit: cover;
+            box-shadow: 0 0 15px rgba(0,200,255,0.3), 0 0 30px rgba(122,0,255,0.2);
+            transition: transform 0.5s ease;
+        }
+        .avatar:hover {
+            transform: scale(1.05) rotate(2deg);
+        }
+        .profile-name {
+            font-size: 1.8rem; /* 姓名字体缩小 */
+            color: var(--text-white);
+            background: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-align: center;
+            font-weight: 700; 
+            letter-spacing: 0.5px; 
+        }
+        .bio-section {
+            width: 100%; /* 占满宽度 */
+            max-width: 800px; /* 限制最大宽度 */
+        }
+        /* 移除About me后，增加空行的样式 */
+        .empty-line {
+            height: 15px; /* 空行高度 */
+            display: block;
+        }
+        .bio-tagline {
+            color: var(--quantum-blue);
+            font-weight: 500;
+            margin-bottom: 15px;
+            line-height: 2; /* 增大行高，优化两行显示 */
+            font-size: 1.2rem; 
+            text-shadow: 0 0 6px rgba(0,200,255,0.3);
+        }
+        .bio-tagline .line-break {
+            display: block; 
+        }
+        /* 竖线两侧增加间距 */
+        .tag-separator {
+            margin: 0 15px;
+        }
+        .bio-text {
+            font-size: 1.1rem; 
+            color: var(--text-light);
+            line-height: 1.6;
+            letter-spacing: 0.3px;
+            padding: 0 20px; 
+        }
+
+        /* 三个折叠按钮条并排容器 */
+        .collapse-grid {
+            display: flex;
+            gap: 15px; 
+            width: 100%;
+            margin-bottom: 25px;
+        }
+
+        /* 可折叠按钮条核心样式 - 适配并排布局 */
+        .collapse-section {
+            flex: 1; 
+            min-width: 280px; 
+            border-radius: 12px;
+            border: var(--card-border);
+            overflow: hidden;
+        }
+        /* 折叠按钮样式 */
+        .collapse-btn {
+            width: 100%;
+            padding: 15px 20px;
+            background: var(--collapse-btn-bg);
+            border: none;
+            color: var(--text-white);
+            font-size: 1.1rem; 
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-wrap: wrap;
+        }
+        .collapse-btn:hover {
+            background: var(--collapse-btn-hover);
+        }
+        /* 折叠按钮箭头 */
+        .collapse-btn .arrow {
+            width: 16px; 
+            height: 16px;
+            border-top: 2px solid var(--quantum-blue);
+            border-right: 2px solid var(--quantum-blue);
+            transform: rotate(45deg);
+            transition: transform 0.3s ease;
+        }
+        .collapse-btn .arrow.active {
+            transform: rotate(135deg);
+        }
+        /* 折叠内容样式 */
+        .collapse-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            background: var(--card-bg);
+            padding: 0 15px;
+            box-shadow: var(--shadow-deep);
+        }
+        .collapse-content.show {
+            max-height: 500px; 
+            padding: 15px;
+        }
+        /* 折叠内容内部样式 */
+        .content-list li {
+            padding: 6px 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem; 
+            color: var(--text-light);
+            transition: padding-left 0.3s ease;
+        }
+        .content-list li:hover {
+            padding-left: 5px;
+        }
+        .content-list li::before {
+            content: "•";
+            background: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            font-size: 1rem;
+        }
+        .content-list a {
+            color: var(--quantum-blue);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .content-list a:hover {
+            text-decoration: underline;
+            color: var(--quantum-purple);
+        }
+
+        .cartoon-astronaut {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 100px;
+            height: 100px;
+            background-image: url('https://i.imgur.com/8Z7X9ZL.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 20;
+            animation: astronaut-float 12s ease-in-out infinite;
+            opacity: 0.95;
+            filter: drop-shadow(0 0 12px rgba(0,200,255,0.3));
+            transition: transform 0.5s ease;
+        }
+        .cartoon-astronaut:hover {
+            transform: scale(1.1) rotate(5deg);
+        }
+        @keyframes astronaut-float {
+            0% { transform: translate(0, 0) rotate(0deg); }
+            20% { transform: translate(-10px, -12px) rotate(3deg); }
+            40% { transform: translate(5px, -15px) rotate(-2deg); }
+            60% { transform: translate(-8px, -8px) rotate(4deg); }
+            80% { transform: translate(10px, -10px) rotate(-3deg); }
+            100% { transform: translate(0, 0) rotate(0deg); }
+        }
+
+        /* ========== 响应式适配 ========== */
+        @media (max-width: 1200px) {
+            /* 中等屏幕下三个按钮条改为竖排 */
+            .collapse-grid {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .collapse-section {
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid rgba(0,200,255,0.2);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 15px;
+            }
+            /* 响应式下第一栏目适配 */
+            .content-area {
+                padding: 25px 15px;
+            }
+            .avatar {
+                width: 160px;
+                height: 160px;
+            }
+            .profile-name {
+                font-size: 1.5rem; /* 移动端姓名进一步缩小 */
+            }
+            .bio-tagline {
+                font-size: 1rem;
+            }
+            .bio-text {
+                font-size: 0.95rem;
+                padding: 0 10px;
+            }
+            .cartoon-astronaut {
+                width: 70px;
+                height: 70px;
+                bottom: 15px;
+                right: 15px;
+            }
+            .sub-nav-level2 { margin-left: 10px; }
+            .sub-nav-level3 { margin-left: 20px; }
+            /* 响应式下折叠按钮字体进一步缩小 */
+            .collapse-btn {
+                font-size: 1rem;
+                padding: 12px 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航栏 -->
+    <nav class="sidebar">
+        <ul style="list-style: none; padding: 0;">
+            <li><a href="index.html" class="main-nav active">Home</a></li>
+            <li><a href="../about/about.html" class="main-nav">About Me</a></li>
+            <li><a href="../achievements/achievements.html" class="main-nav">Achievements</a></li>
+            
+            <!-- Physics Research 菜单：添加跳转链接 -->
+            <li class="menu-item">
+                <input type="checkbox" id="toggle-physics" class="menu-toggle">
+                <label for="toggle-physics" class="main-nav">
+                    <a href="../physics-research/physics-research.html" class="main-nav-link">Physics Research</a>
+                </label>
+                <div class="sub-nav-container physics-sub">
+                    <div class="sub-menu-item">
+                        <input type="checkbox" id="toggle-quantum" class="menu-toggle">
+                        <label for="toggle-quantum" class="sub-nav-level2">
+                            <a href="../quantum-projects/quantum-overview.html" class="sub-nav-link">Quantum Mechanics Projects</a>
+                        </label>
+                        <div class="sub-nav-container quantum-sub">
+                            <a href="../quantum-projects/project-1-particle-in-box/project1.html" class="sub-nav-level3">Project1: Particle in a Box</a>
+                            <a href="../quantum-projects/project-2-quantum-tunneling/project2.html" class="sub-nav-level3">Project2: Quantum Tunneling</a>
+                            <a href="../quantum-projects/coding/coding.html" class="sub-nav-level3">Coding: Quantum Visualization</a>
+                            <a href="../quantum-projects/quantum-overview.html" class="sub-nav-level3">Quantum Projects Overview</a>
+                        </div>
+                    </div>
+                    <div class="sub-menu-item">
+                        <input type="checkbox" id="toggle-climate" class="menu-toggle">
+                        <label for="toggle-climate" class="sub-nav-level2">
+                            <a href="../climate-modeling-project/climate.html" class="sub-nav-link">Climate Modeling Project</a>
+                        </label>
+                        <div class="sub-nav-container climate-sub">
+                            <a href="../climate-modeling-project/introduction/introduction.html" class="sub-nav-level3">Introduction</a>
+                            <a href="../climate-modeling-project/literature-review/review.html" class="sub-nav-level3">Literature Review</a>
+                            <a href="../climate-modeling-project/math-model/mathematic-model.html" class="sub-nav-level3">Mathematical Model</a>
+                            <a href="../climate-modeling-project/coding/coding.html" class="sub-nav-level3">Coding Implementation</a>
+                            <a href="../climate-modeling-project/climate.html" class="sub-nav-level3">Climate Project Overview</a>
+                        </div>
+                    </div>
+                </div>
+            </li>
+
+            <li><a href="../medcine-AI/medcineAI.html" class="main-nav">Medcine AI APP Design</a></li>
+            <li><a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a></li>
+            <li><a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a></li>
+            <li><a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the world</a></li>
+
+            <li><a href="../contact/index.html" class="main-nav">Contact</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info" style="margin-top: 12px; font-size: 0.75rem; color: rgba(255,255,255,0.7);">
+                © 2025 Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </nav>
+
+    <!-- 右侧主内容区 -->
+    <main class="main-content">
+        <!-- 第一栏目：上下排列+居中+字体调整 -->
+        <div class="content-area">
+            <div class="avatar-section">
+                <img src="../images/profile.jpg" alt="Wuhua (Steven) Zhu" class="avatar">
+                <h1 class="profile-name">Wuhua (Steven) Zhu</h1>
+            </div>
+            <div class="bio-section">
+                <!-- 移除About me标题，添加空行 -->
+                <span class="empty-line"></span>
+                <div class="bio-tagline">
+                    Canada’s National Physics Olympiad Team Member
+                    <span class="line-break">2025 IPhO Bronze Medalist <span class="tag-separator">|</span> Young Physicist</span>
+                </div>
+                <div class="bio-text">
+                    I am a Grade 11 student at BASIS International School Park Lane Harbour, passionate about physics and astronomy—particularly quantum mechanics. My long-term goal is to become a research physicist, contributing to our fundamental understanding of the universe.
+                </div>
+            </div>
+        </div>
+
+        <!-- 三个折叠按钮条并排容器 -->
+         <div class="collapse-grid">
+            <!-- 可折叠按钮条：研究兴趣 -->
+            
+
+            <!-- 可折叠按钮条：研究项目 -->
+           <!--<div class="collapse-section">
+                <button class="collapse-btn" id="btn-projects">
+                    Key Research Projects
+                    <span class="arrow"></span>
+                </button>
+                <div class="collapse-content" id="content-projects">
+                    <ul class="content-list">
+                        <li>
+                            <strong>Quantum Mechanics Visualization</strong> - 
+                            <a href="../quantum-projects/quantum-overview.html">Explore Quantum Projects</a>
+                        </li>
+                        <li>
+                            <strong>Climate Modeling & Simulation</strong> - 
+                            <a href="../climate-modeling-project/climate.html">Explore Climate Project</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>-->
+
+            <!-- 可折叠按钮条：成就 -->
+            <!--:<div class="collapse-section">
+                <button class="collapse-btn" id="btn-achievements">
+                    Notable Achievements
+                    <span class="arrow"></span>
+                </button>
+                <div class="collapse-content" id="content-achievements">
+                    <ul class="content-list">
+                        <li>Bronze Medalist, 55th International Physics Olympiad (IPhO) France 2025</li>
+                        <li>Member of Canada's National Physics Olympiad Team 2025</li>
+                        <li>Second Place, Canadian Association of Physicists (CAP) High School Exam 2025</li>
+                        <li>Global Silver, British Physics Olympiad (BPhO) Round 2 2025</li>
+                        <li>Global Top Gold, British Physics Olympiad (BPhO) Round 1 2025</li>
+                        <li>
+                            <a href="../achievements/achievements.html">View Full Achievements List</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+
+            <div class="collapse-section">
+                <button class="collapse-btn" id="btn-research">
+                    My Clubs
+                    <span class="arrow"></span>
+                </button>
+                <div class="collapse-content" id="content-research">
+                    <ul class="content-list">
+                        <li>Quantum Entanglement & Environmental Decoherence</li>
+                        <li>Quantum Computing for Condensed Matter Physics Simulation</li>
+                        <li>Experimental Verification of Quantum Superposition Principles</li>
+                        <li>Climate System Mathematical Modeling & Simulation</li>
+                    </ul>
+                </div>
+            </div>-->
+
+        <div class="cartoon-astronaut"></div>
+    </main>
+
+
+
+
+
+
+
+    <!-- 折叠/展开交互逻辑 -->
+    <script>
+        // 获取所有折叠按钮和内容
+        const collapseBtns = document.querySelectorAll('.collapse-btn');
+        
+        // 为每个按钮添加点击事件
+        collapseBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                // 获取对应的内容区域和箭头
+                const contentId = btn.id.replace('btn-', 'content-');
+                const content = document.getElementById(contentId);
+                const arrow = btn.querySelector('.arrow');
+                
+                // 切换显示/隐藏状态
+                content.classList.toggle('show');
+                arrow.classList.toggle('active');
+            });
+        });
+    </script>
+</body>
+</html>
