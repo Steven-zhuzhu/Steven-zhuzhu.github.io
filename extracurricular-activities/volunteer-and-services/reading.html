@@ -146,7 +146,7 @@
         .main-content {
             flex: 1;
             margin-left: 280px;
-            padding: 40px 60px;
+            padding: 40px 60px; /* 左右宽度不变，仅调整内部卡片间距 */
             background-color: #0F172A;
             min-height: 100vh;
             color: #F8FAFC;
@@ -156,7 +156,7 @@
             font-size: 1.8em;
             font-weight: 700;
             color: #F8FAFC;
-            margin-bottom: 30px;
+            margin-bottom: 15px; /* 压缩标题下方间距：30px→15px */
             padding-bottom: 10px;
             border-bottom: 3px solid #165DFF;
         }
@@ -164,7 +164,7 @@
         .intro-text {
             line-height: 1.8;
             color: #94A3B8;
-            margin-bottom: 30px;
+            margin-bottom: 15px; /* 压缩文本下方间距：30px→15px */
             font-size: 1.05em;
         }
 
@@ -172,15 +172,15 @@
             background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05));
             border-radius: 8px;
             box-shadow: 0 2px 15px rgba(22, 93, 255, 0.2);
-            padding: 30px;
-            margin-bottom: 30px;
+            padding: 20px 30px; /* 上下内边距压缩：30px→20px，左右保持30px不变 */
+            margin-bottom: 15px; /* 卡片下方间距压缩：30px→15px */
             border-left: 3px solid #165DFF;
         }
 
         .detail-card h3 {
             color: #F8FAFC;
             font-size: 1.4em;
-            margin-bottom: 15px;
+            margin-bottom: 10px; /* 标题下方间距压缩：15px→10px */
             display: flex;
             align-items: center;
             gap: 8px;
@@ -193,7 +193,7 @@
         .detail-card p {
             line-height: 1.8;
             color: #94A3B8;
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* 段落下方间距压缩：20px→10px */
             font-size: 1.05em;
         }
 
@@ -202,11 +202,11 @@
             padding-left: 25px;
             color: #94A3B8;
             line-height: 1.9;
-            margin-bottom: 20px;
+            margin-bottom: 10px; /* 列表下方间距压缩：20px→10px */
         }
 
         .activity-list li {
-            margin-bottom: 10px;
+            margin-bottom: 5px; /* 列表项间距压缩：10px→5px */
         }
 
         .back-btn {
@@ -220,7 +220,7 @@
             text-decoration: none;
             display: inline-block;
             transition: all 0.3s ease;
-            margin-top: 10px;
+            margin-top: 10px; /* 保持返回按钮间距 */
         }
 
         .back-btn:hover {
@@ -269,8 +269,7 @@
             </div>
         </div>
        
-         
-        <!-- Volunteer & Services 菜单（默认展开+激活） -->
+          <!-- Volunteer & Services 菜单（默认展开+激活） -->
          <a href="./volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</a>
        
         <div class="level2-container" id="volunteerSub">
@@ -301,27 +300,21 @@
 
     <!-- 主内容区（可根据实际需求替换内容） -->
     <main class="main-content">
-        <h2 class="section-heading">Volunteer & Services</h2>
-        <p class="intro-text">I am actively involved in various volunteer and service activities to give back to the community and cultivate a sense of social responsibility.</p>
+        <h2 class="section-heading">Share Reading with the World</h2>
+        
+        <div class="detail-card">
+            <h3><i>📚</i>Reading Connects the World</h3>
+            <p>Due to delayed language development in childhood, I came to know the world through reading rather than words. When God closes a door, He opens a window—and for me, this window is reading. It unlocks the unknown world, lets me see the broader picture through words, and makes reading a lifelong passion.</p>
+         </div>
 
         <div class="detail-card">
-            <h3><i>📚</i> Reading Club Volunteer</h3>
-            <p>As a core volunteer of the Reading Club, I organize reading sharing sessions for primary school students, help sort and manage book resources, and guide children to develop good reading habits.</p>
-            <ul class="activity-list">
-                <li>Organize weekly reading sharing activities for 50+ primary school students</li>
-                <li>Curate age-appropriate reading lists for different grade levels</li>
-                <li>Establish a book donation drive, collecting over 200 books for rural primary schools</li>
-            </ul>
+            <h3><i>🎙️</i> What a wonderful journey it’s been! --From Childhood Audio Books </h3>
+            <p>I observed the world with my eyes and understood it through books. Once I could speak clearly, I was eager to share what I'd read. I launched a reading column on China's Ximalaya Audio, reading aloud for others—my classmates were my first small audience. Listening back now, my voice was childish and my pronunciation unsteady, as I still struggled with dysarthria. These audio recordings remain there quietly, available to listen to anytime. Here is the link to my Ximalaya channel:<a href="https://www.ximalaya.com/zhubo/46168181" class="back-btn"target="_blank">https://www.ximalaya.com/zhubo/46168181</a></p>
         </div>
 
         <div class="detail-card">
-            <h3><i>🎙️</i> Voice Museum Volunteer</h3>
-            <p>Volunteer at the local Voice Museum, responsible for recording and preserving the oral history of elders, and assisting in the digitalization of museum resources.</p>
-        </div>
-
-        <div class="detail-card">
-            <h3><i>🔬</i> Science Museum Volunteer</h3>
-            <p>Volunteer interpreter at the city Science Museum, explaining scientific principles and exhibits to visitors, and organizing small science experiments for children.</p>
+            <h3><i>🔬</i> To My Physics Little Book Club</h3>
+            <p>In junior high, I started a book club for English mystery and sci-fi novels. In senior high, I founded a quantum physics book club—anyone interested joined the discussions, and my dorm was our debate battlefield. Here is the link to my physics world: <a href="steven-zhuzhu.github.io/my-favorite-books/my-physics-world/physics-world.html" class="back-btn"target="_blank">steven-zhuzhu.github.io/my-favorite-books/my-physics-world/physics-world.html</a><p>
         </div>
 
         <a href="../activities.html" class="back-btn">← Back to Extracurricular Activities</a>

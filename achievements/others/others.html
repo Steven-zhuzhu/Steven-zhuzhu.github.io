@@ -11,7 +11,6 @@
             padding: 0; 
             box-sizing: border-box; 
             font-family: 'Arial', sans-serif; 
-            /* 新增：全局样式重置，解决显白/跳转异常 */
             text-decoration: none;
             list-style: none;
         }
@@ -30,19 +29,17 @@
             display: flex; 
             flex-direction: column; 
             border-right: 1px solid #00c8ff;
-            /* 新增：确保侧边栏层级 */
             z-index: 100;
         }
         .sidebar .main-nav { 
             display: block !important; 
-            color: #e0e0ff !important; /* 强制文字颜色，避免显白 */
+            color: #e0e0ff !important; 
             text-decoration: none; 
             padding: 12px 15px; 
             margin: 6px 0; 
             border-radius: 6px; 
             font-size: 1rem; 
             transition: all 0.3s;
-            /* 新增：兜底背景，避免点击后背景丢失 */
             background: transparent;
         }
         .sidebar .main-nav.active { 
@@ -62,7 +59,7 @@
         }
         .sidebar .sub-nav { 
             display: block !important; 
-            color: #e0e0ff !important; /* 强制文字颜色 */
+            color: #e0e0ff !important; 
             text-decoration: none; 
             padding: 8px 10px; 
             margin: 3px 0; 
@@ -106,7 +103,6 @@
         }
         .others-section ul { 
             padding-left: 20px; 
-            /* 恢复列表样式 */
             list-style: disc !important;
         }
         .others-section li { 
@@ -138,12 +134,38 @@
             color: rgba(255,255,255,0.7); 
             padding-left: 15px; 
         }
+        /* 核心新增：右侧主内容区3×3照片画廊样式 */
+        .main-photo-gallery-3x3 {
+            margin-top: 1.5rem; /* 与上方文字内容保持一行距离，可微调 */
+            max-width: 900px; /* 和上方内容区块宽度一致，视觉对齐 */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3列布局，自动3行 */
+            gap: 12px; /* 图片之间的间距，适配页面风格 */
+        }
+        .main-photo-gallery-3x3 .photo-card {
+            border-radius: 8px;
+            border: 1px solid rgba(0,200,255,0.3); /* 科技蓝边框，和页面统一 */
+            overflow: hidden;
+            background: rgba(0,119,255,0.1); /* 留白背景色，适配网页主题 */
+            transition: all 0.3s ease;
+        }
+        .main-photo-gallery-3x3 .photo-card:hover {
+            border-color: #00c8ff; /* hover高亮边框 */
+            box-shadow: 0 0 10px rgba(0,200,255,0.2); /* 轻微阴影 */
+            transform: scale(1.02); /* 轻微放大，增强交互 */
+        }
+        .main-photo-gallery-3x3 img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 核心：完整显示图片，不裁剪，自动缩放适配 */
+            display: block;
+        }
     </style>
 </head>
 <body>
     <div class="sidebar">
         <div class="sidebar-nav">
-            <!-- 修正：基于others.html位置（achievements/others/），回退2级到根目录 -->
+            <!-- 路径保持原有修正，无需改动 -->
             <a href="../../home/index.html" class="main-nav">Home</a>
             <a href="../../about/about.html" class="main-nav">About Me</a>
             <a href="../achievements.html" class="main-nav active">Achievements</a>
@@ -152,9 +174,7 @@
                 <a href="../academic-awards/academic.html" class="sub-nav">Academic Awards</a>
                 <a href="./others.html" class="sub-nav active">Others</a>
             </div>
-            <!-- 修正：跳转到physics-research下的量子项目（补充层级） -->
             <a href="../../physics-research/quantum-projects/quantum-overview.html" class="main-nav">Physics Research</a>
-            
             <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
             <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
             <a href="../../leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
@@ -178,12 +198,25 @@
         <div class="others-section">
             <h3>Extracurricular & Social Achievements</h3>
             <ul>
-                <li>President of School Physics Club (2023-2024)</li>
-                <li>Volunteer Service Excellence Award (Community Science Popularization, 2024)</li>
-                <li>Quantum Mechanics Research Fellowship (University Collaboration Program, 2024)</li>
-                <li>Winner of Inter-School Physics Debate Competition (2023)</li>
-                <li>Science Popularization Video Creation Award (2024, over 10k views)</li>
+                <li>Member of the Canadian Physics Olympiad Training Team 2025</li>
+                <li>Awarded the Team Champion of the Regional Badminton Competition 2025</li>
+                <li>Won the Group Special Award at the Guangdong Greater Bay Area Model United Nations (MUN)</li>
+                <li>Student Council, Core Member in Activities Department</li>
+                <li>President of School Physics Club (2024-Present)</li>
             </ul>
+        </div>
+
+        <!-- 核心新增：右侧内容区下方3×3照片区域 -->
+        <div class="main-photo-gallery-3x3">
+            <div class="photo-card"><img src="../../images/others-1.jpg" alt="Other achievement photo 1"></div>
+            <div class="photo-card"><img src="../../images/others-2.jpg" alt="Other achievement photo 2"></div>
+            <div class="photo-card"><img src="../../images/others-3.jpg" alt="Other achievement photo 3"></div>
+            <div class="photo-card"><img src="../../images/others-4.jpg" alt="Other achievement photo 4"></div>
+            <div class="photo-card"><img src="../../images/others-5.jpg" alt="Other achievement photo 5"></div>
+            <div class="photo-card"><img src="../../images/others-6.jpg" alt="Other achievement photo 6"></div>
+            <div class="photo-card"><img src="../../images/others-7.png" alt="Other achievement photo 7"></div>
+            <div class="photo-card"><img src="../../images/others-8.jpg" alt="Other achievement photo 8"></div>
+            <div class="photo-card"><img src="../../images/others-9.png" alt="Other achievement photo 9"></div>
         </div>
     </div>
 </body>

@@ -114,8 +114,44 @@
             font-size: 1.1rem; 
             list-style: disc !important;
         }
+        /* 调整：照片画廊样式（适配右侧主内容区域） */
+        .photo-gallery {
+            margin: 0 0 30px 0; /* 调整间距，与下方内容分隔 */
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 两列 */
+            gap: 15px; /* 图片间距 */
+            max-width: 1500px; /* 与学术板块宽度一致 */
+        }
+        .photo-item {
+            /* 移除固定aspect-ratio，让容器自适应图片 */
+            border-radius: 8px;
+            border: 1px solid rgba(0,200,255,0.3);
+            overflow: hidden;
+            background: rgba(0,119,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            /* 新增：最小/最大宽度限制，保证布局美观 */
+            min-height: 200px;
+            max-height: 400px;
+        }
+        .photo-item:hover {
+            border-color: #00c8ff;
+            box-shadow: 0 0 8px rgba(0,200,255,0.2);
+        }
+        .photo-item img {
+            width: 100%;
+            height: 100%;
+            /* 关键修改：contain 保证图片完整显示，不裁剪 */
+            object-fit: contain; 
+            display: block;
+            /* 可选：限制图片最大尺寸，防止溢出 */
+            max-width: 100%;
+            max-height: 100%;
+        }
         .sidebar-footer { 
-            margin-top: auto; 
+            margin-top: auto; /* 固定在侧边栏最底部 */
             padding: 20px 0; 
             border-top: 1px solid rgba(0,200,255,0.2); 
             color: #e0e0ff; 
@@ -154,13 +190,13 @@
             </div>
             <!-- 修正：跳转到physics-research下的量子项目（补充层级） -->
             <a href="../../physics-research/physics-research.html" class="main-nav">Physics Research</a>
-           
             <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
             <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
             <a href="../../leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
             <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
             <a href="../../contact/index.html" class="main-nav">Contact</a>
         </div>
+
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -174,17 +210,35 @@
         </div>
     </div>
     <div class="main">
-        <h1>Academic Awards</h1>
+        <h1>Academic Awards</h1>     
+
         <div class="academic-section">
             <h3>High School Academic Achievements</h3>
             <ul>
-                <li>Earn the Distinguished Honor Roll of the school for Three consecutive years 2023-2025</li>
+                <li>Earn the Distinguished Honor Roll of the school for two consecutive years 2024-2025</li>
                 <li>Maintained outstanding grades 4.0/4.0 in all courses (2023-2025)</li>
                 <li>Top 3 in class for overall academic performance for 2023-2025 consecutive semesters</li>
                 <li>Academic Excellence Scholarship (highest honor) in 2023-2025</li>
-                <li>Winner of School Science Innovation Competition (2024)</li>
+                <li>Win Physics Subject Awards of School for two consecutive years 20024-2025 (2024)</li>
             </ul>
         </div>
+        
+         <!-- 核心修改：照片画廊移到右侧主内容区域 -->
+        <div class="photo-gallery">
+            <div class="photo-item">
+                <img src="../../images/honor-roll-5.jpg" alt="Academic photo 1">
+            </div>
+            <div class="photo-item">
+                <img src="../../images/honor-roll-6.jpg" alt="Academic photo 2">
+            </div>
+            <div class="photo-item">
+                <img src="../../images/honor-roll-7.jpg" alt="Academic photo 3">
+            </div>
+            <div class="photo-item">
+                <img src="../../images/honor-roll-8.jpg" alt="Academic photo 4">
+            </div>
+        </div>
+
     </div>
 </body>
 </html>

@@ -10,7 +10,6 @@
             padding: 0; 
             box-sizing: border-box; 
             font-family: 'Arial', sans-serif; 
-            /* 新增：全局样式重置，解决显白/跳转异常 */
             text-decoration: none;
             list-style: none;
         }
@@ -21,7 +20,7 @@
             min-height: 100vh;
         }
 
-        /* 左侧侧边栏：修复样式优先级 + 层级 */
+        /* 左侧侧边栏：原有样式保留 */
         .sidebar { 
             width: 250px; 
             background: rgba(10, 15, 37, 0.95); 
@@ -31,12 +30,11 @@
             display: flex; 
             flex-direction: column; 
             border-right: 1px solid #00c8ff;
-            /* 新增：确保侧边栏层级高于内容 */
             z-index: 100;
         }
         .sidebar .main-nav { 
-            display: block !important; /* 强制显示主导航 */
-            color: #e0e0ff !important; /* 强制文字颜色，避免显白 */
+            display: block !important; 
+            color: #e0e0ff !important; 
             text-decoration: none; 
             padding: 12px 15px; 
             margin: 6px 0; 
@@ -44,7 +42,6 @@
             font-size: 1rem; 
             cursor: pointer; 
             transition: all 0.3s;
-            /* 新增：兜底背景，避免点击后背景丢失 */
             background: transparent;
         }
         .sidebar .main-nav.active { 
@@ -56,17 +53,15 @@
             background: rgba(0, 200, 255, 0.1) !important; 
             color: #00c8ff !important; 
         }
-        /* 子导航容器：与achievements.html一致 */
         .sub-nav-container { 
             display: block !important; 
             margin-left: 15px;
             margin-top: 5px;
             margin-bottom: 15px;
         }
-        /* 子按钮：修复样式优先级 */
         .sidebar .sub-nav { 
-            display: block !important; /* 强制显示所有子按钮 */
-            color: #e0e0ff !important; /* 强制文字颜色 */
+            display: block !important; 
+            color: #e0e0ff !important; 
             text-decoration: none; 
             padding: 8px 10px; 
             margin: 3px 0; 
@@ -81,7 +76,7 @@
             font-weight: 500;
         }
 
-        /* 右侧主内容（原有样式保留 + 优化） */
+        /* 右侧主内容：原有样式保留 + 表格背景修改 */
         .main { 
             margin-left: 250px; 
             padding: 60px 80px; 
@@ -94,28 +89,36 @@
             border-bottom: 2px solid #00c8ff; 
             padding-bottom: 15px;
         }
+        /* 核心修改：表格容器背景改为蓝色系（和页面主色调一致） */
         .achievements-table { 
             width: 100%; 
             border-collapse: collapse; 
             max-width: 1100px; 
-            background: rgba(10, 15, 37, 0.5);
+            /* 替换为蓝色系背景，透明度适配整体深色风格 */
+            background: rgba(0, 200, 255, 0.08); 
             border-radius: 10px;
             overflow: hidden;
+            /* 可选：添加轻微蓝色边框强化视觉 */
+            border: 1px solid rgba(0, 200, 255, 0.2);
         }
         th, td { 
             padding: 12px 15px; 
             border: 1px solid rgba(0,200,255,0.3); 
             text-align: left; 
         }
+        /* 优化表头背景：加深蓝色系，保持和页面统一 */
         th { 
-            background: rgba(10, 15, 37, 0.8); 
+            background: rgba(0, 200, 255, 0.15); 
             color: #00c8ff; 
+            font-weight: 600;
         }
+        /* 优化偶数行背景：浅蓝调，和主背景协调 */
         tr:nth-child(even) { 
-            background: rgba(10, 15, 37, 0.6); 
+            background: rgba(0, 200, 255, 0.05); 
         }
+        /* 优化hover行背景：强化蓝色高亮 */
         tr:hover { 
-            background: rgba(0, 200, 255, 0.1); 
+            background: rgba(0, 200, 255, 0.2); 
         }
         .cert-preview, .cert-download { 
             display: inline-block; 
@@ -124,7 +127,6 @@
             padding: 4px 8px; 
             border-radius: 4px; 
             font-size: 0.9rem; 
-            /* 新增：强制文字颜色 */
             color: white !important;
         }
         .cert-preview { 
@@ -141,7 +143,7 @@
             background: #2e7d58; 
         }
 
-        /* 弹窗样式（原有保留） */
+        /* 弹窗样式：原有保留 */
         .modal { 
             display: none; 
             position: fixed; 
@@ -198,7 +200,7 @@
             100% { transform: rotate(360deg); }
         }
 
-        /* 侧边栏底部：与achievements.html完全一致 */
+        /* 侧边栏底部：原有样式保留 */
         .sidebar-footer { 
             margin-top: auto; 
             padding: 20px 0; 
@@ -226,22 +228,19 @@
     </style>
 </head>
 <body>
-    <!-- 左侧侧边栏：修正所有跳转路径，适配文件夹结构 -->
+    <!-- 左侧侧边栏：原有代码保留 -->
     <div class="sidebar">
         <div class="sidebar-nav">
-            <!-- 修正：基于competition.html位置（achievements/competition-awards/），回退2级到根目录 -->
             <a href="../../home/index.html" class="main-nav">Home</a>
             <a href="../../about/about.html" class="main-nav">About Me</a>
             <a href="../achievements.html" class="main-nav active">Achievements</a>
             
-            <!-- 子导航：Competition Awards高亮，修正子页面路径 -->
             <div class="sub-nav-container">
                 <a href="./competition.html" class="sub-nav active">Competition Awards</a>
                 <a href="../academic-awards/academic.html" class="sub-nav">Academic Awards</a>
                 <a href="../others/others.html" class="sub-nav">Others</a>
             </div>
 
-            <!-- 修正：跳转到physics-research下的量子项目（补充层级） -->
             <a href="../../physics-research/quantum-projects/quantum-overview.html" class="main-nav">Physics Research</a>
             
             <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
@@ -251,7 +250,6 @@
             <a href="../../contact/index.html" class="main-nav">Contact</a>
         </div>
 
-        <!-- 侧边栏底部：样式修复 -->
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -267,7 +265,7 @@
         </div>
     </div>
 
-    <!-- 右侧主内容：修正证书图片路径（回退2级到根目录/images） -->
+    <!-- 右侧主内容：原有代码保留 -->
     <div class="main">
         <h1>Competition Awards</h1>
         <table class="achievements-table">
@@ -286,77 +284,95 @@
                     <td>National</td>
                     <td>
                         <a href="javascript:void(0)" class="cert-preview" data-img="../../images/canada-physics-team.png">Preview</a>
-                        <!--<a href="../../images/canada-physics-team.pdf" class="cert-download" download>Download PDF</a>-->
                     </td>
                 </tr>
                 <tr>
                     <td>2025</td>
-                    <td>55th International Physics Olympiad (IPhO)</td>
+                    <td>55th International Physics Olympiad (IPhO) France 2025</td>
                     <td>International (Bronze Medal)</td>
                     <td>
                         <a href="javascript:void(0)" class="cert-preview" data-img="../../images/IPho.jpg">Preview</a>
-                        <!--<a href="../../images/IPho.pdf" class="cert-download" download>Download PDF</a>-->
                     </td>
                 </tr>
                 <tr>
                     <td>2025</td>
-                    <td>CAP Prize Exam</td>
+                    <td>Canadian Association of Physicists Prize Exam (CAP) 2025</td>
                     <td>National (2nd Place)</td>
                     <td>
                         <a href="javascript:void(0)" class="cert-preview" data-img="../../images/cap-prize-exam.jpg">Preview</a>
-                       <!-- <a href="https://phas-outreach.sites.olt.ubc.ca/files/2025/05/2025Top20_May62025.pdf" class="cert-download" download>Download PDF</a>-->
+
                     </td>
                 </tr>
+                
+                
                 <tr>
-                    <td>2024</td>
-                    <td>BPhO Round 2</td>
-                    <td>Global (Silver Award)</td>
+                    <td>2025</td>
+                    <td>British Physics Olympiad (BPhO) Round 2  2025</td>
+                    <td>Global Silver Award</td>
                     <td>
                         <a href="javascript:void(0)" class="cert-preview" data-img="../../images/bpho2.jpg">Preview</a>
-                        <!--<a href="../../images/bpho2.pdf" class="cert-download" download>Download PDF</a>-->
                     </td>
                 </tr>
+                
                 <tr>
-                    <td>2024</td>
-                    <td>BPhO Round 1</td>
-                    <td>Global (Top Gold)</td>
+                    <td>2025</td>
+                    <td>British Physics Olympiad (BPhO) Round 1 2025</td>
+                    <td>Global Top Gold</td>
                     <td>
                         <a href="javascript:void(0)" class="cert-preview" data-img="../../images/bpho1.jpg">Preview</a>
-                        <!--<a href="../../images/bpho1.pdf" class="cert-download" download>Download PDF</a>-->
                     </td>
                 </tr>
+
+
+                 <tr>
+                    <td>2025</td>
+                    <td>BPhO Senior Physics Challenge</td>
+                    <td>Glodr Award</td>
+                    <td>
+                        <a href="javascript:void(0)" class="cert-preview" data-img="../../images/senior.jpg">Preview</a>
+                    </td>
+                </tr>
+
+
                 <tr>
                     <td>2024</td>
-                    <td>AMC 12</td>
+                    <td>American Mathematics Competitions 12 (AMC 12) </td>
                     <td>Global (Top 5%)</td>
                     <td>
                         <a href="javascript:void(0)" class="cert-preview" data-img="../../images/amc12.jpg">Preview</a>
-                        <!--<a href="../../images/amc12.pdf" class="cert-download" download>Download PDF</a>-->
                     </td>
                 </tr>
                 <tr>
                     <td>2024</td>
-                    <td>Sir Isaac Newton Contest (SIN)</td>
+                    <td>Canada Sir Isaac Newton Contest (SIN)</td>
                     <td>National Gold / Global Top 150</td>
                     <td>
                         <a href="javascript:void(0)" class="cert-preview" data-img="../../images/sin.jpg">Preview</a>
-                        <!--<a href="../../images/sin.pdf" class="cert-download" download>Download PDF</a>-->
                     </td>
                 </tr>
                 <tr>
                     <td>2024</td>
-                    <td>AAPT PhysicsBowl</td>
-                    <td>National Gold (Division 1)</td>
+                    <td>Physics Bowl (Division 1) by AAPT</td>
+                    <td>National Gold </td>
                     <td>
                         <a href="javascript:void(0)" class="cert-preview" data-img="../../images/bowl.jpg">Preview</a>
-                        <!--<a href="../../images/bowl.pdf" class="cert-download" download>Download PDF</a>-->
                     </td>
+                </tr>
+                <tr>
+                    <td>2024</td>
+                    <td>National Economics Challenge Regional (NEC) (Junior Division)</td>
+                    <td>Regional Team Silver Award</td>
+                    <td>National Top Scoring Individual Silver Award</td>
+                                   
+                     <td><a href="javascript:void(0)" class="cert-preview" data-img="../../images/bowl.jpg">Preview</a> </td>
+                    </td>
+
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- 证书预览弹窗（原有逻辑保留） -->
+    <!-- 证书预览弹窗：原有代码保留 -->
     <div id="certModal" class="modal">
         <div class="modal-content">
             <span class="close-modal">&times;</span>
@@ -366,7 +382,6 @@
     </div>
 
     <script>
-        // 弹窗逻辑（原有保留 + 优化）
         const modal = document.getElementById('certModal');
         const modalImg = document.getElementById('modalImg');
         const loader = document.getElementById('loader');
@@ -398,7 +413,6 @@
             });
         });
 
-        // 关闭弹窗
         closeBtn.addEventListener('click', () => modal.style.display = 'none');
         window.addEventListener('click', (e) => {
             if (e.target === modal) modal.style.display = 'none';

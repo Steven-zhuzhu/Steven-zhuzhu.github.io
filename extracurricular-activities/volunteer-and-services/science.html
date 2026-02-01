@@ -123,15 +123,49 @@
             line-height: 1.8;
             color: #94A3B8;
             border-left: 3px solid #165DFF;
+            margin-bottom: 20px; /* 与图片区域增加间距 */
         }
         .club-detail-content h4 {
-            color: #F8FAFC;
+            color: #00c8ff; <!-- #F8FAFC;-->
             font-size: 1.2em;
             margin: 20px 0 10px;
         }
         .club-detail-content ul {
             padding-left: 20px;
             margin-bottom: 15px;
+        }
+        /* 新增图片网格样式 - 调整图片尺寸+添加蓝色背景框 */
+        .photo-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* 2列布局 */
+            grid-template-rows: repeat(2, 1fr); /* 2行布局 */
+            gap: 20px; /* 图片之间的间距 */
+            width: 100%;
+        }
+        .photo-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.15);
+            /* 蓝色背景框 */
+            background-color: #165DFF; 
+            padding: 8px; /* 背景框的内边距，控制蓝色边框宽度 */
+        }
+        /* 图片容器 - 缩小图片尺寸 */
+        .photo-inner {
+            width: 100%;
+            height: 280px; /* 固定图片高度，缩小整体尺寸 */
+            overflow: hidden;
+            border-radius: 4px; /* 图片圆角与背景框呼应 */
+            background-color: #1E293B; /* 图片底层备用背景 */
+        }
+        .photo-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* 保持图片比例，填充容器 */
+            transition: transform 0.3s ease; /* 缩放过渡效果 */
+        }
+        .photo-item:hover .photo-inner img {
+            transform: scale(1.05); /* 鼠标悬浮时轻微缩放 */
         }
         @media (max-width: 992px) {
             .sidebar {
@@ -142,6 +176,13 @@
                 border-bottom: 3px solid #165DFF; /* 移动端底部边框色同步 */
             }
             .main-content { margin-left: 0; padding: 30px 20px; }
+            .photo-grid {
+                grid-template-columns: 1fr; /* 移动端改为1列 */
+                grid-template-rows: repeat(4, 1fr); /* 4行 */
+            }
+            .photo-inner {
+                height: 220px; /* 移动端进一步缩小图片高度 */
+            }
         }
     </style>
 </head>
@@ -207,25 +248,38 @@
             <i>🌌</i>
             <h2>Shenzhen Science Museum</h2>
         </div>
-        <div class="club-role">Club Leader (2024 - Present)</div>
-        
+              
         <div class="club-detail-content">
-            <p>As the leader of the Astronomy Club, I aim to popularize astronomical knowledge and cultivate peers' interest in space science. The club currently has 32 members, covering grades 10-12.</p>
+            <h4>From Science Lover to Volunteer Guide (2015 - Present)</h4>
             
-            <h4>Key Activities Organized:</h4>
-            <ul>
-                <li>Monthly stargazing sessions (using school telescopes to observe the moon, Jupiter's satellites, etc.)</li>
-                <li>Astronomical knowledge lectures (e.g., "Black Hole Basics" "Mars Exploration Progress")</li>
-                <li>School solar system model exhibition (attracted 100+ visitors)</li>
-                <li>Collaboration with local astronomy association to watch meteor shower events</li>
-            </ul>
-            
-            <h4>My Responsibilities:</h4>
-            <ul>
-                <li>Plan activity schedules and coordinate school resources (telescopes, activity venues)</li>
-                <li>Invite university astronomy students to give lectures</li>
-                <li>Train new members on basic astronomical observation skills</li>
-            </ul>
+            <p>As a science enthusiast, I truly found my niche at the Shenzhen Science Museum. What started as a journey of curiosity about science has evolved into a regular commitment — I volunteer as a docent there almost every other weekend, turning my passion for science into meaningful sharing with others.</p>
+           
+            <p style="color: #00c8ff; font-weight: 500; margin: 15px 0 8px 0;">What I Do</p>
+            <p style="font-size: 1.1rem; line-height: 1.8;">As a volunteer docent, I explain scientific principles and exhibits in an accessible way, answer visitors’ questions patiently, and help more people discover the joy of science and spark their interest in scientific exploration.</p>
+        </div>
+
+        <!-- 新增2x2图片网格区域 - 调整结构适配新样式 -->
+        <div class="photo-grid">
+            <div class="photo-item">
+                <div class="photo-inner">
+                    <img src="../volunteer-and-services/science-museum/science-1.jpg" alt="Science Museum Scene 1">
+                </div>
+            </div>
+            <div class="photo-item">
+                <div class="photo-inner">
+                    <img src="../volunteer-and-services/science-museum/science-2.jpg" alt="Science Museum Scene 2">
+                </div>
+            </div>
+            <div class="photo-item">
+                <div class="photo-inner">
+                    <img src="../volunteer-and-services/science-museum/science-3.jpg" alt="Science Museum Scene 3">
+                </div>
+            </div>
+            <div class="photo-item">
+                <div class="photo-inner">
+                    <img src="../volunteer-and-services/science-museum/science-4.jpg" alt="Science Museum Scene 4">
+                </div>
+            </div>
         </div>
     </main>
 </body>
