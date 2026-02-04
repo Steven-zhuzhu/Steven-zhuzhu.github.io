@@ -1,3 +1,11 @@
+
+￼
+￼
+预览
+￼
+￼
+￼
+￼
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -244,6 +252,44 @@
             font-style: italic;
         }
 
+
+
+
+         /* 核心修改：返回按钮容器水平居中 */
+        .section-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center; /* 全局居中 */
+            margin-top: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .section-nav-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: var(--light-blue); /* 改为浅蓝色（和其他文件一致） */
+            color: var(--page-bg); /* 深色文字适配浅蓝色背景 */
+            border: 1px solid var(--btn-border);
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .section-nav-btn:hover {
+            background: var(--btn-primary); /* 悬停时加深蓝色 */
+            color: var(--text-white); /* 悬停时文字变白 */
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0,200,255,0.4);
+        }
+
+        /* 修复重复的按钮样式，移到媒体查询内 */
+        @media (max-width: 768px) {
+            .section-nav-btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+        }
+
         /* 响应式适配：不变 */
         @media (max-width: 768px) {
             .grid-container {
@@ -282,7 +328,7 @@
 </head>
 <body>
     <!-- 页面标题 -->
-    <h1 class="page-title">My Children's Stage Play Craft</h1>
+    <h1 class="page-title">My Children's Stage Play Scraft</h1>
 
     <!-- 网格布局容器 -->
     <div class="grid-container">
@@ -307,6 +353,8 @@
             <div class="image-placeholder">The Interrupting Chicken</div>
         </div>
         
+        
+
         <!-- 场景/幕 链接区 -->
         <div class="grid-item scene-acts">
             <div class="act-card" onclick="openModal('Scene1')"><h3>Scene 1</h3></div>
@@ -344,6 +392,12 @@
         </div>
     </div>
 
+     <!-- 仅保留唯一的返回主页面按钮，已居中 -->
+        <div class="section-nav">
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Leisure Hobbies (Main)</a>
+        </div>
+    
+   
     <!-- 剧本弹窗 -->
     <div id="scriptModal" class="modal">
         <div class="modal-content">
@@ -582,10 +636,54 @@
                 </div>
             `,
             "Act V": `
-                <div class="script-content">
-                    <div class="script-scene-title">Act V: (待补充内容)</div>
-                    <div class="script-direction">此部分内容暂未补充</div>
-                </div>
+                   
+       
+            <div class="script-scene-title">Act V: Cinderella</div>
+            <div class="script-direction">Setting: The royal ball. Lively dance music plays in the background.</div>
+            <span class="script-character vo">Father Chicken (V.O.)</span>
+            <span class="script-line">"Cinderella, wearing the beautiful glass slippers and blue gown given to her by the Fairy Godmother, secretly went to the Prince's ball..."</span>
+            <div class="script-direction">(Cinderella and the Prince enter hand-in-hand. They walk to center stage, face the audience, twirl twice, and begin to dance gracefully. Cinderella's Stepmother and two Stepsisters stand to the side, whispering among themselves, their expressions filled with envy and jealousy. The sisters whisper to each other.)</div>
+            <span class="script-character">Stepsister 1</span>
+            <span class="script-line">Look at the Prince, so handsome!</span>
+            <span class="script-character">Stepsister 2</span>
+            <span class="script-line">Which princess is that girl from?</span>
+            <span class="script-character vo">Father Chicken (V.O.)</span>
+            <span class="script-line">"It was almost midnight..."</span>
+            <div class="script-direction">(The heavy sound of a clock striking twelve times is heard. Cinderella is startled. She hurriedly curtsies to the Prince.)</div>
+            <span class="script-character">Cinderella</span>
+            <span class="script-line">I'm sorry!</span>
+            <div class="script-direction">(She lifts her skirts and runs out. After a few steps, one of her glass slippers falls to the ground.)</div>
+            <div class="script-direction">(The Prince looks around the stage for Cinderella.)</div>
+            <span class="script-character">Little Chick</span>
+            <span class="script-line">Oh no, Cinderella! You dropped your shoe! Running barefoot will hurt your feet!</span>
+            <div class="script-direction">(Hearing Little Chick call her, Cinderella runs five more steps and stops. Little Chick picks up the slipper, runs after her, and hands it to her.)</div>
+            <span class="script-character">Cinderella</span>
+            <span class="script-line">Thank you, Little Chick!</span>
+            <div class="script-direction">(Cinderella takes the shoe and is about to run again but suddenly stops.)</div>
+            <span class="script-character">Cinderella</span>
+            <span class="script-line">But wait... something's not right! If I take both slippers, how will the Prince find me and marry me?</span>
+            <span class="script-character">Little Chick</span>
+            <span class="script-line">Oh... Did I... did I do something wrong...?</span>
+            <div class="script-direction">Cinderella smiles, quickly throws the slipper in her hand back to Little Chick.</div>
+            <span class="script-character">Cinderella</span>
+            <span class="script-line">Little Chick, catch! Help me give this to the Prince. I have to go!</span>
+            <div class="script-direction">(She runs offstage, one foot bare.)</div>
+            <div class="script-direction">(The Prince runs over. Little Chick hands him the slipper and points in the direction Cinderella ran.)</div>
+            <span class="script-character">Prince</span>
+            <span class="script-line">(Taking the slipper) Thank you, Little Chick!</span>
+            <div class="script-direction">(He runs toward the exit, calling out)</div>
+            <span class="script-character">Prince</span>
+            <span class="script-line">Beautiful princess, please wait for me!</span>
+            <div class="script-direction">Cinderella's Stepmother and Stepsisters, seeing the Prince suddenly run off, chase after him.</div>
+            <span class="script-character">Stepmother & Stepsisters</span>
+            <span class="script-line">Prince, don't go! Wait for us!</span>
+            <div class="script-direction">Only Little Chick remains on stage, deep in thought. Father Chicken walks over to them.</div>
+            <span class="script-character">Father Chicken</span>
+            <span class="script-line">Are you alright, my dear?</span>
+            <div class="script-direction">(He leads Little Chick back to the right side of the stage. Little Chick keeps looking back as they walk.)</div>
+            <span class="script-character">Father Chicken</span>
+            <span class="script-line">Let's have one last story for tonight, and then it's time for sleep, okay?</span>
+        </div>
             `,
             "Act VI": `
                 <div class="script-content">

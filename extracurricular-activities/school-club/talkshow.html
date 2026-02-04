@@ -1,12 +1,11 @@
- 
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Astronomy Club | Steven Zhu</title>
+    <title>Talkshow Club | Steven Zhu</title>
     <style>
-        /* 复用统一样式 */
+        /* 完全复用voice.html的统一样式 + 保留talkshow的布局逻辑 */
         * {
             margin: 0;
             padding: 0;
@@ -14,26 +13,28 @@
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
         body {
-            background-color: #f8f9fa;
-            color: #212529;
+            background-color: #0F172A; /* 统一voice的深色背景 */
+            color: #F8FAFC;
             display: flex;
             min-height: 100vh;
             flex-wrap: wrap;
         }
+        /* 侧边栏样式 - 完全对齐voice.html */
         .sidebar {
             width: 280px;
-            background-color: #1a242f;
+            background-color: #0F172A; /* 统一voice的侧边栏背景 */
             color: #fff;
             padding: 30px 20px;
             height: 100vh;
             position: fixed;
             overflow-y: auto;
-            border-right: 3px solid #00b8d4;
+            border-right: 3px solid #165DFF; /* 统一voice的主蓝色边框 */
         }
         .sidebar ul { list-style: none; margin-bottom: 40px; }
         .sidebar li { margin: 8px 0; }
+        /* 主导航样式 - 对齐voice的sidebar-nav-item */
         .main-nav {
-            color: #e9ecef;
+            color: #E2E8F0; /* 统一voice的文字色 */
             text-decoration: none;
             font-size: 16px;
             font-weight: 500;
@@ -41,45 +42,76 @@
             display: block;
             border-radius: 6px;
             transition: all 0.3s ease;
+            cursor: pointer;
+            margin: 4px 0;
         }
         .main-nav.active {
-            background-color: #00b8d4;
-            color: #1a242f;
+            background-color: #165DFF; /* 统一voice的激活态主蓝色背景 */
+            color: #FFFFFF; /* 统一voice的激活态白色文字 */
             font-weight: 600;
         }
         .main-nav:hover:not(.active) {
-            background-color: #2d3742;
-            color: #00b8d4;
+            background-color: #1E293B; /* 统一voice的hover深色背景 */
+            color: #38BDF8; /* 统一voice的hover浅蓝色文字 */
         }
+        /* 子导航样式 - 对齐voice的level2-container/level2-text */
         .sub-nav-container {
             display: block;
             padding-left: 20px;
-            margin-top: 4px;
+            margin-top: 2px;
         }
         .sub-nav {
-            color: #adb5bd;
+            color: #94A3B8; /* 统一voice的子菜单默认文字色 */
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px; /* 统一voice的二级菜单字号 */
             padding: 6px 12px;
             display: block;
-            border-radius: 4px;
+            border-radius: 6px;
             transition: all 0.3s ease;
         }
-        .sub-nav.active { color: #00b8d4; font-weight: 500; }
-        .sub-nav:hover { color: #00b8d4; background-color: #2d3742; }
-        .sidebar-footer {
-            border-top: 1px solid #2d3742;
-            padding-top: 20px;
+        .sub-nav.active { 
+            color: #165DFF; /* 统一voice的二级激活态主蓝色文字 */
+            font-weight: 500; 
         }
-        .contact-item { margin: 15px 0; font-size: 14px; }
-        .contact-item span { color: #adb5bd; margin-right: 8px; }
-        .contact-item a { color: #00b8d4; text-decoration: none; }
-        .contact-item a:hover { color: #00e5ff; text-decoration: underline; }
-        .creator-info { margin-top: 30px; color: #6c757d; font-size: 13px; }
+        .sub-nav:hover { 
+            color: #38BDF8; /* 统一voice的二级hover浅蓝色 */
+            background-color: #1E293B; /* 统一voice的hover背景 */
+        }
+        /* 侧边栏底部样式 - 对齐voice.html */
+        .sidebar-footer {
+            border-top: 1px solid #1E293B; /* 统一voice的分割线颜色 */
+            padding-top: 20px;
+            margin-top: 30px; /* 统一voice的间距 */
+        }
+        .contact-item { 
+            margin: 15px 0; 
+            font-size: 14px; 
+        }
+        .contact-item span { 
+            color: #94A3B8; /* 统一voice的联系项标签色 */
+            margin-right: 8px; 
+        }
+        .contact-item a { 
+            color: #38BDF8; /* 统一voice的联系项链接色 */
+            text-decoration: none; 
+        }
+        .contact-item a:hover { 
+            color: #7DD3FC; /* 统一voice的链接hover浅蓝 */
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 30px; 
+            color: #64748B; /* 统一voice的版权信息色 */
+            font-size: 13px; 
+        }
+        /* 主内容区样式 - 对齐voice.html */
         .main-content {
             flex: 1;
             margin-left: 280px;
             padding: 40px 60px;
+            background-color: #0F172A; /* 统一voice的主内容区背景 */
+            min-height: 100vh;
+            color: #F8FAFC;
         }
         .club-detail-header {
             display: flex;
@@ -90,52 +122,92 @@
         .club-detail-header h2 {
             font-size: 2em;
             font-weight: 700;
-            color: #1a242f;
+            color: #F8FAFC; /* 统一voice的标题白色 */
         }
         .club-detail-header i {
             font-size: 2em;
-            color: #00b8d4;
+            color: #165DFF; /* 统一voice的图标主蓝色 */
         }
         .club-role {
-            background-color: #00b8d4;
-            color: #1a242f;
+            background-color: #165DFF; /* 统一voice的身份标签主蓝色背景 */
+            color: #FFFFFF;
             font-weight: 600;
             padding: 5px 12px;
             border-radius: 4px;
             display: inline-block;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
-        .club-detail-content {
-            background-color: #fff;
+        /* 卡片容器：保留talkshow的竖向布局，配色对齐voice */
+        .cards-container {
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+        /* 卡片样式：融合talkshow的左文右图 + voice的卡片配色 */
+        .club-card {
+            background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05)); /* 统一voice的卡片渐变背景 */
             border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            padding: 30px;
+            box-shadow: 0 2px 10px rgba(22, 93, 255, 0.2); /* 统一voice的卡片阴影 */
+            padding: 25px;
             line-height: 1.8;
-            color: #495057;
+            color: #94A3B8; /* 统一voice的卡片正文色 */
+            overflow: hidden;
+            border-left: 3px solid #165DFF; /* 统一voice的卡片左侧主蓝色边框 */
+            display: flex;
+            gap: 25px;
+            align-items: flex-start;
+            height: 100%;
         }
-        .club-detail-content h4 {
-            color: #1a242f;
-            font-size: 1.2em;
-            margin: 20px 0 10px;
+        /* 文字区域：占比更大，自适应宽度 */
+        .card-text-area {
+            flex: 3;
         }
-        .club-detail-content ul {
-            padding-left: 20px;
+        /* 图片区域：固定占比，保证图片大小适中 */
+        .card-img-area {
+            flex: 2;
+        }
+        /* 卡片标题样式 - 统一voice的白色标题 */
+        .card-title {
+            color: #F8FAFC;
+            font-size: 1.3em;
+            font-weight: 600;
             margin-bottom: 15px;
         }
+        /* 卡片内图片样式：对齐voice的图片边框 */
+        .card-img {
+            width: 100%;
+            height: 100%;
+            min-height: 200px;
+            object-fit: cover;
+            border-radius: 6px;
+            border: 1px solid #1E293B; /* 统一voice的图片边框色 */
+        }
+        /* 响应式适配 - 完全对齐voice.html */
         @media (max-width: 992px) {
             .sidebar {
                 width: 100%;
                 height: auto;
                 position: relative;
                 border-right: none;
-                border-bottom: 3px solid #00b8d4;
+                border-bottom: 3px solid #165DFF;
             }
-            .main-content { margin-left: 0; padding: 30px 20px; }
+            .main-content { 
+                margin-left: 0; 
+                padding: 30px 20px; 
+            }
+            .club-card {
+                flex-direction: column;
+                gap: 20px;
+            }
+            .card-img {
+                min-height: 180px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- 侧边栏导航 -->
+    <!-- 左侧侧边栏：结构保留，样式已通过CSS对齐voice.html -->
     <nav class="sidebar">
         <ul>
             <li><a href="../../home/index.html" class="main-nav">Home</a></li>
@@ -144,12 +216,10 @@
             <li><a href="../../physics-research/physics-research.html" class="main-nav">Physics Research</a></li>
             
             <li><a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a></li>
-            <!-- 课外活动导航 + 子菜单（Astronomy Club激活） -->
             <li>
-                <a href="../activities.html" class="main-nav">Extracurricular Activities</a>
+                <a href="../activities.html" class="main-nav active">Extracurricular Activities</a>
                 <div class="sub-nav-container">
                     <a href="school-club.html" class="sub-nav">School Club</a>
-                    
                     <div class="sub-nav-container" style="padding-left: 15px;">
                         <a href="./astronomy.html" class="sub-nav">Astronomy Club</a>
                         <a href="./physics.html" class="sub-nav">Physics Club</a>
@@ -159,7 +229,7 @@
                     </div>
                 </div>
             </li>
-            <a href="../../extracurricular-activities/volunteer-and-services/volunteer-services.html" class="sub-nav">Volunteer & Services</a>
+            <li><a href="../../extracurricular-activities/volunteer-and-services/volunteer-services.html" class="main-nav">Volunteer & Services</a></li>
             <li><a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a></li>
             <li><a href="../../my-favorite-books/my-books.html" class="main-nav">My Favorite Books</a></li>
             <li><a href="../../contact/index.html" class="main-nav">Contact</a></li>
@@ -181,31 +251,51 @@
         </div>
     </nav>
 
-    <!-- 主内容区 -->
+    <!-- 主内容区：保留原有布局，配色已通过CSS对齐voice.html -->
     <main class="main-content">
         <div class="club-detail-header">
-            <<i>🌌</</i>
+            <i>🎤</i>
             <h2>Talkshow Club</h2>
         </div>
-        <div class="club-role">Club Leader (2024 - Present)</div>
+        <div class="club-role">Member & Performer, (August 2025-Present)</div>
         
-        <div class="club-detail-content">
-            <p>As the leader of the Astronomy Club, I aim to popularize astronomical knowledge and cultivate peers' interest in space science. The club currently has 32 members, covering grades 10-12.</p>
-            
-            <h4>Key Activities Organized:</h4>
-            <ul>
-                <li>Monthly stargazing sessions (using school telescopes to observe the moon, Jupiter's satellites, etc.)</li>
-                <li>Astronomical knowledge lectures (e.g., "Black Hole Basics" "Mars Exploration Progress")</li>
-                <li>School solar system model exhibition (attracted 100+ visitors)</li>
-                <li>Collaboration with local astronomy association to watch meteor shower events</li>
-            </ul>
-            
-            <h4>My Responsibilities:</h4>
-            <ul>
-                <li>Plan activity schedules and coordinate school resources (telescopes, activity venues)</li>
-                <li>Invite university astronomy students to give lectures</li>
-                <li>Train new members on basic astronomical observation skills</li>
-            </ul>
+        <div class="cards-container">
+            <!-- 第一个卡片：加入原因 -->
+            <div class="club-card">
+                <div class="card-text-area">
+                    <h3 class="card-title">Why I Joined the Talkshow Club</h3>
+                    <p>I’ve always been told by friends that I have a good sense of humor and love to make people laugh—our conversations are often filled with laughter. Inspired by the stand-up comedy I enjoy watching online, I joined my high school’s Talk Show Club in my junior year to share that joy with a wider audience and to contribute some fun and laughter to our school community.</p>
+                </div>
+                <div class="card-img-area">
+                    <img src="../school-club/talkshow/talkshow-1.png" alt="Talkshow Inspiration" class="card-img">
+                </div>
+            </div>
+
+            <!-- 第二个卡片：俱乐部工作 -->
+            <div class="club-card">
+                <div class="card-text-area">
+                    <h3 class="card-title">What I Do:</h3>
+                    <ul style="padding-left: 20px; margin-bottom: 0; color: #94A3B8;">
+                        <li>Develop and polish original comedic scripts.</li>
+                        <li>Record funny moments and potential punchlines from daily life as material.</li>
+                        <li>Serve as a stand-up host for our club, performing original sets in front of live audiences.</li>
+                    </ul>
+                </div>
+                <div class="card-img-area">
+                    <img src="../school-club/talkshow/talkshow-2.png" alt="Talkshow Responsibilities" class="card-img">
+                </div>
+            </div>
+
+            <!-- 第三个卡片：个人成长 -->
+            <div class="club-card">
+                <div class="card-text-area">
+                    <h3 class="card-title">Personal Growth & Benefits</h3>
+                    <p>This role has not only been a great source of personal joy but has also strengthened my confidence and public speaking skills.</p>
+                </div>
+                <div class="card-img-area">
+                    <img src="../school-club/talkshow/talkshow-3.png" alt="Talkshow Growth" class="card-img">
+                </div>
+            </div>
         </div>
     </main>
 </body>

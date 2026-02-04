@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home | Steven Zhu</title>
+    <style>
+        /* 全局变量（沿用原有风格） */
+        :root {
+            --quantum-blue: #00c8ff;      
+            --quantum-purple: #7a00ff;    
+            --dark-blue: #0a0f25;         
+            --sidebar-bg: rgba(10,15,37,0.95); 
+            --card-bg: linear-gradient(135deg, rgba(0,30,80,0.95), rgba(40,10,90,0.95)); 
+            --card-border: 1px solid rgba(0,200,255,0.3); 
+            --shadow-light: 0 0 20px rgba(0,200,255,0.2); 
+            --shadow-deep: 0 0 30px rgba(122,0,255,0.15); 
+            --text-white: #ffffff;
+            --text-light: #e0e0ff;
+            --text-gray: #ccc;
+            --nav-border-radius: 6px;
+            --nav-hover-bg: rgba(0,200,255,0.2);
+            --btn-gradient: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            text-decoration: none;
+            list-style: none;
+        }
+        body { 
+            display: flex; 
+            min-height: 100vh;
+            background: var(--dark-blue);
+            background-image: 
+                radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px),
+                radial-gradient(rgba(122,0,255,0.03) 2px, transparent 2px);
+            background-size: 50px 50px, 20px 20px, 80px 80px;
+            background-position: 0 0, 10px 10px, 20px 20px;
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.4;
+        }
+
+        /* 左侧导航栏（完全沿用） */
+        .sidebar {
+            width: 260px;
+            background: var(--sidebar-bg);
+            padding: 20px 15px;
+            height: 100vh;
+            position: fixed;
+            overflow-y: auto;
+            border-right: 1px solid rgba(0,200,255,0.2);
+            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
+            z-index: 100;
+        }
+        .main-nav {
+            color: var(--text-white);
+            padding: 12px 15px;
+            margin: 6px 0;
+            font-size: 0.95rem;
+            display: block;
+            border-radius: var(--nav-border-radius);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .main-nav.active {
+            background: linear-gradient(90deg, rgba(0,200,255,0.3), rgba(122,0,255,0.2));
+            border-left: 4px solid var(--quantum-blue);
+        }
+        .main-nav:hover:not(.active) {
+            background: var(--nav-hover-bg);
+            color: var(--quantum-blue);
+            transform: translateX(2px);
+        }
+        .main-nav::after {
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            transition: width 0.3s ease;
+        }
+        .main-nav:hover::after {
+            width: 100%;
+        }
+        .sidebar-footer {
+            margin-top: 30px;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0,200,255,0.2);
+            font-size: 0.85rem;
+        }
+        .contact-item {
+            margin: 8px 0;
+        }
+        .contact-item a {
+            color: var(--quantum-blue);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .contact-item a:hover {
+            text-decoration: underline;
+            color: var(--quantum-purple);
+        }
+
+        /* 右侧主内容区（主页定制） */
+        .main-content {
+            margin-left: 260px;
+            padding: 30px 40px;
+            width: calc(100% - 260px);
+            min-height: 100vh;
+        }
+
+        /* 总说明卡片 */
+        .intro-card {
+            background: var(--card-bg);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: var(--shadow-light);
+            border: var(--card-border);
+            max-width: 1200px;
+            margin-bottom: 50px;
+        }
+        .intro-card h2 {
+            font-size: 2rem;
+            color: var(--quantum-blue);
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .intro-card h2::before {
+            content: "";
+            width: 8px;
+            height: 32px;
+            background: linear-gradient(180deg, var(--quantum-blue), var(--quantum-purple));
+            border-radius: 4px;
+        }
+        .intro-card p {
+            font-size: 1.05rem;
+            color: var(--text-light);
+            line-height: 1.8;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+
+        /* 四大板块容器 */
+        .sections-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
+        }
+
+        /* 单个板块样式 */
+        .section-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            box-shadow: var(--shadow-deep);
+            border: var(--card-border);
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+        .section-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 40px rgba(0,200,255,0.35), 0 8px 20px rgba(0,0,0,0.15);
+        }
+        .section-card__img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-bottom: 1px solid rgba(0,200,255,0.3);
+        }
+        .section-card__content {
+            padding: 20px 25px;
+        }
+        .section-card__title {
+            font-size: 1.3rem;
+            color: var(--quantum-blue);
+            margin-bottom: 15px;
+        }
+        .section-card__desc {
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .section-card__btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--btn-gradient);
+            color: var(--text-white);
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+        }
+        .section-card__btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,200,255,0.3);
+        }
+
+        /* 响应式适配 */
+        @media (max-width: 768px) {
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid rgba(0,200,255,0.2);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px 15px;
+            }
+            .intro-card {
+                padding: 20px;
+                margin-bottom: 30px;
+            }
+            .sections-container {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .section-card__img {
+                height: 200px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航栏（完全沿用） -->
+    <nav class="sidebar">
+        <ul style="list-style: none; padding: 0;">
+            <li><a href="../index.html" class="main-nav active">Home</a></li>
+            <li><a href="../about/about.html" class="main-nav">About Me</a></li>
+            <li><a href="../achievements/achievements.html" class="main-nav">Achievements</a></li>
+            <li><a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a></li>
+            <li><a href="../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App DeDesign</a></li>
+            <li><a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a></li>
+            <li><a href="../my-leisure-hobbies/hobbies.html" class="main-nav active">Leisure Hobbies</a></li>
+            <li><a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a></li>
+            <li><a href="../contact/index.html" class="main-nav">Contact</a></li>
+        </ul>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info" style="margin-top: 12px; font-size: 0.75rem; color: rgba(255,255,255,0.7);">
+                © 2025 Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </nav>
+
+    <!-- 右侧主页内容 -->
+    <main class="main-content">
+        <!-- 总说明卡片 -->
+        <div class="intro-card">
+            <h2>My Leisure Hobbies</h2>
+            <p>My Children's Stage Play Scraft allows me to unleash creativity and expressiveness through script creation and stage performance.</p>
+            <p>Being part of the String Orchestra lets me weave delicate auditory landscapes with the flowing melodies of strings.</p>
+            <p>I Love Playing Sports brings me joy and vitality, as I embrace the energy and perseverance in every sweat-filled moment.</p>
+            <p>My Minecraft is a creative paradise where I build a unique world of boundless imagination with pixel blocks.</p>
+        </div>
+
+        <!-- 四大板块容器 -->
+        <div class="sections-container">
+            <!-- 板块1：儿童剧编剧-->
+            <div class="section-card">
+                <img src="../my-leisure-hobbies/images/drama-2.jpg" alt="Academic Research" class="section-card__img">
+                <div class="section-card__content">
+                    <h3 class="section-card__title">My Children's Stage Play Scraft</h3>
+                    <p class="section-card__desc"></p>
+                    <a href="../my-leisure-hobbies/scraft.html" class="section-card__btn">View Details </a>
+                </div>
+            </div>
+
+            <!-- 板块2：小提琴板块 -->
+            <div class="section-card">
+                <img src="../my-leisure-hobbies/images/violin-1.jpg" alt="Medical AI App" class="section-card__img">
+                <div class="section-card__content">
+                    <h3 class="section-card__title">My String orchestra</h3>
+                    <p class="section-card__desc"></p>
+                    <a href="../my-leisure-hobbies/violin.html" class="section-card__btn">View Details</a>
+                </div>
+            </div>
+
+            <!-- 板块3： -->
+            <div class="section-card">
+                <img src="../my-leisure-hobbies/images/sports-1.jpg" alt="Extracurricular Activities" class="section-card__img">
+                <div class="section-card__content">
+                    <h3 class="section-card__title">I Love Playing Sports</h3>
+                    <p class="section-card__desc"></p>
+                    <a href="../my-leisure-hobbies/sports.html" class="section-card__btn">View Details</a>
+                </div>
+            </div>
+
+            <!-- 板块4：My Minecraft -->
+            <div class="section-card">
+                <img src="../my-leisure-hobbies/minecraft1.jpg" alt="Leisure Hobbies" class="section-card__img">
+                <div class="section-card__content">
+                    <h3 class="section-card__title">My Minecraft</h3>
+                    <p class="section-card__desc"></p>
+                    <a href="./my-leisure-hobbies/minecraft.html" class="section-card__btn">View Details</a>
+                </div>
+            </div>
+        </div>
+    </main>
+</body>
+</html>
