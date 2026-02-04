@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Children's Stage Play Scraft</title>
+    <style>
+        /* 全局样式重置和基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* 定义hobbies.html同款背景变量（核心）- 调整浅蓝色为更浅的色调 */
+        :root {
+            --page-bg: #0a0f25; /* hobbies页面整体背景色 */
+            --card-gradient: linear-gradient(135deg, rgba(0,30,80,0.95), rgba(40,10,90,0.95)); /* hobbies卡片渐变背景 */
+            --sidebar-bg: rgba(10,15,37,0.95); /* hobbies侧边栏背景 */
+            --text-light: #e6f1ff; /* 浅文字色（适配深色背景） */
+            --text-white: #ffffff; /* 纯白色（标题） */
+            --text-medium: #c0c8d8; /* 中等浅文字色（正文） */
+            --light-blue: #87cefa; /* 修改：更浅的天蓝色（SkyBlue），替代原来的Cornflower Blue */
+            --end-card-bg: rgba(18, 140, 133, 0.95); /* THE END卡片背景色，适配浅蓝主题 */
+            /* 新增按钮专用蓝色变量 */
+            --btn-primary: #1e90ff; /* 主按钮蓝色（DodgerBlue） */
+            --btn-hover: #4169e1; /* 按钮悬停蓝色（RoyalBlue） */
+            --btn-border: #87cefa; /* 按钮边框色 */
+        }
+
+        /* 页面整体背景：和hobbies.html一致 */
+        body {
+            padding: 20px;
+            background-color: var(--page-bg); /* 替换为hobbies底层背景色 */
+        }
+
+        /* 页面标题框：hobbies同款渐变背景 */
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-white); /* 白色标题 */
+            background: var(--card-gradient); /* hobbies卡片渐变 */
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            border-left: 4px solid var(--light-blue); /* 左侧浅天蓝色边框 */
+        }
+
+        /* 网格容器：布局不变 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: repeat(6, auto);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 通用框样式：所有网格项统一hobbies渐变背景 */
+        .grid-item {
+            background: var(--card-gradient); /* 替换为hobbies卡片渐变 */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            border-left: 4px solid var(--light-blue); /* 每个网格框左侧浅天蓝色边框 */
+        }
+
+        /* 介绍框：hobbies渐变背景 + 文字适配 */
+        .introduction {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .introduction h2 {
+            margin-bottom: 15px;
+            color: var(--text-white); /* 白色标题适配深色渐变 */
+        }
+
+        .introduction p {
+            line-height: 1.6;
+            color: var(--text-medium); /* 中等浅文字色适配深色渐变 */
+        }
+
+        /* 场景/幕 卡片区：布局不变 */
+        .scene-acts {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            min-height: 150px;
+        }
+
+        /* 场景/幕 卡片：修改为醒目蓝色按钮样式 */
+        .act-card {
+            background: var(--btn-primary); /* 主按钮蓝色背景 */
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease; /* 过渡效果更顺滑 */
+            border: 2px solid var(--btn-border); /* 浅蓝色边框增强对比 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 增加阴影提升立体感 */
+        }
+
+        .act-card:hover {
+            background: var(--btn-hover); /* 悬停时更深的蓝色 */
+            transform: translateY(-2px); /* 轻微上浮效果 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 悬停阴影加深 */
+        }
+
+        .act-card h3 {
+            color: var(--text-white); /* 按钮文字改为纯白色，更醒目 */
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* THE END卡片特殊样式：适配蓝色主题，保持辨识度 */
+        .act-card:last-child {
+            background: var(--end-card-bg) !important;
+            border: 2px solid var(--btn-border) !important; /* 统一按钮边框 */
+        }
+        .act-card:last-child h3 {
+            font-size: 16px;
+            color: var(--text-light); /* THE END保持原有浅色，适配新背景 */
+        }
+
+        /* 图片框：hobbies渐变背景 + 边框适配 */
+        .image-box {
+            background: var(--card-gradient); /* 替换为hobbies卡片渐变 */
+            border: 1px dashed var(--light-blue); /* 使用统一的浅天蓝色变量 */
+            color: var(--text-light);
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* 图片样式：不变 */
+        .image-box img {
+            max-width: 100%;
+            max-height: 280px;
+            object-fit: contain;
+            border-radius: 4px;
+            transition: transform 0.3s ease;
+        }
+
+        .image-box img:hover {
+            transform: scale(1.05);
+        }
+
+        /* 图片占位文字：适配深色背景 */
+        .image-placeholder {
+            margin-top: 10px;
+            font-size: 16px;
+            opacity: 0.9;
+            color: var(--text-light);
+        }
+
+        /* 弹窗：hobbies渐变背景 + 文字适配 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-gradient); /* 弹窗背景改为hobbies渐变 */
+            padding: 30px;
+            border-radius: 8px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-left: 4px solid var(--light-blue); /* 弹窗左侧浅天蓝色边框 */
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light); /* 关闭按钮文字适配 */
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: var(--text-white); /* 弹窗标题白色 */
+        }
+
+        /* 剧本内容文字：适配深色渐变背景 */
+        .script-content {
+            line-height: 1.8;
+            color: var(--text-medium);
+        }
+        .script-character {
+            font-weight: bold;
+            color: var(--text-white);
+            margin-top: 15px;
+            display: block;
+        }
+        .script-line {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .script-direction {
+            font-style: italic;
+            color: var(--text-light);
+            margin: 10px 0;
+            display: block;
+        }
+        .script-scene-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-white);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.2); /* 边框适配深色背景 */
+        }
+        .script-character.vo {
+            color: var(--light-blue); /* 使用统一的浅天蓝色变量 */
+            font-style: italic;
+        }
+
+        /* 响应式适配：不变 */
+        @media (max-width: 768px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+            }
+            .introduction, .scene-acts {
+                grid-column: 1 / 2;
+            }
+            .scene-acts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .image-box img {
+                max-height: 220px;
+            }
+            .modal-content {
+                max-width: 95%;
+            }
+            .page-title {
+                padding: 15px;
+                margin: 0 0 20px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scene-acts {
+                grid-template-columns: 1fr;
+            }
+            .image-box img {
+                max-height: 180px;
+            }
+            .act-card h3 {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 页面标题 -->
+    <h1 class="page-title">My Children's Stage Play Scraft</h1>
+
+    <!-- 网格布局容器 -->
+    <div class="grid-container">
+        <!-- 图1 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/drama1.jpg" alt="Children's stage play scene 1">
+            <div class="image-placeholder">My Stage</div>
+        </div>
+
+        <!-- 介绍区域 -->
+        <div class="grid-item introduction">
+            <h2>The Interrupting Chick</h2>
+            <p>I am passionate about creating and directing stage plays for children. </p> 
+            <p>I work on these plays with a group of friends: I serve as the playwright and director, Yao Jia as the director, Ze Kun in charge of sound effects production, and Xiao Yang responsible for costume design. Our former primary school homeroom teacher has all the students in her current class act as our young performers, and the mothers of these child actors take care of makeup and all backstage logistics. </p>
+             <p>One of our original children’s plays, The Interrupting Chicken, won the First Prize at the Shenzhen Picture Book Drama Carnival.</p>
+            <p>Below are some photos from our rehearsals and live performances.</p>
+        </div>
+
+        <!-- 图2 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/drama2.jpg" alt="Children's stage play act 1" loading="lazy">
+            <div class="image-placeholder">The Interrupting Chicken</div>
+        </div>
+        
+        <!-- 场景/幕 链接区 -->
+        <div class="grid-item scene-acts">
+            <div class="act-card" onclick="openModal('Scene1')"><h3>Scene 1</h3></div>
+            <div class="act-card" onclick="openModal('Act I')"><h3>Act I</h3></div>
+            <div class="act-card" onclick="openModal('Act II')"><h3>Act II</h3></div>
+            <div class="act-card" onclick="openModal('Act III')"><h3>Act III</h3></div>
+            <div class="act-card" onclick="openModal('Act IV')"><h3>Act IV</h3></div>
+            <div class="act-card" onclick="openModal('Act V')"><h3>Act V</h3></div>
+            <div class="act-card" onclick="openModal('Act VI')"><h3>Act VI</h3></div>
+            <div class="act-card"><h3 style="font-size:16px;">THE END</h3></div>
+        </div>
+
+        <!-- 图3 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/drama4.jpg" alt="Children's stage play act 2" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+        
+        <!-- 图4 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/drama7.jpg" alt="Children's stage play act 3" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+
+        <!-- 图6 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/drama3.jpg" alt="Children's stage play act 4" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+        
+        <!-- 图5 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/drama5.jpg" alt="Children's stage play happy ending" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+    </div>
+
+    <!-- 剧本弹窗 -->
+    <div id="scriptModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <h3 id="modalTitle">剧本内容</h3>
+            <div id="modalContent"></div>
+        </div>
+    </div>
+
+    <script>
+        // 结构化剧本数据
+        const scriptData = {
+            "Scene1": `
+                <div class="script-content">
+                    <div class="script-scene-title">Scene 1: Prologue</div>
+                    <div class="script-direction">Location: Little Chick's Bedroom</div>
+                    <div class="script-direction">Time: 9:00 PM</div>
+                    <div class="script-direction">Backdrop: Night, Clock Tower, Bedroom</div>
+                    <div class="script-direction">Characters: Little Chick and Father Chicken</div>
+                    <div class="script-direction">(At 9 PM, the clock chimes nine times. As the chimes sound, the lights fade up from dark to a soft glow, focusing on the right side of the stage. Little Chick is sitting on the bed, and Father Chicken is seated on a chair beside it.)</div>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">(Yawns, acting very sleepy.)</span>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">Alright, my little chick, time for bed.</span>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">Okay, Daddy. But you forgot something.</span>
+                    <div class="script-direction">(Little Chick doesn't lie down, eyes fixed on Father.)</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">What is it?</span>
+                    <div class="script-direction">(Father looks at Little Chick kindly and pats their head.)</div>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">The bedtime story!</span>
+                    <div class="script-direction">(Little Chick replies with a happy, beaming smile.)</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">Oh, right. I'll tell one of your favorites. But tonight, you mustn't interrupt, okay?</span>
+                    <div class="script-direction">(Father looks intently at Little Chick's face, tapping their nose lightly, speaking seriously.)</div>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">Oh, I won't, I promise!</span>
+                    <div class="script-direction">(Little Chick raises a finger as if taking an oath, expression excited.)</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">Good. Let's begin.</span>
+                    <div class="script-direction">(The lights dim again, leaving only a spotlight on Father and Little Chick. Father's voice continues.)</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">Once upon a time, there was a little girl who always wore a red hood her grandmother gave her. Everyone called her Little Red Riding Hood...</span>
+                    <div class="script-direction">(His speech gradually slows. Music begins to play as Little Red Riding Hood and her Mother enter the stage.)</div>
+                    <div class="script-direction">(Lights shift to center stage.)</div>
+                </div>
+            `,
+            "Act I": `
+                <div class="script-content">
+                    <div class="script-scene-title">Act I: The Story of Little Red Riding Hood</div>
+                    <div class="script-direction">(As Father Chicken narrates, lively music begins. The stage lights come up on the left, revealing a forest backdrop. Mother enters with a basket, holding Little Red Riding Hood's hand.)</div>
+                    <span class="script-character">Mother</span>
+                    <span class="script-line">(Putting the hood on Little Red Riding Hood and handing her the basket, speaking kindly) Be careful, dear. Go straight there and come straight back.</span>
+                    <div class="script-direction">(Little Red Riding Hood skips along with the basket, happily humming a tune.)</div>
+                    <span class="script-character">Little Red Riding Hood</span>
+                    <span class="script-line">(Singing) I'm walking all alone down the country lane, To bring my dear old Granny cake. She lives so far away, in a quiet, peaceful place...</span>
+                    <div class="script-direction">(She hops to center stage, spins around excitedly, and faces the audience.)</div>
+                    <div class="script-direction">(As Little Red Riding Hood appears, the Big Bad Wolf quietly enters from the other side, approaches her, and blocks her path.)</div>
+                    <span class="script-character">Big Bad Wolf</span>
+                    <span class="script-line">Ahem, ahem. (Pretends to cough twice.)</span>
+                    <span class="script-character">Little Red Riding Hood</span>
+                    <span class="script-line">Oh! (Startled, she drops her basket.)</span>
+                    <span class="script-character">Big Bad Wolf</span>
+                    <span class="script-line">Hello there, Little Red Riding Hood. Where are you off to? (The Big Bad Wolf feigns concern, moving closer.)</span>
+                    <span class="script-character">Little Red Riding Hood</span>
+                    <span class="script-line">Hello... Who are you? (She bends down to pick up her basket while trying to answer.)</span>
+                    <div class="script-direction">Suddenly, Little Chick, who was lying down, sits up again, waves their hands, and shouts—</div>
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">Don't talk to strangers!</span>
+                    <div class="script-direction">(Little Red Riding Hood and the Big Bad Wolf freeze for five seconds. Little Red Riding Hood covers her mouth with her hand, quickly walks past the Wolf, and exits stage right. The Big Bad Wolf lets out a long sigh, hanging its head in defeat, and exits stage left. The lights on the left side of the stage dim, while the right side becomes fully lit.)</div>
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">(In a slightly stern tone) Little Chick. You interrupted.</span>
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">(Lowers head, fidgets with fingers, looking sheepish) I'm sorry, Daddy. But you told me not to talk to strangers. I just wanted to remind Little Red Riding Hood...</span>
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">I know. But can you try to relax a little? (Father's tone softens as he pats Little Chick's head again.)</span>
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">Tell another one, Daddy. I'll be good. (Little Chick makes a promising gesture toward Father and obediently lies down again.)</span>
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">Alright. Last time, we got to the part where Snow White ran to the house of the seven dwarves...</span>
+                    <div class="script-direction">(The lights on the right dim again, while the center and left side of the stage brighten. Snow White's theme music begins to play.)</div>
+                </div>
+            `,
+            "Act II": `
+                <div class="script-content">
+                    <div class="script-scene-title">Act II: The Story of Snow White</div>
+                    <div class="script-direction">Setting: The forest.</div>
+                    <div class="script-direction">(As Father Chicken's voice continues, music begins. The dwarves file onto the stage and take their positions in front of the backdrop. The Seven Dwarves are working in the forest: two are picking berries, two are chopping wood, two are carrying water, and one is catching butterflies with a net...)</div>
+                    <div class="script-direction">Simultaneously, melodious music plays. Snow White enters gracefully and walks slowly to center stage, where she sits on the grass and begins to read a book. The music fades out.</div>
+                    <div class="script-direction">The Evil Queen and the Magic Mirror enter immediately after Snow White, moving to the downstage left area. (The Queen's basket of apples is quickly placed nearby by a stagehand.) They stand facing the audience. The Queen looks into the Magic Mirror, admiring her own reflection. She twirls around as music swells.</div>
+                    
+                    <span class="script-character">Queen</span>
+                    <span class="script-line">(Sings) I am the fairest woman, fair beyond compare, All who see me bow down in despair... Magic Mirror on the wall, who is the fairest one of all?</span>
+                    <div class="script-direction">(She asks in a proud, operatic tone. Without waiting for the mirror's reply, she turns to the audience and lets out an arrogant laugh.) It must be me, without a doubt!</div>
+                    
+                    <span class="script-character">Magic Mirror</span>
+                    <span class="script-line">My Queen, you are most fair... except... for Snow White...</span>
+                    <div class="script-direction">(The Magic Mirror stammers its reply.)</div>
+                    
+                    <div class="script-direction">(The Queen suddenly snaps, goes berserk, and frantically screams while clutching at her own hair. The terrified Magic Mirror turns and scurries away.)</div>
+                    
+                    <span class="script-character">Queen</span>
+                    <span class="script-line">(Shrieks hoarsely) Ah! Snow White again! I must get rid of her!</span>
+                    
+                    <div class="script-direction">(The Queen turns, picks up a cloak from the ground and puts it on, then takes the basket of apples and walks towards Snow White. Upon reaching her, she immediately bends over, pretending to be an old woman. She circles Snow White slowly, speaking as she walks.)</div>
+                    
+                    <span class="script-character">Queen</span>
+                    <span class="script-line">Apples for sale! Who will buy my apples? Please, have pity on an old woman.</span>
+                    
+                    <span class="script-character">Snow White</span>
+                    <span class="script-line">Oh, hello, good grandmother. Let me see your apples.</span>
+                    
+                    <span class="script-character">Queen</span>
+                    <span class="script-line">Look, my apples are so sweet. Won't you try one?</span>
+                    <div class="script-direction">(The Queen takes an apple from the basket, bites into the green side, and offers the red side to Snow White.)</div>
+                    
+                    <span class="script-character">Snow White</span>
+                    <span class="script-line">Thank you.</span>
+                    <div class="script-direction">(She reaches out, takes the apple, looks at it, and begins to bring it to her mouth...)</div>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">(Shouts, popping up to a sitting position on the bed again) No! Don't take food from strangers!</span>
+                    
+                    <div class="script-direction">Snow White drops the apple. Snow White, the Queen, and all seven dwarves stand frozen like statues for three seconds. The lights dim, and all characters exit.</div>
+                    <div class="script-direction">Father Chicken looks at Little Chick.</div>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">(Looking somewhat apologetic) Oh, sorry, Daddy! I interrupted again! But... but, Daddy, you said never to take food from strangers!</span>
+                    <div class="script-direction">(Little Chick looks up at Father, justifying themselves.)</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">(In a resigned tone) Yes, I did. But that also means the story ends right there!</span>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">Daddy, please! Tell one more story. I promise I won't interrupt.</span>
+                    <div class="script-direction">(Little Chick immediately lies down and closes their eyes.)</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">Alright. Let's try a different one... Hmm... How about the story of Sleeping Beauty?</span>
+                    <div class="script-direction">(Little Chick nods vigorously, absolutely delighted.)</div>
+                </div>
+            `,
+            "Act III": `
+                <div class="script-content">
+                    <div class="script-scene-title">Act III: Sleeping Beauty</div>
+                    <div class="script-direction">Setting: The stage backdrop changes to a dim castle interior. The right half of the stage still shows the backdrop of Little Chick's bedroom.</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">Once upon a time, a King and Queen had a beautiful baby princess named Aurora... On her sixteenth birthday, Aurora wandered into an old castle by mistake...</span>
+                    <div class="script-direction">(His voice trails off. The lights on the right side of the stage gradually fade.)</div>
+                    <div class="script-direction">(Lights come up on the left side of the stage. The Witch enters, hopping with a broom tucked under her arm and a basket in her hand. She sits at center-left, takes a spindle from the basket, and begins winding thread. She sets the broom aside.)</div>
+                    
+                    <span class="script-character">Witch</span>
+                    <span class="script-line">(Holding up the spindle with a sinister laugh) The beautiful princess only needs to touch this lightly, and she will fall into a deep, deep sleep! Ha! Ha, ha, ha!</span>
+                    
+                    <div class="script-direction">(Aurora enters humming, cheerful and light-hearted. Background music: The "Sleeping Beauty" theme.)</div>
+                    <span class="script-character">Aurora</span>
+                    <span class="script-line">Oh, dear old woman, what are you doing?</span>
+                    
+                    <span class="script-character">Witch</span>
+                    <span class="script-line">(Pretending to be kind) I'm spinning thread! (Holds the spindle higher for Aurora to see) See how fast this spindle turns!</span>
+                    
+                    <div class="script-direction">(Aurora lets out a long "Ohhh," looking very interested. She slowly reaches out to touch the spindle...)</div>
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">(Anxiously jumps down from the bed, rushes forward, and shouts to stop her) No! You mustn't touch it!</span>
+                    
+                    <div class="script-direction">(Both Aurora and the Witch freeze in place, stunned. Aurora's hand remains suspended in mid-air.)</div>
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">(Then rushes to the left side of the stage, toward the wings, calling out) Fairy! Fairy! Come and help!</span>
+                    
+                    <div class="script-direction">(The Fairy enters hurriedly, holding up her skirts.)</div>
+                    <span class="script-character">Fairy</span>
+                    <span class="script-line">What is it? What's wrong? (Turns and sees the Witch, quickly pulls Aurora aside, shielding her. Points at the Witch) You wicked witch! You only want to harm others!! I'll fight you!!</span>
+                    
+                    <div class="script-direction">(The Fairy draws a sword. Aurora picks up the Witch's broom. Together, they chase the Witch. Little Chick claps and laughs from the side.)</div>
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">Get her! That's right!</span>
+                    
+                    <span class="script-character">Witch</span>
+                    <span class="script-line">(Dodging and weaving, hands over head) Mercy! Have mercy on me!</span>
+                    
+                    <div class="script-direction">(Aurora and the Fairy chase the Witch offstage.)</div>
+                    <div class="script-direction">(Lights fade on the left and come up on the right. Father Chicken leads Little Chick back to the bedside.)</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">(Sighs in resignation) You see, Little Chick? With your interruption, this story has also come to an end!</span>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">But Daddy, that witch's spindle really shouldn't be touched!</span>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">I know. You wanted to protect Aurora, didn't you? But, my little one, then Aurora would never become Sleeping Beauty!</span>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">(A little confused) Hmm... that's...</span>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">(Pats Little Chick's head) Alright then, let me tell you a story from Arabia...</span>
+                </div>
+            `,
+            "Act IV": `
+                <div class="script-content">
+                    <div class="script-scene-title">Act IV: Ali Baba and the Forty Thieves</div>
+                    <div class="script-direction">Setting: The lights gradually come up. The backdrop on the left side of the stage changes to an Arabian castle courtyard. Several large wine jars are placed on the ground.</div>
+                    
+                    <span class="script-character">Father Chicken</span>
+                    <span class="script-line">Long, long ago, there was an Arabian young man named Ali Baba...</span>
+                    
+                    <div class="script-direction">(Background music begins: "Ali Baba and the Forty Thieves." A group of bandits, brandishing gleaming scimitars, dance onto the stage from the left. The dance ends with the bandits striking a collective pose.)</div>
+                    <span class="script-character">Bandit Leader</span>
+                    <span class="script-line">Men, this is Ali Baba's house! Tonight, we will kill them all and take back our treasure!</span>
+                    
+                    <span class="script-character">The Thieves</span>
+                    <span class="script-line">(Raising their scimitars and shouting) Kill them all! Take back the treasure!</span>
+                    
+                    <span class="script-character">Bandit Leader</span>
+                    <span class="script-line">(Pointing his scimitar at the wine jars) Quick, hide!</span>
+                    <div class="script-direction">(The thieves scramble to hide behind the wine jars. The Bandit Leader hides behind a tree. Ali Baba enters, holding an oil lamp.)</div>
+                    
+                    <span class="script-character">Ali Baba</span>
+                    <span class="script-line">What was that sound?</span>
+                    <div class="script-direction">(He holds up the lamp and looks around but finds nothing unusual.)</div>
+                    <span class="script-character">Ali Baba</span>
+                    <span class="script-line">Must have been my imagination. Back to bed!</span>
+                    <div class="script-direction">(Just as Ali Baba is about to turn back with the lamp,</div>
+                </div>
+            `,
+            "Act V": `
+                <div class="script-content">
+                    <div class="script-scene-title">Act V: (待补充内容)</div>
+                    <div class="script-direction">此部分内容暂未补充</div>
+                </div>
+            `,
+            "Act VI": `
+                <div class="script-content">
+                    <div class="script-scene-title">Act VI: Frozen</div>
+                    <div class="script-direction">Setting: The North Mountain, inside the ice palace created by Elsa's magic.</div>
+                    <div class="script-direction">Father Chicken opens a book and begins narrating the story of Frozen, yawning. Music swells — "Let it go, Let it go..." Elsa runs onto the stage with the music, dancing gracefully, reveling in the freedom and unrestrained joy of her icy domain. (A highlight section of the song is used, total length under 20 seconds).</div>
+                    
+                    <span class="script-character">Elsa</span>
+                    <span class="script-line">This is who I am! I can finally enjoy my ice powers freely!</span>
+                    
+                    <div class="script-direction">(Anna, Kristoff, Olaf, and Sven enter the stage, calling out "Elsa! Elsa! Where are you?" Anna spots Elsa and runs towards her excitedly. Elsa steps back nervously.)</div>
+                    
+                    <span class="script-character">Anna</span>
+                    <span class="script-line">Elsa, you're here!</span>
+                    
+                    <span class="script-character">Elsa</span>
+                    <span class="script-line">No, stay back!</span>
+                    
+                    <span class="script-character">Anna</span>
+                    <span class="script-line">Please, come back with us!</span>
+                    
+                    <span class="script-character">Kristoff</span>
+                    <span class="script-line">Arendelle needs you!</span>
+                    
+                    <span class="script-character">Sven</span>
+                    <span class="script-line">(A vocalization implying) Because you're our Queen!</span>
+                    
+                    <span class="script-character">Elsa</span>
+                    <span class="script-line">I can't! I can't control my powers, I'll hurt everyone! Please, just go back!</span>
+                    
+                    <span class="script-character">Anna</span>
+                    <span class="script-line">Elsa...</span>
+                    
+                    <div class="script-direction">(Little Chick, unable to hold back any longer, runs down from the bed and quietly slips into the middle of the group. Father Chicken is almost asleep and doesn't notice Little Chick has run off. Elsa turns to walk upstage, with Anna close behind.)</div>
+                    
+                    <span class="script-character">Anna</span>
+                    <span class="script-line">Elsa, don't be afraid! We can face anything together!</span>
+                    
+                    <span class="script-character">Elsa</span>
+                    <span class="script-line">(Turns to face everyone) I can't! You all have to leave!</span>
+                    
+                    <div class="script-direction">(In an agitated motion, she waves her hand. A bright flash of light. The sound of shattering ice is heard offstage as Elsa's magic goes out of control. At the same moment, Little Chick rushes forward to protect everyone but, along with Anna, Kristoff, and Sven, is frozen by Elsa's magic into an ice sculpture, standing in an exaggerated, motionless pose! Only Olaf is unaffected because he is made of snow.)</div>
+                    
+                    <span class="script-character">Olaf</span>
+                    <span class="script-line">What happened? They've all turned to ice!</span>
+                    <div class="script-direction">(Waves his arms and legs, looks himself over)</div>
+                    <span class="script-character">Olaf</span>
+                    <span class="script-line">Why can I still move? Oh, right, I'm a snowman! Anna! Kristoff! Hey, where did this chick come from?</span>
+                    
+                    <span class="script-character">Elsa</span>
+                    <span class="script-line">(Looking at her hands) No! How did this happen?! What have I done?</span>
+                    
+                    <span class="script-character">Olaf</span>
+                    <span class="script-line">Elsa, it's not your fault! When this little chick rushed out, it scattered your magic, so everyone got frozen!</span>
+                    
+                    <span class="script-character">Elsa</span>
+                    <span class="script-line">(Shakes Anna's shoulders) Anna, wake up!</span>
+                    <div class="script-direction">(Hugs Anna and cries)</div>
+                    <div class="script-direction">(Anna's stiff body begins to loosen, and she wakes up.)</div>
+                    
+                    <span class="script-character">Anna</span>
+                    <span class="script-line">Oh, Elsa!</span>
+                    
+                    <div class="script-direction">(Kristoff and Sven also thaw and recover. Only Little Chick remains frozen in a stiff, exaggerated pose. Everyone gathers around Little Chick, laughing and calling out "Little Chick, wake up..." Finally, Little Chick blinks and thaws.)</div>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">I'm so sorry! I think I did something silly again and worried everyone!</span>
+                    <div class="script-direction">(Lowers head, somewhat embarrassed)</div>
+                    
+                    <span class="script-character">Anna</span>
+                    <span class="script-line">You meant well. We don't blame you!</span>
+                    
+                    <span class="script-character">Kristoff</span>
+                    <span class="script-line">Dear Little Chick, we know you wanted to protect everyone. But without going through the storm, how can we grow?</span>
+                    
+                    <span class="script-character">Sven</span>
+                    <span class="script-line">And Elsa couldn't become the true queen, and Anna couldn't find her true love!</span>
+                    
+                    <span class="script-character">Little Chick</span>
+                    <span class="script-line">I understand. Thank you!</span>
+                    
+                    <div class="script-direction">(Joyful music plays. Other actors enter, and everyone dances together. Suddenly, loud snoring is heard. Everyone looks and sees Father Chicken has fallen asleep on the bed. The music softens. The friends tiptoe over to Father Chicken. Little Chick picks up a blanket and covers him. Together, they gently push the bed with Father Chicken on it towards the exit. As they go, they make "shh" gestures to the audience and wave goodbye.)</div>
+                    
+                    <div class="script-direction">THE END</div>
+                </div>
+            `
+        };
+
+        // 打开弹窗函数
+        function openModal(actName) {
+            const modal = document.getElementById('scriptModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalContent = document.getElementById('modalContent');
+            
+            // 设置弹窗标题和内容
+            modalTitle.textContent = actName;
+            modalContent.innerHTML = scriptData[actName] || '<div class="script-content"><p>暂无该幕的剧本内容</p></div>';
+            
+            // 显示弹窗
+            modal.style.display = 'flex';
+        }
+
+        // 关闭弹窗函数
+        function closeModal() {
+            const modal = document.getElementById('scriptModal');
+            modal.style.display = 'none';
+        }
+
+        // 点击弹窗外部关闭弹窗
+        window.onclick = function(event) {
+            const modal = document.getElementById('scriptModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>

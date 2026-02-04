@@ -132,7 +132,7 @@
             min-height: 100vh;
         }
 
-        /* 核心统一样式：简介框/双诗框 共用，保证所有框样式完全一致 */
+        /* 核心统一样式：所有卡片共用，样式完全一致 */
         .core-card {
             background: var(--chapter-bg);
             padding: 25px;
@@ -141,7 +141,7 @@
             border-left: var(--chapter-border);
         }
         /* 统一标题样式：所有框的标题字体/大小/颜色/边框完全一致 */
-        .core-card h2 {
+        .core-card h2, .image-gallery h2 {
             font-size: 1.5rem;
             margin-bottom: 20px;
             border-bottom: 2px solid var(--primary-blue);
@@ -151,6 +151,10 @@
             width: 100%;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
+        /* 简介框标题专属：拉开字间距 */
+        .bio-card h2 {
+            letter-spacing: 2px; /* 标题字符间距 */
+        }
         /* 统一正文样式：所有框的文字字体/大小/颜色/行高完全一致 */
         .core-card p, .core-card span {
             line-height: 1.6;
@@ -159,16 +163,22 @@
             font-family: 'Arial', sans-serif;
         }
 
-        /* 简介框专属：单独的间距+折叠样式，折叠仅显示4-5句 */
+        /* 简介框专属：单独的间距+折叠样式 */
         .bio-card {
             max-width: 900px;
             margin: 0 auto 30px;
         }
         .bio-content {
-            max-height: 180px; /* 精准折叠，仅显示前4句核心内容 */
+            max-height: 220px; /* 精准折叠，适配简介内容 */
             overflow: hidden;
             transition: max-height 0.5s ease;
             max-width: 100%;
+        }
+        /* 简介框正文专属：拉开字符间距+微调行高，解决拥挤问题 */
+        .bio-content p {
+            letter-spacing: 0.5px; /* 一句话内字符轻微间隔，不拥挤 */
+            line-height: 1.8;      /* 行间距舒展，阅读更舒适 */
+            margin-bottom: 12px;   /* 段落之间加间距，区分更清晰 */
         }
         .bio-content.expanded { max-height: 800px; } /* 展开显示全部 */
         .toggle-btn {
@@ -192,29 +202,33 @@
             transform: translateY(-2px);
         }
 
-        /* 双诗框+图片容器：核心布局修改，图片优先在左诗框下，超量则铺满 */
+        /* 核心布局：双列容器 - 左侧量子诗+4图+星尘诗，右侧黑洞诗+4图，顶部对齐 */
         .poem-gallery-container {
             max-width: 900px;
             margin: 0 auto 30px;
             display: flex;
-            gap: 20px; /* 左右诗框/图片区与右诗框的间距 */
+            gap: 20px;
+            align-items: flex-start;
         }
-        /* 左侧容器：量子诗框 + 图片展示区（优先放置） */
+        /* 左侧容器：量子诗 + 4图 + 星尘诗，1列布局，统一间距20px */
         .left-poem-gallery {
             flex: 1;
             display: flex;
             flex-direction: column;
-            gap: 20px; /* 量子诗框和图片区的间距 */
+            gap: 20px;
         }
-        /* 右侧容器：黑洞诗歌框（单独列，高度自适应） */
-        .right-poem-only {
+        /* 右侧容器：黑洞诗 + 4图，1列布局，间距20px */
+        .right-poems-container {
             flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-        /* 单首诗的卡片：复用core-card，和简介框样式一致 */
+        /* 单首诗的卡片：复用core-card，样式统一 */
         .single-poem-card {
             width: 100%;
         }
-        /* 诗歌专属微调：仅优化排版美感，不修改字体/大小/颜色（和简介框一致） */
+        /* 诗歌专属微调：仅优化排版美感，不修改核心样式 */
         .poem-meta {
             font-style: italic;
             color: #e0f7ff !important;
@@ -241,7 +255,7 @@
             transform: scale(1.02);
         }
 
-        /* 图片展示区域：样式统一，优先在左诗框下，超量自动延伸铺满 */
+        /* 通用图片展示容器：所有图片框复用，样式和核心卡片完全一致 */
         .image-gallery {
             width: 100%;
             padding: 25px;
@@ -250,21 +264,19 @@
             box-shadow: var(--shadow);
             border-left: var(--chapter-border);
         }
-        .image-gallery h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--primary-blue);
-            padding-bottom: 8px;
-            color: var(--primary-blue);
-            text-align: center;
-            width: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        .gallery-grid {
+        /* 4图网格：2列布局，间距20px，适配所有4图框 */
+        .gallery-grid-4 {
             display: grid;
-            grid-template-columns: repeat(2, 1fr); /* 左列图片默认2列，适配单列宽度 */
-            gap: 15px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
+        /* 2图网格：2列均分，间距20px，适配所有2图框 */
+        .gallery-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        /* 图片项通用样式：所有图片框的图片项样式统一，hover动效一致 */
         .gallery-item {
             border-radius: 8px;
             overflow: hidden;
@@ -280,12 +292,12 @@
         }
         .gallery-item img {
             width: 100%;
-            height: 160px;
+            height: 200px;
             object-fit: cover;
             display: block;
         }
 
-        /* 满宽图片区：当图片超量时，自动在双诗框下铺满显示（适配多图） */
+        /* 底部满宽图片区：保留原有样式，和整体风格统一 */
         .full-width-gallery {
             max-width: 900px;
             margin: 0 auto 30px;
@@ -295,8 +307,35 @@
             box-shadow: var(--shadow);
             border-left: var(--chapter-border);
         }
-        .full-width-gallery .gallery-grid {
-            grid-template-columns: repeat(4, 1fr); /* 满宽时恢复4列，和原样式一致 */
+        .two-col-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .gallery-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .bottom-gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-blue);
+            background-color: rgba(0, 40, 80, 0.7);
+            height: 220px;
+        }
+        .bottom-gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
+            background-color: rgba(0, 86, 179, 0.5);
+        }
+        .bottom-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
 
         /* 宇航员动画：无修改 */
@@ -320,14 +359,13 @@
             100% { transform: translateY(-50%) rotate(0deg); }
         }
 
-        /* 响应式适配：移动端自动调整，双诗框+图片改为上下布局 */
+        /* 响应式适配：移动端自动改为1列布局，所有图片框适配 */
         @media (max-width: 1024px) {
-            .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .full-width-gallery .gallery-grid { grid-template-columns: repeat(2, 1fr); }
-            .gallery-item img { height: 180px; }
+            .gallery-item img { height: 190px; }
+            .bottom-gallery-item { height: 200px; }
         }
         @media (max-width: 768px) {
-            /* 移动端侧边栏改为顶部 */
+            /* 移动端侧边栏改顶部 */
             .sidebar {
                 width: 100%;
                 height: auto;
@@ -341,15 +379,15 @@
                 padding: 20px;
                 background-color: var(--bg-dark);
             }
-            /* 移动端所有卡片统一适配 */
+            /* 所有卡片移动端适配 */
             .core-card, .image-gallery, .full-width-gallery {
                 max-width: 100%;
                 padding: 20px;
                 border-left: 3px solid var(--primary-blue);
             }
             .bio-card { margin-bottom: 20px; }
-            .bio-content { max-height: 220px; } /* 移动端适配折叠高度 */
-            /* 移动端双诗框+图片改为上下布局，取消左右并排 */
+            .bio-content { max-height: 320px; } /* 适配正文行高调整，避免折叠漏字 */
+            /* 移动端核心布局改为1列，取消左右分栏 */
             .poem-gallery-container {
                 flex-direction: column;
                 gap: 15px;
@@ -359,13 +397,15 @@
                 transform: none;
                 text-shadow: 0 0 2px #ffffff, 0 0 3px #000 !important;
             }
-            /* 移动端图片画廊适配 */
+            /* 移动端图片网格全改为1列，图片更高清 */
             .cartoon-astronaut { display: none; }
-            .gallery-grid, .full-width-gallery .gallery-grid {
-                grid-template-columns: 1fr; 
+            .gallery-grid-4, .gallery-grid-2 {
+                grid-template-columns: 1fr;
                 gap: 20px;
             }
-            .gallery-item img { height: 200px; }
+            .gallery-item img { height: 220px; }
+            .two-col-gallery { grid-template-columns: 1fr; }
+            .bottom-gallery-item { height: 220px; }
         }
     </style>
 </head>
@@ -424,28 +464,30 @@
         </div>
     </div>
 
-    <!-- 右侧主内容区：核心布局修改→图片优先在左诗框下 -->
+    <!-- 右侧主内容区：按要求重构布局 -->
     <main class="main-content">
         <div class="cartoon-astronaut"></div>
 
-        <!-- 第一框：个人简介（折叠仅4句，样式不变） -->
+        <!-- 第一框：个人简介（样式不变，交互保留） -->
         <div class="core-card bio-card">
             <h2>A Different Kind of Supernova: My Journey</h2>
             <div class="bio-content" id="bioContent">
-                <p>I am drawn to astronomy, for in the universe’s boundless grandeur, I find my own worries vanishingly small.</p>
-                <p>I am equally drawn to physics, driven by the desire to peel back the surface of things and uncover the underlying laws that bind all matter.</p>
-                <p>Yet life is not all contemplation. On the badminton court, every smash fuels my spirit, gifting me a split-second boldness that echoes in all walks of life.</p>
-                <p>In quieter moments, I immerse myself in imaginary worlds, reading books and write poems. I also write stage plays for children, trying to speak plain truths in simple words.</p>
-                <p>And when words run out, I turn to my violin—music never struggles to express what language cannot.</p>
-                <p>These passions converge, forming the very elements of my universe as I strive to become my own kind of supernova.</p>
+                <p>As a child with a speech disorder, I spent years piercing that barrier to find my voice.</p>
+                <p>I am drawn to astronomy, where the universe's boundless grandeur makes my own worries seem vanishingly small.</p>
+                <p>Physics, however, captivates me even more, driven by the desire to peel back the surface of things and uncover the underlying laws that bind all matter.</p>
+                <p>Yet I craft my world with my hands as with my mind. Every afternoon, my youth finds its voice on the badminton court. There, every smash fuels my spirit, gifting me a split-second boldness that echoes through all walks of life.</p>
+                <p>In quieter moments, I immerse myself in imaginary worlds, reading books and writing poems. I also write stage plays for children, striving to speak plain truths in simple words.</p>
+                <p>And when words run out, I turn to my violin—music never struggles to express what language can’t.</p>
+                <p>These passions converge, forming the elements of my universe as I strive to become my own kind of supernova.</p>
             </div>
             <button class="toggle-btn" id="toggleBtn">Read More</button>
         </div>
 
-        <!-- 核心布局：双诗框+图片容器 → 左：量子诗+图片区 | 右：黑洞诗 -->
+        <!-- 核心布局：左列=量子诗→4张旅程图→星尘诗 | 右列=黑洞诗→4张探索图 -->
         <div class="poem-gallery-container">
-            <!-- 左侧：Quantum Sonnet诗歌 + 图片展示区（优先放置） -->
+            <!-- 左侧列：核心排布 - 量子诗 → Moments in My Journey 4图 → 星尘诗 -->
             <div class="left-poem-gallery">
+                <!-- 左侧第一个框：Quantum Sonnet · 2024 -->
                 <div class="core-card single-poem-card">
                     <h2>Quantum Sonnet · 2024</h2>
                     <div class="poem-meta">My Quantum Inspiration</div>
@@ -470,20 +512,39 @@
                     </div>
                 </div>
 
-                <!-- 图片展示区：优先在左侧量子诗框下方 -->
+                <!-- 紧跟4张图：Moments in My Journey 原有图片不变 -->
                 <div class="image-gallery">
                     <h2>Moments in My Journey</h2>
-                    <div class="gallery-grid">
+                    <div class="gallery-grid-4">
                         <div class="gallery-item"><img src="../images/about1.png" alt="Physics Lab"></div>
                         <div class="gallery-item"><img src="../images/about3.jpg" alt="Astronomy Observation"></div>
                         <div class="gallery-item"><img src="../images/about9.jpg" alt="Quantum Research"></div>
                         <div class="gallery-item"><img src="../images/about1.jpg" alt="Academic Conference"></div>
                     </div>
                 </div>
+
+                <!-- 4图下方：Stardust in My Veins · 2023 -->
+                <div class="core-card single-poem-card">
+                    <h2>Stardust in My Veins · 2023</h2>
+                    <div class="poem-meta">My Universe in Words</div>
+                    <div class="poem-meta">by Steven Zhu</div>
+                    <div class="poem-stanza">
+                        <span>We are all stardust, forged in fire,</span>
+                        <span>Born from the breath of a dying star's desire—</span>
+                        <span>To reach beyond the dark, to touch the light,</span>
+                        <span>To live, to learn, to chase the infinite night.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>So I chase the stars, with mind and heart,</span>
+                        <span>To unravel the secrets that tear apart</span>
+                        <span>The veil of ignorance, the fog of doubt,</span>
+                        <span>For in the stars, my true self I find out.</span>
+                    </div>
+                </div>
             </div>
 
-            <!-- 右侧：仅放置Towards a Black Hole诗歌（高度自适应左侧） -->
-            <div class="right-poem-only">
+            <!-- 右侧列：单独排布 - Towards a Black Hole → 4张探索图 原有内容不变 -->
+            <div class="right-poems-container">
                 <div class="core-card single-poem-card">
                     <h2>Towards a Black Hole I Still Dream to Go  · 2018</h2>
                     <div class="poem-meta">My Cosmic Dream</div>
@@ -534,21 +595,25 @@
                         <span>I realize, alas, my adventure's only a fool's tool.</span>
                     </div>
                 </div>
+
+                <!-- 黑洞诗紧跟4张图：Cosmic Exploration & Research 原有图片不变 -->
+                <div class="image-gallery">
+                    <h2>Cosmic Exploration & Research</h2>
+                    <div class="gallery-grid-4">
+                        <div class="gallery-item"><img src="../images/about5.jpg" alt="Coding Session"></div>
+                        <div class="gallery-item"><img src="../images/about6.jpg" alt="Book Reading"></div>
+                        <div class="gallery-item"><img src="../images/about8.jpg" alt="Stargazing"></div>
+                        <div class="gallery-item"><img src="../images/about4.jpg" alt="Astronomy Observation"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <!-- 可选：超量图片区 → 放在双诗框正下方满宽显示（如需加更多图片，直接加在这个gallery-grid里） -->
-        <div class="full-width-gallery">
-            <div class="gallery-grid">
-                <div class="gallery-item"><img src="../images/about5.jpg" alt="Coding Session"></div>
-                <div class="gallery-item"><img src="../images/about6.jpg" alt="Book Reading"></div>
-                <div class="gallery-item"><img src="../images/about8.jpg" alt="Stargazing"></div>
-                <div class="gallery-item"><img src="../images/about4.jpg" alt="Stargazing"></div>
-            </div>
+       
         </div>
     </main>
 
-    <!-- 交互JS：仅保留简介展开/收起，无额外修改 -->
+    <!-- 交互JS：无修改，保留简介展开/收起 -->
     <script>
         const bioContent = document.getElementById('bioContent');
         const toggleBtn = document.getElementById('toggleBtn');
@@ -557,7 +622,7 @@
             toggleBtn.textContent = bioContent.classList.contains('expanded') ? 'Read Less' : 'Read More';
         });
 
-        // 导航子菜单显隐逻辑（可选取消注释）
+        // 导航子菜单显隐逻辑（可选取消注释启用）
         // const achievementsNav = document.querySelector('a[href="../achievements/achievements.html"]');
         // const achievementsSub = document.getElementById('achievements-sub');
         // achievementsNav.addEventListener('click', function(e) {e.preventDefault();achievementsSub.classList.toggle('active');});

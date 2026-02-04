@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Leisure Hobbies | Steven Zhu</title>
+    <title>Home | Steven Zhu</title>
     <style>
-        /* 全局变量（沿用index.html风格） */
+        /* 全局变量（沿用原有风格） */
         :root {
             --quantum-blue: #00c8ff;      
             --quantum-purple: #7a00ff;    
@@ -20,7 +20,7 @@
             --text-gray: #ccc;
             --nav-border-radius: 6px;
             --nav-hover-bg: rgba(0,200,255,0.2);
-            --sub-nav-hover-bg: rgba(122,0,255,0.2);
+            --btn-gradient: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
         }
 
         * { 
@@ -45,7 +45,7 @@
             line-height: 1.4;
         }
 
-        /* 左侧导航栏（完全沿用index.html样式，保持统一） */
+        /* 左侧导航栏（完全沿用） */
         .sidebar {
             width: 260px;
             background: var(--sidebar-bg);
@@ -109,145 +109,102 @@
             color: var(--quantum-purple);
         }
 
-        /* 右侧主内容区（定制化设计） */
+        /* 右侧主内容区（主页定制） */
         .main-content {
             margin-left: 260px;
             padding: 30px 40px;
             width: calc(100% - 260px);
             min-height: 100vh;
         }
-        /* 个人爱好介绍文本卡片 */
-        .hobby-intro {
+
+        /* 总说明卡片 */
+        .intro-card {
             background: var(--card-bg);
-            padding: 25px;
+            padding: 30px;
             border-radius: 15px;
             box-shadow: var(--shadow-light);
             border: var(--card-border);
-            max-width: 1000px;
-            margin-bottom: 40px;
+            max-width: 1200px;
+            margin-bottom: 50px;
         }
-        .hobby-intro h2 {
-            font-size: 1.8rem;
+        .intro-card h2 {
+            font-size: 2rem;
             color: var(--quantum-blue);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
-        .hobby-intro h2::before {
+        .intro-card h2::before {
             content: "";
-            width: 6px;
-            height: 28px;
+            width: 8px;
+            height: 32px;
             background: linear-gradient(180deg, var(--quantum-blue), var(--quantum-purple));
-            border-radius: 3px;
+            border-radius: 4px;
         }
-        .hobby-intro p {
-            font-size: 1rem;
+        .intro-card p {
+            font-size: 1.05rem;
             color: var(--text-light);
-            line-height: 1.6;
-            letter-spacing: 0.3px;
+            line-height: 1.8;
+            letter-spacing: 0.5px;
             margin-bottom: 10px;
         }
 
-        /* 爱好相册卡片容器（网格布局） */
-        .hobby-gallery {
+        /* 四大板块容器 */
+        .sections-container {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-            max-width: 1000px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 40px;
+            max-width: 1200px;
         }
-        /* 单个相册卡片样式 */
-        .gallery-card {
+
+        /* 单个板块样式 */
+        .section-card {
             background: var(--card-bg);
-            border-radius: 12px;
+            border-radius: 15px;
             box-shadow: var(--shadow-deep);
             border: var(--card-border);
             overflow: hidden;
             transition: all 0.4s ease;
-            cursor: pointer;
         }
-        .gallery-card:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 0 35px rgba(0,200,255,0.3), 0 5px 15px rgba(0,0,0,0.1);
+        .section-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 0 40px rgba(0,200,255,0.35), 0 8px 20px rgba(0,0,0,0.15);
         }
-        .gallery-card__img {
+        .section-card__img {
             width: 100%;
-            height: 200px;
+            height: 220px;
             object-fit: cover;
             border-bottom: 1px solid rgba(0,200,255,0.3);
-            transition: transform 0.5s ease;
         }
-        .gallery-card:hover .gallery-card__img {
-            transform: scale(1.05);
+        .section-card__content {
+            padding: 20px 25px;
         }
-        .gallery-card__title {
-            padding: 15px 20px;
-            font-size: 1.1rem;
+        .section-card__title {
+            font-size: 1.3rem;
+            color: var(--quantum-blue);
+            margin-bottom: 15px;
+        }
+        .section-card__desc {
+            font-size: 1rem;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .section-card__btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background: var(--btn-gradient);
             color: var(--text-white);
-            text-align: center;
-            background: linear-gradient(90deg, rgba(0,200,255,0.1), rgba(122,0,255,0.1));
-        }
-
-        /* 照片弹窗样式（艺术化排列） */
-        .photo-modal {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(10,15,37,0.98);
-            z-index: 1000;
-            padding: 40px;
-            overflow-y: auto;
-        }
-        .modal-close {
-            position: absolute;
-            top: 20px;
-            right: 30px;
-            font-size: 2rem;
-            color: var(--quantum-blue);
-            cursor: pointer;
-            transition: color 0.3s ease;
-        }
-        .modal-close:hover {
-            color: var(--quantum-purple);
-        }
-        .modal-title {
-            font-size: 1.6rem;
-            color: var(--quantum-blue);
-            text-align: center;
-            margin-bottom: 30px;
-        }
-        /* 艺术化照片网格（不规则排列） */
-        .photo-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-            gap: 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .photo-item {
             border-radius: 8px;
-            overflow: hidden;
-            box-shadow: 0 0 15px rgba(0,200,255,0.2);
+            font-size: 0.95rem;
             transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
         }
-        /* 不规则尺寸营造艺术感 */
-        .photo-item:nth-child(2n) {
-            grid-row: span 2;
-        }
-        .photo-item:nth-child(3n) {
-            grid-column: span 2;
-        }
-        .photo-item img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        .photo-item:hover {
-            transform: scale(1.03);
-            box-shadow: 0 0 25px rgba(122,0,255,0.3);
+        .section-card__btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,200,255,0.3);
         }
 
         /* 响应式适配 */
@@ -264,30 +221,25 @@
                 width: 100%;
                 padding: 20px 15px;
             }
-            .hobby-intro {
+            .intro-card {
                 padding: 20px;
+                margin-bottom: 30px;
             }
-            .hobby-gallery {
+            .sections-container {
                 grid-template-columns: 1fr;
+                gap: 30px;
             }
-            .photo-grid {
-                grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-            }
-            .photo-item:nth-child(2n), .photo-item:nth-child(3n) {
-                grid-row: span 1;
-                grid-column: span 1;
-            }
-            .photo-modal {
-                padding: 20px 10px;
+            .section-card__img {
+                height: 200px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 左侧导航栏（和index.html保持一致） -->
+    <!-- 左侧导航栏（完全沿用） -->
     <nav class="sidebar">
         <ul style="list-style: none; padding: 0;">
-            <li><a href="../home/index.html" class="main-nav">Home</a></li>
+            <li><a href="../index.html" class="main-nav active">Home</a></li>
             <li><a href="../about/about.html" class="main-nav">About Me</a></li>
             <li><a href="../achievements/achievements.html" class="main-nav">Achievements</a></li>
             <li><a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a></li>
@@ -313,129 +265,59 @@
         </div>
     </nav>
 
-    <!-- 右侧主内容区 -->
+    <!-- 右侧主页内容 -->
     <main class="main-content">
-        <!-- 爱好介绍文本 -->
-        <div class="hobby-intro">
+        <!-- 总说明卡片 -->
+        <div class="intro-card">
             <h2>My Leisure Hobbies</h2>
-            <p>Beyond physics research and academic pursuits, I embrace a diverse range of leisure hobbies that balance my analytical side with creativity and physical vitality. These hobbies not only enrich my daily life but also foster discipline, teamwork, and imaginative thinking—qualities that complement my scientific endeavors.</p>
-            <p>From the precision of playing the violin to the collaborative creativity of Minecraft, the expressive storytelling of drama, and the dynamic energy of sports, each hobby shapes my perspective and brings joy to my life. Below are glimpses into these meaningful pastimes.</p>
+            <p>My Children's Stage Play Scraft allows me to unleash creativity and expressiveness through script creation and stage performance.</p>
+            <p>Being part of the String Orchestra lets me weave delicate auditory landscapes with the flowing melodies of strings.</p>
+            <p>I Love Playing Sports brings me joy and vitality, as I embrace the energy and perseverance in every sweat-filled moment.</p>
+            <p>My Minecraft is a creative paradise where I build a unique world of boundless imagination with pixel blocks.</p>
         </div>
 
-        <!-- 爱好相册卡片 -->
-        <div class="hobby-gallery">
-            <!-- 小提琴相册 -->
-            <div class="gallery-card" data-modal="violin-modal">
-                <img src="./images/violin-1.jpg" alt="My Violin" class="gallery-card__img">
-                <div class="gallery-card__title">My Violin</div>
+        <!-- 四大板块容器 -->
+        <div class="sections-container">
+            <!-- 板块1：儿童剧编剧-->
+            <div class="section-card">
+                <img src="../my-leisure-hobbies/images/drama-2.jpg" alt="Academic Research" class="section-card__img">
+                <div class="section-card__content">
+                    <h3 class="section-card__title">My Children's Stage Play Scraft</h3>
+                    <p class="section-card__desc"></p>
+                    <a href="../my-leisure-hobbies/Scraft.html" class="section-card__btn">View Details </a>
+                </div>
             </div>
-            <!-- 戏剧相册 -->
-            <div class="gallery-card" data-modal="drama-modal">
-                <img src="./images/Drama-1.jpg" alt="My Drama" class="gallery-card__img">
-                <div class="gallery-card__title">My Drama</div>
+
+            <!-- 板块2：小提琴板块 -->
+            <div class="section-card">
+                <img src="../my-leisure-hobbies/images/violin-1.jpg" alt="Medical AI App" class="section-card__img">
+                <div class="section-card__content">
+                    <h3 class="section-card__title">My String orchestra</h3>
+                    <p class="section-card__desc"></p>
+                    <a href="../my-leisure-hobbies/images/violin.html" class="section-card__btn">View Details</a>
+                </div>
             </div>
-            <!-- 我的世界相册 -->
-            <div class="gallery-card" data-modal="minecraft-modal">
-                <img src="./images/mine-1.jpg" alt="My Minecraft" class="gallery-card__img">
-                <div class="gallery-card__title">My Minecraft</div>
+
+            <!-- 板块3： -->
+            <div class="section-card">
+                <img src="../my-leisure-hobbies/images/sports-1.jpg" alt="Extracurricular Activities" class="section-card__img">
+                <div class="section-card__content">
+                    <h3 class="section-card__title">I Love Playing Sports</h3>
+                    <p class="section-card__desc"></p>
+                    <a href="../my-leisure-hobbies/images/sports.html" class="section-card__btn">View Details</a>
+                </div>
             </div>
-            <!-- 运动相册 -->
-            <div class="gallery-card" data-modal="sports-modal">
-                <img src="./images/sports-1.jpg" alt="Sports" class="gallery-card__img">
-                <div class="gallery-card__title">Sports</div>
+
+            <!-- 板块4：My Minecraft -->
+            <div class="section-card">
+                <img src="../my-leisure-hobbies/minecraft1.jpg" alt="Leisure Hobbies" class="section-card__img">
+                <div class="section-card__content">
+                    <h3 class="section-card__title">My Minecraft</h3>
+                    <p class="section-card__desc"></p>
+                    <a href="./my-leisure-hobbies/hobbies.html" class="section-card__btn">View Details</a>
+                </div>
             </div>
         </div>
     </main>
-
-    <!-- 小提琴照片弹窗 -->
-    <div class="photo-modal" id="violin-modal">
-        <span class="modal-close">&times;</span>
-        <h3 class="modal-title">My Violin Journey</h3>
-        <div class="photo-grid">
-            <div class="photo-item"><img src="./images/violin-1.jpg" alt="Violin Practice"></div>
-            <div class="photo-item"><img src="./images/violin-2.jpg" alt="Violin Performance"></div>
-            <div class="photo-item"><img src="./images/voilin-3.jpg" alt="Violin Competition"></div>
-            <div class="photo-item"><img src="./images/voilin-4.mp4" alt="Violin Rehearsal in Canada"></div>
-            <div class="photo-item"><img src="./images/voilin-5.jpg" alt="Violin with Teacher"></div>
-
-        </div>
-    </div>
-
-    <!-- 戏剧照片弹窗 -->
-    <div class="photo-modal" id="drama-modal">
-        <span class="modal-close">&times;</span>
-        <h3 class="modal-title">My Drama Experiences</h3>
-        <div class="photo-grid">
-            <div class="photo-item"><img src="./images/drama-2.jpg" alt="Drama Rehearsal"></div>
-            <div class="photo-item"><img src="./images/drama-3.jpg" alt="Stage Performance"></div>
-            <div class="photo-item"><img src="./images/drama-4.jpg" alt="Drama Award"></div>
-            <div class="photo-item"><img src="./images/drama-5.jpg" alt="Cast Group Photo"></div>
-        </div>
-    </div>
-
-    <!-- Minecraft照片弹窗 -->
-    <div class="photo-modal" id="minecraft-modal">
-        <span class="modal-close">&times;</span>
-        <h3 class="modal-title">My Minecraft Creations</h3>
-        <div class="photo-grid">
-            <div class="photo-item"><img src="./images/minecraft-1.jpg" alt="Minecraft Build"></div>
-            <div class="photo-item"><img src="./images/minecraft-2.jpg" alt="Minecraft Redstone Project"></div>
-            <div class="photo-item"><img src="./images/minecraft-3.jpg" alt="Minecraft Multiplayer"></div>
-            <div class="photo-item"><img src="./images/minecraft-4.jpg" alt="Minecraft Creative Mode"></div>
-            <div class="photo-item"><img src="./images/minecraft-5.jpg" alt="Minecraft Competition"></div>
-        </div>
-    </div>
-
-    <!-- 运动照片弹窗 -->
-    <div class="photo-modal" id="sports-modal">
-        <span class="modal-close">&times;</span>
-        <h3 class="modal-title">My Sports Moments</h3>
-        <div class="photo-grid">
-            <div class="photo-item"><img src="./images/sports-1.jpg" alt="Badminton Game"></div>
-            <div class="photo-item"><img src="./images/sports-2.jpg" alt="Basketball Team"></div>
-            <div class="photo-item"><img src="./images/sports-3.jpg" alt="Running Competition"></div>
-            <div class="photo-item"><img src="./images/sports-4.jpg" alt="Swimming Practice"></div>
-            <div class="photo-item"><img src="./images/sports-5.jpg" alt="Sports Day Medal"></div>
-        </div>
-    </div>
-
-    <!-- 交互JS -->
-    <script>
-        // 打开相册弹窗
-        const galleryCards = document.querySelectorAll('.gallery-card');
-        const modals = document.querySelectorAll('.photo-modal');
-        const closeBtns = document.querySelectorAll('.modal-close');
-
-        galleryCards.forEach(card => {
-            card.addEventListener('click', () => {
-                const modalId = card.getAttribute('data-modal');
-                const modal = document.getElementById(modalId);
-                modal.style.display = 'block';
-                // 禁止页面滚动
-                document.body.style.overflow = 'hidden';
-            });
-        });
-
-        // 关闭相册弹窗
-        closeBtns.forEach(btn => {
-            btn.addEventListener('click', () => {
-                modals.forEach(modal => {
-                    modal.style.display = 'none';
-                    // 恢复页面滚动
-                    document.body.style.overflow = 'auto';
-                });
-            });
-        });
-
-        // 点击弹窗外区域关闭
-        window.addEventListener('click', (e) => {
-            modals.forEach(modal => {
-                if (e.target === modal) {
-                    modal.style.display = 'none';
-                    document.body.style.overflow = 'auto';
-                }
-            });
-        });
-    </script>
 </body>
 </html>
