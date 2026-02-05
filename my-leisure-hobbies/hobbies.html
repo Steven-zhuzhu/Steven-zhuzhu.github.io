@@ -42,7 +42,7 @@
             background-position: 0 0, 10px 10px, 20px 20px;
             color: var(--text-white);
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.4;
+            line-height: 1.4; /* 全局行高保持不变 */
         }
 
         /* 左侧导航栏（完全沿用） */
@@ -109,28 +109,28 @@
             color: var(--quantum-purple);
         }
 
-        /* 右侧主内容区（主页定制） */
+        /* 右侧主内容区（核心调整：紧凑排版） */
         .main-content {
             margin-left: 260px;
-            padding: 30px 40px;
+            padding: 25px 30px; /* 减少内边距 */
             width: calc(100% - 260px);
             min-height: 100vh;
         }
 
-        /* 总说明卡片 */
+        /* 总说明卡片（紧凑化调整） */
         .intro-card {
             background: var(--card-bg);
-            padding: 30px;
+            padding: 25px 28px; /* 减少内边距（原30px） */
             border-radius: 15px;
             box-shadow: var(--shadow-light);
             border: var(--card-border);
             max-width: 1200px;
-            margin-bottom: 50px;
+            margin-bottom: 45px; /* 减少底部外边距（原50px） */
         }
         .intro-card h2 {
-            font-size: 2rem;
+            font-size: 1.9rem; /* 轻微缩小标题（原2rem） */
             color: var(--quantum-blue);
-            margin-bottom: 20px;
+            margin-bottom: 15px; /* 减少标题下间距（原20px） */
             display: flex;
             align-items: center;
             gap: 10px;
@@ -138,27 +138,27 @@
         .intro-card h2::before {
             content: "";
             width: 8px;
-            height: 32px;
+            height: 28px; /* 适配标题字号 */
             background: linear-gradient(180deg, var(--quantum-blue), var(--quantum-purple));
             border-radius: 4px;
         }
         .intro-card p {
-            font-size: 1.05rem;
+            font-size: 1rem; /* 轻微缩小字号（原1.05rem） */
             color: var(--text-light);
-            line-height: 1.8;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
+            line-height: 1.7; /* 减少行高（原1.8），核心紧凑点 */
+            letter-spacing: 0.4px; /* 减少字间距（原0.5px） */
+            margin-bottom: 8px; /* 减少段落间距（原10px） */
         }
 
-        /* 四大板块容器 */
+        /* 四大板块容器（紧凑化） */
         .sections-container {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
+            gap: 25px; /* 减少卡片间距（原40px），核心紧凑点 */
             max-width: 1200px;
         }
 
-        /* 单个板块样式 */
+        /* 单个板块样式（紧凑化） */
         .section-card {
             background: var(--card-bg);
             border-radius: 15px;
@@ -178,26 +178,26 @@
             border-bottom: 1px solid rgba(0,200,255,0.3);
         }
         .section-card__content {
-            padding: 20px 25px;
+            padding: 15px 20px; /* 减少卡片内边距（原20px 25px） */
         }
         .section-card__title {
-            font-size: 1.3rem;
+            font-size: 1.2rem; /* 轻微缩小标题（原1.3rem） */
             color: var(--quantum-blue);
-            margin-bottom: 15px;
+            margin-bottom: 8px; /* 减少标题下间距（原15px） */
         }
         .section-card__desc {
-            font-size: 1rem;
+            font-size: 0.95rem; /* 轻微缩小字号（原1rem） */
             color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 20px;
+            line-height: 1.4; /* 减少行高（原1.6） */
+            margin-bottom: 12px; /* 减少描述下间距（原20px） */
         }
         .section-card__btn {
             display: inline-block;
-            padding: 10px 20px;
+            padding: 8px 18px; /* 减少按钮内边距（原10px 20px） */
             background: var(--btn-gradient);
             color: var(--text-white);
             border-radius: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem; /* 轻微缩小按钮文字（原0.95rem） */
             transition: all 0.3s ease;
             border: none;
             cursor: pointer;
@@ -207,7 +207,7 @@
             box-shadow: 0 5px 15px rgba(0,200,255,0.3);
         }
 
-        /* 响应式适配 */
+        /* 响应式适配（同步紧凑化） */
         @media (max-width: 768px) {
             .sidebar {
                 width: 100%;
@@ -219,15 +219,15 @@
             .main-content {
                 margin-left: 0;
                 width: 100%;
-                padding: 20px 15px;
+                padding: 15px 12px; /* 减少移动端内边距 */
             }
             .intro-card {
-                padding: 20px;
-                margin-bottom: 30px;
+                padding: 15px 18px; /* 减少移动端内边距 */
+                margin-bottom: 20px; /* 减少移动端底部间距 */
             }
             .sections-container {
                 grid-template-columns: 1fr;
-                gap: 30px;
+                gap: 20px; /* 减少移动端卡片间距 */
             }
             .section-card__img {
                 height: 200px;
@@ -270,7 +270,7 @@
         <!-- 总说明卡片 -->
         <div class="intro-card">
             <h2>My Leisure Hobbies</h2>
-            <p>My Children's Stage Play Scraft allows me to unleash creativity and expressiveness through script creation and stage performance.</p>
+            <p>My Children's Stage Play craft allows me to unleash creativity and expressiveness through script creation and stage performance.</p>
             <p>Being part of the String Orchestra lets me weave delicate auditory landscapes with the flowing melodies of strings.</p>
             <p>I Love Playing Sports brings me joy and vitality, as I embrace the energy and perseverance in every sweat-filled moment.</p>
             <p>My Minecraft is a creative paradise where I build a unique world of boundless imagination with pixel blocks.</p>
@@ -282,7 +282,7 @@
             <div class="section-card">
                 <img src="../my-leisure-hobbies/images/drama-2.jpg" alt="Academic Research" class="section-card__img">
                 <div class="section-card__content">
-                    <h3 class="section-card__title">My Children's Stage Play Scraft</h3>
+                    <h3 class="section-card__title">My Children's Stage Play Craft</h3>
                     <p class="section-card__desc"></p>
                     <a href="../my-leisure-hobbies/scraft.html" class="section-card__btn">View Details </a>
                 </div>

@@ -1,323 +1,396 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home | Steven Zhu</title>
+    <title>My Children's Stage Play Scraft</title>
     <style>
-        /* 全局变量（沿用原有风格） */
+        /* 全局样式重置和基础设置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* 定义hobbies.html同款背景变量（核心）- 调整浅蓝色为更浅的色调 */
         :root {
-            --quantum-blue: #00c8ff;      
-            --quantum-purple: #7a00ff;    
-            --dark-blue: #0a0f25;         
-            --sidebar-bg: rgba(10,15,37,0.95); 
-            --card-bg: linear-gradient(135deg, rgba(0,30,80,0.95), rgba(40,10,90,0.95)); 
-            --card-border: 1px solid rgba(0,200,255,0.3); 
-            --shadow-light: 0 0 20px rgba(0,200,255,0.2); 
-            --shadow-deep: 0 0 30px rgba(122,0,255,0.15); 
-            --text-white: #ffffff;
-            --text-light: #e0e0ff;
-            --text-gray: #ccc;
-            --nav-border-radius: 6px;
-            --nav-hover-bg: rgba(0,200,255,0.2);
-            --btn-gradient: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            --page-bg: #0a0f25; /* hobbies页面整体背景色 */
+            --card-gradient: linear-gradient(135deg, rgba(0,30,80,0.95), rgba(40,10,90,0.95)); /* hobbies卡片渐变背景 */
+            --sidebar-bg: rgba(10,15,37,0.95); /* hobbies侧边栏背景 */
+            --text-light: #e6f1ff; /* 浅文字色（适配深色背景） */
+            --text-white: #ffffff; /* 纯白色（标题） */
+            --text-medium: #c0c8d8; /* 中等浅文字色（正文） */
+            --light-blue: #87cefa; /* 修改：更浅的天蓝色（SkyBlue），替代原来的Cornflower Blue */
+            --end-card-bg: rgba(18, 140, 133, 0.95); /* THE END卡片背景色，适配浅蓝主题 */
+            /* 新增按钮专用蓝色变量 */
+            --btn-primary: #1e90ff; /* 主按钮蓝色（DodgerBlue） */
+            --btn-hover: #4169e1; /* 按钮悬停蓝色（RoyalBlue） */
+            --btn-border: #87cefa; /* 按钮边框色 */
         }
 
-        * { 
-            margin: 0; 
-            padding: 0; 
-            box-sizing: border-box; 
-            text-decoration: none;
-            list-style: none;
-        }
-        body { 
-            display: flex; 
-            min-height: 100vh;
-            background: var(--dark-blue);
-            background-image: 
-                radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
-                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px),
-                radial-gradient(rgba(122,0,255,0.03) 2px, transparent 2px);
-            background-size: 50px 50px, 20px 20px, 80px 80px;
-            background-position: 0 0, 10px 10px, 20px 20px;
-            color: var(--text-white);
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.4;
+        /* 页面整体背景：和hobbies.html一致 */
+        body {
+            padding: 20px;
+            background-color: var(--page-bg); /* 替换为hobbies底层背景色 */
         }
 
-        /* 左侧导航栏（完全沿用） */
-        .sidebar {
-            width: 260px;
-            background: var(--sidebar-bg);
-            padding: 20px 15px;
-            height: 100vh;
-            position: fixed;
-            overflow-y: auto;
-            border-right: 1px solid rgba(0,200,255,0.2);
-            box-shadow: 5px 0 15px rgba(0,0,0,0.2);
-            z-index: 100;
+        /* 页面标题框：hobbies同款渐变背景 */
+        .page-title {
+            text-align: center;
+            margin-bottom: 30px;
+            color: var(--text-white); /* 白色标题 */
+            background: var(--card-gradient); /* hobbies卡片渐变 */
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            border-left: 4px solid var(--light-blue); /* 左侧浅天蓝色边框 */
         }
-        .main-nav {
-            color: var(--text-white);
-            padding: 12px 15px;
-            margin: 6px 0;
-            font-size: 0.95rem;
-            display: block;
-            border-radius: var(--nav-border-radius);
-            transition: all 0.3s ease;
+
+        /* 网格容器：布局不变 */
+        .grid-container {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            grid-template-rows: repeat(6, auto);
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* 通用框样式：所有网格项统一hobbies渐变背景 */
+        .grid-item {
+            background: var(--card-gradient); /* 替换为hobbies卡片渐变 */
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 200px;
+            border-left: 4px solid var(--light-blue); /* 每个网格框左侧浅天蓝色边框 */
+        }
+
+        /* 介绍框：hobbies渐变背景 + 文字适配 */
+        .introduction {
+            grid-column: 2 / 3;
+            grid-row: 1 / 2;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: flex-start;
+        }
+
+        .introduction h2 {
+            margin-bottom: 15px;
+            color: var(--text-white); /* 白色标题适配深色渐变 */
+        }
+
+        .introduction p {
+            line-height: 1.6;
+            color: var(--text-medium); /* 中等浅文字色适配深色渐变 */
+            margin-bottom: 12px; /* 增加段落间距，优化阅读体验 */
+        }
+
+        /* 场景/幕 卡片区：布局不变 */
+        .scene-acts {
+            grid-column: 2 / 3;
+            grid-row: 2 / 3;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            min-height: 150px;
+        }
+
+        /* 场景/幕 卡片：修改为醒目蓝色按钮样式 */
+        .act-card {
+            background: var(--btn-primary); /* 主按钮蓝色背景 */
+            border-radius: 6px;
+            padding: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease; /* 过渡效果更顺滑 */
+            border: 2px solid var(--btn-border); /* 浅蓝色边框增强对比 */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 增加阴影提升立体感 */
+        }
+
+        .act-card:hover {
+            background: var(--btn-hover); /* 悬停时更深的蓝色 */
+            transform: translateY(-2px); /* 轻微上浮效果 */
+            box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 悬停阴影加深 */
+        }
+
+        .act-card h3 {
+            color: var(--text-white); /* 按钮文字改为纯白色，更醒目 */
+            font-size: 18px;
+            font-weight: bold;
+            margin: 0;
+        }
+
+        /* THE END卡片特殊样式：适配蓝色主题，保持辨识度 */
+        .act-card:last-child {
+            background: var(--end-card-bg) !important;
+            border: 2px solid var(--btn-border) !important; /* 统一按钮边框 */
+        }
+        .act-card:last-child h3 {
+            font-size: 16px;
+            color: var(--text-light); /* THE END保持原有浅色，适配新背景 */
+        }
+
+        /* 图片框：hobbies渐变背景 + 边框适配 */
+        .image-box {
+            background: var(--card-gradient); /* 替换为hobbies卡片渐变 */
+            border: 1px dashed var(--light-blue); /* 使用统一的浅天蓝色变量 */
+            color: var(--text-light);
+            font-size: 18px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px;
             position: relative;
             overflow: hidden;
         }
-        .main-nav.active {
-            background: linear-gradient(90deg, rgba(0,200,255,0.3), rgba(122,0,255,0.2));
-            border-left: 4px solid var(--quantum-blue);
-        }
-        .main-nav:hover:not(.active) {
-            background: var(--nav-hover-bg);
-            color: var(--quantum-blue);
-            transform: translateX(2px);
-        }
-        .main-nav::after {
-            content: "";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
-            transition: width 0.3s ease;
-        }
-        .main-nav:hover::after {
-            width: 100%;
-        }
-        .sidebar-footer {
-            margin-top: 30px;
-            padding-top: 15px;
-            border-top: 1px solid rgba(0,200,255,0.2);
-            font-size: 0.85rem;
-        }
-        .contact-item {
-            margin: 8px 0;
-        }
-        .contact-item a {
-            color: var(--quantum-blue);
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-        .contact-item a:hover {
-            text-decoration: underline;
-            color: var(--quantum-purple);
-        }
 
-        /* 右侧主内容区（主页定制） */
-        .main-content {
-            margin-left: 260px;
-            padding: 30px 40px;
-            width: calc(100% - 260px);
-            min-height: 100vh;
-        }
-
-        /* 总说明卡片 */
-        .intro-card {
-            background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: var(--shadow-light);
-            border: var(--card-border);
-            max-width: 1200px;
-            margin-bottom: 50px;
-        }
-        .intro-card h2 {
-            font-size: 2rem;
-            color: var(--quantum-blue);
-            margin-bottom: 20px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .intro-card h2::before {
-            content: "";
-            width: 8px;
-            height: 32px;
-            background: linear-gradient(180deg, var(--quantum-blue), var(--quantum-purple));
+        /* 图片样式：不变 */
+        .image-box img {
+            max-width: 100%;
+            max-height: 280px;
+            object-fit: contain;
             border-radius: 4px;
+            transition: transform 0.3s ease;
         }
-        .intro-card p {
-            font-size: 1.05rem;
+
+        .image-box img:hover {
+            transform: scale(1.05);
+        }
+
+        /* 图片占位文字：适配深色背景 */
+        .image-placeholder {
+            margin-top: 10px;
+            font-size: 16px;
+            opacity: 0.9;
             color: var(--text-light);
-            line-height: 1.8;
-            letter-spacing: 0.5px;
-            margin-bottom: 10px;
         }
 
-        /* 四大板块容器 */
-        .sections-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 40px;
-            max-width: 1200px;
-        }
-
-        /* 单个板块样式 */
-        .section-card {
-            background: var(--card-bg);
-            border-radius: 15px;
-            box-shadow: var(--shadow-deep);
-            border: var(--card-border);
-            overflow: hidden;
-            transition: all 0.4s ease;
-        }
-        .section-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 0 40px rgba(0,200,255,0.35), 0 8px 20px rgba(0,0,0,0.15);
-        }
-        .section-card__img {
+        /* 弹窗：hobbies渐变背景 + 文字适配 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-bottom: 1px solid rgba(0,200,255,0.3);
+            height: 100%;
+            background-color: rgba(0,0,0,0.7);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
         }
-        .section-card__content {
-            padding: 20px 25px;
-        }
-        .section-card__title {
-            font-size: 1.3rem;
-            color: var(--quantum-blue);
-            margin-bottom: 15px;
-        }
-        .section-card__desc {
-            font-size: 1rem;
-            color: var(--text-light);
-            line-height: 1.6;
-            margin-bottom: 20px;
-        }
-        .section-card__btn {
-            display: inline-block;
-            padding: 10px 20px;
-            background: var(--btn-gradient);
-            color: var(--text-white);
+
+        .modal-content {
+            background: var(--card-gradient); /* 弹窗背景改为hobbies渐变 */
+            padding: 30px;
             border-radius: 8px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            border-left: 4px solid var(--light-blue); /* 弹窗左侧浅天蓝色边框 */
+        }
+
+        .close-btn {
+            float: right;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-light); /* 关闭按钮文字适配 */
+        }
+
+        .modal-content h3 {
+            margin-bottom: 20px;
+            color: var(--text-white); /* 弹窗标题白色 */
+        }
+
+        /* 剧本内容文字：适配深色渐变背景 */
+        .script-content {
+            line-height: 1.8;
+            color: var(--text-medium);
+        }
+        .script-character {
+            font-weight: bold;
+            color: var(--text-white);
+            margin-top: 15px;
+            display: block;
+        }
+        .script-line {
+            margin-left: 20px;
+            margin-bottom: 10px;
+            display: block;
+        }
+        .script-direction {
+            font-style: italic;
+            color: var(--text-light);
+            margin: 10px 0;
+            display: block;
+        }
+        .script-scene-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: var(--text-white);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255,255,255,0.2); /* 边框适配深色背景 */
+        }
+        .script-character.vo {
+            color: var(--light-blue); /* 使用统一的浅天蓝色变量 */
+            font-style: italic;
+        }
+
+
+
+
+         /* 核心修改：返回按钮容器水平居中 */
+        .section-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center; /* 全局居中 */
+            margin-top: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .section-nav-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: var(--light-blue); /* 改为浅蓝色（和其他文件一致） */
+            color: var(--page-bg); /* 深色文字适配浅蓝色背景 */
+            border: 1px solid var(--btn-border);
+            cursor: pointer;
             font-size: 0.95rem;
             transition: all 0.3s ease;
-            border: none;
-            cursor: pointer;
+            text-decoration: none;
         }
-        .section-card__btn:hover {
+        .section-nav-btn:hover {
+            background: var(--btn-primary); /* 悬停时加深蓝色 */
+            color: var(--text-white); /* 悬停时文字变白 */
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(0,200,255,0.3);
+            box-shadow: 0 0 10px rgba(0,200,255,0.4);
         }
 
-        /* 响应式适配 */
+        /* 修复重复的按钮样式，移到媒体查询内 */
         @media (max-width: 768px) {
-            .sidebar {
-                width: 100%;
-                height: auto;
-                position: relative;
-                border-right: none;
-                border-bottom: 1px solid rgba(0,200,255,0.2);
+            .section-nav-btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
             }
-            .main-content {
-                margin-left: 0;
-                width: 100%;
-                padding: 20px 15px;
-            }
-            .intro-card {
-                padding: 20px;
-                margin-bottom: 30px;
-            }
-            .sections-container {
+        }
+
+        /* 响应式适配：不变 */
+        @media (max-width: 768px) {
+            .grid-container {
                 grid-template-columns: 1fr;
-                gap: 30px;
             }
-            .section-card__img {
-                height: 200px;
+            .introduction, .scene-acts {
+                grid-column: 1 / 2;
+            }
+            .scene-acts {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .image-box img {
+                max-height: 220px;
+            }
+            .modal-content {
+                max-width: 95%;
+            }
+            .page-title {
+                padding: 15px;
+                margin: 0 0 20px 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .scene-acts {
+                grid-template-columns: 1fr;
+            }
+            .image-box img {
+                max-height: 180px;
+            }
+            .act-card h3 {
+                font-size: 16px;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 左侧导航栏（完全沿用） -->
-    <nav class="sidebar">
-        <ul style="list-style: none; padding: 0;">
-            <li><a href="../index.html" class="main-nav active">Home</a></li>
-            <li><a href="../about/about.html" class="main-nav">About Me</a></li>
-            <li><a href="../achievements/achievements.html" class="main-nav">Achievements</a></li>
-            <li><a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a></li>
-            <li><a href="../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App DeDesign</a></li>
-            <li><a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a></li>
-            <li><a href="../my-leisure-hobbies/hobbies.html" class="main-nav active">Leisure Hobbies</a></li>
-            <li><a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a></li>
-            <li><a href="../contact/index.html" class="main-nav">Contact</a></li>
-        </ul>
+    <!-- 页面标题 -->
+    <h1 class="page-title">I love Playing Sports</h1>
 
-        <div class="sidebar-footer">
-            <div class="contact-item">
-                <span>Email:</span>
-                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
-            </div>
-            <div class="contact-item">
-                <span>GitHub:</span>
-                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
-            </div>
-            <div class="creator-info" style="margin-top: 12px; font-size: 0.75rem; color: rgba(255,255,255,0.7);">
-                © 2025 Wuhua (Steven) Zhu
-            </div>
-        </div>
-    </nav>
-
-    <!-- 右侧主页内容 -->
-    <main class="main-content">
-        <!-- 总说明卡片 -->
-        <div class="intro-card">
-            <h2>My Leisure Hobbies</h2>
-            <p>My Children's Stage Play Scraft allows me to unleash creativity and expressiveness through script creation and stage performance.</p>
-            <p>Being part of the String Orchestra lets me weave delicate auditory landscapes with the flowing melodies of strings.</p>
-            <p>I Love Playing Sports brings me joy and vitality, as I embrace the energy and perseverance in every sweat-filled moment.</p>
-            <p>My Minecraft is a creative paradise where I build a unique world of boundless imagination with pixel blocks.</p>
+    <!-- 网格布局容器 -->
+    <div class="grid-container">
+        <!-- 图1 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/sports-1.jpg" alt="Children's stage play scene 1">
+            <div class="image-placeholder">My Badminton Team</div>
         </div>
 
-        <!-- 四大板块容器 -->
-        <div class="sections-container">
-            <!-- 板块1：儿童剧编剧-->
-            <div class="section-card">
-                <img src="../my-leisure-hobbies/images/drama-2.jpg" alt="Academic Research" class="section-card__img">
-                <div class="section-card__content">
-                    <h3 class="section-card__title">My Children's Stage Play Scraft</h3>
-                    <p class="section-card__desc"></p>
-                    <a href="../my-leisure-hobbies/scraft.html" class="section-card__btn">View Details </a>
-                </div>
-            </div>
-
-            <!-- 板块2：小提琴板块 -->
-            <div class="section-card">
-                <img src="../my-leisure-hobbies/images/violin-1.jpg" alt="Medical AI App" class="section-card__img">
-                <div class="section-card__content">
-                    <h3 class="section-card__title">My String orchestra</h3>
-                    <p class="section-card__desc"></p>
-                    <a href="../my-leisure-hobbies/violin.html" class="section-card__btn">View Details</a>
-                </div>
-            </div>
-
-            <!-- 板块3： -->
-            <div class="section-card">
-                <img src="../my-leisure-hobbies/images/sports-1.jpg" alt="Extracurricular Activities" class="section-card__img">
-                <div class="section-card__content">
-                    <h3 class="section-card__title">I Love Playing Sports</h3>
-                    <p class="section-card__desc"></p>
-                    <a href="../my-leisure-hobbies/sports.html" class="section-card__btn">View Details</a>
-                </div>
-            </div>
-
-            <!-- 板块4：My Minecraft -->
-            <div class="section-card">
-                <img src="../my-leisure-hobbies/minecraft1.jpg" alt="Leisure Hobbies" class="section-card__img">
-                <div class="section-card__content">
-                    <h3 class="section-card__title">My Minecraft</h3>
-                    <p class="section-card__desc"></p>
-                    <a href="./my-leisure-hobbies/minecraft.html" class="section-card__btn">View Details</a>
-                </div>
-            </div>
+        <!-- 介绍区域（仅修改此处文字排版） -->
+        <div class="grid-item introduction">
+            <h2> </h2>
+            <p>Life is not all contemplation.</p>
+            <p>Every smash in badminton, spike in volleyball, jump shot in basketball, carve on the snow, glide on the ice, and stride on the trail fuels my spirit, gifting me a boldness that echoes in all walks of life.</p>
+            <p>Badminton is my favorite sport.</p>
+            <p>I began formal coaching in primary school.</p>
+            <p>In Grade 9, I was selected for the school varsity badminton team and represented our school in city-wide competitions.</p>
+            <p>My dedication to rigorous weekly training and the internal competitions I organized to sharpen our skills paid off: we clinched a gold medal at the Guangdong provincial level.</p>
         </div>
-    </main>
+
+        <!-- 图2 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/sports-2.jpg" alt="Children's stage play act 1" loading="lazy">
+            <div class="image-placeholder">The Interrupting Chicken</div>
+        </div>
+        
+        
+
+       
+
+        <!-- 图3 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/sports-6.jpg" alt="Children's stage play act 2" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+        
+        <!-- 图4 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/sports-3.jpg" alt="Children's stage play act 3" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+
+        <!-- 图6 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/sports-5.jpg" alt="Children's stage play act 4" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+        
+        <!-- 图5 -->
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/sports-7.jpg" alt="Children's stage play happy ending" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+        <div class="grid-item image-box">
+            <img src="../my-leisure-hobbies/images/sports-8.jpg" alt="Children's stage play happy ending" loading="lazy">
+            <div class="image-placeholder"></div>
+        </div>
+
+    </div>
+
+     <!-- 仅保留唯一的返回主页面按钮，已居中 -->
+        <div class="section-nav">
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Leisure Hobbies (Main)</a>
+        </div>
+    
+   
+   
+
+  
 </body>
 </html>
