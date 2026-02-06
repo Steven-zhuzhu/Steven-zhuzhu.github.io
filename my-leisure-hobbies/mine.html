@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Violin Musical Journey</title>
+    <!-- 引入Bootstrap和图标库 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        /* 全局样式重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            list-style: none;
+        }
+
+        /* 根变量 - 配色和通用参数 */
+        :root {
+            --dark-blue: #0a0f25;
+            --light-gray: #0a1428;
+            --primary-color: #0056b3;
+            --secondary-color: rgba(0, 86, 179, 0.2);
+            --accent-color: #ff6b35;
+            --quantum-blue: #00c8ff;
+            --quantum-purple: #7a00ff;
+            --text-white: #ffffff;
+            --text-light: #e0e0ff;
+            --btn-gradient: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            --btn-hover-gradient: linear-gradient(90deg, #00b0e6, #6a00e0);
+        }
+
+        /* 页面基础样式 */
+        body {
+            min-height: 100vh;
+            background: var(--dark-blue);
+            background-image:
+                radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px);
+            background-size: 50px 50px, 20px 20px;
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+        }
+
+        /* 主内容容器 */
+        .main-content {
+            padding: 30px 40px;
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--light-gray);
+        }
+
+        /* 章节卡片样式 */
+        .chapter {
+            background-color: rgba(0, 40, 80, 0.8);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-left: 4px solid var(--primary-color);
+        }
+
+        /* 章节标题 */
+        .chapter-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        .chapter-header h2 {
+            color: var(--quantum-blue);
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        .chapter-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+
+        /* 图文容器 - 核心布局 */
+        .img-text-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            align-items: center;
+            margin: 3rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            background: rgba(0, 50, 100, 0.3);
+        }
+
+        /* 左侧单列容器（1/4/5章用：仅一张图） */
+        .img-box {
+            flex: 1;
+            min-width: 320px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,200,255,0.15);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0,200,255,0.4);
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+        .img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .img-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,200,255,0.25);
+            border-color: var(--quantum-blue);
+        }
+
+        /* 左侧上下堆叠容器（2/3章用：图+视频） */
+        .left-col-stack {
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        /* 视频容器（2/3章用） */
+        .video-box {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,200,255,0.15);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0,200,255,0.4);
+            aspect-ratio: 16/9;
+            position: relative;
+        }
+        .video-box video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+        .video-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,200,255,0.25);
+            border-color: var(--quantum-blue);
+        }
+
+        /* 右侧文字容器（所有章节通用） */
+        .text-box {
+            flex: 2;
+            min-width: 320px;
+            font-size: 1.1rem;
+        }
+        .text-box p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        /* 视频降级容器（浏览器不支持视频时显示） */
+        .video-fallback-box {
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            padding: 20px;
+            text-align: center;
+            background: rgba(0,0,0,0.5);
+        }
+        .video-fallback-box img {
+            width: 80%;
+            border-radius: 8px;
+            margin-bottom: 15px;
+        }
+        .play-link {
+            display: inline-block;
+            padding: 8px 20px;
+            background: var(--btn-gradient);
+            color: white;
+            border-radius: 6px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .play-link:hover {
+            background: var(--btn-hover-gradient);
+            color: white;
+            transform: translateY(-2px);
+            text-decoration: none;
+        }
+
+        /* 引用卡片 */
+        .quote-card {
+            background-color: rgba(0, 86, 179, 0.4);
+            border-left: 4px solid var(--quantum-blue);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        /* 音乐链接按钮 */
+        .music-link {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 1rem 0;
+            background: var(--btn-gradient);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,200,255,0.2);
+        }
+        .music-link:hover {
+            background: var(--btn-hover-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,200,255,0.3);
+            color: white;
+            text-decoration: none;
+        }
+
+        /* 章节导航按钮 */
+        .section-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .section-nav-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: var(--btn-gradient);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .section-nav-btn:hover {
+            background: var(--btn-hover-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0,200,255,0.4);
+            color: white;
+        }
+
+        /* 背景音乐控件 */
+        .background-music {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 999;
+            opacity: 0.2;
+            transition: opacity 0.3s ease;
+        }
+        .background-music:hover {
+            opacity: 1;
+        }
+
+        /* 移动端适配 */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+            .chapter {
+                padding: 1.5rem;
+            }
+            .chapter-header h2 {
+                font-size: 1.6rem;
+            }
+            .img-text-wrapper {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 0.5rem;
+            }
+            .img-box, .left-col-stack, .text-box {
+                min-width: 100%;
+            }
+            .section-nav {
+                gap: 10px;
+            }
+            .section-nav-btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+        }
+        /* 仅新增：第四框图片完整显示样式（不影响任何其他图片） */
+        #favorite-piece .img-box img {
+            object-fit: contain !important;
+            background: rgba(0, 0, 0, 0.2);
+        }
+    </style>
+</head>
+<body>
+    <!-- 仅修改：背景音乐MP3指定为Zigeunerweisen.mp3，保留多格式兼容 -->
+    <audio class="background-music" autoplay loop controls>
+        <source src="Zigeunerweisen.mp3" type="audio/mpeg">
+        <source src="./music/Zigeunerweisen.wav" type="audio/wav">
+        <source src="./music/Zigeunerweisen.aac" type="audio/aac">
+        <source src="./music/Zigeunerweisen.ogg" type="audio/ogg">
+        <source src="./music/Zigeunerweisen.flac" type="audio/flac">
+        您的浏览器不支持音频播放，请更换浏览器后重试
+    </audio>
+
+    <main class="main-content">
+        <!-- 【第1章】保持现状：左侧单张图片 + 右侧文字 -->
+        <section class="chapter" id="page1-opening">
+            <div class="chapter-header">
+                <h2>The Beauty of Violin - My Musical Prelude</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <img src="./images/violin-0.jpg" alt="Violin with light beam and music notes">
+                    </div>
+                    <div class="text-box">
+                        <p>Music is not just sound, but a journey of the soul. For me, the violin is more than an instrument – it is a companion that has walked with me through the years, a bridge between my inner world and the outside, and a language that transcends words.</p>
+                        <p>Since I first picked up the violin in 2017, every note I played has been a footprint of growth. From the clumsy squeaks of the beginner stage to the relatively smooth melodies of today, every step has been filled with sweat, joy, and unspoken emotions.</p>
+                        <div class="quote-card">
+                            "The violin is the soul's voice; it speaks what the heart cannot express." – Unknown
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </section>
+
+        <!-- 【第2章】核心要求：左侧上下（图片+视频） + 右侧文字 -->
+        <section class="chapter" id="learning-challenge">
+            <div class="chapter-header">
+                <h2>My Musical Journey - The Learning Challenge</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="left-col-stack">
+                        <div class="img-box">
+                            <img src="./images/violin-3.jpg" alt="Violin Learning Practice">
+                        </div>
+                        <div class="video-box">
+                            <video controls poster="./images/violin-1.jpg" preload="metadata">
+                                <source src="./videos/violin-5.mp4" type="video/mp4">
+                                <source src="./videos/violin-5.webm" type="video/webm">
+                                <source src="./videos/violin-5.ogg" type="video/ogg">
+                                <p>您的浏览器不支持视频播放</p>
+                            </video>
+                            <div class="video-fallback-box">
+                                <img src="./images/violin-1.jpg" alt="Violin Learning Preview">
+                                <a href="./videos/violin-5.mp4" target="_blank" class="play-link">
+                                    <i class="bi bi-play-circle"></i> Play Video (Download)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-box">
+                        <p>The journey of learning the violin is never a straight line. It is a process of constant exploration: exploring the balance between bow and string, exploring the resonance between emotion and technique, and exploring the harmony between oneself and the music. This exploration has become an indispensable part of my life.
+                        <p>In those quiet afternoons filled with joy, or evenings clouded by sorrow and stuck with unsolvable problems, the violin was my go-to emotional outlet. It never failed to calm my mind and let me express all my feelings freely without words.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 【第3章】核心要求：左侧上下（图片+视频） + 右侧文字 -->
+        <section class="chapter" id="orchestra-experience">
+            <div class="chapter-header">
+                <h2>My Musical Journey - Orchestra Experience</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="left-col-stack">
+                        <div class="img-box">
+                            <img src="./images/violin-2.jpg" alt="Orchestra Performance Scene">
+                        </div>
+                        <div class="video-box">
+                            <video controls poster="./images/violin-1.jpg" preload="metadata">
+                                <source src="./videos/violin-6.mp4" type="video/mp4">
+                                <source src="./videos/violin-6.webm" type="video/webm">
+                                <source src="./videos/violin-6.ogg" type="video/ogg">
+                                <p>您的浏览器不支持视频播放</p>
+                            </video>
+                            <div class="video-fallback-box">
+                                <img src="./images/violin-1.jpg" alt="Orchestra Performance Preview">
+                                <a href="./videos/violin-6.mp4" target="_blank" class="play-link">
+                                    <i class="bi bi-play-circle"></i> Play Video (Download)
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-box">
+                        <p>A key and precious part of this musical journey was performing on stage with the Shenzhen Poly International Youth String Orchestra. Through consistent daily practice and unremitting polishing of my skills, I worked my way up to become the first violinist of the orchestra.</p>
+                        <p>This experience not only honed my technical skills but also deepened my understanding of music – teaching me the importance of teamwork, timing, and musical expression in a collaborative setting.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 【第4章】无代码修改，通过CSS定位实现图片完整显示，保持原有结构 -->
+        <section class="chapter" id="favorite-piece">
+            <div class="chapter-header">
+                <h2>My Favorite Violin Piece</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <img src="./images/violin-1.png" alt="Sarasate Zigeunerweisen sheet music and violin">
+                    </div>
+                    <div class="text-box">
+                        <p>My favorite violin piece for appreciation is Zigeunerweisen (Gypsy Airs) by Sarasate — a classic pinnacle among violin pieces. This piece perfectly blends the sorrow and passion of Gypsy culture, with a graceful and melodious melody and full of timbre expressiveness. </p>
+                        <p>Its rich emotional layers make me deeply intoxicated and truly feel the unique artistic charm of the violin. It stands as the pinnacle of virtuosic technique for the violin, embodying the ultimate technical and artistic pursuit of the instrument. </p>
+                        <a href="./images/Zigeunerweisen.mp3" target="_blank" class="music-link">
+                            <i class="bi bi-music-note-beamed"></i> Listen to Zigeunerweisen
+                        </a>
+                       <p>Because of its extraordinary artistic value and technical complexity, I have always regarded it as a classic appreciation piece that represents the beauty of violin music, one that constantly inspires my love for violin and pursuit of musical excellence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 【第5章】保持现状：左侧单张图片 + 右侧文字 -->
+        <section class="chapter" id="page5-growth">
+            <div class="chapter-header">
+                <h2>Music & Growth - The Hidden Power of Violin</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <img src="./images/violin-2.png" alt="Violin on wooden desk with sheet music and coffee">
+                    </div>
+                    <div class="text-box">
+                        <p>Beyond the notes and melodies, learning the violin has taught me life lessons that extend far beyond the practice room. The patience required to master a single phrase, the resilience to overcome technical plateaus, and the focus to stay present in the music – these qualities have shaped how I approach challenges in all areas of my life.</p>
+                        <p>As an amateur musician, I don't aim for professional mastery, but rather for the joy of connection – connection to the music, to the composers who created it, and to the audience who listens. Every time I play, I am not just performing; I am sharing a piece of my heart.</p>
+                        <div class="quote-card">
+                            "Music is the art of thinking with sounds." – Jules Combarieu
+                        </div>
+                        <p>Looking back on these eight years, I am grateful for the violin's presence in my life. It has been a teacher, a friend, and a mirror – reflecting my growth, my struggles, and my joys. And as I move forward, it will continue to be a constant reminder that beauty lies in the journey, not just the destination.</p>
+                    </div>
+                </div>
+                
+            </div>
+        </section>
+
+        <!-- 章节导航按钮 -->
+        <div class="section-nav">
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Leisure Hobbies (Main)</a>
+           
+        </div>
+    </main>
+
+    <!-- 引入Bootstrap JS + 自定义脚本（音频自动播放+视频检测+平滑滚动） -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 1. 平滑滚动（章节导航）
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        // 2. 背景音乐自动播放兼容（解决浏览器自动播放限制）
+        window.addEventListener('DOMContentLoaded', () => {
+            const bgMusic = document.querySelector('.background-music');
+            // 先静音播放，成功后取消静音（浏览器强制要求）
+            bgMusic.muted = true;
+            const playMusic = () => {
+                bgMusic.play().then(() => bgMusic.muted = false)
+                .catch(err => {
+                    // 自动播放失败则点击页面任意位置播放
+                    document.addEventListener('click', () => {
+                        bgMusic.muted = false;
+                        bgMusic.play();
+                    }, { once: true });
+                });
+            };
+            playMusic();
+
+            // 3. 视频播放检测：浏览器不支持则显示降级下载链接
+            const checkVideoSupport = () => {
+                const testVideo = document.createElement('video');
+                const supportMP4 = testVideo.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"') !== '';
+                const supportWebM = testVideo.canPlayType('video/webm; codecs="vp8, vorbis"') !== '';
+                // 不支持主流视频格式则显示降级容器
+                if (!supportMP4 && !supportWebM) {
+                    document.querySelectorAll('.video-box').forEach(box => {
+                        box.querySelector('video').style.display = 'none';
+                        box.querySelector('.video-fallback-box').style.display = 'flex';
+                    });
+                }
+            };
+            checkVideoSupport();
+        });
+    </script>
+</body>
+</html>

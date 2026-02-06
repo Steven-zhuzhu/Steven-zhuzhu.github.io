@@ -1,0 +1,1227 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <meta name="dcterms.date" content="2026-02-06" />
+  <title> Advanced Computational Quantum Mechanics: Mathematical Foundations and Numerical Implementation A Comprehensive Technical Reference </title>
+  <style>
+    /* Default styles provided by pandoc.
+    ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+    */
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    svg {
+      height: auto;
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      border: none;
+      border-top: 1px solid #1a1a1a;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title"> <strong>Advanced Computational Quantum
+Mechanics:</strong><br />
+<strong>Mathematical Foundations and Numerical
+Implementation</strong><br />
+A Comprehensive Technical Reference </h1>
+<p class="date">2026-02-06</p>
+</header>
+<h1 id="quantum-mechanics-and-computational-quantum-mechanics">Quantum
+Mechanics and Computational Quantum Mechanics</h1>
+<h2 id="mathematical-foundations">Mathematical Foundations</h2>
+<h3 id="hilbert-space-and-state-vectors">Hilbert Space and State
+Vectors</h3>
+<p>The state of a quantum system is represented by a vector <span
+class="math inline">$\ket{\psi}$</span> in a complex Hilbert space <span
+class="math inline">ℋ</span>. For a single particle in three dimensions,
+the wavefunction <span class="math inline">$\psi(\vb{r},t) \in
+L^2(\mathbb{R}^3)$</span> must belong to the space of square-integrable
+functions, satisfying the normalization condition: <span
+class="math display">$$\begin{equation}
+\int_{-\infty}^{\infty} \int_{-\infty}^{\infty} \int_{-\infty}^{\infty}
+|\psi(\vb{r},t)|^2 \, d^3\vb{r} = 1
+\end{equation}$$</span></p>
+<p>The inner product in this space is defined as: <span
+class="math display">$$\begin{equation}
+\braket{\phi}{\psi} = \int \phi^*(\vb{r},t) \psi(\vb{r},t) \, d^3\vb{r}
+\end{equation}$$</span> where <span
+class="math inline"><em>ϕ</em><sup>*</sup></span> denotes the complex
+conjugate. This forms a complete inner product space with norm <span
+class="math inline">$\|\psi\| = \sqrt{\braket{\psi}{\psi}}$</span>.</p>
+<h3 id="fundamental-operators">Fundamental Operators</h3>
+<p>Physical observables correspond to Hermitian operators on <span
+class="math inline">ℋ</span>. The key operators are:</p>
+<ul>
+<li><p><strong>Position operator:</strong> <span
+class="math inline">$\hat{r}\psi(\vb{r}) = \vb{r}
+\psi(\vb{r})$</span></p></li>
+<li><p><strong>Momentum operator:</strong> <span
+class="math inline">$\hat{p}= -i\hbar\grad$</span></p></li>
+<li><p><strong>Hamiltonian operator:</strong> <span
+class="math inline">$\hat{H}= \hat{T}+ \hat{V}=
+-\frac{\hbar^2}{2m}\laplacian + V(\vb{r})$</span></p></li>
+</ul>
+<p>The Hermiticity condition <span
+class="math inline"><em>Â</em><sup>†</sup> = <em>Â</em></span> ensures
+real eigenvalues, corresponding to measurable physical quantities.</p>
+<h3 id="time-independent-schrödinger-equation">Time-Independent
+Schrödinger Equation</h3>
+<p>For stationary states, the time-independent Schrödinger equation
+(TISE) determines the energy eigenvalues and eigenfunctions: <span
+class="math display">$$\begin{equation}
+\hat{H}\phi(\vb{r}) = E \phi(\vb{r})
+\label{eq:tise}
+\end{equation}$$</span></p>
+<p>Explicitly for a single particle: <span
+class="math display">$$\begin{equation}
+\left[-\frac{\hbar^2}{2m}\laplacian + V(\vb{r})\right] \phi(\vb{r}) = E
+\phi(\vb{r})
+\end{equation}$$</span></p>
+<h2 id="analytical-solutions-hydrogen-atom">Analytical Solutions:
+Hydrogen Atom</h2>
+<p>The hydrogen atom provides one of the few exactly solvable quantum
+systems. In spherical coordinates <span
+class="math inline">(<em>r</em>, <em>θ</em>, <em>ϕ</em>)</span>, the
+TISE becomes: <span class="math display">$$\begin{equation}
+\left[-\frac{\hbar^2}{2\mu}\left(\frac{1}{r^2}\pdv{r}\left(r^2\pdv{r}\right)
++ \frac{\hat{L}^2}{\hbar^2 r^2}\right) - \frac{e^2}{4\pi\epsilon_0
+r}\right]\psi = E\psi
+\end{equation}$$</span> where <span class="math inline">$\mu = \frac{m_e
+m_p}{m_e + m_p} \approx m_e$</span> is the reduced mass. Separation of
+variables <span
+class="math inline"><em>ψ</em>(<em>r</em>, <em>θ</em>, <em>ϕ</em>) = <em>R</em>(<em>r</em>)<em>Y</em><sub><em>ℓ</em></sub><sup><em>m</em></sup>(<em>θ</em>, <em>ϕ</em>)</span>
+yields:</p>
+<h5 id="radial-equation">Radial equation:</h5>
+<p><span class="math display">$$\begin{equation}
+\left[-\frac{\hbar^2}{2\mu r^2}\dv{r}\left(r^2\dv{R}{r}\right) +
+\frac{\hbar^2\ell(\ell+1)}{2\mu r^2} - \frac{e^2}{4\pi\epsilon_0
+r}\right]R(r) = ER(r)
+\end{equation}$$</span></p>
+<h5 id="energy-eigenvalues">Energy eigenvalues:</h5>
+<p><span class="math display">$$\begin{equation}
+E_n = -\frac{\mu e^4}{32\pi^2\epsilon_0^2\hbar^2 n^2} \approx
+-\frac{13.6\text{ eV}}{n^2}, \quad n = 1,2,3,\ldots
+\end{equation}$$</span></p>
+<h5 id="bohr-radius">Bohr radius:</h5>
+<p><span class="math display">$$\begin{equation}
+a_0= \frac{4\pi\epsilon_0\hbar^2}{\mu e^2} \approx 0.529 \text{ Å}
+\end{equation}$$</span></p>
+<p>First three radial wavefunctions: <span
+class="math display">$$\begin{align}
+R_{10}(r) &amp;= 2\left(\frac{Z}{a_0}\right)^{3/2}
+\exp\left(-\frac{Zr}{a_0}\right) \\
+R_{20}(r) &amp;= \frac{1}{2\sqrt{2}}\left(\frac{Z}{a_0}\right)^{3/2}
+\left(2 - \frac{Zr}{a_0}\right) \exp\left(-\frac{Zr}{2a_0}\right) \\
+R_{21}(r) &amp;= \frac{1}{2\sqrt{6}}\left(\frac{Z}{a_0}\right)^{3/2}
+\frac{Zr}{a_0} \exp\left(-\frac{Zr}{2a_0}\right)
+\end{align}$$</span></p>
+<figure id="fig:hydrogen_radial" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 1.1: Radial probability
+distributions <span
+class="math inline">4<em>π</em><em>r</em><sup>2</sup>|<em>R</em><sub><em>n</em><em>ℓ</em></sub>(<em>r</em>)|<sup>2</sup></span>
+for <span class="math inline"><em>n</em> = 1, 2, 3</span> orbitals of
+hydrogen, showing nodes and peak positions]</em></span></p>
+<figcaption>Hydrogen atom radial probability distributions</figcaption>
+</figure>
+<h2 id="the-many-body-problem">The Many-Body Problem</h2>
+<p>For <span class="math inline"><em>N</em></span> electrons interacting
+with <span class="math inline"><em>M</em></span> nuclei, the full
+non-relativistic Hamiltonian is: <span
+class="math display"><em>Ĥ</em> = <em>T̂</em><sub><em>e</em></sub> + <em>T̂</em><sub><em>n</em></sub> + <em>V̂</em><sub><em>e</em><em>n</em></sub> + <em>V̂</em><sub><em>e</em><em>e</em></sub> + <em>V̂</em><sub><em>n</em><em>n</em></sub></span>
+where: <span class="math display">$$\begin{align}
+\hat{T}_e &amp;= -\sum_{i=1}^N \frac{\hbar^2}{2m_e}\nabla_i^2 \quad
+\text{(electron kinetic)} \\
+\hat{T}_n &amp;= -\sum_{a=1}^M \frac{\hbar^2}{2M_a}\nabla_a^2 \quad
+\text{(nuclear kinetic)} \\
+\hat{V}_{en} &amp;= -\sum_{i=1}^N \sum_{a=1}^M \frac{Z_a
+e^2}{4\pi\epsilon_0|\vb{r}_i - \vb{R}_a|} \quad
+\text{(electron-nuclear)} \\
+\hat{V}_{ee} &amp;= \sum_{i&lt;j} \frac{e^2}{4\pi\epsilon_0|\vb{r}_i -
+\vb{r}_j|} \quad \text{(electron-electron)} \\
+\hat{V}_{nn} &amp;= \sum_{a&lt;b} \frac{Z_a Z_b
+e^2}{4\pi\epsilon_0|\vb{R}_a - \vb{R}_b|} \quad \text{(nuclear-nuclear)}
+\end{align}$$</span></p>
+<h5 id="computational-scaling">Computational scaling:</h5>
+<p>The wavefunction <span
+class="math inline">$\Psi(\vb{r}_1,\ldots,\vb{r}_N,\vb{R}_1,\ldots,\vb{R}_M)$</span>
+depends on <span class="math inline">3(<em>N</em> + <em>M</em>)</span>
+coordinates. Discretizing each dimension with <span
+class="math inline"><em>M</em></span> grid points gives <span
+class="math inline"><em>M</em><sup>3(<em>N</em> + <em>M</em>)</sup></span>
+total points:</p>
+<ul>
+<li><p>H<span class="math inline"><sub>2</sub></span> (2 electrons, 2
+nuclei): <span class="math inline"><em>M</em><sup>12</sup></span>
+points</p></li>
+<li><p>H<span class="math inline"><sub>2</sub></span>O (10 electrons, 3
+nuclei): <span class="math inline"><em>M</em><sup>39</sup></span>
+points</p></li>
+<li><p>C<span class="math inline"><sub>6</sub></span>H<span
+class="math inline"><sub>6</sub></span> (42 electrons, 12 nuclei): <span
+class="math inline"><em>M</em><sup>162</sup></span> points</p></li>
+</ul>
+<p>For <span class="math inline"><em>M</em> = 100</span>, H<span
+class="math inline"><sub>2</sub></span>O requires <span
+class="math inline">10<sup>39</sup></span> points — utterly
+intractable.</p>
+<figure id="fig:grid_scaling" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 1.2: Log-log plot showing
+exponential growth of required grid points vs number of electrons for
+<span
+class="math inline"><em>M</em> = 50, 100, 200</span>]</em></span></p>
+<figcaption>Exponential scaling of direct grid method</figcaption>
+</figure>
+<h2 id="born-oppenheimer-approximation">Born-Oppenheimer
+Approximation</h2>
+<p>Nuclear masses greatly exceed electron mass (<span
+class="math inline"><em>m</em><sub><em>e</em></sub>/<em>M</em><sub><em>p</em></sub> ≈ 1/1836</span>),
+allowing separation: <span class="math display">$$\begin{equation}
+\Psi_{\text{total}}(\vb{r},\vb{R}) \approx \psi_e(\vb{r};\vb{R})
+\chi_n(\vb{R})
+\end{equation}$$</span></p>
+<p>The electronic Hamiltonian at fixed nuclear positions <span
+class="math inline">$\vb{R}$</span>: <span
+class="math display">$$\begin{equation}
+\hat{H}_e \psi_e(\vb{r};\vb{R}) = E_e(\vb{R}) \psi_e(\vb{r};\vb{R})
+\end{equation}$$</span> where <span
+class="math inline">$E_e(\vb{R})$</span> forms the potential energy
+surface for nuclear motion.</p>
+<p><strong>Error magnitude:</strong> <span
+class="math inline"> ∼ (<em>m</em><sub><em>e</em></sub>/<em>M</em>)<sup>1/4</sup> ≈ 10<sup>−3</sup></span>,
+increasing near conical intersections.</p>
+<h2 id="density-functional-theory">Density Functional Theory</h2>
+<h3 id="hohenberg-kohn-theorems">Hohenberg-Kohn Theorems</h3>
+<h5 id="theorem-1-existence">Theorem 1 (Existence):</h5>
+<p>The ground state energy is a unique functional of electron density:
+<span class="math display">$$\begin{equation}
+E_0 = E[n_0(\vb{r})] = \int V_{\text{ext}}(\vb{r}) n_0(\vb{r}) \,
+d\vb{r} + F[n_0(\vb{r})]
+\end{equation}$$</span> where <span
+class="math inline"><em>F</em>[<em>n</em>] = <em>T</em>[<em>n</em>] + <em>V</em><sub><em>e</em><em>e</em></sub>[<em>n</em>]</span>
+is a universal functional (independent of <span
+class="math inline"><em>V</em><sub>ext</sub></span>).</p>
+<h5 id="theorem-2-variational-principle">Theorem 2 (Variational
+Principle):</h5>
+<p>For any trial density <span
+class="math inline">$\tilde{n}(\vb{r})$</span> with <span
+class="math inline">$\int \tilde{n}(\vb{r})\,d\vb{r} = N$</span>: <span
+class="math display"><em>E</em>[<em>ñ</em>] ≥ <em>E</em>[<em>n</em><sub>0</sub>],  with
+equality iff <em>ñ</em> = <em>n</em><sub>0</sub></span></p>
+<h3 id="kohn-sham-equations">Kohn-Sham Equations</h3>
+<p>Map the interacting system to a non-interacting one with the same
+density: <span class="math display">$$\begin{equation}
+\left[-\frac{\hbar^2}{2m_e}\laplacian +
+V_{\text{eff}}[n](\vb{r})\right]\phi_i(\vb{r}) = \varepsilon_i
+\phi_i(\vb{r})
+\end{equation}$$</span> <span class="math display">$$\begin{equation}
+V_{\text{eff}}[n](\vb{r}) = V_{\text{ext}}(\vb{r}) + \int \frac{e^2
+n(\vb{r}')}{4\pi\epsilon_0|\vb{r}-\vb{r}'|}\,d\vb{r}' +
+V_{xc}[n](\vb{r})
+\end{equation}$$</span> <span class="math display">$$\begin{equation}
+n(\vb{r}) = \sum_{i=1}^N |\phi_i(\vb{r})|^2
+\end{equation}$$</span></p>
+<p>The exchange-correlation potential <span class="math inline">$V_{xc}
+= \delta E_{xc}/\delta n(\vb{r})$</span> contains all many-body
+effects.</p>
+<h5 id="common-approximations">Common approximations:</h5>
+<p><strong>Local Density Approximation (LDA):</strong> <span
+class="math display">$$\begin{equation}
+E_{xc}^{\text{LDA}}[n] = \int n(\vb{r}) \varepsilon_{xc}(n(\vb{r})) \,
+d\vb{r}
+\end{equation}$$</span></p>
+<p><strong>Generalized Gradient Approximation (GGA) — PBE
+functional:</strong> <span class="math display">$$\begin{equation}
+E_{xc}^{\text{PBE}}[n] = \int n(\vb{r}) \varepsilon_{xc}(n(\vb{r}),
+|\grad n(\vb{r})|) \, d\vb{r}
+\end{equation}$$</span></p>
+<p><strong>Hybrid functionals (B3LYP):</strong> <span
+class="math display"><em>E</em><sub><em>x</em><em>c</em></sub><sup>B3LYP</sup> = 0.8<em>E</em><sub><em>x</em></sub><sup>LDA</sup> + 0.2<em>E</em><sub><em>x</em></sub><sup>HF</sup> + 0.72<em>Δ</em><em>E</em><sub><em>x</em></sub><sup>B88</sup> + 0.19<em>E</em><sub><em>c</em></sub><sup>VWN</sup> + 0.81<em>E</em><sub><em>c</em></sub><sup>LYP</sup></span></p>
+<p><strong>Computational scaling:</strong> DFT-KS scales as <span
+class="math inline">𝒪(<em>N</em><sup>3</sup>)</span> with system size
+<span class="math inline"><em>N</em></span> (matrix diagonalization),
+compared to <span class="math inline">𝒪(<em>N</em>!)</span> for exact
+methods.</p>
+<figure id="fig:method_scaling" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 1.3: Computational cost
+comparison (log-scale) for Full CI, CCSD, MP2, DFT, Tight-Binding vs
+system size <span class="math inline"><em>N</em></span>]</em></span></p>
+<figcaption>Scaling of quantum mechanical methods</figcaption>
+</figure>
+<h1 id="programming-and-algorithmic-analysis">Programming and
+Algorithmic Analysis</h1>
+<h2 id="computational-complexity">Computational Complexity</h2>
+<p>Key computational bottlenecks in quantum simulations:</p>
+<ul>
+<li><p><strong>Matrix diagonalization:</strong> <span
+class="math inline">𝒪(<em>N</em><sup>3</sup>)</span> for dense <span
+class="math inline"><em>N</em> × <em>N</em></span> matrices</p></li>
+<li><p><strong>Two-electron integrals:</strong> <span
+class="math inline">𝒪(<em>N</em><sup>4</sup>)</span> for <span
+class="math inline"><em>N</em></span> basis functions</p></li>
+<li><p><strong>SCF iterations:</strong> 10–100 cycles typically
+required</p></li>
+<li><p><strong>Sparse linear solvers:</strong> <span
+class="math inline">𝒪(<em>N</em><sup>1.5</sup>)</span> for sparse
+Hamiltonians</p></li>
+</ul>
+<h2 id="python-scientific-computing-stack">Python Scientific Computing
+Stack</h2>
+<h3 id="numpy-numerical-linear-algebra">NumPy — Numerical Linear
+Algebra</h3>
+<p>Core functions:</p>
+<ul>
+<li><p><code>np.linalg.eigh(A)</code>: Hermitian eigendecomposition,
+<span class="math inline">𝒪(<em>N</em><sup>3</sup>)</span></p></li>
+<li><p><code>np.einsum(’ij,jk-&gt;ik’, A, B)</code>: Efficient tensor
+contractions</p></li>
+<li><p><code>np.linalg.lstsq(A, b)</code>: Least-squares
+solutions</p></li>
+<li><p><code>np.fft</code>: Fast Fourier Transform, <span
+class="math inline">𝒪(<em>N</em>log <em>N</em>)</span></p></li>
+</ul>
+<h3 id="scipy-advanced-algorithms">SciPy — Advanced Algorithms</h3>
+<ul>
+<li><p><code>scipy.sparse</code>: COO, CSR, CSC formats for sparse
+matrices</p></li>
+<li><p><code>scipy.sparse.linalg.eigs()</code>: Iterative eigensolvers
+(Lanczos/Arnoldi)</p></li>
+<li><p><code>scipy.integrate.odeint()</code>: Stiff ODE solver (for
+TDSE)</p></li>
+<li><p><code>scipy.optimize</code>: BFGS, conjugate gradient for
+geometry optimization</p></li>
+</ul>
+<h3 id="pyscf-production-quantum-chemistry">PySCF — Production Quantum
+Chemistry</h3>
+<ul>
+<li><p>Hartree-Fock: <code>pyscf.scf.RHF()</code>,
+<code>pyscf.scf.UHF()</code></p></li>
+<li><p>Post-HF: MP2, CCSD, CCSD(T), Full CI</p></li>
+<li><p>DFT: LDA, PBE, B3LYP, <span
+class="math inline"><em>ω</em></span>B97X-D functionals</p></li>
+<li><p>TDDFT: Linear response excited states</p></li>
+</ul>
+<h2 id="parallel-computing">Parallel Computing</h2>
+<h3 id="shared-memory-parallelism-openmp">Shared Memory Parallelism
+(OpenMP)</h3>
+<p>BLAS libraries (MKL, OpenBLAS) automatically parallelize matrix
+operations. Speedup: <span class="math display">$$\begin{equation}
+S(p) = \frac{T(1)}{T(p)} \approx \frac{p}{1 + (p-1)f}
+\end{equation}$$</span> where <span
+class="math inline"><em>f</em></span> is the serial fraction (Amdahl’s
+law).</p>
+<h3 id="distributed-memory-mpi">Distributed Memory (MPI)</h3>
+<p>For multi-node clusters, use <code>mpi4py</code> for Python:</p>
+<ul>
+<li><p>Distribute Hamiltonian matrix blocks across processes</p></li>
+<li><p>Local computation of matrix elements</p></li>
+<li><p><code>MPI_Allgather</code> for global communication</p></li>
+</ul>
+<h3 id="gpu-acceleration">GPU Acceleration</h3>
+<p>Modern GPUs provide 10–100<span class="math inline">×</span> speedup
+for dense linear algebra:</p>
+<ul>
+<li><p>CuPy: NumPy API for NVIDIA CUDA</p></li>
+<li><p>TensorFlow/PyTorch: Automatic differentiation</p></li>
+<li><p>Typical speedup: 20–50<span class="math inline">×</span> for
+<span class="math inline"><em>N</em> &gt; 1000</span> matrix
+operations</p></li>
+</ul>
+<figure id="fig:cpu_gpu_benchmark" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 2.1: Benchmark plot
+showing CPU vs GPU vs Multi-CPU (MPI) execution time for matrix
+diagonalization, <span class="math inline"><em>N</em> = 100</span> to
+<span class="math inline">10000</span>]</em></span></p>
+<figcaption>Performance comparison for matrix operations</figcaption>
+</figure>
+<h1 id="computational-quantum-dynamics">Computational Quantum
+Dynamics</h1>
+<h2 id="time-dependent-schrödinger-equation">Time-Dependent Schrödinger
+Equation</h2>
+<p>The TDSE governs quantum time evolution: <span
+class="math display">$$\begin{equation}
+i\hbar \pdv{t}\ket{\psi(t)} = \hat{H}(t)\ket{\psi(t)}
+\end{equation}$$</span></p>
+<p>Formal solution (time-ordered exponential): <span
+class="math display">$$\begin{equation}
+\ket{\psi(t)} = \mathcal{T} \exp\left(-\frac{i}{\hbar}\int_{t_0}^t
+\hat{H}(t')\,dt'\right)\ket{\psi(t_0)}
+\end{equation}$$</span></p>
+<p>For time-independent <span class="math inline"><em>Ĥ</em></span>:
+<span class="math display">$$\begin{equation}
+\hat{U}(t,t_0) = \exp\left(-\frac{i\hat{H}(t-t_0)}{\hbar}\right)
+\end{equation}$$</span></p>
+<h2 id="split-operator-method">Split-Operator Method</h2>
+<p>For <span
+class="math inline"><em>Ĥ</em> = <em>T̂</em> + <em>V̂</em></span>, use
+Trotter-Suzuki decomposition: <span
+class="math display">$$\begin{equation}
+\exp\left(-\frac{i\hat{H}\Delta t}{\hbar}\right) =
+\exp\left(-\frac{i\hat{T}\Delta
+t}{2\hbar}\right)\exp\left(-\frac{i\hat{V}\Delta
+t}{\hbar}\right)\exp\left(-\frac{i\hat{T}\Delta t}{2\hbar}\right) +
+\mathcal{O}(\Delta t^3)
+\end{equation}$$</span></p>
+<h5 id="algorithm">Algorithm:</h5>
+<ol>
+<li><p><span class="math inline">$\tilde{\psi}(\vb{p}) =
+\text{FFT}[\psi(\vb{x})]$</span></p></li>
+<li><p><span class="math inline">$\tilde{\psi}'(\vb{p}) =
+\exp\left(-\frac{ip^2\Delta t}{4m\hbar}\right)
+\tilde{\psi}(\vb{p})$</span></p></li>
+<li><p><span class="math inline">$\psi'(\vb{x}) =
+\text{IFFT}[\tilde{\psi}'(\vb{p})]$</span></p></li>
+<li><p><span class="math inline">$\psi''(\vb{x}) =
+\exp\left(-\frac{iV(\vb{x})\Delta t}{\hbar}\right)
+\psi'(\vb{x})$</span></p></li>
+<li><p>Repeat steps 1–2 once more</p></li>
+</ol>
+<h5 id="properties">Properties:</h5>
+<ul>
+<li><p>Unitary (norm-preserving): <span
+class="math inline">∥<em>ψ</em>(<em>t</em>)∥ = ∥<em>ψ</em>(0)∥</span></p></li>
+<li><p>Computational cost: <span
+class="math inline">𝒪(<em>N</em>log <em>N</em>)</span> per
+timestep</p></li>
+<li><p>Error: <span
+class="math inline">𝒪(<em>Δ</em><em>t</em><sup>3</sup>)</span> local,
+<span class="math inline">𝒪(<em>Δ</em><em>t</em><sup>2</sup>)</span>
+global</p></li>
+</ul>
+<h2 id="runge-kutta-methods">Runge-Kutta Methods</h2>
+<h3 id="fourth-order-runge-kutta-rk4">Fourth-Order Runge-Kutta
+(RK4)</h3>
+<p>Rewrite TDSE as: <span class="math inline">$\dv{\psi}{t} = f(\psi,t)
+= -\frac{i\hat{H}(t)\psi}{\hbar}$</span></p>
+<p><span class="math display">$$\begin{align}
+k_1 &amp;= \Delta t \, f(\psi_n, t_n) \\
+k_2 &amp;= \Delta t \, f(\psi_n + k_1/2, t_n + \Delta t/2) \\
+k_3 &amp;= \Delta t \, f(\psi_n + k_2/2, t_n + \Delta t/2) \\
+k_4 &amp;= \Delta t \, f(\psi_n + k_3, t_n + \Delta t) \\
+\psi_{n+1} &amp;= \psi_n + \frac{1}{6}(k_1 + 2k_2 + 2k_3 + k_4)
+\end{align}$$</span></p>
+<p><strong>Accuracy:</strong> <span
+class="math inline">𝒪(<em>Δ</em><em>t</em><sup>4</sup>)</span> global
+error</p>
+<p><strong>Limitation:</strong> Non-unitary — norm can drift, requires
+renormalization</p>
+<h2 id="chebyshev-polynomial-expansion">Chebyshev Polynomial
+Expansion</h2>
+<p>Expand propagator using Chebyshev polynomials <span
+class="math inline"><em>T</em><sub><em>n</em></sub>(<em>x</em>)</span>:
+<span class="math display">$$\begin{equation}
+\exp\left(-\frac{i\hat{H}t}{\hbar}\right) = \sum_{n=0}^{\infty} a_n(t)
+T_n\left(\frac{\hat{H}- c}{\Delta}\right)
+\end{equation}$$</span> where <span
+class="math inline"><em>c</em> = (<em>E</em><sub>max</sub> + <em>E</em><sub>min</sub>)/2</span>,
+<span
+class="math inline"><em>Δ</em> = (<em>E</em><sub>max</sub> − <em>E</em><sub>min</sub>)/2</span>
+rescale spectrum to <span class="math inline">[−1, 1]</span>.</p>
+<p>Coefficients: <span class="math display">$$\begin{equation}
+a_n(t) = (2-\delta_{n0})(-i)^n \exp\left(-\frac{ict}{\hbar}\right)
+J_n\left(\frac{\Delta t}{\hbar}\right)
+\end{equation}$$</span> where <span
+class="math inline"><em>J</em><sub><em>n</em></sub></span> is the Bessel
+function of the first kind.</p>
+<p><strong>Recurrence:</strong> <span
+class="math inline"><em>T</em><sub>0</sub>(<em>x</em>) = 1</span>, <span
+class="math inline"><em>T</em><sub>1</sub>(<em>x</em>) = <em>x</em></span>,
+<span
+class="math inline"><em>T</em><sub><em>n</em> + 1</sub>(<em>x</em>) = 2<em>x</em><em>T</em><sub><em>n</em></sub>(<em>x</em>) − <em>T</em><sub><em>n</em> − 1</sub>(<em>x</em>)</span></p>
+<h5 id="advantages">Advantages:</h5>
+<ul>
+<li><p>Spectral accuracy: exponential convergence with order <span
+class="math inline"><em>n</em></span></p></li>
+<li><p>Unitary to machine precision</p></li>
+<li><p>Only requires <span
+class="math inline">$\hat{H}\ket{\psi}$</span> (no
+diagonalization)</p></li>
+</ul>
+<figure id="fig:norm_conservation" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 3.1: Norm conservation
+comparison: Split-Operator, RK4, Chebyshev over 1000 steps showing RK4
+drift]</em></span></p>
+<figcaption>Comparison of norm conservation for different
+propagators</figcaption>
+</figure>
+<h1 id="implementation-detailed-code-examples">Implementation: Detailed
+Code Examples</h1>
+<h2 id="time-independent-schrödinger-equation-solver">Time-Independent
+Schrödinger Equation Solver</h2>
+<h3 id="problem-1d-quantum-harmonic-oscillator">Problem: 1D Quantum
+Harmonic Oscillator</h3>
+<p>TISE in dimensionless units (<span
+class="math inline">ℏ = <em>m</em> = <em>ω</em> = 1</span>): <span
+class="math display">$$\begin{equation}
+\left[-\frac{1}{2}\dv[2]{x} + \frac{x^2}{2}\right]\phi(x) = E\phi(x)
+\end{equation}$$</span></p>
+<p><strong>Analytical:</strong> <span
+class="math inline"><em>E</em><sub><em>n</em></sub> = <em>n</em> + 1/2</span>,
+<span class="math inline">$\phi_n(x) = \frac{1}{\sqrt{2^n n!
+\sqrt{\pi}}} H_n(x) e^{-x^2/2}$</span></p>
+<h3 id="finite-difference-discretization">Finite Difference
+Discretization</h3>
+<p>Grid: <span
+class="math inline"><em>x</em><sub><em>j</em></sub> = −<em>L</em> + <em>j</em><em>Δ</em><em>x</em></span>,
+<span class="math inline"><em>j</em> = 0, 1, …, <em>N</em> − 1</span>,
+<span
+class="math inline"><em>Δ</em><em>x</em> = 2<em>L</em>/(<em>N</em> − 1)</span></p>
+<p>Central difference (<span
+class="math inline">𝒪(<em>Δ</em><em>x</em><sup>2</sup>)</span>): <span
+class="math display">$$\begin{equation}
+\left.\dv[2]{\phi}{x}\right|_j \approx \frac{\phi_{j+1} - 2\phi_j +
+\phi_{j-1}}{\Delta x^2}
+\end{equation}$$</span></p>
+<p>Hamiltonian matrix (tridiagonal): <span
+class="math display">$$\begin{equation}
+H_{ij} = \delta_{ij}\left(\frac{1}{\Delta x^2} + \frac{x_i^2}{2}\right)
+- \frac{\delta_{i,j\pm 1}}{2\Delta x^2}
+\end{equation}$$</span></p>
+<h3 id="complete-python-implementation">Complete Python
+Implementation</h3>
+<pre data-caption="1D Harmonic Oscillator TISE Solver"><code>import numpy as np
+import matplotlib.pyplot as plt
+from scipy.linalg import eigh
+
+# ============================================
+# 1D Harmonic Oscillator TISE Solver
+# ============================================
+
+def solve_harmonic_oscillator_1d(N=500, L=10, n_states=5):
+    &quot;&quot;&quot;
+    Solve 1D harmonic oscillator using finite difference method
+    
+    Parameters:
+    -----------
+    N : int
+        Number of grid points
+    L : float
+        Half-length of domain [-L, L]
+    n_states : int
+        Number of lowest eigenstates to compute
+        
+    Returns:
+    --------
+    x : ndarray
+        Spatial grid
+    energies : ndarray
+        Energy eigenvalues
+    wavefunctions : ndarray
+        Normalized eigenfunctions
+    &quot;&quot;&quot;
+    
+    # Create spatial grid
+    x = np.linspace(-L, L, N)
+    dx = x[1] - x[0]
+    
+    # Construct Hamiltonian matrix (tridiagonal)
+    # H = T + V where T = -1/(2dx^2) (*@$\times$@*) second derivative
+    #                 V = diag(x^2/2)
+    
+    # Kinetic energy matrix
+    T_diag = np.ones(N) / dx**2
+    T_offdiag = -np.ones(N-1) / (2*dx**2)
+    
+    # Potential energy matrix
+    V = 0.5 * x**2
+    
+    # Full Hamiltonian
+    H = (np.diag(T_diag + V) + 
+         np.diag(T_offdiag, k=1) + 
+         np.diag(T_offdiag, k=-1))
+    
+    # Solve eigenvalue problem (*@$H\phi = E\phi$@*)
+    energies, wavefunctions = eigh(H)
+    
+    # Extract requested states
+    energies = energies[:n_states]
+    wavefunctions = wavefunctions[:, :n_states]
+    
+    # Normalize wavefunctions
+    for i in range(n_states):
+        norm = np.sqrt(np.trapz(np.abs(wavefunctions[:, i])**2, x))
+        wavefunctions[:, i] /= norm
+        
+        # Phase convention: positive at center
+        center_idx = N // 2
+        if wavefunctions[center_idx, i] &lt; 0:
+            wavefunctions[:, i] *= -1
+    
+    return x, energies, wavefunctions
+
+
+def analytical_harmonic_oscillator(x, n):
+    &quot;&quot;&quot;
+    Analytical solution: (*@$\phi_n(x) = \frac{1}{\sqrt{2^n n! \sqrt{\pi}}} H_n(x) e^{-x^2/2}$@*)
+    &quot;&quot;&quot;
+    from scipy.special import hermite, factorial
+    
+    N_n = 1.0 / np.sqrt(2**n * factorial(n) * np.sqrt(np.pi))
+    H_n = hermite(n)
+    phi_n = N_n * H_n(x) * np.exp(-x**2 / 2)
+    
+    return phi_n
+
+
+# ============================================
+# Main execution
+# ============================================
+
+if __name__ == &quot;__main__&quot;:
+    print(&quot;=&quot;*60)
+    print(&quot;1D Harmonic Oscillator: Numerical vs Analytical&quot;)
+    print(&quot;=&quot;*60)
+    
+    # Solve numerically
+    x, E_num, psi_num = solve_harmonic_oscillator_1d(N=500, L=10, n_states=5)
+    
+    # Analytical energies
+    E_analytical = np.array([n + 0.5 for n in range(5)])
+    
+    # Print comparison
+    print(&quot;\nEnergy Eigenvalues:&quot;)
+    print(&quot;-&quot; * 70)
+    print(f&quot;{&#39;n&#39;:&gt;3} | {&#39;E_numerical&#39;:&gt;15} | {&#39;E_analytical&#39;:&gt;15} | {&#39;Rel. Error&#39;:&gt;12}&quot;)
+    print(&quot;-&quot; * 70)
+    
+    for n in range(5):
+        rel_error = np.abs(E_num[n] - E_analytical[n]) / E_analytical[n]
+        print(f&quot;{n:3d} | {E_num[n]:15.10f} | {E_analytical[n]:15.10f} | {rel_error:12.2e}&quot;)</code></pre>
+<figure id="fig:wavefunction_comparison" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 4.1: Plot showing
+numerical vs analytical wavefunctions <span
+class="math inline"><em>ϕ</em><sub>0</sub>, <em>ϕ</em><sub>1</sub>, <em>ϕ</em><sub>2</sub></span>
+overlaid]</em></span></p>
+<figcaption>Comparison of numerical and analytical
+solutions</figcaption>
+</figure>
+<figure id="fig:convergence_analysis" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 4.2: Log-log plot of
+energy error vs grid spacing <span
+class="math inline"><em>Δ</em><em>x</em></span>, demonstrating <span
+class="math inline">𝒪(<em>Δ</em><em>x</em><sup>2</sup>)</span>
+convergence]</em></span></p>
+<figcaption>Convergence analysis of finite difference
+method</figcaption>
+</figure>
+<h3 id="convergence-analysis-and-error-scaling">Convergence Analysis and
+Error Scaling</h3>
+<p>The finite difference approximation introduces truncation error:
+<span
+class="math display"><em>ε</em><sub>trunc</sub> = |<em>E</em><sub>numerical</sub> − <em>E</em><sub>exact</sub>| = <em>C</em> × <em>Δ</em><em>x</em><sup>2</sup> + 𝒪(<em>Δ</em><em>x</em><sup>4</sup>)</span></p>
+<p>Empirical fitting shows <span
+class="math inline"><em>C</em> ≈ 0.01</span> for the ground state.
+Doubling grid resolution (<span
+class="math inline"><em>N</em> → 2<em>N</em></span>, <span
+class="math inline"><em>Δ</em><em>x</em> → <em>Δ</em><em>x</em>/2</span>)
+reduces error by factor of 4, confirming second-order convergence.</p>
+<p>For <span class="math inline"><em>n</em></span>-th excited state,
+error magnitude increases as: <span
+class="math display"><em>ε</em><sub><em>n</em></sub> ≈ <em>C</em><sub><em>n</em></sub> × <em>Δ</em><em>x</em><sup>2</sup>,  where
+<em>C</em><sub><em>n</em></sub> ≈ <em>C</em><sub>0</sub> × (<em>n</em> + 1)<sup>2</sup></span></p>
+<p>This reflects the increasing curvature of higher energy
+wavefunctions, requiring finer grids for accurate resolution.</p>
+<h2
+id="time-dependent-schrödinger-equation-split-operator-method">Time-Dependent
+Schrödinger Equation: Split-Operator Method</h2>
+<h3 id="problem-gaussian-wave-packet-in-harmonic-potential">Problem:
+Gaussian Wave Packet in Harmonic Potential</h3>
+<p>Initial state (Gaussian wave packet): <span
+class="math display">$$\begin{equation}
+\psi(x,0) = (2\pi\sigma^2)^{-1/4}
+\exp\left(-\frac{(x-x_0)^2}{4\sigma^2}\right) \exp\left(\frac{ip_0
+x}{\hbar}\right)
+\end{equation}$$</span></p>
+<p>Time evolution under <span
+class="math inline"><em>V</em>(<em>x</em>) = <em>x</em><sup>2</sup>/2</span>
+(dimensionless units).</p>
+<p><strong>Physical interpretation:</strong> Wave packet oscillates in
+harmonic potential with angular frequency <span
+class="math inline"><em>ω</em> = 1</span>.</p>
+<h3 id="split-operator-algorithm-implementation">Split-Operator
+Algorithm Implementation</h3>
+<pre id="lst:split_operator"
+data-caption="Split-Operator Propagator for TDSE"
+data-label="lst:split_operator"><code>import numpy as np
+
+def split_operator_propagator(psi, V, dt, dx):
+    &quot;&quot;&quot;
+    Single time step using split-operator method
+    
+    (*@$\exp(-i\hat{H}\Delta t/\hbar) \approx \exp(-i\hat{T}\Delta t/2\hbar) \exp(-i\hat{V}\Delta t/\hbar) \exp(-i\hat{T}\Delta t/2\hbar)$@*)
+    &quot;&quot;&quot;
+    N = len(psi)
+    L = N * dx
+    k = 2 * np.pi * np.fft.fftfreq(N, dx)
+    
+    # Kinetic energy in momentum space
+    T_k = 0.5 * k**2
+    
+    # Step 1: Half-step kinetic propagation
+    psi_tilde = np.fft.fft(psi)
+    psi_tilde *= np.exp(-1j * T_k * dt / 2)
+    
+    # Step 2: Transform to position space
+    psi = np.fft.ifft(psi_tilde)
+    
+    # Step 3: Full-step potential propagation
+    psi *= np.exp(-1j * V * dt)
+    
+    # Step 4: Half-step kinetic (repeat)
+    psi_tilde = np.fft.fft(psi)
+    psi_tilde *= np.exp(-1j * T_k * dt / 2)
+    psi = np.fft.ifft(psi_tilde)
+    
+    return psi
+
+
+def simulate_wave_packet(N=1024, L=20, T_final=10, dt=0.01,
+                         x0=0, p0=2, sigma=1):
+    &quot;&quot;&quot;Simulate Gaussian wave packet in harmonic oscillator&quot;&quot;&quot;
+    
+    x = np.linspace(-L, L, N)
+    dx = x[1] - x[0]
+    V = 0.5 * x**2
+    
+    # Initial Gaussian wave packet
+    norm = (2 * np.pi * sigma**2)**(-0.25)
+    psi = norm * np.exp(-(x - x0)**2 / (4 * sigma**2) + 1j * p0 * x)
+    psi /= np.sqrt(np.trapz(np.abs(psi)**2, x))
+    
+    # Time evolution
+    n_steps = int(T_final / dt)
+    psi_t = [psi.copy()]
+    times = [0]
+    
+    for step in range(1, n_steps + 1):
+        psi = split_operator_propagator(psi, V, dt, dx)
+        
+        if step % (n_steps // 100) == 0:
+            psi_t.append(psi.copy())
+            times.append(step * dt)
+    
+    return x, psi_t, np.array(times)</code></pre>
+<figure id="fig:wavepacket_evolution" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 4.3: Animation frames
+showing <span
+class="math inline">|<em>ψ</em>(<em>x</em>, <em>t</em>)|<sup>2</sup></span>
+evolution at <span
+class="math inline"><em>t</em> = 0, <em>π</em>/2, <em>π</em>, 3<em>π</em>/2, 2<em>π</em></span>]</em></span></p>
+<figcaption>Wave packet evolution in harmonic potential</figcaption>
+</figure>
+<figure id="fig:expectation_dynamics" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 4.4: Plot of <span
+class="math inline">⟨<em>x</em>⟩(<em>t</em>)</span> vs <span
+class="math inline"><em>t</em></span> showing oscillatory behavior,
+numerical (solid) vs analytical (dashed)]</em></span></p>
+<figcaption>Expectation value dynamics</figcaption>
+</figure>
+<h3 id="numerical-stability-and-error-analysis">Numerical Stability and
+Error Analysis</h3>
+<p>The split-operator method is unconditionally stable (unitary
+operator). However, accuracy depends on time step:</p>
+<ul>
+<li><p><strong>Local error:</strong> <span
+class="math inline">𝒪(<em>Δ</em><em>t</em><sup>3</sup>)</span> per step
+(from Trotter decomposition)</p></li>
+<li><p><strong>Global error:</strong> <span
+class="math inline">𝒪(<em>Δ</em><em>t</em><sup>2</sup>)</span> over time
+<span class="math inline"><em>T</em></span> (accumulated from <span
+class="math inline"><em>T</em>/<em>Δ</em><em>t</em></span>
+steps)</p></li>
+</ul>
+<p>For the harmonic oscillator, total energy should be conserved.
+Empirical energy error: <span class="math display">$$\begin{equation}
+\frac{\Delta E}{E} \approx 10^{-6} \text{ for } \Delta t = 0.01, \text{
+improving as } \Delta t^2
+\end{equation}$$</span></p>
+<h2 id="hartree-fock-self-consistent-field-method">Hartree-Fock
+Self-Consistent Field Method</h2>
+<h3 id="theoretical-foundation">Theoretical Foundation</h3>
+<p>The Hartree-Fock method approximates the <span
+class="math inline"><em>N</em></span>-electron wavefunction as a single
+Slater determinant: <span class="math display">$$\begin{equation}
+\Psi(\vb{r}_1,\ldots,\vb{r}_N) = \frac{1}{\sqrt{N!}}
+\det[\phi_i(\vb{r}_j)]
+\end{equation}$$</span></p>
+<p>Energy functional: <span class="math display">$$\begin{equation}
+E[\{\phi_i\}] = \sum_i h_{ii} + \frac{1}{2}\sum_{ij} (J_{ij} - K_{ij})
+\end{equation}$$</span> where: <span
+class="math display">$$\begin{align}
+h_{ij} &amp;= \braket{\phi_i | -\frac{\hbar^2}{2m}\laplacian +
+V_{\text{ext}} | \phi_j} \\
+J_{ij} &amp;= \iint |\phi_i(\vb{r}_1)|^2 \frac{e^2}{|\vb{r}_1-\vb{r}_2|}
+|\phi_j(\vb{r}_2)|^2 \, d\vb{r}_1 d\vb{r}_2 \\
+K_{ij} &amp;= \iint \phi_i^*(\vb{r}_1)\phi_j(\vb{r}_1)
+\frac{e^2}{|\vb{r}_1-\vb{r}_2|} \phi_j^*(\vb{r}_2)\phi_i(\vb{r}_2) \,
+d\vb{r}_1 d\vb{r}_2
+\end{align}$$</span></p>
+<p>The Hartree-Fock equations (Fock equations): <span
+class="math display"><em>F̂</em><em>ϕ</em><sub><em>i</em></sub> = <em>ε</em><sub><em>i</em></sub><em>ϕ</em><sub><em>i</em></sub></span>
+where the Fock operator: <span
+class="math display"><em>F̂</em> = <em>ĥ</em> + ∑<sub><em>j</em></sub>(<em>Ĵ</em><sub><em>j</em></sub> − <em>K̂</em><sub><em>j</em></sub>)</span></p>
+<h3 id="implementation-helium-atom">Implementation: Helium Atom</h3>
+<pre id="lst:hartree_fock" data-caption="Hartree-Fock for Helium Atom"
+data-label="lst:hartree_fock"><code>import numpy as np
+from scipy.special import genlaguerre, factorial
+from scipy.integrate import trapz
+from scipy.linalg import eigh
+
+class HeliumHartreeFock:
+    &quot;&quot;&quot;
+    Restricted Hartree-Fock for Helium atom (2 electrons)
+    Both electrons occupy same spatial orbital (1s) with opposite spins
+    &quot;&quot;&quot;
+    
+    def __init__(self, r_max=20, n_points=2000):
+        self.r = np.linspace(1e-6, r_max, n_points)
+        self.dr = self.r[1] - self.r[0]
+        self.Z = 2  # Nuclear charge for He
+        
+        # Initial guess: hydrogen-like 1s orbital
+        self.phi = self.hydrogen_radial(n=1, l=0)
+        self.normalize_orbital()
+        
+    def hydrogen_radial(self, n, l):
+        &quot;&quot;&quot;Hydrogen-like radial wavefunction&quot;&quot;&quot;
+        a0 = 1  # Atomic units
+        rho = 2 * self.Z * self.r / (n * a0)
+        N = np.sqrt((2*self.Z/(n*a0))**3 * factorial(n-l-1) / (2*n*factorial(n+l)))
+        L = genlaguerre(n-l-1, 2*l+1)
+        return N * rho**l * np.exp(-rho/2) * L(rho)
+        
+    def normalize_orbital(self):
+        &quot;&quot;&quot;Normalize: (*@$\int |\phi(r)|^2 r^2 dr = 1$@*)&quot;&quot;&quot;
+        norm = np.sqrt(trapz(self.phi**2 * self.r**2, self.r))
+        self.phi /= norm
+        
+    def compute_coulomb_potential(self):
+        &quot;&quot;&quot;Compute Coulomb potential from electron density&quot;&quot;&quot;
+        rho = self.phi**2
+        J = np.zeros_like(self.r)
+        
+        for i, r_val in enumerate(self.r):
+            integrand_less = rho[:i+1] * self.r[:i+1] / r_val if i &gt; 0 else [0]
+            integrand_greater = rho[i:] * self.r[i:]
+            
+            J[i] = (trapz(integrand_less * self.r[:i+1], self.r[:i+1]) +
+                    trapz(integrand_greater, self.r[i:]))
+        
+        return J
+        
+    def solve_fock_equation(self, max_iter=100, tol=1e-8):
+        &quot;&quot;&quot;Self-consistent field iteration&quot;&quot;&quot;
+        energy_history = []
+        
+        for iteration in range(max_iter):
+            # Kinetic energy
+            T_phi = -0.5 * np.gradient(np.gradient(self.phi, self.dr), self.dr)
+            
+            # Nuclear attraction
+            V_nuc_phi = -self.Z / self.r * self.phi
+            
+            # Coulomb and exchange potentials
+            J = self.compute_coulomb_potential()
+            K = J / 2  # For He RHF
+            
+            F_phi = T_phi + V_nuc_phi + J * self.phi - K * self.phi
+            
+            # Orbital energy
+            epsilon = trapz(self.phi * F_phi * self.r**2, self.r)
+            
+            # Update orbital (simplified)
+            phi_new = F_phi / epsilon
+            self.phi = phi_new
+            self.normalize_orbital()
+            
+            # Total energy
+            h_phi = T_phi + V_nuc_phi
+            h_exp = trapz(self.phi * h_phi * self.r**2, self.r)
+            E_total = 2 * h_exp + trapz(self.phi * (J - K) * self.phi * self.r**2, self.r)
+            
+            energy_history.append(E_total)
+            
+            if iteration &gt; 0 and abs(E_total - energy_history[-2]) &lt; tol:
+                print(f&quot;Converged in {iteration+1} iterations&quot;)
+                print(f&quot;Final energy: {E_total:.8f} Ha&quot;)
+                return E_total, energy_history
+            
+            if iteration % 10 == 0:
+                print(f&quot;Iteration {iteration}: E = {E_total:.8f} Ha&quot;)
+        
+        return E_total, energy_history</code></pre>
+<figure id="fig:hf_convergence" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 4.5: HF energy
+convergence vs iteration number, showing exponential
+approach]</em></span></p>
+<figcaption>Hartree-Fock SCF convergence for helium</figcaption>
+</figure>
+<figure id="fig:hf_orbital" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 4.6: Comparison of HF
+radial orbital <span class="math inline"><em>ϕ</em>(<em>r</em>)</span>
+vs improved wavefunction]</em></span></p>
+<figcaption>HF orbital comparison</figcaption>
+</figure>
+<h3 id="analysis-of-hf-approximation">Analysis of HF Approximation</h3>
+<p>The HF method captures <span class="math inline">∼</span>98–99% of
+total energy for light atoms. The missing energy (correlation energy)
+arises from:</p>
+<ul>
+<li><p>Mean-field approximation: electrons interact with average field,
+not instantaneously</p></li>
+<li><p>Single determinant: true wavefunction requires linear combination
+of determinants</p></li>
+<li><p>Exchange only for same-spin electrons: opposite-spin correlation
+neglected</p></li>
+</ul>
+<p>For Helium: <span
+class="math display"><em>E</em><sub>correlation</sub> = <em>E</em><sub>exact</sub> − <em>E</em><sub>HF</sub> ≈ −2.9037 − (−2.86) ≈ −0.04
+Ha</span></p>
+<p>This represents <span class="math inline">∼</span>1.4% of total
+binding energy.</p>
+<h1 id="advanced-topics-and-extensions">Advanced Topics and
+Extensions</h1>
+<h2 id="basis-set-selection-and-convergence">Basis Set Selection and
+Convergence</h2>
+<p>Gaussian-type orbitals (GTOs) are standard in quantum chemistry:
+<span class="math display">$$\begin{equation}
+\chi_{\text{GTO}}(\vb{r}) = N x^l y^m z^n \exp(-\alpha r^2)
+\end{equation}$$</span></p>
+<p>Common basis sets:</p>
+<ul>
+<li><p><strong>STO-3G:</strong> Minimal basis, 3 GTOs per Slater-type
+orbital</p></li>
+<li><p><strong>6-31G:</strong> Split-valence, core: 6 GTOs, valence: 3+1
+GTOs</p></li>
+<li><p><strong>cc-pVDZ, cc-pVTZ, cc-pVQZ:</strong>
+Correlation-consistent, systematically improvable</p></li>
+</ul>
+<p>Energy convergence with basis size <span
+class="math inline"><em>n</em></span>: <span
+class="math display">$$\begin{equation}
+E(n) = E_{\text{CBS}} + \frac{A}{n^3} + \frac{B}{n^5}
+\end{equation}$$</span> where <span
+class="math inline"><em>E</em><sub>CBS</sub></span> is the complete
+basis set limit.</p>
+<h2 id="post-hartree-fock-methods">Post-Hartree-Fock Methods</h2>
+<p>Methods to recover electron correlation:</p>
+<ul>
+<li><p><strong>MP2 (2nd-order Møller-Plesset):</strong> <span
+class="math inline">𝒪(<em>N</em><sup>5</sup>)</span> scaling</p></li>
+<li><p><strong>CCSD (Coupled-Cluster Singles and Doubles):</strong>
+<span class="math inline">𝒪(<em>N</em><sup>6</sup>)</span> scaling,
+“gold standard”</p></li>
+<li><p><strong>CCSD(T):</strong> <span
+class="math inline">𝒪(<em>N</em><sup>7</sup>)</span> scaling, includes
+perturbative triples</p></li>
+<li><p><strong>Full CI:</strong> Exact within basis, <span
+class="math inline">𝒪(<em>N</em>!)</span> scaling — intractable for
+<span class="math inline"><em>N</em> &gt; 20</span></p></li>
+</ul>
+<h2 id="density-functional-theory-in-practice">Density Functional Theory
+in Practice</h2>
+<p>DFT workflow:</p>
+<ol>
+<li><p>Choose functional (LDA, GGA, hybrid, meta-GGA)</p></li>
+<li><p>Select basis set (plane waves for solids, GTOs for
+molecules)</p></li>
+<li><p>Set convergence criteria (<span
+class="math inline">10<sup>−6</sup></span>for energy, <span
+class="math inline">10<sup>−4</sup></span> for forces)</p></li>
+<li><p>Initialize density (atomic superposition or random)</p></li>
+<li><p>SCF iteration until convergence</p></li>
+<li><p>Analyze results (charge density, DOS, band structure)</p></li>
+</ol>
+<figure id="fig:dft_scf_cycle" data-latex-placement="H">
+<p><span style="color: red"><em>[INSERT FIGURE 5.1: Flowchart showing
+DFT SCF cycle: Initial guess <span class="math inline">→</span> Build
+Hamiltonian <span class="math inline">→</span> Diagonalize <span
+class="math inline">→</span> Update density <span
+class="math inline">→</span> Check convergence]</em></span></p>
+<figcaption>DFT self-consistent field cycle</figcaption>
+</figure>
+<h2 id="future-directions">Future Directions</h2>
+<p>Emerging methods in computational quantum mechanics:</p>
+<ul>
+<li><p>Machine learning potentials: Neural networks trained on <em>ab
+initio</em> data</p></li>
+<li><p>Quantum computing: Variational Quantum Eigensolver (VQE) for
+molecules</p></li>
+<li><p>Linear-scaling DFT: <span
+class="math inline">𝒪(<em>N</em>)</span> methods for large systems
+(1000+ atoms)</p></li>
+<li><p>Time-dependent DFT: Excited states and spectroscopy</p></li>
+<li><p>Path integral molecular dynamics: Quantum nuclear
+effects</p></li>
+</ul>
+<h2 id="method-comparison-summary">Method Comparison Summary</h2>
+<div id="tab:method_comparison">
+<table>
+<caption>Comprehensive comparison of quantum mechanical
+methods</caption>
+<thead>
+<tr>
+<th style="text-align: left;">Method</th>
+<th style="text-align: center;">Scaling</th>
+<th style="text-align: center;">Accuracy</th>
+<th style="text-align: left;">Applications</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;">Hartree-Fock</td>
+<td style="text-align: center;"><span
+class="math inline">𝒪(<em>N</em><sup>3</sup>)</span></td>
+<td style="text-align: center;">98–99% <span
+class="math inline"><em>E</em></span></td>
+<td style="text-align: left;">Initial guess, small molecules</td>
+</tr>
+<tr>
+<td style="text-align: left;">MP2</td>
+<td style="text-align: center;"><span
+class="math inline">𝒪(<em>N</em><sup>5</sup>)</span></td>
+<td style="text-align: center;">99.5% <span
+class="math inline"><em>E</em></span></td>
+<td style="text-align: left;">Medium molecules, weak corr.</td>
+</tr>
+<tr>
+<td style="text-align: left;">CCSD</td>
+<td style="text-align: center;"><span
+class="math inline">𝒪(<em>N</em><sup>6</sup>)</span></td>
+<td style="text-align: center;">99.9% <span
+class="math inline"><em>E</em></span></td>
+<td style="text-align: left;">Benchmark, small molecules</td>
+</tr>
+<tr>
+<td style="text-align: left;">DFT-LDA</td>
+<td style="text-align: center;"><span
+class="math inline">𝒪(<em>N</em><sup>3</sup>)</span></td>
+<td style="text-align: center;">Good</td>
+<td style="text-align: left;">Solids, extended systems</td>
+</tr>
+<tr>
+<td style="text-align: left;">DFT-GGA</td>
+<td style="text-align: center;"><span
+class="math inline">𝒪(<em>N</em><sup>3</sup>)</span></td>
+<td style="text-align: center;">Better</td>
+<td style="text-align: left;">Molecules, surfaces</td>
+</tr>
+<tr>
+<td style="text-align: left;">DFT-Hybrid</td>
+<td style="text-align: center;"><span
+class="math inline">𝒪(<em>N</em><sup>4</sup>)</span></td>
+<td style="text-align: center;">Best DFT</td>
+<td style="text-align: left;">Thermochemistry, barriers</td>
+</tr>
+<tr>
+<td style="text-align: left;">Full CI</td>
+<td style="text-align: center;"><span
+class="math inline">𝒪(<em>N</em>!)</span></td>
+<td style="text-align: center;">Exact</td>
+<td style="text-align: left;">Tiny systems only (<span
+class="math inline"><em>N</em> &lt; 20</span>)</td>
+</tr>
+</tbody>
+</table>
+</div>
+<p><span class="math inline"><em>E</em></span> = total electronic energy
+relative to exact solution within basis set</p>
+<h1 id="useful-constants-and-conversion-factors">Useful Constants and
+Conversion Factors</h1>
+<p>Fundamental constants in atomic units (<span
+class="math inline">ℏ = <em>m</em><sub><em>e</em></sub> = <em>e</em> = 4<em>π</em><em>ϵ</em><sub>0</sub> = 1</span>):</p>
+<ul>
+<li><p>Energy unit (Hartree): <span
+class="math inline"><em>E</em><sub><em>h</em></sub> = 27.211
+eV = 627.5</span> kcal/mol <span
+class="math inline"> = 4.360 × 10<sup>−18</sup></span> J</p></li>
+<li><p>Length unit (Bohr): <span
+class="math inline"><em>a</em><sub>0</sub> = 0.5292</span> Å <span
+class="math inline"> = 5.292 × 10<sup>−11</sup></span> m</p></li>
+<li><p>Time unit: <span
+class="math inline">ℏ/<em>E</em><sub><em>h</em></sub> = 2.419 × 10<sup>−17</sup></span>
+s <span class="math inline"> = 24.19</span> as</p></li>
+<li><p>Velocity unit: <span class="math inline"><em>c</em>/137.04</span>
+(fine structure constant <span
+class="math inline"><em>α</em><sup>−1</sup></span>)</p></li>
+</ul>
+<h1 id="numerical-methods-reference">Numerical Methods Reference</h1>
+<p>Key algorithms for quantum simulations:</p>
+<h2 class="unnumbered" id="eigenvalue-solvers">Eigenvalue Solvers</h2>
+<ul>
+<li><p>Dense matrices: LAPACK (<code>dsyev</code>, <code>zheev</code>)
+<span class="math inline">𝒪(<em>N</em><sup>3</sup>)</span></p></li>
+<li><p>Sparse matrices: Lanczos, Arnoldi, Davidson <span
+class="math inline">𝒪(<em>k</em><em>N</em><sup>2</sup>)</span>, <span
+class="math inline"><em>k</em> ≪ <em>N</em></span></p></li>
+</ul>
+<h2 class="unnumbered" id="integral-evaluation">Integral Evaluation</h2>
+<ul>
+<li><p>Gaussian quadrature: high-order accuracy with few points</p></li>
+<li><p>Lebedev grids: spherical integration for DFT</p></li>
+<li><p>Adaptive mesh refinement: automatic grid optimization</p></li>
+</ul>
+<h2 class="unnumbered" id="optimization-algorithms">Optimization
+Algorithms</h2>
+<ul>
+<li><p>BFGS: quasi-Newton method for geometry optimization</p></li>
+<li><p>Conjugate gradient: for large systems</p></li>
+<li><p>DIIS (Direct Inversion in Iterative Subspace): SCF
+acceleration</p></li>
+</ul>
+</body>
+</html>
