@@ -88,7 +88,7 @@
             font-weight: 500;
         }
 
-        /* 右侧主内容区：调整文字颜色适配深色背景 */
+        /* 右侧主内容区：调整文字颜色适配深色背景 + PDF容器样式 */
         .main-content { 
             margin-left: 250px; 
             padding: 60px 80px; 
@@ -200,6 +200,15 @@
             color: #e0e0ff; 
             margin-bottom: 15px;
         }
+        /* PDF容器样式 */
+        .pdf-container {
+            width: 100%;
+            height: 800px; /* 可根据需要调整高度 */
+            margin: 30px 0;
+            border-radius: 8px;
+            box-shadow: 0 0 15px rgba(0,200,255,0.2);
+            overflow: hidden;
+        }
     </style>
 </head>
 <body>
@@ -211,31 +220,29 @@
             <a href="../../../achievements/achievements.html" class="main-nav">Achievements</a>
             
             <!-- Achievements子导航 -->
-            <div class="sub-nav-container">
+            <!--<div class="sub-nav-container">
                 <a href="../../../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
                 <a href="../../../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
                 <a href="../../../achievements/others/others.html" class="sub-nav">Others</a>
-            </div>
+            </div>-->
 
             <!-- Physics Research主导航 -->
             <a href="../../../physics-research/physics-research.html" class="main-nav active">Physics Research</a>
             
             <!-- Physics Research子导航 -->
             <div class="sub-nav-container">
-                <a href="../../../physics-research/quantum-projects/quantum-overview.html" class="sub-nav active">Quantum Projects</a>
+                <a href="../../../physics-research/quantum-projects/quantum-overview.html" class="sub-nav">Computatonal Quantum Mechanics Project</a>
                 <!-- Quantum Projects二级子导航（当前Project1高亮） -->
                 <div class="sub-sub-nav-container">
-                    <a href="../project-1-particle-in-box/project1.html" class="sub-sub-nav active">Project 1: Particle in Box</a>
-                    <a href="../project-2-quantum-tunneling/project2.html" class="sub-sub-nav">Project 2: Quantum Tunneling</a>
-                    <a href="../coding/coding.html" class="sub-sub-nav">Coding for Quantum</a>
+                    <a href="../project-1-particle-in-box/project1.html" class="sub-sub-nav active">Computatonal Quantum Mechanics Project Documentation</a>
+                    <!--<a href="../project-2-quantum-tunneling/project2.html" class="sub-sub-nav">Project 2: Quantum Tunneling</a>
+                    <a href="../coding/coding.html" class="sub-sub-nav">Coding for Quantum</a>-->
                 </div>
                 <a href="../../../physics-research/climate-modeling-project/climate.html" class="sub-nav">Climate Modeling Project</a>
             </div>
 
             <!-- 其他主导航项 -->
-            
             <a href="../../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
-            
             <a href="../../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
             <a href="../../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
             <a href="../../../extracurricular-activities/activities.html" class="main-nav">Reading to the World</a>
@@ -258,19 +265,28 @@
         </div>
     </div>
 
-    <!-- 右侧主内容：保留原有内容，仅调整颜色适配深色背景 -->
+    <!-- 右侧主内容：嵌入PDF预览 -->
     <div class="main-content">
-        <a href="../../../physics-research/quantum-projects/quantum-overview.html" class="back-link">← Back to Quantum Projects</a>
-        <h2 class="section-heading">Project 1: Quantum Particle in a Box - Visualizing Wavefunctions</h2>
+        <a href="../../../physics-research/quantum-projects/quantum-overview.html" class="back-link">← Back to Introduction</a>
+        <h2 class="section-heading">Advanced Computational QuantumMechanics: Mathematical Foundations and Numerical Implementation</h2>
         
-        <!-- 1. Abstract 模块 -->
-        <div class="project-module abstract-box">
-            <h3>Abstract</h3>
-            <p>This project aims to demystify the fundamental quantum mechanical model of a "particle in a one-dimensional box" through interactive visualizations. By computationally generating wavefunction plots, probability density distributions, and time-evolution animations, we bridge the gap between theoretical quantum principles and intuitive understanding. The results demonstrate the discrete energy levels of confined quantum particles and contrast classical vs. quantum behavior, providing an educational tool for students new to quantum mechanics.</p>
+        <!-- PDF嵌入容器 -->
+        <div class="project-module">
+            <h3>Comtutational Quantum Mechanics Project Documentation (PDF)</h3>
+            <div class="pdf-container">
+                <!-- 替换下面的 PDF 文件路径为你的实际PDF路径 -->
+                <embed src="./CMQ-1.pdf" type="application/pdf" width="100%" height="100%" />
+            </div>
         </div>
 
+        <!-- 1. Abstract 模块 -->
+       <!-- <div class="project-module abstract-box">
+            <h3>Abstract</h3>
+            <p>This project aims to demystify the fundamental quantum mechanical model of a "particle in a one-dimensional box" through interactive visualizations. By computationally generating wavefunction plots, probability density distributions, and time-evolution animations, we bridge the gap between theoretical quantum principles and intuitive understanding. The results demonstrate the discrete energy levels of confined quantum particles and contrast classical vs. quantum behavior, providing an educational tool for students new to quantum mechanics.</p>
+        </div>-->
+
         <!-- 2. 原理描述模块 -->
-        <div class="project-module">
+        <!--<div class="project-module">
             <h3>Fundamental Principles</h3>
             <p>The "particle in a box" (PIB) model describes a quantum particle confined to a one-dimensional region of space (0 ≤ x ≤ L) with infinite potential barriers at the boundaries. Key principles include:</p>
             <ul>
@@ -280,10 +296,10 @@
                 <li><strong>Probability Density</strong>: |ψₙ(x)|² - the likelihood of finding the particle at position x (contrasts with classical uniform probability).</li>
             </ul>
             <p>Unlike classical particles (which can have any energy and uniform position probability), quantum particles in a box exhibit standing wave patterns and non-uniform probability distributions—key hallmarks of quantum behavior.</p>
-        </div>
+        </div>-->
 
         <!-- 3. 实验图片模块 -->
-        <div class="project-module">
+       <!-- <div class="project-module">
             <h3>Experimental Visualizations</h3>
             <div class="image-gallery">
                 <div class="image-card">
@@ -296,10 +312,10 @@
                 </div>
             </div>
             <p><em>Note</em>: All visualizations are generated using Python (NumPy + Matplotlib). The code is optimized for clarity and can be found in my GitHub repository linked in the sidebar.</p>
-        </div>
+        </div>-->
 
         <!-- 补充：技术实现 -->
-        <div class="project-module">
+       <!-- <div class="project-module">
             <h3>Technical Implementation</h3>
             <p>Built with Python (NumPy for numerical calculations, Matplotlib for plotting, Matplotlib.animation for time evolution). The code is optimized for clarity and interactivity, making it suitable for educational purposes on a personal website. Key features include:</p>
             <ul>
@@ -308,7 +324,7 @@
                 <li>Animation of wavefunction time evolution (stationary vs. superposition states)</li>
                 <li>Comparison of classical vs. quantum behavior in a confined space</li>
             </ul>
-        </div>
+        </div>-->
     </div>
 </body>
 </html>

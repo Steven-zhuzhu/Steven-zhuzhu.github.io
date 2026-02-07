@@ -176,20 +176,21 @@
             <a href="../../home/index.html" class="main-nav">Home</a>
             <a href="../../about/about.html" class="main-nav">About Me</a>
             <a href="../../achievements/achievements.html" class="main-nav">Achievements</a>
-            <div class="sub-nav-container">
+            <!--<div class="sub-nav-container">
                 <a href="../../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
                 <a href="../../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
                 <a href="../../achievements/others/others.html" class="sub-nav">Others</a>
-            </div>
+            </div>-->
             <!-- 回退1级到physics-research/：../ -->
             <a href="../physics-research.html" class="main-nav active">Physics Research</a>
             <div class="sub-nav-container">
-                <a href="./quantum-overview.html" class="sub-nav active">Quantum Projects</a>
+                <a href="./quantum-overview.html" class="sub-nav active">Computational Quantum Mechanics Project</a>
                 <div class="sub-sub-nav-container">
                     <!-- 同级目录直接跳转：./ -->
-                    <a href="./project-1-particle-in-box/project1.html" class="sub-sub-nav">Project 1: Particle in Box</a>
-                    <a href="./project-2-quantum-tunneling/project2.html" class="sub-sub-nav">Project 2: Quantum Tunneling</a>
+                    <a href="./project-1-particle-in-box/project1.html" class="sub-sub-nav">Computatonal Quantum Mechanics Project Documentation</a>
+                   <!-- <a href="./project-2-quantum-tunneling/project2.html" class="sub-sub-nav">Project 2: Quantum Tunneling</a>
                     <a href="./coding/coding.html" class="sub-sub-nav">Coding for Quantum</a>
+                    -->
                 </div>
                 <a href="../climate-modeling-project/climate.html" class="sub-nav">Climate Modeling Project</a>
             </div>
@@ -217,58 +218,43 @@
 
     <!-- 右侧内容：项目链接也改为相对路径 -->
     <div class="main">
-        <h1>Quantum Mechanics Projects</h1>
+        <h1>Introduction of Compational Quantum Mechanics</h1>
         
         <div class="research-section">
-            <h3>Overview of Quantum Mechanics Research</h3>
-            <p>Quantum mechanics is the core direction of my physics research, focusing on simulating and verifying basic quantum mechanical models through theoretical derivation and programming implementation. These projects lay a solid foundation for in-depth research on quantum computing and quantum information in the future.</p>
-            <p>All projects are implemented based on Python, including NumPy for numerical calculations and Matplotlib for visualization, with complete reproducibility and extensibility.</p>
+            <h3>1. Traditioanal Quantum Mechanics (TQM)</h3>
+            <p>Quantum mechanics is the study of the unique physical laws governing microscopic particles such as atoms, electrons and protons. Classical physics, the set of rules we use in daily life (e.g., Newton's laws), is completely inapplicable in the microscopic world, where these tiny particles exhibit distinctive phenomena like quantum tunneling and quantum interference. Relying on precise mathematical derivation, quantum mechanics can figure out the laws of simple microscopic systems (e.g., hydrogen atoms) and calculate exact results for them. However, it has a notable limitation: once the number of microscopic particles increases (such as a system composed of dozens of atoms), the corresponding core physical equations become extremely complex, making it impossible to work out their exact solutions at all.</p>
+            
         </div>
 
         <div class="research-section">
-            <h3>Project 1: Particle in a One-Dimensional Box</h3>
-            <p>A classic quantum mechanical model that studies the energy levels and wave functions of particles confined in a one-dimensional infinite potential well. This project systematically explores the differences between quantum and classical mechanics.</p>
-            <ul>
-                <li>Theoretical derivation of energy eigenvalues and normalized wave functions</li>
-                <li>Numerical simulation of probability density distribution at different energy levels</li>
-                <li>Visualization of wave function superposition and boundary conditions</li>
-                <li>Comparison of classical and quantum probability distribution characteristics</li>
-            </ul>
-            <a href="./project-1-particle-in-box/project1.html" class="project-link">View Detailed Project</a>
+            <h3>2. What is Computational Quantum Mechnics(CQM) Do ? </h3>
+            <p>Computational quantum mechanics is created precisely to address this limitation of quantum mechanics. It does not reject the original theories of quantum mechanics; on the contrary, it strictly abides by all the rules established by quantum mechanics, only adopting a different "approach to problem-solving": it uses numerical calculation methods and high-performance computers to derive approximate solutions for complex microscopic systems. This is just like how we use computers to get practical approximate answers for complex math problems that have no exact solutions—and these results all conform to the laws of quantum mechanics.</p>
+            
+            <a href="./project-1-particle-in-box/project1.html" class="project-link">View Computational Quantum Mechanics Project Documentation Details</a>
         </div>
 
         <div class="research-section">
-            <h3>Project 2: Quantum Tunneling Effect Simulation</h3>
-            <p>Research on the non-classical phenomenon where quantum particles can pass through potential barriers higher than their energy, which is the physical basis of many modern technologies (e.g., scanning tunneling microscopes, semiconductor devices).</p>
-            <ul>
-                <li>Derivation of transmission/reflection coefficients for rectangular potential barriers</li>
-                <li>Python-based numerical solution of the time-independent Schrödinger equation</li>
-                <li>Visualization of wave function penetration depth and tunneling probability</li>
-                <li>Analysis of tunneling effect in practical quantum devices</li>
-            </ul>
-            <a href="./project-2-quantum-tunneling/project2.html" class="project-link">View Detailed Project</a>
+            <h3>3. What is the Relationship between CQM and TQM ?</h3>
+            <p>To put it simply, quantum mechanics is the "fundamental theory" of the microscopic world, laying down the basic rules for the microscopic domain and solving simple microscopic physics problems. Computational quantum mechanics, by contrast, is a "practical tool" for real-world application: it applies the theories of quantum mechanics to complex actual microscopic systems, verifies the theoretical predictions of quantum mechanics, and discovers new quantum phenomena that cannot be observed through pure theoretical derivation alone. In this way, it enables quantum mechanics to truly solve practical microscopic physics problems in the real world.</p>
+            
+            <a href="./project-1-particle-in-box/project1.html" class="project-link">View Computational Quantum Mechanics Project Documentation Details</a>
         </div>
 
         <div class="research-section">
-            <h3>Coding for Quantum Mechanics</h3>
-            <p>Custom programming tools and code libraries developed for quantum mechanics research, improving the efficiency of theoretical calculation and result visualization.</p>
-            <ul>
-                <li>Modular Python functions for solving the Schrödinger equation</li>
-                <li>Matplotlib-based quantum visualization toolkit (wave functions, probability density)</li>
-                <li>Jupyter Notebook interactive research environment</li>
-                <li>Parameterized simulation framework for easy model adjustment</li>
-            </ul>
-            <a href="./coding/coding.html" class="project-link">View Coding Details</a>
+            <h3>4. The Role of Computer Programming Plays in CQM</h3>
+            <p> In my work with computational quantum mechanics (CQM), computer programming plays an irreplaceable core role, serving as the bridge linking CQM’s theoretical principles to practical applications. As I mentioned earlier, CQM’s key task is solving complex multi-particle quantum systems by approximating fundamental quantum equations (primarily the Schrödinger equation)—calculations that are far too massive and complex for manual completion. Programming brings CQM’s numerical algorithms to practical use: we build efficient computational models to simulate quantum state evolution, optimize calculations to reduce complexity, and process and analyze the large volumes of quantifiable data from simulations, turning the abstract theoretical concepts of traditional quantum mechanics into actionable research results. What’s more, programming underpins high-performance computing in CQM, enabling parallel computing and accelerating the solution of complex quantum systems. This makes it possible to study large-scale multi-particle systems that were once computationally unfeasible, a capability I find exceptionally valuable for practical quantum research.</p>
+            <a href="./project-1-particle-in-box/project1.html" class="project-link">View Computational Quantum Mechanics Project Documentation Details</a>
         </div>
 
         <div class="research-section">
-            <h3>Key Research Outcomes & Future Directions</h3>
-            <p>Through these quantum projects, I have mastered the basic mathematical tools of quantum mechanics and the ability to combine theoretical physics with programming practice. Future research will focus on:</p>
-            <ul>
+            <h3>5. Python: The Core Programming Language for CQM Research</h3>
+            <p>Building on the critical role of programming in computational quantum mechanics (CQM) mentioned earlier, Python is the programming language I am most familiar with and have used most frequently for CQM work. From my practice, Python has become a top choice in the CQM field due to its simple syntax, strong readability, and rich ecosystem. It offers a wide range of professional libraries tailored for scientific computing and quantum simulation—such as NumPy for efficient numerical calculations, SciPy for scientific computing algorithms, and Qiskit/PySCF for quantum chemistry and quantum simulation. These libraries significantly reduce programming difficulty, allowing me and other researchers to focus more on designing quantum algorithms and analyzing simulation results, rather than writing low-level code. I also value that Python is compatible with high-performance computing frameworks like MPI, which enables it to meet the computing needs of large-scale quantum systems—striking an excellent balance between ease of use and computational efficiency.</p>
+            <a href="./project-1-particle-in-box/project1.html" class="project-link">View Comtutational Quantum Mechanics Project Documentation Details</a>
+            <!--<ul>
                 <li>Extending to two/three-dimensional quantum well models</li>
                 <li>Exploring the application of quantum tunneling in quantum computing</li>
                 <li>Combining machine learning with quantum mechanical simulations</li>
-            </ul>
+            </ul>-->
         </div>
     </div>
 </body>

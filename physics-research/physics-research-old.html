@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physics Research - Steven Zhu</title>
+    <style>
+        /* 全局样式：与网站整体风格统一（深蓝科技风） */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+        }
+
+        /* 左侧侧边栏：保留原有样式，新增二级子导航样式 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00c8ff;
+        }
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%); 
+            color: white; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 200, 255, 0.1); 
+            color: #00c8ff; 
+        }
+        /* 一级子导航容器（如Achievements、Physics Research下的子项） */
+        .sub-nav-container { 
+            display: block !important; 
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        /* 二级子导航容器（quantum-projects下的子项） */
+        .sub-sub-nav-container {
+            display: block !important;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        /* 一级子按钮样式 */
+        .sub-nav { 
+            display: block !important; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 8px 10px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+        }
+        /* 二级子按钮样式 - 字体小一号，颜色微调更协调 */
+        .sub-sub-nav {
+            display: block !important;
+            color: #c5c8ff; /* 颜色微调，更柔和协调 */
+            text-decoration: none; 
+            padding: 6px 10px; 
+            margin: 2px 0; 
+            border-radius: 4px; 
+            font-size: 0.75rem; /* 原0.85rem，小一号 */
+            transition: all 0.3s;
+            text-align: left; /* 强制左对齐 */
+            white-space: nowrap; /* 强制单行显示（针对project2） */
+        }
+        .sub-nav:hover, .sub-nav.active { 
+            background: rgba(0, 200, 255, 0.1); 
+            color: #00c8ff; 
+            font-weight: 500;
+        }
+        /* 二级子按钮hover/active样式同步协调 */
+        .sub-sub-nav:hover, .sub-sub-nav.active { 
+            background: rgba(0, 200, 255, 0.1); 
+            color: #00c8ff; 
+            font-weight: 500;
+        }
+
+        /* 右侧主内容区 - 文本左对齐，字体/颜色微调 */
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8;
+            text-align: left; /* 主内容强制左对齐 */
+        }
+        .main h1 { 
+            color: #00c8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00c8ff; 
+            padding-bottom: 15px;
+            text-align: left; /* 标题左对齐 */
+        }
+        /* 项目简介栏目样式 - 字体/颜色微调 */
+        .research-section {
+            background: linear-gradient(135deg, rgba(0, 119, 255, 0.2), rgba(106, 0, 255, 0.2));
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            max-width: 1000px;
+            box-shadow: 0 0 12px rgba(0,200,255,0.15);
+            text-align: left; /* 栏目内左对齐 */
+        }
+        .research-section h3 {
+            color: #1ab8ff; /* 颜色微调，更柔和 */
+            font-size: 1.3rem; /* 原1.4rem，小一号 */
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .research-section h3::before {
+            content: "🔬";
+            font-size: 1.1rem; /* 同步小一号 */
+        }
+        .research-section h4 {
+            color: #a8d0ff; /* 颜色微调 */
+            font-size: 1.0rem; /* 原1.1rem，小一号 */
+            margin: 15px 0 10px 0;
+        }
+        .research-section p {
+            font-size: 1.0rem; /* 原1.1rem，小一号 */
+            color: #d0d4ff; /* 颜色微调更协调 */
+            margin-bottom: 10px;
+        }
+        .research-section ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        .research-section li {
+            margin: 8px 0;
+            font-size: 0.95rem; /* 原1.05rem，小一号 */
+            color: #d0d4ff; /* 颜色微调 */
+        }
+        .project-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem; /* 原0.95rem，小一号 */
+            transition: all 0.2s;
+        }
+        .project-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0,200,255,0.3);
+        }
+
+        /* 侧边栏底部 */
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0, 200, 255, 0.2); 
+            color: #d0d4ff; /* 颜色微调 */
+            font-size: 0.85rem; /* 原0.9rem，小一号 */
+            text-align: left; /* 底部左对齐 */
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+        .sidebar-footer a { 
+            color: #1ab8ff; /* 颜色微调 */
+            text-decoration: none; 
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.75rem; /* 原0.8rem，小一号 */
+            color: rgba(220, 224, 255, 0.7); /* 颜色微调 */
+            padding-left: 15px; 
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧侧边栏：新增Physics Research导航及层级子项 -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../home/index.html" class="main-nav">Home</a>
+            <a href="../about/about.html" class="main-nav">About Me</a>
+            <a href="../achievements/achievements.html" class="main-nav">Achievements</a>
+            
+            <!-- Achievements子导航（原有） -->
+            <!--<div class="sub-nav-container">
+                <a href="../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="../achievements/others/others.html" class="sub-nav">Others</a>
+            </div>-->
+
+            <!-- 新增：Physics Research主导航（高亮） -->
+            <a href="./physics-research.html" class="main-nav active">Physics Research</a>
+            
+            <!-- 新增：Physics Research一级子导航 -->
+            <div class="sub-nav-container">
+                <!-- quantum-projects子项 -->
+                <a href="./quantum-projects/quantum-overview.html" class="sub-nav">Quantum Projects</a>
+                <!-- 新增：quantum-projects二级子导航 - Project2强制单行 -->
+                <div class="sub-sub-nav-container">
+                    <a href="./quantum-projects/project-1-particle-in-box/project1.html" class="sub-sub-nav">Project 1: Particle in Box</a>
+                    <a href="./quantum-projects/project-2-quantum-tunneling/project2.html" class="sub-sub-nav">Project 2: Quantum Tunneling</a>
+                    <a href="./quantum-projects/coding/coding.html" class="sub-sub-nav">Coding for Projects 1 & 2</a>
+                </div>
+                <!-- climate-modeling-project子项 -->
+                <a href="./climate-modeling-project/climate.html" class="sub-nav">Climate Modeling Project</a>
+            </div>
+
+            <!-- 原有其他导航项 -->
+            <a href="../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
+            <a href="../extracurricular-activities/activities.html" class="main-nav">Extracurriculars Activites</a>
+            <a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a>
+            <a href="../contact/contact.html" class="main-nav">Contact</a>
+        </div>
+
+        <!-- 侧边栏底部（与网站其他页面一致） -->
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧主内容：各项目简介栏目 -->
+    <div class="main">
+        <h1>Physics Research Projects</h1>
+        
+        <!-- 3. Research Overview -->
+        <div class="research-section">
+            <h3>Research Overview</h3>
+            <p>My physics research centers on two parallel paths(driven by quantum curiosity + extreme weather mission).</p>
+            <p> </p>
+            <p> </p>
+            <p>1. Simulations for quantum mechanics core principles & quantum information science.</p>
+            <p> </p>
+            <p> </p>
+            <p>2. Extreme weather climate physics: unravel catastrophic weather formation/evolution via data analysis/modeling.</p>
+        </div>
+    </div>
+
+
+
+        
+        <!-- 3. Research Overview -->
+        <div class="research-section">
+            <h3>Advanced Computational Quantum Mechanics: Mathematical Foundations and Numerical Implementation</h3>
+            <p>My physics research centers on two parallel paths(driven by quantum curiosity + extreme weather mission).</p>
+            <p> </p>
+            <p> </p>
+            <p>1. Simulations for quantum mechanics core principles & quantum information science.</p>
+            <p> </p>
+            <p> </p>
+            <p>2. Extreme weather climate physics: unravel catastrophic weather formation/evolution via data analysis/modeling.</p>
+        </div>
+    
+
+
+
+
+
+</body>
+</html>
