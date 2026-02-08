@@ -368,19 +368,27 @@
             <li><a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a></li>
             <li><a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a></li>
            
-            <!-- Reading to the World：子菜单默认关闭（核心修改） -->
-            <li class="menu-item">
-                <input type="checkbox" id="toggle-reading" class="menu-toggle"> <!-- 移除checked属性，默认未选中 -->
-                <label for="toggle-reading" class="main-nav active">Reading to the World</label>
-                <div class="sub-nav-container reading-sub">
-                    <a href="./my-childhood-audio-book/audio-books.html" 
-                       class="sub-nav-level2" 
-                       id="sidebar-audio">My Childhood Audio Books</a>
-                    <a href="./my-physics-world/physics-world.html" 
-                       class="sub-nav-level2" 
-                       id="sidebar-physics">My Physics World</a>
+           
+     
+
+
+            <!-- 核心修正：Reading to the World 主菜单改为可点击，路径指向my-favorite-books/my-books.html -->
+            <li class="menu-item main-nav-wrapper">
+                <input type="checkbox" id="toggle-reading" class="menu-toggle" checked>
+                <!--<label for="toggle-reading" class="toggle-label">▼</label>-->
+                <a href="../my-books.html" class="main-nav active nav-link">Reading to the World</a>
+                <div class="reading-sub">
+                    <!-- 修正：当前页面路径（my-childhood-audio-book/audio-books.html） -->
+                    <a href="./my-childhood-audio-book/audio-books.html" class="sub-nav-level2 nav-link">My Childhood Audio Book</a>
+                    <!-- 修正：My Physics World 路径指向my-physics-world/physics-world.html -->
+                    <a href="./my-physics-world/physics-world.html" class="sub-nav-level2 nav-link">My Physics World</a>
                 </div>
             </li>
+           
+           
+            <!-- Reading to the World：子菜单默认关闭（核心修改） -->
+            
+              
 
             <!-- 主菜单项 -->
             <li><a href="../contact/index.html" class="main-nav">Contact</a></li>

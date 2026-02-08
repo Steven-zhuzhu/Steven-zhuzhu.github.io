@@ -282,7 +282,7 @@ border-radius: 4px;     /* 可选：圆角 */
             <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
             <a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
             <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
-            <a href="../../contact/contact.html" class="main-nav">Contact</a>
+            <a href="../../contact/index.html" class="main-nav">Contact</a>
         </div>
         <div class="sidebar-footer">
             <div class="contact-item">
@@ -437,6 +437,7 @@ border-radius: 4px;     /* 可选：圆角 */
         <div class="equation">
             \[
             \frac{d OT^{\text{vol}}}{d t}=E_{\text{vol}}^{\text{src}}-\frac{1}{\tau^{\text{vol}}} OT^{\text{vol}}
+            \tag{8}
             \]
         </div>
         <div class="equation">
@@ -522,17 +523,17 @@ border-radius: 4px;     /* 可选：圆角 */
         <!-- 第一张图片 + 说明 -->        
         <div class="image-item">            
         <img src="./气候/ch4.png" alt="(a) CH4 concentration">            
-        <p class="image-desc">(a) CH4 concentration</p>        
+        <p class="image-desc">(a) CH<sub>4</sub> concentration</p>        
         </div>        
         <!-- 第二张图片 + 说明 -->        
         <div class="image-item">            
         <img src="./气候/n2o.png" alt="N2O concentration">            
-        <p class="image-desc">N2O concentration</p>        
+        <p class="image-desc">N<sub>2</sub>O concentration</p>        
         </div>        
         <!-- 第三张图片 + 说明 -->        
         <div class="image-item">            
         <img src="./气候/co2.png" alt="CO2 concentration">            
-        <p class="image-desc">CO2 concentration</p>        
+        <p class="image-desc">CO<sub>2</sub> concentration</p>        
         </div>    
         </div>
 
@@ -541,15 +542,15 @@ border-radius: 4px;     /* 可选：圆角 */
             
         <p>Figure 2: Annual atmospheric concentrations of \(CO_{2}\), \(CH_{4}\), and \(N_{2} O\)</p>
         </div>
-        <p>Model validation was performed using observational surface temperature data from NASA’s Land–Ocean Temperature Index (LOTI). This dataset reports annual global mean temperature anomalies relative to the pre-industrial baseline period (1850). To obtain absolute surface air temperatures, a constant offset of 14.15 ◦C was added to the reported anomalies. The resulting
+        <p>Model validation was performed using observational surface temperature data from NASA’s Land–Ocean Temperature Index (LOTI). This dataset reports annual global mean temperature anomalies relative to the pre-industrial baseline period (1850). To obtain absolute surface air temperatures, a constant offset of \(14.15^{\circ}C\) was added to the reported anomalies. The resulting
 temperature series was compared with simulated model outputs to assess model performance.</p>
         </div>
         
         <div class="content-block">
         <h2>4 Results</h2>
         <p>Initial simulations were conducted using an energy balance model that did not incorporate heat exchange between the surface and the deep ocean. An extended version of the model, which includes deep ocean heat uptake, was then evaluated to assess the impact of this process on model performance.</p>
-        <p>Simulated and observed global mean surface temperature anomalies were compared for the two model configurations. Temperature anomalies are defined relative to the pre-industrial baseline (1850), with an absolute reference temperature of 14.15 ◦C used to compute annual simulated and observed temperatures.</p>
-        <p>Model performance was quantified using the mean absolute error (MAE) between simulated and observed temperature anomalies. For the baseline model excluding deep ocean heat uptake, the MAE was found to be 0.167 ◦C. In contrast, the extended model incorporating deep ocean dynamics achieved a reduced MAE of 0.154 ◦C.</p>
+        <p>Simulated and observed global mean surface temperature anomalies were compared for the two model configurations. Temperature anomalies are defined relative to the pre-industrial baseline (1850), with an absolute reference temperature of \(14.15^{\circ}C\) used to compute annual simulated and observed temperatures.</p>
+        <p>Model performance was quantified using the mean absolute error (MAE) between simulated and observed temperature anomalies. For the baseline model excluding deep ocean heat uptake, the MAE was found to be \(0.167^{\circ}C\). In contrast, the extended model incorporating deep ocean dynamics achieved a reduced MAE of \(0.154^{\circ}C\).</p>
         <p>These results demonstrate that inclusion of deep ocean heat exchange improves agreement between simulated and observed surface temperature anomalies.</p>
         </div>
 
@@ -561,15 +562,15 @@ temperature series was compared with simulated model outputs to assess model per
         <p>Since aerosols produce negative radiative forcing, their forcing coefficients are negative, and reducing their magnitude leads to a decrease in temperature. It can be observed that decreasing the forcing coefficient associated with volcanic emissions primarily affects temperature in the short term and has a limited impact on long-term temperature trends, as shown in Figure A2(b). In contrast, decreasing the forcing coefficient associated with \(SO_{2}\) results in a reduction in temperature over the long term, as shown in Figure A2(d). When all forcing coefficients are set to zero, the model reaches energy balance and a constant temperature is obtained, as shown in Figure A2(e) and Figure A2(f).</p>
         <p>The time required for surface temperature to respond to changes in radiative forcing also depends strongly on the heat capacity of the surface and deep ocean, as well as the rate at which heat is transferred into the ocean and emitted into space. Another plotting feature in the Jupyter notebook is used to demonstrate this behaviour. It visualises surface and deep ocean temperature anomalies alongside the effective temperature anomaly resulting from incoming solar energy and outgoing blackbody radiation. Interactive sliders allow the heat capacity of the surface and deep ocean to be adjusted, as well as the rate of heat transfer between the ocean and the atmosphere.</p>
         <p>The heat capacity of a reservoir determines the amount of heat required to produce a change in temperature. Specifically, the surface heat capacity affects how sensitive the surface temperature is to changes in radiative forcing. This effect can be highlighted by increasing the albedo to simulate a planet that reflects a large proportion of incoming solar radiation (for instance, an ice-covered planet). This reduces the constant incoming heat energy, such that perturbations due to radiative forcing imbalances can be accentuated. When the surface heat capacity is reduced, greater dips in surface temperature are observed following volcanic eruptions, demonstrating the high sensitivity of surface temperature to changes in radiative forcing, as shown in Figure A3(b). A similar, though slightly delayed, effect is observed in the deep ocean temperature when the deep ocean heat capacity is also reduced, as shown in Figure A3(c).</p>
-        <p>The climate feedback parameter represents a form of negative feedback and, within the compartmental model, describes the rate at which heat energy is transferred to the sink. As a result, the climate feedback parameter determines how efficiently the Earth can naturally cool by emitting heat energy into space. Increasing the absolute value of this parameter leads to a more stable system in which the overall temperature of both the surface and deep ocean is less affected by positive radiative forcing, thereby slowing global warming. In this case, temperature increases occur more gradually and remain below 2◦C until approximately the year 2600, as shown in Figure A4(a). Conversely, decreasing the absolute value of the climate feedback parameter reduces system stability, accelerating the effects of global warming and causing the surface temperature to rise above 2◦C by the year 2017, as shown in Figure A4(b).</p>
+        <p>The climate feedback parameter represents a form of negative feedback and, within the compartmental model, describes the rate at which heat energy is transferred to the sink. As a result, the climate feedback parameter determines how efficiently the Earth can naturally cool by emitting heat energy into space. Increasing the absolute value of this parameter leads to a more stable system in which the overall temperature of both the surface and deep ocean is less affected by positive radiative forcing, thereby slowing global warming. In this case, temperature increases occur more gradually and remain below \(2^{\circ}C\) until approximately the year 2600, as shown in Figure A4(a). Conversely, decreasing the absolute value of the climate feedback parameter reduces system stability, accelerating the effects of global warming and causing the surface temperature to rise above \(2^{\circ} C\) by the year 2017, as shown in Figure A4(b).</p>
         </div>
 
         <div class="content-block">
         <h2>6 Implications and Limitations</h2>
-        <p>The goal of the Paris Agreement is to ensure that the rise in mean global temperature remains below 1.5◦C above pre-industrial levels United Nations [2015]. Model projections indicate that if anthropogenic greenhouse gas emissions continue to increase following the observed cubic trends shown in Figure A5(a), (b), and (c), the global mean surface temperature will exceed the 1.5◦C threshold by approximately the year 2040, as shown in Figure A1(b).</p>
+        <p>The goal of the Paris Agreement is to ensure that the rise in mean global temperature remains below \(1.5^{\circ}C\) above pre-industrial levels United Nations [2015]. Model projections indicate that if anthropogenic greenhouse gas emissions continue to increase following the observed cubic trends shown in Figure A5(a), (b), and (c), the global mean surface temperature will exceed the \(1.5^{\circ}C\) threshold by approximately the year 2040, as shown in Figure A1(b).</p>
         <p>\(CO_{2}\) is well known to have the strongest impact on climate among anthropogenic greenhouse gases. Figure A1(b) shows that \(CO_{2}\) produces the greatest positive radiative forcing and thus exerts a larger influence on rising temperature than \(CH_{4}\) and \(N_{2} O\). However, the model fails to accurately simulate the effects of reducing future \(CO_{2}\) emissions, as it does not explicitly consider the carbon cycle. Incorporating the carbon cycle would allow the absorption and release of carbon and \(CO_{2}\) by the upper and deep ocean, as well as uptake by vegetation and soils, followed by the delayed release of \(CO_{2}\) back into the atmosphere. This would make it possible to simulate delayed radiative forcing associated with dormant \(CO_{2}\) and carbon stored within the Earth system.</p>
-        <p>As a result, the model produces an unrealistic projection in which surface temperatures would cease to rise if net-zero greenhouse gas emissions were achieved in 2021, maintaining a stable equilibrium temperature approximately 1◦C above the pre-industrial level. More advanced climate models demonstrate that temperatures would continue to increase for some time after net-zero emissions are reached, before stabilising at a new equilibrium. This equilibrium would depend primarily on atmospheric \(CO_{2}\) concentrations and the amount of carbon stored in the ocean and terrestrial reservoirs at the time net-zero emissions are achieved. This suggests that realistic global cooling strategies would require the removal of \(CO_{2}\) from the atmosphere to prevent temperatures from rising beyond 1.5◦C.</p>
-        <p>The IPCC targets the removal of 100–1000 Gt of \(CO_{2}\) within this century in order to limit warming to a 1.5◦C equilibrium temperature National Research Council [2015]. Selecting 500 Gt as a representative target, a rough estimate indicates that this would correspond to an atmospheric \(CO_{2}\) concentration of approximately 316.8 ppm by the year 2100. Further details of this calculation are provided in Appendix C.</p>
+        <p>As a result, the model produces an unrealistic projection in which surface temperatures would cease to rise if net-zero greenhouse gas emissions were achieved in 2021, maintaining a stable equilibrium temperature approximately \(1^{\circ}C\) above the pre-industrial level. More advanced climate models demonstrate that temperatures would continue to increase for some time after net-zero emissions are reached, before stabilising at a new equilibrium. This equilibrium would depend primarily on atmospheric \(CO_{2}\) concentrations and the amount of carbon stored in the ocean and terrestrial reservoirs at the time net-zero emissions are achieved. This suggests that realistic global cooling strategies would require the removal of \(CO_{2}\) from the atmosphere to prevent temperatures from rising beyond \(1.5^{\circ}C\).</p>
+        <p>The IPCC targets the removal of 100–1000 Gt of \(CO_{2}\) within this century in order to limit warming to a \(1.5^{\circ}C\) equilibrium temperature National Research Council [2015]. Selecting 500 Gt as a representative target, a rough estimate indicates that this would correspond to an atmospheric \(CO_{2}\) concentration of approximately 316.8 ppm by the year 2100. Further details of this calculation are provided in Appendix C.</p>
         <p>By projecting atmospheric \(CO_{2}\) concentrations to decrease linearly from 414 ppm in 2021 to 316.8 ppm in 2100, the model simulates a temperature increase that remains well below that envisioned by the IPCC, as shown in Figure 3. However, the model cannot accurately assess global cooling strategies that involve direct extraction of \(CO_{2}\) from the atmosphere, such as bioenergy with carbon capture and storage (BECCS) and direct air capture, as it does not represent the persistence of \(CO_{2}\) and carbon within the climate system. As a result, the model would significantly underestimate future temperature increases following reductions in atmospheric \(CO_{2}\) levels.</p>
         <div class="figure">
                        
@@ -594,17 +595,17 @@ temperature series was compared with simulated model outputs to assess model per
         <div class="figure">
             <div style="border:1px solid #ddd; padding:10px; display:inline-block;">
              <!-- 用你的图片举例 -->
-        <img src="./气候/d5.png" alt=""   width="720">
+        <img src="./气候/d3.png" alt=""   width="720">
             </div>
             <p>Figure 5</p>
         </div>
         <p>Other global cooling strategies involve enhancing ocean heat uptake. Increasing ocean alkalinity by dispersing pulverised carbonate minerals onto the sea surface is one approach that can increase the ocean’s capacity to absorb heat. Another proposed strategy involves restoring coastal blue carbon ecosystems, such as mangroves and seagrasses, which have the potential to remove substantial amounts of carbon from the atmosphere.</p>
-        <p>These cooling strategies can be partially simulated within the model by increasing the rate of heat transfer between the surface and deep ocean. However, enhanced ocean heat uptake leads to increased ocean temperatures and, consequently, sea level rise. Increasing the ocean feedback parameter from 0.73 to 1.5 and the deep ocean heat capacity from 109 to 120 results in a reduction of the projected surface temperature in 2050 from 1.7◦C to 1.4◦C, as shown in Figure 6.</p>
+        <p>These cooling strategies can be partially simulated within the model by increasing the rate of heat transfer between the surface and deep ocean. However, enhanced ocean heat uptake leads to increased ocean temperatures and, consequently, sea level rise. Increasing the ocean feedback parameter from 0.73 to 1.5 and the deep ocean heat capacity from 109 to 120 results in a reduction of the projected surface temperature in 2050 from \(1.7^{\circ}C\) to \(1.4^{\circ}C\), as shown in Figure 6.</p>
         <p>These results indicate that enhancing ocean heat uptake may reduce surface temperatures, but must be applied with caution due to its potential to accelerate sea level rise.</p>
         <div class="figure">
 
            <!-- 用你的图片举例 -->
-        <img src="./气候/d6.png" alt=""   width="720">    
+        <img src="./气候/d5.png" alt=""   width="720">    
              
            
             <p>Figure 6<br>
