@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Violin Musical Journey</title>
+    <title>EOL Mob Farm - Minecraft Java Edition</title>
     <!-- 引入Bootstrap和图标库 -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
@@ -91,7 +91,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 2.5rem;
-            align-items: center;
+            align-items: flex-start;
             margin: 3rem 0;
             padding: 1rem;
             border-radius: 8px;
@@ -208,8 +208,8 @@
             box-shadow: 0 4px 12px rgba(0,0,0,0.15);
         }
 
-        /* 音乐链接按钮 */
-        .music-link {
+        /* 音乐链接按钮 → 通用按钮样式 */
+        .action-link {
             display: inline-block;
             padding: 10px 20px;
             margin: 1rem 0;
@@ -220,7 +220,7 @@
             transition: all 0.3s ease;
             box-shadow: 0 4px 10px rgba(0,200,255,0.2);
         }
-        .music-link:hover {
+        .action-link:hover {
             background: var(--btn-hover-gradient);
             transform: translateY(-2px);
             box-shadow: 0 6px 15px rgba(0,200,255,0.3);
@@ -255,7 +255,7 @@
             color: white;
         }
 
-        /* 背景音乐控件 */
+        /* 背景音乐控件（保留样式，可按需添加音频） */
         .background-music {
             position: fixed;
             bottom: 20px;
@@ -295,168 +295,261 @@
                 font-size: 0.85rem;
             }
         }
-        /* 仅新增：第四框图片完整显示样式（不影响任何其他图片） */
+
+        /* 第四章节图片完整显示（保留） */
         #favorite-piece .img-box img {
             object-fit: contain !important;
             background: rgba(0, 0, 0, 0.2);
         }
+
+        /* ===== EOL Mob Farm 专属样式 ===== */
+        .tech-box {
+            background-color: rgba(240, 248, 251, 0.15);
+            padding: 18px;
+            border-radius: 8px;
+            margin: 12px 0;
+            border-left: 4px solid #3498db;
+        }
+        .section-title {
+            font-size: 22px;
+            color: var(--quantum-blue);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        .sub-title {
+            font-size: 18px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .diagram {
+            font-family: "Courier New", monospace;
+            background-color: rgba(248, 249, 250, 0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            line-height: 2;
+            color: var(--text-white);
+        }
+        .farm-title {
+            font-size: 2rem;
+            color: var(--quantum-blue);
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        .farm-img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 20px rgba(0,200,255,0.15);
+            border: 1px solid rgba(0,200,255,0.4);
+        }
+        ul {
+            list-style: disc !important;
+            padding-left: 25px;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
     </style>
 </head>
 <body>
-    <!-- 仅修改：背景音乐MP3指定为Zigeunerweisen.mp3，保留多格式兼容 -->
-    <audio class="background-music" autoplay loop controls>
-        <source src="Zigeunerweisen.mp3" type="audio/mpeg">
-        <source src="./music/Zigeunerweisen.wav" type="audio/wav">
-        <source src="./music/Zigeunerweisen.aac" type="audio/aac">
-        <source src="./music/Zigeunerweisen.ogg" type="audio/ogg">
-        <source src="./music/Zigeunerweisen.flac" type="audio/flac">
-        您的浏览器不支持音频播放，请更换浏览器后重试
-    </audio>
-
     <main class="main-content">
-        <!-- 【第1章】保持现状：左侧单张图片 + 右侧文字 -->
+        <!-- 【第1章】原小提琴开篇 → 替换为EOL基础定义 -->
         <section class="chapter" id="page1-opening">
             <div class="chapter-header">
-                <h2>The Beauty of Violin - My Musical Prelude</h2>
+                <h2>EOL Mob Farm - Basic Definition</h2>
             </div>
             <div class="chapter-content">
                 <div class="img-text-wrapper">
                     <div class="img-box">
-                        <img src="./images/violin-0.jpg" alt="Violin with light beam and music notes">
+                        <img src="./videos/1.jpg" alt="EOL Mob Farm Overview">
                     </div>
                     <div class="text-box">
-                        <p>Music is not just sound, but a journey of the soul. For me, the violin is more than an instrument – it is a companion that has walked with me through the years, a bridge between my inner world and the outside, and a language that transcends words.</p>
-                        <p>Since I first picked up the violin in 2017, every note I played has been a footprint of growth. From the clumsy squeaks of the beginner stage to the relatively smooth melodies of today, every step has been filled with sweat, joy, and unspoken emotions.</p>
+                        <p>EOL (End of Light) Mob Farm is a cutting-edge technical mob farm exclusive to Minecraft Java Edition, renowned as one of the most efficient mob farms in the game’s community.</p>
+                        <p>The widely cited "800 million items per hour" is the maximum efficiency when there is only one player in the mob spawning area. Lower efficiencies could also be achieved by reducing the spawning area.</p>
                         <div class="quote-card">
-                            "The violin is the soul's voice; it speaks what the heart cannot express." – Unknown
+                            "Efficiency is not about numbers on paper, but about practicality in survival gameplay." – Minecraft Technical Community
                         </div>
+                        <ul>
+                            <li>Basic EOL Farm: 1-3 million items per hour</li>
+                            <li>Optimized with Looting III + TNT (lazy chunk looting): 1-8 million items per hour (nearing 10 million/hour)</li>
+                        </ul>
                     </div>
                 </div>
-               
             </div>
+            <div class="section-nav">
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Back to Leisure Hobbies</a>
+           
+        </div>
         </section>
 
-        <!-- 【第2章】核心要求：左侧上下（图片+视频） + 右侧文字 -->
+        <!-- 【第2章】原小提琴学习挑战 → 替换为EOL核心原理（光抑制+切门） -->
         <section class="chapter" id="learning-challenge">
             <div class="chapter-header">
-                <h2>My Musical Journey - The Learning Challenge</h2>
+                <h2>EOL Mob Farm - Core Mechanisms</h2>
             </div>
             <div class="chapter-content">
                 <div class="img-text-wrapper">
                     <div class="left-col-stack">
                         <div class="img-box">
-                            <img src="./images/violin-3.jpg" alt="Violin Learning Practice">
+                            <img src="./videos/2.png" alt="Light Suppression Core">
                         </div>
                         <div class="video-box">
-                            <video controls poster="./images/violin-1.jpg" preload="metadata">
-                                <source src="./videos/violin-5.mp4" type="video/mp4">
-                                <source src="./videos/violin-5.webm" type="video/webm">
-                                <source src="./videos/violin-5.ogg" type="video/ogg">
-                                <p>您的浏览器不支持视频播放</p>
+                            <video controls poster="./videos/2.jpg" preload="metadata">
+                                <source src="./videos/1.mp4" type="video/mp4">
+                                <source src="./videos/1.mp4" type="video/webm">
+                                <source src="./videos/1.mp4" type="video/ogg">
+                                <p>Your browser does not support video playback</p>
                             </video>
                             <div class="video-fallback-box">
-                                <img src="./images/violin-1.jpg" alt="Violin Learning Preview">
-                                <a href="./videos/violin-5.mp4" target="_blank" class="play-link">
+                                <img src="./videos/2.jpg" alt="EOL Mechanism Preview">
+                                <a href="./videos/1.mp4" target="_blank" class="play-link">
                                     <i class="bi bi-play-circle"></i> Play Video (Download)
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="text-box">
-                        <p>The journey of learning the violin is never a straight line. It is a process of constant exploration: exploring the balance between bow and string, exploring the resonance between emotion and technique, and exploring the harmony between oneself and the music. This exploration has become an indispensable part of my life.
-                        <p>In those quiet afternoons filled with joy, or evenings clouded by sorrow and stuck with unsolvable problems, the violin was my go-to emotional outlet. It never failed to calm my mind and let me express all my feelings freely without words.</p>
+                        <div class="tech-box">
+                            <h3 class="sub-title">① Light Suppression</h3>
+                            <p>Uses redstone/update suppression mechanics to overload light updates, thus eliminating the brightness of Nether Portal blocks to 0, permanently meeting the "dark environment" requirement for mob spawning—this eliminates any light-based restrictions on mob generation.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h3 class="sub-title">② Portal Cutting</h3>
+                            <p>Removes obsidian from the portal through update suppressing mechanics frame while leveraging update suppression/skip logic to keep the portal structure intact. This allows mobs to directly spawn in the portal and teleported to the nether, bypassing the overworld mobcap.</p>
+                        </div>
+                        <p>These two core mechanisms are the foundation of EOL Mob Farm's extreme efficiency. Unlike traditional mob farms that are limited by light levels and spawn areas, EOL breaks through these constraints completely.</p>
                     </div>
                 </div>
             </div>
+            <div class="section-nav">
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Back to Leisure Hobbies</a>
+           
+        </div>
         </section>
 
-        <!-- 【第3章】核心要求：左侧上下（图片+视频） + 右侧文字 -->
+        <!-- 【第3章】原小提琴乐团体验 → 替换为EOL完整工作流+效率特点 -->
         <section class="chapter" id="orchestra-experience">
             <div class="chapter-header">
-                <h2>My Musical Journey - Orchestra Experience</h2>
+                <h2>EOL Mob Farm - Workflow & Efficiency</h2>
             </div>
             <div class="chapter-content">
                 <div class="img-text-wrapper">
                     <div class="left-col-stack">
                         <div class="img-box">
-                            <img src="./images/violin-2.jpg" alt="Orchestra Performance Scene">
+                            <img src="./videos/2.png" alt="EOL Workflow Diagram">
                         </div>
                         <div class="video-box">
-                            <video controls poster="./images/violin-1.jpg" preload="metadata">
-                                <source src="./videos/violin-6.mp4" type="video/mp4">
-                                <source src="./videos/violin-6.webm" type="video/webm">
-                                <source src="./videos/violin-6.ogg" type="video/ogg">
-                                <p>您的浏览器不支持视频播放</p>
+                            <video controls poster="./videos/3.jpg" preload="metadata">
+                                <source src="./videos/3.mp4" type="video/mp4">
+                                <source src="./videos/3.webm" type="video/webm">
+                                <source src="./videos/3.ogg" type="video/ogg">
+                                <p>Your browser does not support video playback</p>
                             </video>
                             <div class="video-fallback-box">
-                                <img src="./images/violin-1.jpg" alt="Orchestra Performance Preview">
-                                <a href="./videos/violin-6.mp4" target="_blank" class="play-link">
+                                <img src="./videos/3.jpg" alt="EOL Efficiency Preview">
+                                <a href="./videos/3.mp4" target="_blank" class="play-link">
                                     <i class="bi bi-play-circle"></i> Play Video (Download)
                                 </a>
                             </div>
                         </div>
                     </div>
                     <div class="text-box">
-                        <p>A key and precious part of this musical journey was performing on stage with the Shenzhen Poly International Youth String Orchestra. Through consistent daily practice and unremitting polishing of my skills, I worked my way up to become the first violinist of the orchestra.</p>
-                        <p>This experience not only honed my technical skills but also deepened my understanding of music – teaching me the importance of teamwork, timing, and musical expression in a collaborative setting.</p>
+                        <div class="tech-box">
+                            <h3 class="sub-title">③ Full Workflow</h3>
+                            <p>Mobs spawn on the modified Nether Portal → Instantly teleport cross-dimensionally to the kill/collection area → Fast elimination with TNT/boat suction + Looting III enchantment → Automated loot collection and sorting.</p>
+                        </div>
+                        <h2 class="section-title">Key Features & Efficiency</h2>
+                        <ul>
+                            <li><strong>Efficiency Range：</strong> 1-3 million items/h (basic setup) | 1-8 million items/h (fully optimized)</li>
+                            <li><strong>Core Features：</strong> Single-dimension extreme mob spawning, cross-dimensional teleportation, zero-wait mob elimination, high server performance load</li>
+                            <li><strong></strong> </li>
+                        </ul>
                     </div>
                 </div>
             </div>
+          <div class="section-nav">
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Back to Leisure Hobbies</a>
+           
+        </div>  
         </section>
 
-        <!-- 【第4章】无代码修改，通过CSS定位实现图片完整显示，保持原有结构 -->
+        <!-- 【第4章】原小提琴最爱曲目 → 替换为EOL玩家实操 -->
         <section class="chapter" id="favorite-piece">
             <div class="chapter-header">
-                <h2>My Favorite Violin Piece</h2>
+                <h2>EOL Mob Farm - Practical Operations</h2>
             </div>
             <div class="chapter-content">
                 <div class="img-text-wrapper">
                     <div class="img-box">
-                        <img src="./images/violin-1.png" alt="Sarasate Zigeunerweisen sheet music and violin">
+                        <img src="./videos/4.jpg" alt="EOL Player Operations">
                     </div>
                     <div class="text-box">
-                        <p>My favorite violin piece for appreciation is Zigeunerweisen (Gypsy Airs) by Sarasate — a classic pinnacle among violin pieces. This piece perfectly blends the sorrow and passion of Gypsy culture, with a graceful and melodious melody and full of timbre expressiveness. </p>
-                        <p>Its rich emotional layers make me deeply intoxicated and truly feel the unique artistic charm of the violin. It stands as the pinnacle of virtuosic technique for the violin, embodying the ultimate technical and artistic pursuit of the instrument. </p>
-                        <a href="./images/Zigeunerweisen.mp3" target="_blank" class="music-link">
-                            <i class="bi bi-music-note-beamed"></i> Listen to Zigeunerweisen
-                        </a>
-                       <p>Because of its extraordinary artistic value and technical complexity, I have always regarded it as a classic appreciation piece that represents the beauty of violin music, one that constantly inspires my love for violin and pursuit of musical excellence.</p>
+                        <h2 class="section-title">What I Do as a Player</h2>
+                        <ul>
+                            <li>Build the light suppressor in the spawn chunks to keep the farm permanently loaded.</li>
+                            <li>Use a world eater to clear a large area (at least 17*17 chunks) and remove the bedrock</li>
+                            <li>Construct an obsidian platform and apply update suppression to break the portal frames</li>
+                            <li>Build a lazy chunk looting system in the Nether, which boosts overall efficiency by 2.5x</li>
+                            <li>Create a massive storage system for automatic item sorting and packing into shulker boxes.</li>
+                            <li>Once fully operational, the farm outputs more bone meal and gunpowder than can be used in Creative mode.</li>
+                            <li>Building and operating an EOL Mob Farm demands precise redstone skills and a deep understanding of Minecraft's game mechanics. </li>
+                            <li>Every detail from core construction to loot collection - directly impacts the final efficiency.</li>
+                        </ul>
+                    
+                        
                     </div>
                 </div>
             </div>
+             <!-- 章节导航按钮 -->
+        <div class="section-nav">
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Back to Leisure Hobbies</a>
+           
+        </div>
         </section>
 
-        <!-- 【第5章】保持现状：左侧单张图片 + 右侧文字 -->
+        <!-- 【第5章】原小提琴成长感悟 → 替换为EOL工作流程图+总结 -->
         <section class="chapter" id="page5-growth">
             <div class="chapter-header">
-                <h2>Music & Growth - The Hidden Power of Violin</h2>
+                <h2>EOL Mob Farm - Workflow & Summary</h2>
             </div>
             <div class="chapter-content">
                 <div class="img-text-wrapper">
                     <div class="img-box">
-                        <img src="./images/violin-2.png" alt="Violin on wooden desk with sheet music and coffee">
+                        <img src="./videos/5.jpg" alt="EOL Full Workflow Summary">
                     </div>
                     <div class="text-box">
-                        <p>Beyond the notes and melodies, learning the violin has taught me life lessons that extend far beyond the practice room. The patience required to master a single phrase, the resilience to overcome technical plateaus, and the focus to stay present in the music – these qualities have shaped how I approach challenges in all areas of my life.</p>
-                        <p>As an amateur musician, I don't aim for professional mastery, but rather for the joy of connection – connection to the music, to the composers who created it, and to the audience who listens. Every time I play, I am not just performing; I am sharing a piece of my heart.</p>
-                        <div class="quote-card">
-                            "Music is the art of thinking with sounds." – Jules Combarieu
+                        <h2 class="section-title">Simple Workflow Diagram</h2>
+                        <div class="diagram">
+                            [ Light Suppressor ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            [ World Eater ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            [ Cutting Portals using suppressors ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            [ Lazy Chunk TNT Kill Chamber + Looting III ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            [ Hopper Collection → Auto Sorter → Shulker Box Storage ]
                         </div>
-                        <p>Looking back on these eight years, I am grateful for the violin's presence in my life. It has been a teacher, a friend, and a mirror – reflecting my growth, my struggles, and my joys. And as I move forward, it will continue to be a constant reminder that beauty lies in the journey, not just the destination.</p>
+                        <div class="quote-card">
+                            "EOL Mob Farm represents the pinnacle of Minecraft technical farming – it's not just about efficiency, but about understanding the game's underlying mechanics." – Redstone Engineer
+                        </div>
+                        <p>As an endgame resource farm, EOL Mob Farm provides an almost unlimited supply of mob drops, making it a game-changer for late-game survival gameplay. While it requires significant technical knowledge to build, the rewards are well worth the effort for dedicated Minecraft players.</p>
                     </div>
                 </div>
-                
             </div>
         </section>
 
         <!-- 章节导航按钮 -->
         <div class="section-nav">
-            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Leisure Hobbies (Main)</a>
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Back to Leisure Hobbies</a>
            
         </div>
     </main>
 
-    <!-- 引入Bootstrap JS + 自定义脚本（音频自动播放+视频检测+平滑滚动） -->
+    <!-- 引入Bootstrap JS + 自定义脚本 -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
         // 1. 平滑滚动（章节导航）
@@ -468,24 +561,8 @@
             });
         });
 
-        // 2. 背景音乐自动播放兼容（解决浏览器自动播放限制）
+        // 2. 视频播放检测：浏览器不支持则显示降级下载链接
         window.addEventListener('DOMContentLoaded', () => {
-            const bgMusic = document.querySelector('.background-music');
-            // 先静音播放，成功后取消静音（浏览器强制要求）
-            bgMusic.muted = true;
-            const playMusic = () => {
-                bgMusic.play().then(() => bgMusic.muted = false)
-                .catch(err => {
-                    // 自动播放失败则点击页面任意位置播放
-                    document.addEventListener('click', () => {
-                        bgMusic.muted = false;
-                        bgMusic.play();
-                    }, { once: true });
-                });
-            };
-            playMusic();
-
-            // 3. 视频播放检测：浏览器不支持则显示降级下载链接
             const checkVideoSupport = () => {
                 const testVideo = document.createElement('video');
                 const supportMP4 = testVideo.canPlayType('video/mp4; codecs="avc1.42E01E, mp4a.40.2"') !== '';

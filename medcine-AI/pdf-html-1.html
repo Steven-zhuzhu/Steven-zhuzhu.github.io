@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Plan & Business Report - Medicine AI</title>
+    <style>
+        /* 全局样式：延续深蓝科技风 + 统一对齐基准 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            vertical-align: baseline;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; /* 统一蓝色系背景 */
+            color: #e0e0ff;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 左侧侧边栏：保持原有样式不变 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px 15px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00b8ff; 
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin; 
+            scrollbar-color: #0088ff rgba(10, 15, 37, 0.5); 
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        /* Chrome/Safari/Edge 自定义滚动条 */
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: rgba(10, 15, 37, 0.5); border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #0088ff; border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: #00b8ff; }
+
+        .sidebar-nav { 
+            flex: 1; 
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        /* 主导航样式：保持原有交互逻辑 */
+        .sidebar .main-nav { 
+            display: block; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            position: relative; 
+            text-align: left;
+            width: 100%;
+        }
+        .main-nav::after {
+            content: "▶";
+            font-size: 0.7rem;
+            color: #00b8ff;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            line-height: 1;
+        }
+        .main-nav.expanded::after {
+            transform: translateY(-50%) rotate(90deg);
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%); 
+            color: white; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff;
+        }
+
+        /* 子菜单样式：保持原有逻辑 */
+        .sub-nav-container, .sub-sub-nav-container {
+            display: none; 
+            margin-left: 15px; 
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: calc(100% - 15px); 
+        }
+        .main-nav.expanded + .sub-nav-container {
+            display: block;
+        }
+
+        .sub-nav { 
+            display: block; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 8px 15px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            width: 100%;
+            text-align: left; 
+        }
+        .sub-sub-nav {
+            display: block;
+            color: #c5c8ff; 
+            text-decoration: none; 
+            padding: 6px 15px; 
+            margin: 2px 0; 
+            border-radius: 4px; 
+            font-size: 0.75rem; 
+            transition: all 0.3s;
+            text-align: left; 
+            white-space: nowrap; 
+            width: 100%;
+        }
+        .sub-nav:hover, .sub-nav.active { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff; 
+            font-weight: 500;
+        }
+        .sub-sub-nav:hover, .sub-sub-nav.active { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff; 
+            font-weight: 500;
+        }
+
+        /* 侧边栏底部：保持原有样式 */
+        .sidebar-footer { 
+            padding: 20px 15px; 
+            border-top: 1px solid rgba(0, 184, 255, 0.2); 
+            color: #d0d4ff; 
+            font-size: 0.85rem; 
+            text-align: left;
+            margin-top: auto;
+            width: 100%;
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 0; 
+            display: flex;
+            align-items: center;
+            gap: 5px; 
+        }
+        .sidebar-footer a { 
+            color: #1ab8ff; 
+            text-decoration: none;
+            flex: 1;
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.75rem; 
+            color: rgba(220, 224, 255, 0.7); 
+            padding-left: 0; 
+        }
+
+        /* 右侧主内容区：适配pdf-html内容 + 统一蓝色背景 */
+        .main { 
+            margin-left: 250px; /* 侧边栏宽度 */
+            padding: 40px; 
+            width: calc(100% - 250px); 
+            min-height: 100vh;
+            background: #0a0f25; /* 统一蓝色背景 */
+            color: #e0e0ff;
+            overflow-x: auto;
+        }
+
+        /* pdf-html内容适配样式（核心替换部分） */
+        .main h1 {
+            text-align: center;
+            margin-bottom: 40px;
+            color: #00b8ff;
+            font-size: 32px;
+            border-bottom: 2px solid #0088ff;
+            padding-bottom: 15px;
+        }
+        .main p {
+            line-height: 1.8;
+            margin: 10px 0;
+            font-size: 16px;
+            color: #d0d4ff;
+        }
+        .main h2 {
+            margin: 30px 0 15px;
+            color: #1ab8ff;
+            border-left: 5px solid #0088ff;
+            padding-left: 10px;
+            font-size: 24px;
+        }
+        .main h3 {
+            margin: 20px 0 10px;
+            color: #00b8ff;
+            font-size: 18px;
+        }
+        .main ul {
+            margin: 10px 0 10px 30px;
+            line-height: 1.8;
+            color: #d0d4ff;
+        }
+        .main li {
+            margin: 5px 0;
+        }
+        /* 表格样式适配 */
+        .main table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background: rgba(10, 15, 37, 0.8);
+            box-shadow: 0 0 5px rgba(0,184,255,0.1);
+            border: 1px solid #0088ff;
+        }
+        .main table th, .main table td {
+            border: 1px solid #0088ff;
+            padding: 10px;
+            text-align: left;
+            font-size: 14px;
+            color: #e0e0ff;
+        }
+        .main table th {
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%);
+            color: white;
+        }
+        /* 图片占位样式 */
+        .pdf-img {
+            width: 80%;
+            height: auto;
+            border: 1px solid #0088ff;
+            padding: 10px;
+            margin: 10px 0;
+            background: rgba(10, 15, 37, 0.8);
+            display: block;
+        }
+        .img-desc {
+            color: #a8d0ff;
+            font-size: 14px;
+            margin: 5px 0 20px;
+        }
+        /* 区块分隔样式 */
+        .block {
+            margin: 20px 0;
+            padding: 15px;
+            background: rgba(0, 136, 255, 0.1);
+            box-shadow: 0 0 3px rgba(0,184,255,0.1);
+            border-radius: 8px;
+        }
+        /* 加粗文本颜色适配 */
+        .main strong {
+            color: #1ab8ff;
+        }
+    </style>
+    <style>
+    /* 1. 强制显示子菜单 */
+    .sub-nav-container {
+        display: block !important;
+        margin-left: 15px;
+        margin-top: 5px;
+        margin-bottom: 15px;
+    }
+    /* 2. 确保主菜单可点击区域100%覆盖，无遮挡 */
+    .main-nav {
+        pointer-events: auto !important;
+        z-index: 99999 !important; /* 最高层级，避免被其他元素盖住 */
+        position: relative !important; /* 保证z-index生效 */
+        display: block !important; /* 确保是块级元素，可点击区域完整 */
+    }
+    /* 3. 保留激活/展开样式 */
+    .main-nav.active {
+        background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%) !important;
+        color: white !important;
+        font-weight: 500 !important;
+    }
+    .main-nav.expanded::after {
+        transform: translateY(-50%) rotate(90deg) !important;
+    }
+</style>
+
+<script>
+    // 核心逻辑：直接给主菜单绑定「最高优先级」的点击事件，无视所有拦截
+    document.addEventListener('click', function(e) {
+        // 只监听点击「Medicine AI APP Design」这个主菜单的行为
+        if (e.target.classList.contains('main-nav') && e.target.href.includes('medcineAI.html')) {
+            e.preventDefault(); // 取消默认行为（避免冲突）
+            e.stopImmediatePropagation(); // 阻止所有后续事件拦截
+            // 强制跳转（控制台测试过能生效，这里直接复用）
+            window.location.href = e.target.href;
+            return; // 执行完跳转直接结束，不触发其他逻辑
+        }
+    }, { capture: true, once: false }); // 捕获阶段执行，优先级最高
+
+    // 额外：强制给主菜单添加激活/展开类，保证子菜单显示
+    const medicineNav = document.querySelector('.main-nav[href="./medcineAI.html"]');
+    if (medicineNav) {
+        medicineNav.classList.add('active', 'expanded');
+    }
+</script>
+</head>
+<body>
+    <!-- 左侧导航栏：保持原有内容和结构不变 -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <!-- Home -->
+            <a href="../home/index.html" class="main-nav">Home</a>
+            
+            <!-- About Me -->
+            <a href="../about/about.html" class="main-nav">About Me</a>
+            
+            <!-- Achievements -->
+            <a href="../achievements/achievements.html" class="main-nav">Achievements</a>
+
+            <!-- Physics Research -->
+            <a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a>
+
+            <!-- Medicine AI：当前页，展开子菜单 -->
+            <!-- <a href="./medcineAI.html" class="main-nav">Medicine AI APP Design</a>
+             <div class="sub-nav-container">
+                <a href="./pdf-html-1.html" class="sub-nav active">Project Plan & Business Report</a>
+                <a href="./2.html" class="sub-nav">Website link & Programm Code</a>
+            </div>-->
+
+
+            <!-- 修正拼写 + 统一路径 + 补充激活/展开类 + 匹配原文件命名 -->
+        <a href="./medcineAI.html" class="main-nav active expanded">Medicine AI APP Design</a>
+        <div class="sub-nav-container">
+        <!-- 路径匹配之前给你的 project-report-business-plan.html 文件 -->
+        <a href="./pdf-html-1.html" class="sub-nav active">Project Plan & Business Report</a>
+        <a href="./2.html" class="sub-nav">Website link & Program Code</a>
+    </div>
+
+            
+
+            <!-- 其他主导航 -->
+            <a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a>
+            <a href="../contact/index.html" class="main-nav">Contact</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧主内容区：替换为pdf-html.html的完整内容 -->
+    <div class="main">
+        <h1>MEDICINE AI - Business Plan Project Report</h1>
+        <p style="text-align: center; font-weight: bold; margin-bottom: 30px; color: #1ab8ff;">Team Sea Dragon</p>
+         <td>
+                       <!-- <img src="./images/logo.png" alt="Take Photo" class="pdf-img">
+                         <img src="./images/team-member.png" alt="Take Photo" class="pdf-img">
+                        <p class="img-desc"></p>-->
+
+
+                        <!-- Logo和团队成员图片横向排列容器 -->
+<div class="logo-team-container" style="
+    display: flex;
+    align-items: center; /* 垂直居中对齐 */
+    justify-content: center; /* 靠左排列，可改center居中 */
+    gap: 20px; /* 两张图之间的间距 */
+    margin: 60px 0; /* 上下外边距，适配页面布局 */
+    width: 100%;
+    max-width: 800px; /* 容器最大宽度，避免太宽 */
+    flex-wrap: wrap; /* 小屏幕自动换行，适配移动端 */
+">
+    <!-- Logo图片：尺寸适配，保持比例 -->
+    <!--<img src="./images/logo.png" alt="Medicine AI Logo" style="
+        width: 240px; /* Logo宽度，可根据需求调整 */
+        height: auto; /* 自动保持宽高比，不拉伸 */
+        object-fit: contain; /* 保证图片完整显示 */
+        border-radius: 6px; /* 可选：圆角，匹配页面风格 */-->
+    ">
+    <!-- 团队成员图片：尺寸适配，与Logo协调 -->
+    <img src="./images/team-member.png" alt="Team Members" style="
+        width: 560px; /* 团队图宽度，比Logo宽，协调美观 */
+        height: auto; /* 自动保持宽高比 */
+        object-fit: cover; /* 裁剪多余部分，保证比例（可选） */
+        border-radius: 6px; /* 可选：圆角 */
+        border: 1px solid rgba(0, 184, 255, 0.3); /* 可选：加边框，匹配页面风格 */
+    ">
+</div>
+
+
+
+
+
+
+                        
+
+            </td>
+        <!-- 1. Elevator Pitch -->
+        <div id="elevator" class="block">
+            <h2>1. Elevator Pitch</h2>
+            <p>Aging Population has created an increasing need for daily health related care. Medicine AI is an AI-powered app designed for the elderly and chronic disease patients who need continuous medical care. It can recognize and summarize doctor's notes, and set reminders with alarms and pill images accordingly to prevent confusion.</p>
+            <p>The app also generates health recommendations with deep learning model based on the patient’s historical medical cases and sends daily reports to users and their family members. The primary users are the elderly who may suffer from cognitive decline and poor memory, as well as their family members and caregivers.</p>
+            <p>With the aging population, Medicine AI has significant business potential. In China, the 60+ population is 20% and expected to rise to 30% by 2033. Globally, it's projected to reach 2.1 billion. Revenue streams include annual membership fees and collaborations with hospitals and healthcare institutions.</p>
+        </div>
+
+        <!-- 2. Team member -->
+        <div id="team" class="block">
+            <h2>2. Team Member</h2>
+            <p>We are a well-rounded team with James as a experienced team leader, science orientated Steven and Tony, and Fred and Ricky strong in economic and business.</p>
+            <h3>Our team member</h3>
+            <table>
+                <tr>
+                    <th>Role</th>
+                    <th>Person</th>
+                    <th>Professional Field/Strength</th>
+                    <th>Responsibility</th>
+                </tr>
+                <tr>
+                    <td>Leader & project manager</td>
+                    <td>James</td>
+                    <td>Well-rounded</td>
+                    <td>Overall project management</td>
+                </tr>
+                <tr>
+                    <td>Backend technical</td>
+                    <td>Steven</td>
+                    <td>Future scientist</td>
+                    <td>Technical development</td>
+                </tr>
+                <tr>
+                    <td>Technical/Content</td>
+                    <td>Tony</td>
+                    <td>Computer science & photography, Passionate about video</td>
+                    <td>Video related work</td>
+                </tr>
+                <tr>
+                    <td>BP manager</td>
+                    <td>Fred</td>
+                    <td>Economic and business</td>
+                    <td>Business plan formulation</td>
+                </tr>
+                <tr>
+                    <td>BP manager</td>
+                    <td>Ricky</td>
+                    <td>Economic and business</td>
+                    <td>Business plan formulation</td>
+                </tr>
+            </table>
+            <p>The impetus for this project stems from the shared lived experiences of our project team: each member has beloved grandparents in their family, and these elders face persistent challenges in managing chronic illnesses in their daily lives. Chronic disease treatment is a long-term process that requires consistent medication adherence, personalized dietary adjustments, and regular moderate exercise to improve physical health. Recognizing these common struggles faced by our beloved grandparents and elderly chronic disease patients overall, our team resolved to develop an APP to provide the elderly with daily medication reminders, lifestyle guidance, and rehabilitation support.</p>
+        </div>
+
+        <!-- 3. Opportunity -->
+        <div id="opportunity" class="block">
+            <h2>3. Opportunity</h2>
+            <p>Our AI-based personal medical assistant addresses several pain points in health management:</p>
+            <ul>
+                <li>Due to the decline in memory among the elderly, it becomes difficult to remember doctors' instructions, as well as the methods, requirements and time for taking multiple medications.</li>
+                <li>Due to the complexity of medical terminology and the professionalism of medical knowledge, many people find it hard to understand medical terms and test indicators, leading to anxiety and mis-using medicine.</li>
+                <li>In the process of recovery or long-term medical care, dietary and habit are essential for improvements. Many people need constant professional and personalized advices.</li>
+            </ul>
+            <p>Research shows that the medication non-adherence rate due to mistaking medicine among the elderly is as high as 50%, leading about 125,000 preventable deaths and $10 billion in medical expenses. In the United States alone, there are tens of billions of dollars in avoidable medical expenses due to the above reasons each year.</p>
+            <p>We solve this problem through its "alarm" function, which is automatically set according to the doctor's instructions; it can identify and timely remind users, and provide a checkbox for users to tick after completing the task. To ensure that customers take the correct medication and dosage, pictures of the prescribed drugs issued by the doctor will pop up with the alarm.</p>
+            <p>Elderly may lack knowledge and learning ability to acquire information on health management, hence, our application provide smart personalized suggestions according one’s situation. In addition, many elderly people may live alone in another city or even in the children's homes in other countries. Their children may not be able to track their health status, thus missing important signals. Our application links each account to two other family members or caregivers and sends daily reports.</p>
+        </div>
+
+        <!-- 4. Key Metrics -->
+        <div id="metrics" class="block">
+            <h2>4. Key Metrics</h2>
+            <h3>4.1 Design and Innovation</h3>
+                <td>
+                        <img src="./images/WPS-1.png" alt="Take Photo" class="pdf-img">
+                        <p class="img-desc"></p>
+                </td>
+            <!--<table>
+                <tr>
+                    <th>Features</th>
+                    <th>Demo</th>
+                    <th>Technology/ Innovation</th>
+                    <th>Pain point Solved</th>
+                    <th>Feedback</th>
+                    <th>Protection</th>
+                </tr>
+                <tr>
+                    <td>Recognize and summarize image and voice recording of doc's note</td>
+                    <td>
+                        <img src="../test/test_picture/figure-1.png" alt="Take Photo" class="pdf-img">
+                        <p class="img-desc"></p>
+                    </td>
+                    <td>Optical Character Recognition (OCR) + Latest AI</td>
+                    <td>Hard to follow complex doc's note</td>
+                    <td>Easier to understand what he/she should do</td>
+                    <td>Sign cooperation agreements with partner to build exclusive data base</td>
+                </tr>
+                <tr>
+                    <td>Memorize and simultaneously process medication history to generate personalized suggestions</td>
+                    <td>
+                        <img src="../test/test_picture/figure-2.png" alt="Take Photo" class="pdf-img">
+                        <p class="img-desc"></p>
+                    </td>
+                    <td>TextCNN Deep Learning Model Trained with hundreds sets of data to increase accuracy</td>
+                    <td>Do not know what to and what not to eat and do to help recovery</td>
+                    <td>Very positive feedback as no other APP could make health plans according to one's own medical history</td>
+                    <td>Will not disclose our way and logic of training</td>
+                </tr>
+                <tr>
+                    <td>Alarm/reminders</td>
+                    <td>
+                        <img src="../test/test_picture/figure-3.png" alt="Alarm Recording" class="pdf-img">
+                        <p class="img-desc"></p>
+                    </td>
+                    <td>Times of alarm increases If user forgot to take certain meds multiple times; Alarm turns red at home page if missed</td>
+                    <td>Forget to take medicine</td>
+                    <td>Useful, especially multiple reminders</td>
+                    <td>Apply for interface design copyright</td>
+                </tr>
+                <tr>
+                    <td>Checkbox with image of medicine</td>
+                    <td> 
+                        <img src="../test/test_picture/figure-4.png" alt="Alarm Recording" class="pdf-img">
+                        <p class="img-desc"></p>
+                    </td>
+                    <td>Need to check to be recorded as "taken"</td>
+                    <td>Avoid taking wrong medication</td>
+                    <td>Useful</td>
+                    <td>Existed</td>
+                </tr>
+                <tr>
+                    <td>Send daily report to users and family</td>
+                    <td>
+                         <img src="../test/test_picture/figure-5.png" alt="Alarm Recording" class="pdf-img">
+                        <p class="img-desc"></p>
+                    </td>
+                    <td>Family could check up user if report says "not taken"; Help user stay connected with family and caregiver</td>
+                    <td>Family may not be around and may not be able to follow user's health condition</td>
+                    <td>Especially positive feedback from family members and caregivers</td>
+                    <td>Apply for interface design copyright</td>
+                </tr>
+                <tr>
+                    <td>Medical History</td>
+                    <td>
+                        <img src="../test/test_picture/figure-6.png" alt="Alarm Recording" class="pdf-img">
+                        <p class="img-desc"></p>
+                    </td>
+                    <td>Record of all doc's notes and presctiption and provide personalized daya base for TextCNN to analyze</td>
+                    <td>Make personalized suggestions more accurate; Prodive thorough information if patient changes hospital</td>
+                    <td>Very useful when coming to changing doctors and hospitals to increase efficiency and accuracy of diagnose</td>
+                    <td>Apply for interface design copyright</td>
+                </tr>
+                <tr>
+                    <td>AI Doctors</td>
+                    <td>
+                        <img src="../test/test_picture/figure-7.png" alt="Alarm Recording" class="pdf-img">
+                        <p class="img-desc"></p>
+                    </td>
+                    <td>Latest AI trained with our data</td>
+                    <td>Cannot go to hospital at all times</td>
+                    <td>Useful in providing general answers</td>
+                    <td>Will be more accurate with bigger data base provided and protected by partners agreement</td>
+                </tr>
+            </table>-->
+
+            <h3>Technological Design</h3>
+            <ol>
+                <li>
+                    <strong>Combining OCR Technology with the Latest AI</strong>: 
+                    
+                    <p>Through this design, we provide more convenient intelligent services for users. The application uses Optical Character Recognition (OCR) technology to extract and organize key information from multiple images, such as diagnoses, symptoms, and prescriptions, and then upload the organized information to AI for analysis. Currently, AI mainly analyzes information from a single uploaded image. Through our design, it can process multiple images and form a single document, hence, analyze the content of multiple images simultaneously, making results coming from our AI analysis more accurate, helping patients get a more comprehensive analysis and answer.</p>
+                     <img src="./images/WPS-2.png" alt="Medication Alarm" class="pdf-img">
+                    <p class="img-desc"></p>
+                </li>
+                <li>
+                    <strong>Intelligent Generation of Medication Reminders</strong>: 
+                    <p>By analyzing patients' medical information, it can intelligently analyze patients' medication schedule, generate reminders, and confirm with patients for completion.</p>
+                    <img src="./images/WPS-3.png" alt="Medication Alarm" class="pdf-img">
+                    <p class="img-desc"></p>
+                    <!--<p>Medication: Aspirin | Doctor's Notes × 2</p>-->
+                </li>
+                <li>
+                    <strong>Personalized Dietary Recommendations and Rehabilitation Suggestions</strong>: 
+                    <p>To meet nutritional needs and promote health improvements, we use a TextCNN deep learning model to analyze the health data, such as medication history and past lifestyle, provided by users and generate personalized suggestions suitable for current medication situation with doctor’s notes and prescription. This includes dietary adjustments, exercise methods, and other personalized health strategy suggestions.</p>
+                    <img src="./images/WPS-4.png" alt="Personalized Suggestion" class="pdf-img">
+                    <p class="img-desc"></p>
+                    <!--<p>Chronic Non-Atrophic Gastritis | Discomfort Caused by Hypoglycemia (2025-01-07 19:xx)</p>-->
+                </li>
+                <li>
+                    <strong>Combination of AI and Human Services</strong>: 
+                    <p>To further ensure the quality of service, we have established a proprietary knowledge base. When AI encounters complex or unsolvable situations, these professionals will provide insights, and we will integrate these professional insights into our knowledge base, gradually improving the professionalism of our product.</p>
+                </li>
+            </ol>
+
+            <p>With the above AI backed features, we believe we could solve all the pain points we identified effectively:</p>
+            <ul>
+                <li>AI backed alarm with photo of pills can effectively solve the problem of the elderly not remembering the functions and requirements of medicines</li>
+                <li>Image and voice recognition and summarization resolve the confusion brought by professional medical terms</li>
+                <li>AI can provide relatively professional, more importantly, personalized dietary recommendations and rehabilitation recommendations.</li>
+            </ul>
+            <p>Through our design combined with AI, OCR technology and TextCNN deep learning model, we can more conveniently and professionally solve these problems.</p>
+
+            <h3>4.2 Potential Impact</h3>
+            <p>The innovative market impact of this product is both quantitative and qualitative.</p>
+            <p><strong>Quantitative Perspective</strong>: Globally, the aging population is putting significant pressure on society and the younger generation. For example, in 2023, the U.S. Census Bureau predicted that by 2034, the population aged 65 and above will exceed children under 18. This tension on care resources is significant, with families and healthcare providers seeking cost-effective solutions. Our application can effectively reduce care pressure and improve adherence to medication treatment plans. Moreover, a study published in the Journal of Geriatric Care showed that the use of monitoring tools reduced medical costs related to chronic diseases by 15%.</p>
+            <p><strong>Qualitative Perspective</strong>: The application improves the lives of the elderly by promoting their independent management and life quality. Families also benefit from the reduced care burden, as the application addresses issues in the traditional medical system. Its emphasis on preventive care further supports public health goals by reducing the incidence of preventable diseases. For example, improved management of diabetes and hypertension can reduce complications, thereby alleviating the economic pressure on the medical system.</p>
+            <p>From the above perspectives, we believe that our product has a significant potential impact.</p>
+
+            <h3>4.3 Product Protection Methods</h3>
+            <p>From a product development perspective, we will not disclose our ideas and our proprietary knowledge base to protect our product. For our trade secrets, we sign cooperation agreements with our partners to protect our knowledge base legally. Moreover, we will apply for copyright for our interface design. These measures establish the application's leading innovative position in the field of medical care, enabling it to effectively meet the growing needs of the rapidly aging global population.</p>
+        </div>
+
+        <!-- 5. Validation/Progress -->
+        <div id="validation" class="block">
+            <h2>5. Validation/Progress</h2>
+            <h3>The Development and Validation of Our Application</h3>
+            <p>During the development process, we constantly verified our ideas, using actual patient cases and treatment processes to check the accuracy of the program. We have already received positive results after training our AI with over 500 hundreds sets of data with 185 sets coming from a single patient. We believe bigger data base would result in more accurate results.</p>
+            <p>The OCR system showed high precision in extracting key information from various medical documents. By accurately capturing data such as diagnoses and treatments, this technology laid the foundation for the AI's information processing capabilities.</p>
+            <p>The TextCNN deep learning model also proved effective in preliminary tests, identifying diseases and generating thoughtful and authentic insights with high precision. These advancements ensure that the application provides reliable diagnostic support for elderly users.</p>
+            <p>Additionally, we used PyQt5 to design a user-friendly interface. In preliminary tests, elderly participants provided valuable feedback, emphasizing the application's ease of use. Users appreciated its simple instructions and clear explanations. later, we add voice commands.</p>
+
+            <h3>Innovation Progress</h3>
+            <p>To achieve more accurate results, the AI model needs to be trained on a larger scale of data and to better improve its proprietary database. Therefore, our team establishes cooperation with hospitals and medical professionals to continuously verify the application in real-life scenarios, ensuring its reliability and practicality.</p>
+            <p>Up to now, our team has started to work with LiangAn Yijia, a famous agent cooperation connecting doctors and hospitals in and out of China. With consent, we were able to gain a 5-yearlong medical record on a single patient who suffer from long-term stomach diseases. We applied our AI system to process and organize the patient’s medical records and trained AI with 185 sets of data from him.</p>
+            <p>Our AI algorithm summarized the key information of the patient's condition and intelligently analyzed the causes of the illness, and suggested appropriated medication schedule and dietary. After switching to a new doctor, the doctor used the key content summarized by our application’s AI system, combined with the patient's specific situation, to formulate a brandnew treatment plan for the patient while confirmed the dietary suggestion that our APP generated.</p>
+            <p>According to this new treatment plan, the patient's condition began to gradually improve, and successfully avoided the originally possible gastric resection surgery. This case is a great encouragement for us, proving the practicality and effectiveness of our AI system as well as our training logic.</p>
+        </div>
+
+        <!-- 6. Market -->
+        <div id="market" class="block">
+            <h2>6. Market</h2>
+            <p>Our application is primarily aimed at the elderly, their family members and caregivers. It is also very helpful to all-age patients with chronic diseases.</p>
+            <ul>
+                <li><strong>For Patients Themselves</strong>: Forgetting to take medication or having unhealthy dietary habits often worsens the condition, causing them to fall into a more serious illness, which not only increases the patients' medical consumption and emotional anxiety, but also increases the social medical burden.</li>
+                <li><strong>For Caregivers and family members</strong>: They often lack medical knowledge and are unable to provide sufficient support, making the family atmosphere tense.</li>
+                <li><strong>For Medical Service Providers</strong>: The application can effectively improve follow-up care and reduce patient readmissions to supplement their services.</li>
+            </ul>
+            <p>The global aging population brings significant market opportunities. For example, in China, it is expected that by 2050, the population aged 65 and above will exceed 300 million, and the elderly population in the United States will grow to nearly 80 million by 2040. With the aging population, the demand for convenient and affordable medical solutions is increasing. Our application provides a cost-effective and innovative tool for health management, bridging the gap between professional medical services and individual needs.</p>
+            <p>The primary buyers of the application are users themselves - mainly elderly who usually suffer multiple long-term diseases. While some elderly may lack the ability to use smart electronic devices, their caretakers use the APP to better assist them. This could constitute similar size of market with elderly themselves.</p>
+            <p>Our next step would be working with doctor agents like LiangAn Yijia, hospitals and insurance companies. For example, insurance companies can integrate this application into their packages, promoting preventive care to reduce claims. We predict this market would be even larger as this include not only elderly, but most of their customers as well.</p>
+        </div>
+
+        <!-- 7. Competition -->
+        <div id="competition" class="block">
+            <h2>7. Competition</h2>
+            <h3>7.1: Competition Analysis</h3>
+            <p>Our competition are the reminder applications. We have chosen several topranked/scored applications for competitive analysis. Existing applications usually have features including alarm with checkbox, picture of doctor’s note, medication history. A few include sending report to family, but only once per month. All these applications lack advanced AI functions, image and voice recognition and summarization, led long subsequent personalized health suggestions according to the medical history.</p>
+            <table>
+                <tr>
+                    <th>Features</th>
+                    <th>iCare</th>
+                    <th>MediMemo</th>
+                    <th>Pill Reminder</th>
+                    <th>DingNing</th>
+                    <th>Medicine AI</th>
+                </tr>
+                <tr>
+                    <td>Photo taking</td>
+                    <td>√</td>
+                    <td>√</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>√</td>
+                </tr>
+                <tr>
+                    <td>Photo recognition and summarization</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>√</td>
+                </tr>
+                <tr>
+                    <td>Alarm with meds’ photo</td>
+                    <td>√</td>
+                    <td>√</td>
+                    <td>√</td>
+                    <td>√</td>
+                    <td>√</td>
+                </tr>
+                <tr>
+                    <td>Checkbox for completion</td>
+                    <td>√</td>
+                    <td>√</td>
+                    <td>√</td>
+                    <td>√</td>
+                    <td>√</td>
+                </tr>
+                <tr>
+                    <td>Report</td>
+                    <td>Per month</td>
+                    <td>Per month</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>Per day</td>
+                </tr>
+                <tr>
+                    <td>Medical History</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>√</td>
+                </tr>
+                <tr>
+                    <td>Personalized advices</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>√</td>
+                </tr>
+                <tr>
+                    <td>Note taking of users daily feeling</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>×</td>
+                    <td>√</td>
+                </tr>
+            </table>
+
+            <h3>7.2. Advantage</h3>
+            <p>The main advantages of our AI medical reminder system are:</p>
+            <ul>
+                <li>
+                    <strong>Advanced Technology and Knowledge</strong>
+                    <ul>
+                        <li>Combine cutting-edge AI and medical expertise.</li>
+                        <li>Strong data processing and self-optimization via deep learning.</li>
+                        <li>Enhances precision and efficiency.</li>
+                        <li>Precision already tested by professional doctors in real case scenario</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Personalized Services</strong>
+                    <ul>
+                        <li>Provides basic medication reminders.</li>
+                        <li>Tailors dietary and health management suggestions based on personalized health status and medical history.</li>
+                        <li>Gains widespread user praise and recognition.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>Industry Collaboration</strong>
+                    <ul>
+                        <li>Have reached out to professional doctors, hospitals and agents</li>
+                        <li>Actively incorporates latest medical research and tech.</li>
+                        <li>Improved data base collaborating with professionals</li>
+                        <li>Strives to be a AI based service-oriented system for the public, ensuring convenient and efficient healthcare.</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>7.3. Disadvantage</h3>
+            <p>The main disadvantages of our MedicineAI system are:</p>
+            <ul>
+                <li>AI related laws not well established: may lead to legal and ethical disputes</li>
+                <li>Need better data protection in order for users to use our APP without worrying about data leak</li>
+                <li>We believe with the development of AI and smart medial systems, regulations and data security would enhance.</li>
+            </ul>
+        </div>
+
+        <!-- 8. Go to Market -->
+        <div id="goto" class="block">
+            <h2>8. Go to Market</h2>
+            <ol>
+                <li>
+                    <strong>Social Media Platforms</strong>: 
+                    <p>E.g: Advertising on TikTok, YouTube, Bilibili etc.: targeted Age Range: 24-50, including users and family members purchasing for elderly users.</p>
+                </li>
+                <li>
+                    <strong>Community Outreach</strong>: Targeted Age: &gt;50
+                    <ul>
+                        <li>Partnerships: Collaborate with hospitals, nursing homes, and convalescent homes to build trust and adoption.</li>
+                        <li>Health Fairs: Participate in health expos with experience booths. The RMB 50,000 allocated for elderly community advertising can cover multiple events.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>APP store</strong>: Can be searched on APP store using key word
+                </li>
+            </ol>
+        </div>
+
+        <!-- 9. Cost Revenue Analysis -->
+        <div id="cost" class="block">
+            <h2>9. Cost Revenue Analysis</h2>
+            <h3>Main Revenue Streams</h3>
+            <ul>
+                <li>
+                    <strong>Personal Membership Fees</strong>
+                    <ul>
+                        <li>Basic: Free, with basic medication reminders.</li>
+                        <li>Premium: Paid, with AI personalized suggestions and AI doctor features. $9.9 or RMB 70/month.</li>
+                    </ul>
+                </li>
+                <li>
+                    <strong>After establishing cooperation with hospitals and insurance company</strong>
+                    <ul>
+                        <li>With insurance packages, generating revenue from these partnerships.</li>
+                        <li>Open Premium Plus with features of real-time doctor/ making doctor appointments</li>
+                    </ul>
+                </li>
+            </ul>
+
+            <h3>Main Costs</h3>
+            <ul>
+                <li>App Store Fees: RMB 2000/year.</li>
+                <li>Advertisement on social media: Budgeted at RMB 100,000/ year or $14,000. ( TikTok's CPM starting at $10 and YouTube's CPV ranging from $0.010 to $0.030)</li>
+                <li>Server and Cloud Infrastructure: RMB 500/month, with monitoring and optimization as the user base grows.</li>
+                <li>Hosting and Maintenance: RMB 700/month.</li>
+                <li>Employee Salaries: First year cost including two AI engineers, a customer service person, and a manager. Setting up at a lower living cost city, the cost could be constrained to 400,000 RMB.</li>
+                <li>Marketing and Promotion Costs: 15,000 RMB/month</li>
+                <li>Legal and Compliance Costs: 5,000 RMB/month.</li>
+                <li>Other Operating Costs: we can work at co-work area or at home as it’s mainly online at this stage.</li>
+            </ul>
+
+            <h3>Per-unit cost and Pricing</h3>
+            <p>The calculated first year per month cost would be around 70000 RMB We could price according to average price: $9.9 or RMB 70/month. This would need 1,000 member per month to cover cost. Given our large potential customer base and reliance created by the APP, 1,000 paid member per month is relatively easy to achieve.</p>
+        </div>
+
+        <!-- 10. Fundraising -->
+        <div id="fundraising" class="block">
+            <h2>10. Fundraising</h2>
+            <h3>Initial Startup Funds: RMB 700,000</h3>
+            <ul>
+                <li>Product Development: RMB 400,000 for recruiting a professional team.</li>
+                <li>Marketing and Sales: RMB 150,000 for establishing brand presence and targeted advertising.</li>
+                <li>Business Expenses: RMB 50,000 for administrative, infrastructure, and customer service support.</li>
+                <li>Regulations and Legal: RMB 100,000 for ensuring platform compliance and obtaining approvals.</li>
+            </ul>
+
+            <h3>Funding Sources</h3>
+            <ul>
+                <li>
+                    <strong>Angel Investors</strong>: Sought for their expertise and strategic guidance in healthcare and AI. We would prefer the individual has medical or related industry background to help with our cooperation with hospitals and insurance companies in our next stage.
+                </li>
+                <li>
+                    <strong>Venture Capital</strong>: After we proved the advantage of our product and a working business model, we would seek for VC due to the large market potential. At this stage, we could expect rapid growth of our size.
+                </li>
+                <li>
+                    <strong>Grants and Subsidies</strong>: Actively applying for government or healthcare organization support, with potential for significant grants under policies encouraging AI development and medical services.
+                </li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- 导航展开/收起JS：保持原有逻辑 -->
+    <script>
+        const mainNavs = document.querySelectorAll('.main-nav');
+        
+        mainNavs.forEach(nav => {
+            const hasSubMenu = nav.nextElementSibling && nav.nextElementSibling.classList.contains('sub-nav-container');
+            if (!hasSubMenu) {
+                nav.style.pointerEvents = 'auto';
+                return;
+            }
+
+            nav.addEventListener('click', (e) => {
+                e.preventDefault();
+                
+                mainNavs.forEach(otherNav => {
+                    if (otherNav !== nav) {
+                        otherNav.classList.remove('expanded');
+                    }
+                });
+                
+                nav.classList.toggle('expanded');
+            });
+        });
+    </script>
+</body>
+</html>
