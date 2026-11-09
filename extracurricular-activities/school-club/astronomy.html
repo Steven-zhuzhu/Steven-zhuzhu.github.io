@@ -11,14 +11,12 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Inter', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
             background: linear-gradient(135deg, #111827, #16213F, #0F172A);
             color: #F8FAFC;
             display: flex;
             min-height: 100vh;
         }
-
         .sidebar {
             width: 280px;
             background-color: transparent;
@@ -28,7 +26,6 @@
             overflow-y: auto;
             border-right: 3px solid #165DFF;
         }
-
         .sidebar-nav-item {
             color: #E2E8F0;
             text-decoration: none;
@@ -41,22 +38,18 @@
             cursor: pointer;
             margin: 4px 0;
         }
-
         .sidebar-nav-item.active {
             background-color: #165DFF;
             color: #FFFFFF;
             font-weight: 600;
         }
-
         .sidebar-nav-item:hover:not(.active) {
             background-color: #1E293B;
             color: #38BDF8;
         }
-
         .level1-menu {
             margin: 8px 0;
         }
-
         .level1-text {
             color: #94A3B8;
             text-decoration: none;
@@ -68,23 +61,19 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
-
         .level1-text.active {
             color: #FFFFFF;
             font-weight: 600;
         }
-
         .level1-text:hover {
             color: #38BDF8;
             background-color: #1E293B;
         }
-
         .level2-container {
             display: none;
             padding-left: 20px;
             margin-top: 2px;
         }
-
         .level2-text {
             color: #94A3B8;
             text-decoration: none;
@@ -94,49 +83,40 @@
             border-radius: 6px;
             transition: all 0.3s ease;
         }
-
         .level2-text.active {
             color: #165DFF;
             font-weight: 500;
         }
-
         .level2-text:hover {
             color: #38BDF8;
             background-color: #1E293B;
         }
-
         .sidebar-footer {
             border-top: 1px solid #1E293B;
             padding-top: 20px;
             margin-top: 30px;
         }
-
         .contact-item {
             margin: 15px 0;
             font-size: 14px;
         }
-
         .contact-item span {
             color: #94A3B8;
             margin-right: 8px;
         }
-
         .contact-item a {
             color: #38BDF8;
             text-decoration: none;
         }
-
         .contact-item a:hover {
             color: #7DD3FC;
             text-decoration: underline;
         }
-
         .creator-info {
             margin-top: 30px;
             color: #64748B;
             font-size: 13px;
         }
-
         .main-content {
             flex: 1;
             margin-left: 280px;
@@ -147,7 +127,6 @@
             font-size: 15px;
             line-height: 1.7;
         }
-
         .section-heading {
             font-size: 1.8em;
             font-weight: 700;
@@ -157,12 +136,10 @@
             border-bottom: 3px solid #165DFF;
             letter-spacing: 0.5px;
         }
-
         .club-detail-container {
             width: 100%;
             margin-bottom: 25px;
         }
-
         .detail-card {
             background-color: rgba(30, 41, 59, 0.85);
             border-radius: 8px;
@@ -171,14 +148,12 @@
             border-left: 4px solid #165DFF;
             backdrop-filter: blur(4px);
         }
-
         .detail-card h3 {
             color: #38BDF8;
             font-size: 1.1em;
             margin-bottom: 8px;
             font-weight: 600;
         }
-
         .detail-card p {
             color: #E2E8F0;
             margin-bottom: 0;
@@ -196,12 +171,10 @@
             color: #7DD3FC;
             text-decoration: underline;
         }
-
         .activity-list {
             list-style: none;
             padding-left: 0;
         }
-
         /* 窄行间距设置，活动列表更紧凑 */
         .activity-list li {
             color: #E2E8F0;
@@ -211,7 +184,6 @@
             font-size: 0.95em;
             line-height: 1.5;
         }
-
         .activity-list li::before {
             content: "•";
             color: #165DFF;
@@ -219,20 +191,17 @@
             left: 0;
             font-size: 1.2em;
         }
-
         .image-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 25px;
             margin-top: 10px;
         }
-
         .gallery-item {
             display: flex;
             flex-direction: column;
             gap: 10px;
         }
-
         .gallery-caption {
             font-size: 14px;
             color: #94A3B8;
@@ -242,7 +211,6 @@
             border-radius: 6px;
             backdrop-filter: blur(4px);
         }
-
         .gallery-image {
             width: 100%;
             height: 200px;
@@ -255,6 +223,32 @@
         .gallery-image:hover {
             transform: scale(1.03);
             border-color: #165DFF;
+        }
+
+        /* ========== 图片弹窗预览新增样式 ========== */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #165DFF;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(22, 93, 255, 0.4);
         }
 
         /* 移动端响应式适配 */
@@ -298,7 +292,7 @@
         <a href="../../about/about.html" class="sidebar-nav-item">About Me</a>
         <a href="../../achievements/achievements.html" class="sidebar-nav-item">Achievements</a>
         <a href="../../physics-research/physics-research.html" class="sidebar-nav-item">Physics Research</a>
-        <a href="../../climate-modeling-project/climate.html" class="sidebar-nav-item">Climate Modeling Project</a>
+        
         <a href="../../medcine-AI/medcineAI.html" class="sidebar-nav-item">Medcine AI App Design</a>
         <a href="../../extracurricular-activities/activities.html" class="sidebar-nav-item active">Extracurricular Activities</a>
         
@@ -319,11 +313,9 @@
             <a href="../volunteer-and-services/voice.html" class="level2-text">Voice Museum</a>
             <a href="../volunteer-and-services/science.html" class="level2-text">Science Museum Volunteer</a>
         </div>
-
         <a href="../../my-leisure-hobbies/hobbies.html" class="sidebar-nav-item">Leisure Hobbies</a>
         <a href="../../my-favorite-books/my-books.html" class="sidebar-nav-item">Reading to the World</a>
         <a href="../../contact/index.html" class="sidebar-nav-item">Contact</a>
-
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -339,15 +331,13 @@
             </div>
         </div>
     </nav>
-
     <main class="main-content">
-        <h2 class="section-heading">Astronomy Club---- President (2024-Present)</h2>
+        <h2 class="section-heading">Astronomy Club---- President (2024‑Present)</h2>
         
         <div class="club-detail-container">
             <div class="detail-card">
                 <h3><i>🌌</i> Club Introduction</h3>
                 <p>The Astronomy Club was founded in 2022 with over 30 active members. As the president of the Astronomy Club, I am committed to spreading astronomical knowledge and inspiring students' interest in space exploration through diverse activities. </p>
-                <!-- 可点击俱乐部链接，新窗口打开，样式与页面统一 -->
                 <p>Our Astonomy Club webste Link: <a href="https://www.astrobiph.org/" target="_blank">https://www.astrobiph.org/</a></p>
            
                 <h3><i>🔭</i> Our Activities</h3>
@@ -360,44 +350,48 @@
                 </ul>
             </div>
         </div>
-
         <h2 class="section-heading">Astronomy Club - Activity Gallery</h2>
         
         <div class="image-gallery">
             <div class="gallery-item">
-                <img src="../school-club/astronomy/astronomy-0.png" alt="Stargazing activity with telescope" class="gallery-image">
+                <img src="../school-club/astronomy/astronomy-0.png" data-full="../school-club/astronomy/astronomy-0.png" alt="Stargazing activity with telescope" class="gallery-image">
                 <p class="gallery-caption">Our astronomical observation dome for stargazing</p>
             </div>
             <div class="gallery-item">
-                <img src="../school-club/astronomy/astronomy-2.png" alt="Solar system model exhibition" class="gallery-image">
+                <img src="../school-club/astronomy/astronomy-2.png" data-full="../school-club/astronomy/astronomy-2.png" alt="Solar system model exhibition" class="gallery-image">
                 <p class="gallery-caption">Our large astronomical observation telescope</p>
             </div>
             <div class="gallery-item">
-                <img src="../school-club/astronomy/astronomy-3.png" alt="Astronomy lecture scene" class="gallery-image">
+                <img src="../school-club/astronomy/astronomy-3.png" data-full="../school-club/astronomy/astronomy-3.png" alt="Astronomy lecture scene" class="gallery-image">
                 <p class="gallery-caption">M57 Ring Nebula, planetary nebula in Lyra constellation. 2600 ly distance. Seestar 50, 20 minutes integration</p>
             </div>
             <div class="gallery-item">
-                <img src="../school-club/astronomy/astronomy-4.png" alt="Astronomy popularization exhibition" class="gallery-image">
+                <img src="../school-club/astronomy/astronomy-4.png" data-full="../school-club/astronomy/astronomy-4.png" alt="Astronomy popularization exhibition" class="gallery-image">
                 <p class="gallery-caption">M31 Andromeda Galaxy, 76 minutes exposure with RedCat51, processed with Siril and PS.</p>
             </div>
             <div class="gallery-item">
-                <img src="../school-club/astronomy/astronomy-5.png" alt="Astronomy photography sharing" class="gallery-image">
+                <img src="../school-club/astronomy/astronomy-5.png" data-full="../school-club/astronomy/astronomy-5.png" alt="Astronomy photography sharing" class="gallery-image">
                 <p class="gallery-caption">NGC 6960 Western Veil Nebula, supernova remnant in Cygnus constellation. Seestar S50, 14 minutes integration</p>
             </div>
             <div class="gallery-item">
-                <img src="../school-club/astronomy/astronomy-6.png" alt="Cooperation with astronomy museum" class="gallery-image">
+                <img src="../school-club/astronomy/astronomy-6.png" data-full="../school-club/astronomy/astronomy-6.png" alt="Cooperation with astronomy museum" class="gallery-image">
                 <p class="gallery-caption">NGC 2175 Monkey Head Nebula, 50 minutes exposure with Seestar S50</p>
             </div>
-           <div>class="gallery-item">
-                <img src="../school-club/astronomy/astronomy-7.png" alt="Cooperation with astronomy museum" class="gallery-image">
+            <div class="gallery-item">
+                <img src="../school-club/astronomy/astronomy-7.png" data-full="../school-club/astronomy/astronomy-7.png" alt="Cooperation with astronomy museum" class="gallery-image">
                 <p class="gallery-caption">NGC 2237 Rosette Nebula, 1 hour 5 minutes exposure with Seestar S50 mosaic mode, processed with Pixinsight.</p>
             </div>
-            <div>
-            class="gallery-item">
-                <img src="../school-club/astronomy/astronomy-8.png" alt="Cooperation with astronomy museum" class="gallery-image">
+            <div class="gallery-item">
+                <img src="../school-club/astronomy/astronomy-8.png" data-full="../school-club/astronomy/astronomy-8.png" alt="Cooperation with astronomy museum" class="gallery-image">
                 <p class="gallery-caption">NGC 2024 Flame Nebula and Alnitak Seestar S50</p>
             </div>
+        </div>
     </main>
+
+    <!--图片预览弹窗 DOM-->
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" src="" alt="preview big image">
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -405,7 +399,6 @@
             const schoolClubSub = document.getElementById('schoolClubSub');
             const volunteerBtn = document.getElementById('volunteerBtn');
             const volunteerSub = document.getElementById('volunteerSub');
-
             schoolClubBtn.addEventListener('click', () => {
                 const isDisplayed = schoolClubSub.style.display === 'block';
                 schoolClubSub.style.display = isDisplayed ? 'none' : 'block';
@@ -413,7 +406,6 @@
                 schoolClubBtn.classList.toggle('active', !isDisplayed);
                 volunteerBtn.classList.remove('active');
             });
-
             volunteerBtn.addEventListener('click', () => {
                 const isDisplayed = volunteerSub.style.display === 'block';
                 volunteerSub.style.display = isDisplayed ? 'none' : 'block';
@@ -421,6 +413,37 @@
                 volunteerBtn.classList.toggle('active', !isDisplayed);
                 schoolClubBtn.classList.remove('active');
             });
+
+            // ========== 图片点击放大预览逻辑 ==========
+            const imageModal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const thumbImages = document.querySelectorAll('img[data-full]');
+
+            thumbImages.forEach(img => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', function(){
+                    const fullSrc = this.getAttribute('data-full');
+                    modalImg.src = fullSrc;
+                    imageModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                })
+            })
+
+            // 点击蒙层关闭弹窗
+            imageModal.addEventListener('click', function(){
+                imageModal.classList.remove('active');
+                modalImg.src = "";
+                document.body.style.overflow = '';
+            })
+
+            // ESC按键关闭弹窗
+            document.addEventListener('keydown', function(e){
+                if(e.key === 'Escape' && imageModal.classList.contains('active')){
+                    imageModal.classList.remove('active');
+                    modalImg.src = "";
+                    document.body.style.overflow = '';
+                }
+            })
         });
     </script>
 </body>

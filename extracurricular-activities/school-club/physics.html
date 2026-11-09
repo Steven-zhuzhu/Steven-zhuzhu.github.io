@@ -12,14 +12,12 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
             background-color: #0F172A; /* 全局统一深色背景 */
             color: #F8FAFC;
             display: flex;
             min-height: 100vh;
         }
-
         /* 侧边栏样式 - 1:1复用astronomy.html */
         .sidebar {
             width: 280px;
@@ -31,7 +29,6 @@
             overflow-y: auto;
             border-right: 3px solid #165DFF; /* 统一主蓝色 */
         }
-
         .sidebar-nav-item {
             color: #E2E8F0;
             text-decoration: none;
@@ -44,22 +41,18 @@
             cursor: pointer;
             margin: 4px 0;
         }
-
         .sidebar-nav-item.active {
             background-color: #165DFF; /* 激活态主蓝色背景 */
             color: #FFFFFF;
             font-weight: 600;
         }
-
         .sidebar-nav-item:hover:not(.active) {
             background-color: #1E293B; /* hover深色背景 */
             color: #38BDF8; /* hover浅蓝色文字 */
         }
-
         .level1-menu {
             margin: 8px 0;
         }
-
         /* 核心样式：和astronomy.html保持一致 */
         .level1-text {
             color: #94A3B8;
@@ -72,23 +65,19 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
-
         .level1-text.active {
             color: #FFFFFF; /* 激活态白色文字 */
             font-weight: 600;
         }
-
         .level1-text:hover {
             color: #38BDF8; /* 和其他hover一致的浅蓝色 */
             background-color: #1E293B; /* 和其他hover一致的深色背景 */
         }
-
         .level2-container {
             display: none;
             padding-left: 20px;
             margin-top: 2px;
         }
-
         .level2-text {
             color: #94A3B8;
             text-decoration: none;
@@ -98,70 +87,57 @@
             border-radius: 6px;
             transition: all 0.3s ease;
         }
-
         .level2-text.active {
             color: #165DFF; /* 二级激活态主蓝色文字 */
             font-weight: 500;
         }
-
         .level2-text:hover {
             color: #38BDF8; /* 二级hover浅蓝色 */
             background-color: #1E293B;
         }
-
         .sidebar-footer {
             border-top: 1px solid #1E293B;
             padding-top: 20px;
             margin-top: 30px;
         }
-
         .contact-item {
             margin: 15px 0;
             font-size: 14px;
         }
-
         .contact-item span {
             color: #94A3B8;
             margin-right: 8px;
         }
-
         .contact-item a {
             color: #38BDF8;
             text-decoration: none;
         }
-
         .contact-item a:hover {
             color: #7DD3FC;
             text-decoration: underline;
         }
-
         /* 新增侧边栏链接样式，与现有样式统一 */
         .sidebar-external-link {
             margin: 15px 0;
             font-size: 14px;
         }
-
         .sidebar-external-link span {
             color: #94A3B8;
             margin-right: 8px;
         }
-
         .sidebar-external-link a {
             color: #38BDF8;
             text-decoration: none;
         }
-
         .sidebar-external-link a:hover {
             color: #7DD3FC;
             text-decoration: underline;
         }
-
         .creator-info {
             margin-top: 30px;
             color: #64748B;
             font-size: 13px;
         }
-
         /* 主体内容区域 - 完全匹配astronomy.html的样式 */
         .main-content {
             flex: 1;
@@ -171,7 +147,6 @@
             min-height: 100vh;
             color: #F8FAFC;
         }
-
         .section-heading {
             font-size: 1.8em;
             font-weight: 700;
@@ -180,20 +155,17 @@
             padding-bottom: 10px;
             border-bottom: 3px solid #165DFF; /* 统一主蓝色边框 */
         }
-
         .intro-text {
             line-height: 1.8;
             color: #94A3B8;
             margin-bottom: 30px;
             font-size: 1.05em;
         }
-
         /* 物理社卡片样式 - 匹配astronomy.html的天文社卡片色彩体系 */
         .club-detail-container {
             max-width: 1000px;
             margin: 0 auto;
         }
-
         .detail-card {
             background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05)); /* 主蓝色渐变 */
             border-radius: 8px;
@@ -202,7 +174,6 @@
             margin-bottom: 30px;
             border-left: 3px solid #165DFF; /* 统一主蓝色边框 */
         }
-
         .detail-card h3 {
             color: #F8FAFC;
             font-size: 1.4em;
@@ -211,36 +182,30 @@
             align-items: center;
             gap: 8px;
         }
-
         .detail-card h3 i {
             color: #38BDF8; /* 浅蓝色图标 */
         }
-
         .detail-card p {
             line-height: 1.8;
             color: #94A3B8;
             margin-bottom: 20px;
             font-size: 1.05em;
         }
-
         /* 主内容区链接样式，与侧边栏链接样式统一 */
         .detail-card p a {
             color: #38BDF8;
             text-decoration: none;
         }
-
         .detail-card p a:hover {
             color: #7DD3FC;
             text-decoration: underline;
         }
-
         .image-gallery {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 20px;
             margin: 25px 0;
         }
-
         .gallery-image {
             width: 100%;
             height: 220px;
@@ -249,11 +214,9 @@
             border: 1px solid rgba(22, 93, 255, 0.3); /* 主蓝色边框透明版 */
             transition: transform 0.3s ease;
         }
-
         .gallery-image:hover {
             transform: scale(1.03);
         }
-
         .activity-list {
             list-style-type: disc;
             padding-left: 25px;
@@ -261,11 +224,9 @@
             line-height: 1.9;
             margin-bottom: 20px;
         }
-
         .activity-list li {
             margin-bottom: 10px;
         }
-
         .back-btn {
             background-color: #165DFF; /* 统一主蓝色按钮 */
             color: #FFFFFF;
@@ -279,11 +240,36 @@
             transition: all 0.3s ease;
             margin-top: 10px;
         }
-
         .back-btn:hover {
             background-color: #38BDF8; /* hover浅蓝色 */
             color: #0F172A;
             transform: scale(1.05);
+        }
+
+        /* ========== 图片弹窗预览 标准符号 ========== */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #165DFF;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(22, 93, 255, 0.4);
         }
 
         /* 响应式适配 - 完全匹配astronomy.html */
@@ -295,16 +281,13 @@
                 border-right: none;
                 border-bottom: 3px solid #165DFF;
             }
-
             .main-content {
                 margin-left: 0;
                 padding: 30px 20px;
             }
-
             .image-gallery {
                 grid-template-columns: 1fr;
             }
-
             .gallery-image {
                 height: 180px;
             }
@@ -318,7 +301,7 @@
         <a href="../../about/about.html" class="sidebar-nav-item">About Me</a>
         <a href="../../achievements/achievements.html" class="sidebar-nav-item">Achievements</a>
         <a href="../../physics-research/physics-research.html" class="sidebar-nav-item">Physics Research</a>
-        <a href="../../climate-modeling-project/climate.html" class="sidebar-nav-item">Climate Modeling Project</a>
+       
         <a href="../../medcine-AI/medcineAI.html" class="sidebar-nav-item">Medcine AI App Design</a>
         <a href="../../extracurricular-activities/activities.html" class="sidebar-nav-item active">Extracurricular Activities</a>
         
@@ -335,19 +318,16 @@
         </div>
         
             <div class="level1-menu">
-            <a href="../volunteer-and-services/volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</div>
-
+            <a href="../volunteer-and-services/volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</a>
         
         <div class="level2-container" id="volunteerSub">
             <a href="../../extracurricular-activities/volunteer-and-services/reading-club.html" class="level2-text">Reading Club</a>
             <a href="../../extracurricular-activities/volunteer-and-services/voice-museum.html" class="level2-text">Voice Museum</a>
             <a href="../../extracurricular-activities/volunteer-and-services/science.html" class="level2-text">Science Museum Volunteer</a>
         </div>
-
         <a href="../../my-leisure-hobbies/hobbies.html" class="sidebar-nav-item">Leisure Hobbies</a>
         <a href="../../my-favorite-books/my-books.html" class="sidebar-nav-item">Reading to the World</a>
         <a href="../../contact/index.html" class="sidebar-nav-item">Contact</a>
-
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -368,74 +348,39 @@
             </div>
         </div>
     </nav>
-
-    <!-- 主体内容区域 - 核心修改：第一栏文字替换为分点精炼版 -->
+    <!-- 主体内容区域 -->
     <main class="main-content">
         <h2 class="section-heading">Physics Club  --  Core Member</h2>
-       <!-- <p class="intro-text">As the leader of the Physics Club, I am committed to spreading physical knowledge and inspiring students' interest in scientific exploration through diverse experimental and academic activities.</p>-->
-
         <div class="club-detail-container">
             <div class="detail-card">
                 <h3><i>⚛️</i> My IPHO Physics Problem-Solving Lectures</h3>
                 <p>1. My IPHO experience inspired our club members to pursue international physics competition opportunities.<br>
                 2. I delivered a series of lectures, sharing contest expertise and guiding them through theoretical and experimental learning challenges.<br>
-                3. The key IPHO preparation materials I curated (books, references, online resources) served as lecture notes — full IPHO resources are accessible via <a href="https://www.ipho-unofficial.org/" target="_blank">IPHO Resource</a> and <a href="#" target="_blank">Kavine Zhou's personal website</a>.</p>
+                3. The key IPHO preparation materials I curated (books, references, online resources) served as lecture notes — full IPHO resources are accessible via <a href="https://ipho-unofficial.org/" target="_blank">IPHO Resource</a> and <a href="https://knzhou.github.io" target="_blank">Kavine Zhou's personal website</a>.</p>
                  <div class="image-gallery">   
-                <img src="../school-club/physics/physics-5.png" alt="Physics experiment workshop" class="gallery-image">
-                    <img src="../school-club/physics/physics-2.png" alt="Physics model exhibition" class="gallery-image">
-                    <img src="../school-club/physics/physics-3.jpg" alt="Physics lecture scene" class="gallery-image">
-                    <img src="../school-club/physics/physics-4.png" alt="Inter-school physics competition" class="gallery-image">
-            
-            </div>
-            <div> 
-
-            <!--<div class="detail-card">
-                <h3><i>🔬</i> The Activities I Organized</h3>
-                <ul class="activity-list">
-                    <li>Weekly physics knowledge lectures (covering mechanics, electromagnetism, thermodynamics, etc.)</li>
-                    <li>Monthly physics experiment workshops (simple mechanics, optics and electricity experiments)</li>
-                    <li>Physics model making and exhibition (Newton's cradle, simple electric motor, etc.)</li>
-                </ul>-->
-
-                <!-- 8张图片画廊，样式自动适配 -->
-               <!-- <div class="image-gallery">
-                    <img src="../school-club/physics/physics-1.png" alt="Physics experiment workshop" class="gallery-image">
-                    <img src="../school-club/physics/physics-2.png" alt="Physics model exhibition" class="gallery-image">
-                    <img src="../school-club/physics/physics-3.jpg" alt="Physics lecture scene" class="gallery-image">
-                    <img src="../school-club/physics/physics-4.jpg" alt="Inter-school physics competition" class="gallery-image">
-                    <img src="../school-club/physics/physics-5.jpg" alt="Physics experiment demonstration" class="gallery-image">
-                    <img src="../school-club/physics/physics-6.jpg" alt="Club members discussing problems" class="gallery-image">
-                    <img src="../school-club/physics/physics-7.jpg" alt="Physics model making process" class="gallery-image">
-                    <img src="../school-club/physics/physics-8.jpg" alt="Award ceremony for physics competition" class="gallery-image">
+                    <img src="../school-club/physics/physics-5.png" data-full="../school-club/physics/physics-5.png" alt="Physics experiment workshop" class="gallery-image">
+                    <img src="../school-club/physics/physics-2.png" data-full="../school-club/physics/physics-2.png" alt="Physics model exhibition" class="gallery-image">
+                    <img src="../school-club/physics/physics-3.jpg" data-full="../school-club/physics/physics-3.jpg" alt="Physics lecture scene" class="gallery-image">
+                    <img src="../school-club/physics/physics-4.png" data-full="../school-club/physics/physics-4.png" alt="Inter-school physics competition" class="gallery-image">
                 </div>
-            </div>-->
-
-            <!--<div class="detail-card">
-                <h3><i>📋</i> My Responsibilities</h3>
-                <ul class="activity-list">
-                    <li>Plan activity schedules and coordinate school resources (laboratory equipment, venues)</li>
-                    <li>Invite university physics professors to give guest lectures</li>
-                    <li>Train new members on basic physics experiment skills</li>
-                    <li>Organize inter-school physics club exchange activities</li>
-                </ul>
-                <p>Under my leadership, the Physics Club has become a key academic club in the school, helping students transform theoretical knowledge into practical ability through hands-on experiments.</p>
-            </div>-->
-
             <a href="./school-club.html" class="back-btn">← Back to School Club List</a>
+            </div>
         </div>
     </main>
 
-    <!-- 交互脚本 - 完全匹配astronomy.html，菜单展开/收起正常 -->
+    <!--图片预览弹窗 DOM-->
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" src="" alt="preview big image">
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const schoolClubBtn = document.getElementById('schoolClubBtn');
             const schoolClubSub = document.getElementById('schoolClubSub');
             const volunteerBtn = document.getElementById('volunteerBtn');
             const volunteerSub = document.getElementById('volunteerSub');
-
             // 默认展开School Club二级菜单
             schoolClubSub.style.display = 'block';
-
             // School Club菜单展开/收起
             schoolClubBtn.addEventListener('click', () => {
                 const isDisplayed = schoolClubSub.style.display === 'block';
@@ -444,7 +389,6 @@
                 schoolClubBtn.classList.toggle('active', !isDisplayed);
                 volunteerBtn.classList.remove('active');
             });
-
             // Volunteer & Services菜单展开/收起
             volunteerBtn.addEventListener('click', () => {
                 const isDisplayed = volunteerSub.style.display === 'block';
@@ -453,6 +397,37 @@
                 volunteerBtn.classList.toggle('active', !isDisplayed);
                 schoolClubBtn.classList.remove('active');
             });
+
+            // ========== 图片点击放大预览逻辑 ==========
+            const imageModal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const thumbImages = document.querySelectorAll('img[data-full]');
+
+            thumbImages.forEach(img => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', function(){
+                    const fullSrc = this.getAttribute('data-full');
+                    modalImg.src = fullSrc;
+                    imageModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                })
+            })
+
+            // 点击蒙层关闭弹窗
+            imageModal.addEventListener('click', function(){
+                imageModal.classList.remove('active');
+                modalImg.src = "";
+                document.body.style.overflow = '';
+            })
+
+            // ESC按键关闭弹窗
+            document.addEventListener('keydown', function(e){
+                if(e.key === 'Escape' && imageModal.classList.contains('active')){
+                    imageModal.classList.remove('active');
+                    modalImg.src = "";
+                    document.body.style.overflow = '';
+                }
+            })
         });
     </script>
 </body>

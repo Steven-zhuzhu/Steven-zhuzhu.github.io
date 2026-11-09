@@ -160,6 +160,32 @@
             object-fit: contain; /* 核心：完整显示图片，不裁剪，自动缩放适配 */
             display: block;
         }
+
+        /* ========== 图片弹窗预览新增样式（和其他页面保持一致） ========== */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #00c8ff;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,200,255,0.4);
+        }
     </style>
 </head>
 <body>
@@ -202,22 +228,59 @@
                 <li>Awarded the Team Champion of the Regional Badminton Competition 2025</li>
                 <li>Won the Group Special Award at the Guangdong Greater Bay Area Model United Nations (MUN)</li>
                 <li>Student Council, Core Member in Activities Department</li>
-                <li>President of School Astronomy Club (2024-Present)</li>
-                <li>Vice President of School Physics Club (2024-Present)</li>
+                <li>President of School Astronomy Club (2024‑Present)</li>
+                <li>Vice President of School Physics Club (2024‑Present)</li>
             </ul>
         </div>
-
         <!-- 核心新增：右侧内容区下方3×3照片区域 -->
         <div class="main-photo-gallery-3x3">
             
-            <div class="photo-card"><img src="../../images/others-3.jpg" alt="Other achievement photo 3"></div>
-            <div class="photo-card"><img src="../../images/others-4.jpg" alt="Other achievement photo 4"></div>
-            <div class="photo-card"><img src="../../images/others-5.jpg" alt="Other achievement photo 5"></div>
-            <div class="photo-card"><img src="../../images/others-6.jpg" alt="Other achievement photo 6"></div>
-            <div class="photo-card"><img src="../../images/others-7.png" alt="Other achievement photo 7"></div>
-            <div class="photo-card"><img src="../../images/others-8.jpg" alt="Other achievement photo 8"></div>
-            <!--<div class="photo-card"><img src="../../images/others-9.png" alt="Other achievement photo 9"></div>-->
+            <div class="photo-card"><img src="../../images/others-3.jpg" data-full="../../images/others-3.jpg" alt="Other achievement photo 3"></div>
+            <div class="photo-card"><img src="../../images/others-4.jpg" data-full="../../images/others-4.jpg" alt="Other achievement photo 4"></div>
+            <div class="photo-card"><img src="../../images/others-5.jpg" data-full="../../images/others-5.jpg" alt="Other achievement photo 5"></div>
+            <div class="photo-card"><img src="../../images/others-6.jpg" data-full="../../images/others-6.jpg" alt="Other achievement photo 6"></div>
+            <div class="photo-card"><img src="../../images/others-7.png" data-full="../../images/others-7.png" alt="Other achievement photo 7"></div>
+            <div class="photo-card"><img src="../../images/others-8.jpg" data-full="../../images/others-8.jpg" alt="Other achievement photo 8"></div>
+            <!--<div class="photo-card"><img src="../../images/others-9.png" data-full="../../images/others-9.png" alt="Other achievement photo 9"></div>-->
         </div>
     </div>
+
+    <!--图片预览弹窗 DOM-->
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" src="" alt="preview big image">
+    </div>
+
+    <script>
+        // ========== 图片点击放大预览逻辑（和其他页面完全统一） ==========
+        const imageModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const thumbImages = document.querySelectorAll('img[data-full]');
+
+        thumbImages.forEach(img => {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function(){
+                const fullSrc = this.getAttribute('data-full');
+                modalImg.src = fullSrc;
+                imageModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            })
+        })
+
+        // 点击蒙层关闭弹窗
+        imageModal.addEventListener('click', function(){
+            imageModal.classList.remove('active');
+            modalImg.src = "";
+            document.body.style.overflow = '';
+        })
+
+        // ESC按键关闭弹窗
+        document.addEventListener('keydown', function(e){
+            if(e.key === 'Escape' && imageModal.classList.contains('active')){
+                imageModal.classList.remove('active');
+                modalImg.src = "";
+                document.body.style.overflow = '';
+            }
+        })
+    </script>
 </body>
 </html>

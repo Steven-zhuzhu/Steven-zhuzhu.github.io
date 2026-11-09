@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EOL Mob Farm - Minecraft Java Edition</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            text-decoration: none;
+            list-style: none;
+        }
+        :root {
+            --dark-blue: #0a0f25;
+            --light-gray: #0a1428;
+            --primary-color: #0056b3;
+            --secondary-color: rgba(0, 86, 179, 0.2);
+            --accent-color: #ff6b35;
+            --quantum-blue: #00c8ff;
+            --quantum-purple: #7a00ff;
+            --text-white: #ffffff;
+            --text-light: #e0e0ff;
+            --btn-gradient: linear-gradient(90deg, var(--quantum-blue), var(--quantum-purple));
+            --btn-hover-gradient: linear-gradient(90deg, #00b0e6, #6a00e0);
+            /* MC方块配色 */
+            --mc-obsidian: #1a1a38;
+            --mc-redstone: #990000;
+            --mc-nether-portal: #4c0099;
+            --mc-grass: #3fa129;
+            --mc-stone: #808080;
+            --mc-iron: #b3b3b3;
+            --mc-gold: #ffd700;
+            --mc-glass: rgba(173, 216, 230, 0.3);
+        }
+        body {
+            min-height: 100vh;
+            background: var(--dark-blue);
+            background-image:
+                radial-gradient(rgba(255,255,255,0.08) 1px, transparent 1px),
+                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px);
+            background-size: 50px 50px, 20px 20px;
+            color: var(--text-white);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+        }
+        .main-content {
+            padding: 30px 40px;
+            width: 100%;
+            min-height: 100vh;
+            background-color: var(--light-gray);
+        }
+        .chapter {
+            background-color: rgba(0, 40, 80, 0.8);
+            border-radius: 12px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            border-left: 4px solid var(--primary-color);
+        }
+        .chapter-header {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        .chapter-header h2 {
+            color: var(--quantum-blue);
+            font-weight: 700;
+            position: relative;
+            padding-bottom: 0.5rem;
+            font-size: 2rem;
+        }
+        .chapter-header h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 80px;
+            height: 3px;
+            background-color: var(--accent-color);
+        }
+        .img-text-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2.5rem;
+            align-items: flex-start;
+            margin: 3rem 0;
+            padding: 1rem;
+            border-radius: 8px;
+            background: rgba(0, 50, 100, 0.3);
+        }
+        .img-box {
+            flex: 1;
+            min-width: 320px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,200,255,0.15);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0,200,255,0.4);
+            aspect-ratio: 16/9;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--mc-stone);
+        }
+        .img-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,200,255,0.25);
+            border-color: var(--quantum-blue);
+        }
+        .left-col-stack {
+            flex: 1;
+            min-width: 320px;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .video-box {
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 8px 20px rgba(0,200,255,0.15);
+            transition: all 0.4s ease;
+            border: 1px solid rgba(0,200,255,0.4);
+            aspect-ratio: 16/9;
+            position: relative;
+            background: #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--quantum-blue);
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        .video-box:hover {
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 12px 25px rgba(0,200,255,0.25);
+            border-color: var(--quantum-blue);
+        }
+        .text-box {
+            flex: 2;
+            min-width: 320px;
+            font-size: 1.1rem;
+        }
+        .text-box p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+        .quote-card {
+            background-color: rgba(0, 86, 179, 0.4);
+            border-left: 4px solid var(--quantum-blue);
+            padding: 2rem;
+            margin: 2.5rem 0;
+            border-radius: 0 10px 10px 0;
+            font-style: italic;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        .action-link {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 1rem 0;
+            background: var(--btn-gradient);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0,200,255,0.2);
+        }
+        .action-link:hover {
+            background: var(--btn-hover-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(0,200,255,0.3);
+            color: white;
+            text-decoration: none;
+        }
+        .section-nav {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+        }
+        .section-nav-btn {
+            padding: 8px 20px;
+            border-radius: 8px;
+            background: var(--btn-gradient);
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .section-nav-btn:hover {
+            background: var(--btn-hover-gradient);
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0,200,255,0.4);
+            color: white;
+        }
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1.5rem 1rem;
+            }
+            .chapter {
+                padding: 1.5rem;
+            }
+            .chapter-header h2 {
+                font-size: 1.6rem;
+            }
+            .img-text-wrapper {
+                flex-direction: column;
+                gap: 1.5rem;
+                padding: 0.5rem;
+            }
+            .img-box, .left-col-stack, .text-box {
+                min-width: 100%;
+            }
+            .section-nav {
+                gap: 10px;
+            }
+            .section-nav-btn {
+                padding: 6px 15px;
+                font-size: 0.85rem;
+            }
+        }
+        .tech-box {
+            background-color: rgba(240, 248, 251, 0.15);
+            padding: 18px;
+            border-radius: 8px;
+            margin: 12px 0;
+            border-left: 4px solid #3498db;
+        }
+        .section-title {
+            font-size: 22px;
+            color: var(--quantum-blue);
+            margin: 25px 0 15px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--secondary-color);
+        }
+        .sub-title {
+            font-size: 18px;
+            color: #3498db;
+            margin-bottom: 10px;
+        }
+        .diagram {
+            font-family: "Courier New", monospace;
+            background-color: rgba(248, 249, 250, 0.1);
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+            line-height: 2;
+            color: var(--text-white);
+        }
+        ul {
+            list-style: disc !important;
+            padding-left: 25px;
+            margin-bottom: 15px;
+            color: var(--text-light);
+        }
+
+        /* ===== 纯CSS绘制的EOL图形 ===== */
+        /* 1. EOL整体概览图 */
+        .eol-overview {
+            width: 95%;
+            height: 90%;
+            position: relative;
+            background: var(--mc-grass);
+            border: 4px solid var(--mc-stone);
+            border-radius: 6px;
+        }
+        .eol-portal-frame {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60%;
+            height: 75%;
+            border: 6px solid var(--mc-obsidian);
+            border-radius: 2px;
+        }
+        .eol-portal-inner {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, var(--mc-nether-portal), var(--quantum-purple));
+            box-shadow: 0 0 25px var(--quantum-purple);
+            position: relative;
+            overflow: hidden;
+        }
+        .eol-portal-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle, rgba(255,255,255,0.2) 1px, transparent 1px),
+                radial-gradient(circle, rgba(0,200,255,0.1) 0.5px, transparent 0.5px);
+            background-size: 20px 20px, 10px 10px;
+            animation: portal-flow 3s linear infinite;
+        }
+        @keyframes portal-flow {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
+        }
+        .eol-redstone-core {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 45%;
+            height: 18%;
+            background: var(--mc-redstone);
+            border: 3px solid #660000;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 0.9rem;
+            box-shadow: 0 0 10px var(--mc-redstone);
+        }
+        .eol-spawn-platform {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            width: 25%;
+            height: 40%;
+            background: var(--mc-iron);
+            border: 3px solid #666;
+            border-radius: 2px;
+        }
+        .eol-collection-hopper {
+            position: absolute;
+            bottom: 15px;
+            right: 15px;
+            width: 25%;
+            height: 40%;
+            background: #555;
+            border: 3px solid #333;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+        }
+
+        /* 2. 光抑制红石核心图 */
+        .light-suppression-core {
+            width: 95%;
+            height: 90%;
+            position: relative;
+            background: #0a0a0a;
+            border: 4px solid var(--mc-obsidian);
+            border-radius: 6px;
+        }
+        .redstone-circuit {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+        .redstone-line {
+            position: absolute;
+            background: var(--mc-redstone);
+            box-shadow: 0 0 8px #ff0000;
+            border-radius: 4px;
+        }
+        .line-h1 { top: 25%; left: 10%; width: 80%; height: 10px; }
+        .line-v1 { top: 25%; left: 30%; width: 10px; height: 50%; }
+        .line-h2 { top: 75%; left: 30%; width: 50%; height: 10px; }
+        .line-v2 { top: 40%; right: 30%; width: 10px; height: 35%; }
+        .redstone-torch {
+            position: absolute;
+            top: 20%;
+            left: 30%;
+            width: 15px;
+            height: 30px;
+            background: #ff4444;
+            border-radius: 50% 50% 0 0;
+            box-shadow: 0 0 10px #ff0000;
+        }
+        .zero-light-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 60px;
+            height: 60px;
+            background: #000;
+            border: 3px solid white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            box-shadow: 0 0 15px rgba(255,255,255,0.3);
+        }
+        .suppression-label {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--quantum-blue);
+            font-size: 1rem;
+            font-weight: bold;
+            text-shadow: 0 0 5px var(--quantum-blue);
+        }
+
+        /* 3. 工作流流程图 */
+        .workflow-diagram {
+            width: 95%;
+            height: 90%;
+            position: relative;
+            background: #1a1a2e;
+            border: 4px solid var(--mc-stone);
+            border-radius: 6px;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            padding: 10px;
+        }
+        .workflow-step {
+            width: 18%;
+            height: 80%;
+            background: linear-gradient(180deg, #2c2c54, #1e1e2f);
+            border: 3px solid var(--quantum-blue);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 5px;
+            box-shadow: 0 0 10px rgba(0,200,255,0.2);
+        }
+        .workflow-step i {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            color: var(--quantum-blue);
+        }
+        .workflow-step span {
+            font-size: 0.85rem;
+            font-weight: bold;
+        }
+
+        /* 4. 玩家实操AFK平台 */
+        .afk-platform {
+            width: 95%;
+            height: 90%;
+            position: relative;
+            background: #111;
+            border: 4px solid var(--mc-stone);
+            border-radius: 6px;
+        }
+        .minecraft-player {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 45px;
+            height: 65px;
+        }
+        .player-head {
+            width: 45px;
+            height: 45px;
+            background: #f0c8a0;
+            border-radius: 50%;
+            border: 2px solid #c09870;
+        }
+        .player-body {
+            width: 30px;
+            height: 40px;
+            background: #2196f3;
+            position: absolute;
+            bottom: 0;
+            left: 7px;
+            border: 2px solid #1976d2;
+            border-radius: 2px;
+        }
+        .looting-sword {
+            position: absolute;
+            top: 45%;
+            left: 65%;
+            width: 60px;
+            height: 12px;
+            background: var(--mc-iron);
+            transform: rotate(35deg);
+            border: 2px solid #888;
+            border-radius: 2px;
+        }
+        .sword-blade {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, #dddddd, #ffffff);
+            border-radius: 0 4px 4px 0;
+        }
+        .afk-sign {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 90px;
+            height: 70px;
+            background: #d9b38c;
+            border: 3px solid #804000;
+            border-radius: 4px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-weight: bold;
+            font-size: 1rem;
+        }
+        .afk-sign small {
+            font-size: 0.7rem;
+            margin-top: 5px;
+        }
+
+        /* 5. 潜影盒储物系统 */
+        .shulker-storage {
+            width: 95%;
+            height: 90%;
+            position: relative;
+            background: #111;
+            border: 4px solid var(--mc-stone);
+            border-radius: 6px;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+            gap: 8px;
+            padding: 10px;
+        }
+        .shulker-box {
+            background: linear-gradient(45deg, var(--quantum-purple), var(--mc-nether-portal));
+            border: 3px solid #330066;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.8rem;
+            font-weight: bold;
+            box-shadow: 0 0 8px rgba(122, 0, 255, 0.4);
+            transition: transform 0.2s ease;
+        }
+        .shulker-box:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(122, 0, 255, 0.8);
+        }
+        .storage-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-shadow: 0 0 10px black;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <main class="main-content">
+        <!-- 第1章 基础定义 - EOL整体概览 -->
+        <section class="chapter" id="page1-opening">
+            <div class="chapter-header">
+                <h2>EOL Mob Farm - Basic Definition</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <!-- 纯CSS绘制的EOL整体概览 -->
+                        <div class="eol-overview">
+                            <div class="eol-portal-frame">
+                                <div class="eol-portal-inner">
+                                    <div class="eol-portal-particles"></div>
+                                </div>
+                            </div>
+                            <div class="eol-redstone-core">Redstone Core</div>
+                            <div class="eol-spawn-platform"></div>
+                            <div class="eol-collection-hopper">Hopper<br>Collection</div>
+                        </div>
+                    </div>
+                    <div class="text-box">
+                        <p>EOL (End of Light) Mob Farm is a cutting-edge technical mob farm exclusive to Minecraft Java Edition, renowned as one of the most efficient mob farms in the game’s community.</p>
+                        <p>The widely cited "800 million items per hour" is a <strong>theoretical/exaggerated value</strong> used for marketing purposes. In practical survival gameplay, the actual output is much more realistic and achievable for regular players.</p>
+                        <div class="quote-card">
+                            "Efficiency is not about numbers on paper, but about practicality in survival gameplay." – Minecraft Technical Community
+                        </div>
+                        <ul>
+                            <li>Basic EOL Farm: 3-6 million items per hour</li>
+                            <li>Optimized with Looting III + TNT: 8-9.5 million items per hour (nearing 10 million/hour)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第2章 核心原理 - 光抑制红石核心 -->
+        <section class="chapter" id="learning-challenge">
+            <div class="chapter-header">
+                <h2>EOL Mob Farm - Core Mechanisms</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="left-col-stack">
+                        <div class="img-box">
+                            <!-- 纯CSS绘制的光抑制核心 -->
+                            <div class="light-suppression-core">
+                                <div class="redstone-circuit">
+                                    <div class="redstone-line line-h1"></div>
+                                    <div class="redstone-line line-v1"></div>
+                                    <div class="redstone-line line-h2"></div>
+                                    <div class="redstone-line line-v2"></div>
+                                    <div class="redstone-torch"></div>
+                                </div>
+                                <div class="zero-light-indicator">0</div>
+                                <div class="suppression-label">Light Suppression Core</div>
+                            </div>
+                        </div>
+                        <div class="video-box">
+                            <i class="bi bi-play-circle-fill"></i><br>
+                            EOL Light Suppression Mechanism<br>
+                            (Minecraft Technical Demo)
+                        </div>
+                    </div>
+                    <div class="text-box">
+                        <div class="tech-box">
+                            <h3 class="sub-title">① Light Suppression</h3>
+                            <p>Uses redstone/update suppression mechanics to force the brightness of Nether Portal blocks to 0, permanently meeting the "dark environment" requirement for mob spawning—this eliminates any light-based restrictions on mob generation.</p>
+                        </div>
+                        <div class="tech-box">
+                            <h3 class="sub-title">② Portal Cutting</h3>
+                            <p>Removes obsidian from the portal frame while leveraging update suppression/skip logic to keep the portal structure intact. This creates an infinite mob-spawning area with no spatial limitations.</p>
+                        </div>
+                        <p>These two core mechanisms are the foundation of EOL Mob Farm's extreme efficiency. Unlike traditional mob farms that are limited by light levels and spawn areas, EOL breaks through these constraints completely.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第3章 工作流&效率 -->
+        <section class="chapter" id="orchestra-experience">
+            <div class="chapter-header">
+                <h2>EOL Mob Farm - Workflow & Efficiency</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="left-col-stack">
+                        <div class="img-box">
+                            <!-- 纯CSS绘制的工作流程图 -->
+                            <div class="workflow-diagram">
+                                <div class="workflow-step">
+                                    <i class="bi bi-egg-fill"></i>
+                                    <span>Spawn</span>
+                                </div>
+                                <div class="workflow-step">
+                                    <i class="bi bi-arrow-right"></i>
+                                    <span>Teleport</span>
+                                </div>
+                                <div class="workflow-step">
+                                    <i class="bi bi-explosion"></i>
+                                    <span>Kill</span>
+                                </div>
+                                <div class="workflow-step">
+                                    <i class="bi bi-box-seam"></i>
+                                    <span>Collect</span>
+                                </div>
+                                <div class="workflow-step">
+                                    <i class="bi bi-database-fill"></i>
+                                    <span>Store</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="video-box">
+                            <i class="bi bi-play-circle-fill"></i><br>
+                            EOL Mob Farm Efficiency Test<br>
+                            (8.5M Items/Hour)
+                        </div>
+                    </div>
+                    <div class="text-box">
+                        <div class="tech-box">
+                            <h3 class="sub-title">③ Full Workflow</h3>
+                            <p>Mobs spawn on the modified Nether Portal → Instantly teleport cross-dimensionally to the kill/collection area → Fast elimination with TNT/boat suction + Looting III enchantment → Automated loot collection and sorting.</p>
+                        </div>
+                        <h2 class="section-title">Key Features & Efficiency</h2>
+                        <ul>
+                            <li><strong>Efficiency Range：</strong> 3-6 million items/h (basic setup) | 8-9.5 million items/h (fully optimized)</li>
+                            <li><strong>Core Features：</strong> Single-dimension extreme mob spawning, cross-dimensional teleportation, zero-wait mob elimination, high server performance load</li>
+                            <li><strong>Summary：</strong> Known as the "Mob Factory" in Minecraft technical communities, it turns Nether Portals into infinite mob spawn points via light suppression and portal cutting.</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第4章 玩家实操 -->
+        <section class="chapter" id="favorite-piece">
+            <div class="chapter-header">
+                <h2>EOL Mob Farm - Practical Operations</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <!-- 纯CSS绘制的AFK平台 -->
+                        <div class="afk-platform">
+                            <div class="minecraft-player">
+                                <div class="player-head"></div>
+                                <div class="player-body"></div>
+                            </div>
+                            <div class="looting-sword">
+                                <div class="sword-blade"></div>
+                            </div>
+                            <div class="afk-sign">
+                                AFK
+                                <small>64 Blocks</small>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-box">
+                        <h2 class="section-title">What I Do as a Player</h2>
+                        <ul>
+                            <li>Precisely build the light suppression core and Nether Portal spawn platform (critical for maintaining 0-light conditions)</li>
+                            <li>AFK within 64 blocks of the farm to keep chunks loaded and ensure continuous mob spawning</li>
+                            <li>Optimize TNT placement (3×3 block spacing) + wield a Looting III sword enchanted with Smite V/Bane of Arthropods V to trigger player kill mechanics</li>
+                            <li>Collect and auto-sort all drops (gunpowder, bones, rotten flesh, arrows, enchanted gear) using hopper and chest systems</li>
+                            <li>Store loot in large-scale shulker box storage systems for long-term resource management</li>
+                            <li>Utilize collected loot for bone meal production, explosive crafting, villager trading, and endgame gear enhancement</li>
+                        </ul>
+                        <a href="#" class="action-link">
+                            <i class="bi bi-tools"></i> EOL Farm Building Guide
+                        </a>
+                        <p>Building and operating an EOL Mob Farm requires precise redstone knowledge and understanding of Minecraft's game mechanics. Every detail from core construction to loot collection affects the final efficiency.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 第5章 工作流总结 -->
+        <section class="chapter" id="page5-growth">
+            <div class="chapter-header">
+                <h2>EOL Mob Farm - Workflow & Summary</h2>
+            </div>
+            <div class="chapter-content">
+                <div class="img-text-wrapper">
+                    <div class="img-box">
+                        <!-- 纯CSS绘制的潜影盒储物系统 -->
+                        <div class="shulker-storage">
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="shulker-box">SH</div>
+                            <div class="storage-label">Shulker Box Storage</div>
+                        </div>
+                    </div>
+                    <div class="text-box">
+                        <h2 class="section-title">Simple Workflow Diagram</h2>
+                        <div class="diagram">
+                            [ Light Suppression Core ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            [ Nether Portal Spawn Plane ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            [ Mob Cross-Dimensional Teleport ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            [ TNT Kill Chamber + Looting III ]<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;↓<br>
+                            [ Hopper Collection → Auto Sorter → Shulker Box Storage ]
+                        </div>
+                        <div class="quote-card">
+                            "EOL Mob Farm represents the pinnacle of Minecraft technical farming – it's not just about efficiency, but about understanding the game's underlying mechanics." – Redstone Engineer
+                        </div>
+                        <p>As an endgame resource farm, EOL Mob Farm provides an almost unlimited supply of mob drops, making it a game-changer for late-game survival gameplay. While it requires significant technical knowledge to build, the rewards are well worth the effort for dedicated Minecraft players.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 章节导航 -->
+        <div class="section-nav">
+            <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Back to Main</a>
+            <a href="#page1-opening" class="section-nav-btn">Basic Definition</a>
+            <a href="#learning-challenge" class="section-nav-btn">Core Mechanisms</a>
+            <a href="#orchestra-experience" class="section-nav-btn">Workflow & Efficiency</a>
+            <a href="#favorite-piece" class="section-nav-btn">Practical Operations</a>
+            <a href="#page5-growth" class="section-nav-btn">Workflow & Summary</a>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // 平滑滚动
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Me - Steven Zhu</title>
+    <style>
+        /* 全局变量：整合physics-world配色 + 原有变量 */
+        :root {
+            --primary-blue: #00c8ff;
+            --primary-purple: #7a00ff;
+            --bg-dark: #0a0f25;
+            --card-gradient: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            --text-white: #ffffff;
+            --text-light: #e0e0ff;
+            --shadow: 0 0 20px rgba(0, 200, 255, 0.2);
+            --btn-gradient: linear-gradient(90deg, var(--primary-blue), var(--primary-purple));
+            --btn-hover: linear-gradient(90deg, #00b0e6, #6a00e0);
+            --meta-text-color: #ffd700;
+            
+            /* physics-world 新增变量 */
+            --dark-blue: #0a0f25;         
+            --sidebar-bg: rgba(10,15,37,0.95); 
+            --light-gray: #0a1428; /* 深蓝色背景 */
+            --chapter-bg: rgba(0, 40, 80, 0.8); /* 半透明深蓝色卡片背景（统一所有框） */
+            --chapter-border: 4px solid var(--primary-blue); /* 左侧浅蓝边框（统一所有框） */
+        }
+
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            text-decoration: none;
+            list-style: none;
+        }
+
+        body { 
+            display: flex; 
+            background: var(--bg-dark); 
+            color: var(--text-light);
+            min-height: 100vh;
+            background-image:
+                radial-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+                radial-gradient(rgba(0,200,255,0.05) 0.5px, transparent 0.5px);
+            background-size: 50px 50px, 20px 20px;
+            background-position: 0 0, 10px 10px;
+        }
+
+        /* 左侧侧边栏：无修改，和主页保持一致 */
+        .sidebar { 
+            width: 250px; 
+            background: var(--sidebar-bg); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid var(--primary-blue);
+            z-index: 100;
+        }
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: var(--text-light) !important; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .sidebar .main-nav.active { 
+            background: var(--card-gradient) !important; 
+            color: white !important; 
+            font-weight: 500;
+            border-left: 4px solid var(--primary-blue);
+            padding-left: 11px;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 200, 255, 0.1) !important; 
+            color: var(--primary-blue) !important; 
+        }
+        .sub-nav-container, .physics-sub-container { 
+            display: none; 
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .sub-nav-container.active, .physics-sub-container.active { display: block !important; }
+        .sub-nav, .physics-sub-level2, .physics-sub-level3 { 
+            display: block !important;
+            color: var(--text-light) !important; 
+            border-radius: 4px; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .sub-nav { padding: 8px 10px; font-size: 0.9rem; }
+        .physics-sub-level2 { padding: 10px 15px; font-size: 0.95rem; }
+        .physics-sub-level3 { padding: 8px 10px; margin: 3px 0 3px 15px; font-size: 0.9rem; }
+        .sub-nav:hover, .physics-sub-level2:hover, .physics-sub-level3:hover { 
+            background: rgba(0, 200, 255, 0.1) !important; 
+            color: var(--primary-blue) !important; 
+        }
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0, 200, 255, 0.2); 
+            color: var(--text-light); 
+            font-size: 0.9rem; 
+        }
+        .sidebar-footer .contact-item { margin: 8px 0; padding-left: 15px; }
+        .sidebar-footer a { color: var(--primary-blue); text-decoration: none; }
+        .sidebar-footer a:hover { text-decoration: underline; }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.7); 
+            padding-left: 15px; 
+        }
+
+        /* 右侧主内容区：无修改 */
+        .main-content {
+            margin-left: 250px; 
+            padding: 30px 40px; 
+            width: calc(100% - 250px); 
+            position: relative;
+            z-index: 1;
+            line-height: 1.8;
+            background-color: var(--light-gray);
+            color: var(--text-white);
+            min-height: 100vh;
+        }
+
+        /* 核心统一样式：所有卡片共用，样式完全一致 */
+        .core-card {
+            background: var(--chapter-bg);
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-left: var(--chapter-border);
+        }
+        /* 统一标题样式：所有框的标题字体/大小/颜色/边框完全一致 */
+        .core-card h2, .image-gallery h2 {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            border-bottom: 2px solid var(--primary-blue);
+            padding-bottom: 8px;
+            color: var(--primary-blue);
+            text-align: center;
+            width: 100%;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        /* 简介框标题专属：拉开字间距 */
+        .bio-card h2 {
+            letter-spacing: 2px; /* 标题字符间距 */
+        }
+        /* 统一正文样式：所有框的文字字体/大小/颜色/行高完全一致 */
+        .core-card p, .core-card span {
+            line-height: 1.6;
+            color: var(--text-white);
+            font-size: 1rem;
+            font-family: 'Arial', sans-serif;
+        }
+
+        /* 简介框专属：单独的间距+折叠样式 */
+        .bio-card {
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
+        .bio-content {
+            max-height: 220px; /* 精准折叠，适配简介内容 */
+            overflow: hidden;
+            transition: max-height 0.5s ease;
+            max-width: 100%;
+        }
+        /* 简介框正文专属：拉开字符间距+微调行高，解决拥挤问题 */
+        .bio-content p {
+            letter-spacing: 0.5px; /* 一句话内字符轻微间隔，不拥挤 */
+            line-height: 1.8;      /* 行间距舒展，阅读更舒适 */
+            margin-bottom: 12px;   /* 段落之间加间距，区分更清晰 */
+        }
+        .bio-content.expanded { max-height: 800px; } /* 展开显示全部 */
+        .toggle-btn {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            background: var(--btn-gradient);
+            color: white;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 8px rgba(0, 200, 255, 0.2);
+            margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .toggle-btn:hover {
+            background: var(--btn-hover);
+            box-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
+            transform: translateY(-2px);
+        }
+
+        /* 核心布局：双列容器 - 左侧量子诗+4图+星尘诗，右侧黑洞诗+4图，顶部对齐 */
+        .poem-gallery-container {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            display: flex;
+            gap: 20px;
+            align-items: flex-start;
+        }
+        /* 左侧容器：量子诗 + 4图 + 星尘诗，1列布局，统一间距20px */
+        .left-poem-gallery {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        /* 右侧容器：黑洞诗 + 4图，1列布局，间距20px */
+        .right-poems-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        /* 单首诗的卡片：复用core-card，样式统一 */
+        .single-poem-card {
+            width: 100%;
+        }
+        /* 诗歌专属微调：仅优化排版美感，不修改核心样式 */
+        .poem-meta {
+            font-style: italic;
+            color: #e0f7ff !important;
+            text-align: center;
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .poem-stanza {
+            margin-bottom: 15px !important;
+            text-align: center;
+        }
+        .single-poem-card span {
+            display: block;
+            margin-bottom: 6px !important;
+            color: #00c8ff;
+            text-shadow: 0 0 2px #ffffff, 0 0 3px #000000;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .single-poem-card span:hover {
+            color: #00e5ff;
+            text-shadow: 0 0 8px #00e5ff, 0 0 15px var(--primary-purple), 0 0 2px #ffffff;
+            transform: scale(1.02);
+        }
+
+        /* 通用图片展示容器：所有图片框复用，样式和核心卡片完全一致 */
+        .image-gallery {
+            width: 100%;
+            padding: 25px;
+            background: var(--chapter-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-left: var(--chapter-border);
+        }
+        /* 4图网格：2列布局，间距20px，适配所有4图框 */
+        .gallery-grid-4 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        /* 2图网格：2列均分，间距20px，适配所有2图框 */
+        .gallery-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        /* 图片项通用样式：所有图片框的图片项样式统一，hover动效一致 */
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-blue);
+            background-color: rgba(0, 40, 80, 0.7);
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
+            background-color: rgba(0, 86, 179, 0.5);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 底部满宽图片区：保留原有样式，和整体风格统一 */
+        .full-width-gallery {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            padding: 25px;
+            background: var(--chapter-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-left: var(--chapter-border);
+        }
+        .two-col-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .gallery-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .bottom-gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-blue);
+            background-color: rgba(0, 40, 80, 0.7);
+            height: 220px;
+        }
+        .bottom-gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
+            background-color: rgba(0, 86, 179, 0.5);
+        }
+        .bottom-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 宇航员动画：无修改 */
+        .cartoon-astronaut {
+            position: absolute;
+            top: 30%;
+            right: 20px;
+            transform: translateY(-50%);
+            width: 100px;
+            height: 100px;
+            background-image: url('https://cdn-icons-png.flaticon.com/512/6134/6134422.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+            z-index: 2;
+            filter: drop-shadow(0 0 10px var(--primary-blue));
+            animation: astronaut-float 10s ease-in-out infinite;
+        }
+        @keyframes astronaut-float {
+            0% { transform: translateY(-50%) rotate(0deg); }
+            50% { transform: translateY(-55%) rotate(3deg); }
+            100% { transform: translateY(-50%) rotate(0deg); }
+        }
+
+        /* 响应式适配：移动端自动改为1列布局，所有图片框适配 */
+        @media (max-width: 1024px) {
+            .gallery-item img { height: 190px; }
+            .bottom-gallery-item { height: 200px; }
+        }
+        @media (max-width: 768px) {
+            /* 移动端侧边栏改顶部 */
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                border-right: none;
+                border-bottom: 1px solid var(--primary-blue);
+            }
+            .main-content {
+                margin-left: 0;
+                width: 100%;
+                padding: 20px;
+                background-color: var(--bg-dark);
+            }
+            /* 所有卡片移动端适配 */
+            .core-card, .image-gallery, .full-width-gallery {
+                max-width: 100%;
+                padding: 20px;
+                border-left: 3px solid var(--primary-blue);
+            }
+            .bio-card { margin-bottom: 20px; }
+            .bio-content { max-height: 320px; } /* 适配正文行高调整，避免折叠漏字 */
+            /* 移动端核心布局改为1列，取消左右分栏 */
+            .poem-gallery-container {
+                flex-direction: column;
+                gap: 15px;
+                max-width: 100%;
+            }
+            .single-poem-card span:hover {
+                transform: none;
+                text-shadow: 0 0 2px #ffffff, 0 0 3px #000 !important;
+            }
+            /* 移动端图片网格全改为1列，图片更高清 */
+            .cartoon-astronaut { display: none; }
+            .gallery-grid-4, .gallery-grid-2 {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .gallery-item img { height: 220px; }
+            .two-col-gallery { grid-template-columns: 1fr; }
+            .bottom-gallery-item { height: 220px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航栏：无修改 -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../home/index.html" class="main-nav" data-target="none">Home</a>
+            <a href="./about.html" class="main-nav active" data-target="none">About Me</a>
+            <a href="../achievements/achievements.html" class="main-nav" data-target="none">Achievements</a>
+            <div class="sub-nav-container" id="achievements-sub">
+                <a href="../achievements/competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="../achievements/academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="../achievements/others/others.html" class="sub-nav">Others</a>
+            </div>
+            <a href="../physics-research/physics-research.html" class="main-nav" data-target="none">Physics Research</a>
+            <div class="physics-sub-container" id="physics-sub">
+                <a href="../physics-research/quantum-projects/quantum-overview.html" class="physics-sub-level2">Quantum Mechanics Projects</a>
+                <div class="physics-sub-container">
+                    <a href="../physics-research/quantum-projects/project-1-particle-in-box/project1.html" class="physics-sub-level3">Project1: Particle in a Box</a>
+                    <a href="../physics-research/quantum-projects/project-2-quantum-tunneling/project2.html" class="physics-sub-level3">Project2: Quantum Tunneling</a>
+                    <a href="../physics-research/quantum-projects/coding/coding.html" class="physics-sub-level3">Coding: Quantum Visualization</a>
+                    <a href="../physics-research/quantum-projects/quantum-overview.html" class="physics-sub-level3">Quantum Projects Overview</a>
+                </div>
+                <a href="../physics-research/climate-modeling-project/climate.html" class="physics-sub-level2">Climate Modeling Project</a>
+                <div class="physics-sub-container">
+                    <a href="../physics-research/climate-modeling-project/introduction/introduction.html" class="physics-sub-level3">Introduction</a>
+                    <a href="../physics-research/climate-modeling-project/literature-review/review.html" class="physics-sub-level3">Literature Review</a>
+                    <a href="../physics-research/climate-modeling-project/math-model/mathematic-model.html" class="physics-sub-level3">Mathematical Model</a>
+                    <a href="../physics-research/climate-modeling-project/coding/coding.html" class="physics-sub-level3">Coding Implementation</a>
+                    <a href="../physics-research/climate-modeling-project/climate.html" class="physics-sub-level3">Climate Project Overview</a>
+                </div>
+            </div>
+            <a href="../medcine-AI/medcineAI.html" class="main-nav" data-target="none">Medcine AI App Design</a>
+            <a href="../extracurricular-activities/activities.html" class="main-nav" data-target="none">Extracurricular Activities</a>
+            <a href="../my-leisure-hobbies/hobbies.html" class="main-nav" data-target="none">Leisure Hobbies</a>
+            <a href="../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../contact/index.html" class="main-nav" data-target="none">Contact</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="contact-item">
+                <span>Portfolio:</span>
+                <a href="../quantum-projects/quantum-overview.html">Quantum Projects</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <!-- 右侧主内容区：按要求重构布局 -->
+    <main class="main-content">
+        <div class="cartoon-astronaut"></div>
+
+        <!-- 第一框：个人简介（样式不变，交互保留） -->
+        <div class="core-card bio-card">
+            <h2>A Different Kind of Supernova: My Journey</h2>
+            <div class="bio-content" id="bioContent">
+                <p>As a child with a speech disorder, I spent years piercing that barrier to find my voice.</p>
+                <p>I am drawn to astronomy, where the universe's boundless grandeur makes my own worries seem vanishingly small.</p>
+                <p>Physics, however, captivates me even more, driven by the desire to peel back the surface of things and uncover the underlying laws that bind all matter.</p>
+                <p>Yet I craft my world with my hands as with my mind. Every afternoon, my youth finds its voice on the badminton court. There, every smash fuels my spirit, gifting me a split-second boldness that echoes through all walks of life.</p>
+                <p>In quieter moments, I immerse myself in imaginary worlds, reading books and writing poems. I also write stage plays for children, striving to speak plain truths in simple words.</p>
+                <p>And when words run out, I turn to my violin—music never struggles to express what language can’t.</p>
+                <p>These passions converge, forming the elements of my universe as I strive to become my own kind of supernova.</p>
+            </div>
+            <button class="toggle-btn" id="toggleBtn">Read More</button>
+        </div>
+
+        <!-- 核心布局：左列=量子诗→4张旅程图→星尘诗 | 右列=黑洞诗→4张探索图 -->
+        <div class="poem-gallery-container">
+            <!-- 左侧列：核心排布 - 量子诗 → Moments in My Journey 4图 → 星尘诗 -->
+            <div class="left-poem-gallery">
+                <!-- 左侧第一个框：Quantum Sonnet · 2024 -->
+                <div class="core-card single-poem-card">
+                    <h2>Quantum Sonnet · 2024</h2>
+                    <div class="poem-meta">My Quantum Inspiration</div>
+                    <div class="poem-meta">by Steven Zhu</div>
+                    <div class="poem-stanza">
+                        <span>In the void where particles dance and fade,</span>
+                        <span>I find a truth that cannot be betrayed—</span>
+                        <span>Not in the stars, nor in the earthly frame,</span>
+                        <span>But in the math that bears the cosmic name.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>A wave, a particle, both and none,</span>
+                        <span>The universe hums to its own drum—</span>
+                        <span>We grasp at shadows, reach for light,</span>
+                        <span>Yet mystery is our constant night.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>So I walk the line between the known and unknown,</span>
+                        <span>With equations as my compass, wonder as my throne—</span>
+                        <span>For in the quest to understand the sky,</span>
+                        <span>I find myself, and why I try.</span>
+                    </div>
+                </div>
+
+                <!-- 紧跟4张图：Moments in My Journey 原有图片不变 -->
+                <div class="image-gallery">
+                    <h2>Moments in My Journey</h2>
+                    <div class="gallery-grid-4">
+                        <div class="gallery-item"><img src="../images/about1.png" alt="Physics Lab"></div>
+                        <div class="gallery-item"><img src="../images/about3.jpg" alt="Astronomy Observation"></div>
+                        <div class="gallery-item"><img src="../images/about9.jpg" alt="Quantum Research"></div>
+                        <div class="gallery-item"><img src="../images/about1.jpg" alt="Academic Conference"></div>
+                    </div>
+                </div>
+
+                <!-- 4图下方：Stardust in My Veins · 2023 -->
+                <div class="core-card single-poem-card">
+                    <h2>Stardust in My Veins · 2023</h2>
+                    <div class="poem-meta">My Universe in Words</div>
+                    <div class="poem-meta">by Steven Zhu</div>
+                    <div class="poem-stanza">
+                        <span>We are all stardust, forged in fire,</span>
+                        <span>Born from the breath of a dying star's desire—</span>
+                        <span>To reach beyond the dark, to touch the light,</span>
+                        <span>To live, to learn, to chase the infinite night.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>So I chase the stars, with mind and heart,</span>
+                        <span>To unravel the secrets that tear apart</span>
+                        <span>The veil of ignorance, the fog of doubt,</span>
+                        <span>For in the stars, my true self I find out.</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 右侧列：单独排布 - Towards a Black Hole → 4张探索图 原有内容不变 -->
+            <div class="right-poems-container">
+                <div class="core-card single-poem-card">
+                    <h2>Towards a Black Hole I Still Dream to Go  · 2018</h2>
+                    <div class="poem-meta">My Cosmic Dream</div>
+                    <div class="poem-meta">by Steven Zhu</div>
+                    <div class="poem-stanza">
+                        <span>Not to the Sahara's burning sand,</span>
+                        <span>Nor Antarctica's icy stand;</span>
+                        <span>The lost Atlantis' ancient glow,</span>
+                        <span>Or Mars' life that we don't know,</span>
+                        <span>But toward a black hole I long to go.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>As an astronaut, I take my flight,</span>
+                        <span>Toward the central core, where the stars shine bright;</span>
+                        <span>Past super-planets, massive and grand,</span>
+                        <span>Soon to be consumed by the black hole's command.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>I see a hot ice planet, a frozen delight,</span>
+                        <span>But gravity pulls me away from its sight;</span>
+                        <span>Then a white dwarf star, with a heat-absorbing might,</span>
+                        <span>Explodes into a super-planet, launching me in flight.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>Into the black hole, I take a dive,</span>
+                        <span>Feeling the sun's rays, as if alive;</span>
+                        <span>But got soon engulfed, spin in strife,</span>
+                        <span>Witnessing the universe's heart, full of fabled life.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>With the most massive gravity, it reigns supreme,</span>
+                        <span>Infinite matter, in space so extreme;</span>
+                        <span>Unfathomable size, yet small like a dream,</span>
+                        <span>Even light cannot escape its beam.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>From a behemoth of the cosmos, a dragon of old,</span>
+                        <span>I pull out a snowball, so tiny, yet bold</span>
+                        <span>Ten times Earth's weight, instantly swallowed.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>In space's vastness, I twist and twirl, uncontrolled.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>But then I suddenly awaken,</span>
+                        <span>From my bed, my dreams are shaken;</span>
+                        <span>"Don't daydream now, it's time for school,"</span>
+                        <span>I realize, alas, my adventure's only a fool's tool.</span>
+                    </div>
+                </div>
+
+                <!-- 黑洞诗紧跟4张图：Cosmic Exploration & Research 原有图片不变 -->
+                <div class="image-gallery">
+                    <h2>Cosmic Exploration & Research</h2>
+                    <div class="gallery-grid-4">
+                        <div class="gallery-item"><img src="../images/about5.jpg" alt="Coding Session"></div>
+                        <div class="gallery-item"><img src="../images/about6.jpg" alt="Book Reading"></div>
+                        <div class="gallery-item"><img src="../images/about8.jpg" alt="Stargazing"></div>
+                        <div class="gallery-item"><img src="../images/about4.jpg" alt="Astronomy Observation"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       
+        </div>
+    </main>
+
+    <!-- 交互JS：无修改，保留简介展开/收起 -->
+    <script>
+        const bioContent = document.getElementById('bioContent');
+        const toggleBtn = document.getElementById('toggleBtn');
+        toggleBtn.addEventListener('click', function() {
+            bioContent.classList.toggle('expanded');
+            toggleBtn.textContent = bioContent.classList.contains('expanded') ? 'Read Less' : 'Read More';
+        });
+
+        // 导航子菜单显隐逻辑（可选取消注释启用）
+        // const achievementsNav = document.querySelector('a[href="../achievements/achievements.html"]');
+        // const achievementsSub = document.getElementById('achievements-sub');
+        // achievementsNav.addEventListener('click', function(e) {e.preventDefault();achievementsSub.classList.toggle('active');});
+        // const physicsNav = document.querySelector('a[href="../physics-research/physics-research.html"]');
+        // const physicsSub = document.getElementById('physics-sub');
+        // physicsNav.addEventListener('click', function(e) {e.preventDefault();physicsSub.classList.toggle('active');});
+    </script>
+</body>
+</html>

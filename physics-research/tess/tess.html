@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Mechanics Projects - Steven Zhu</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body {
+            display: flex;
+            background: #0a0f25;
+            color: #e0e0ff;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: rgba(10, 15, 37, 0.95);
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #00c8ff;
+        }
+        .sidebar .main-nav {
+            display: block !important;
+            color: #e0e0ff;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 6px 0;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sidebar .main-nav.active {
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            color: white;
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) {
+            background: rgba(0, 200, 255, 0.1);
+            color: #00c8ff;
+        }
+        .sub-nav-container {
+            display: block !important;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .sub-nav {
+            display: block !important;
+            color: #e0e0ff;
+            text-decoration: none;
+            padding: 8px 10px;
+            margin: 3px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .sub-nav:hover, .sub-nav.active {
+            background: rgba(0, 200, 255, 0.1);
+            color: #00c8ff;
+            font-weight: 500;
+        }
+        .main {
+            margin-left: 250px;
+            padding: 60px 80px;
+            width: calc(100% - 250px);
+            line-height: 1.8;
+        }
+        .main h1 {
+            color: #00c8ff;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #00c8ff;
+            padding-bottom: 15px;
+        }
+        .research-section {
+            background: linear-gradient(135deg, rgba(0, 119, 255, 0.2), rgba(106, 0, 255, 0.2));
+            border-radius: 10px;
+            padding: 35px 40px;
+            margin-bottom: 25px;
+            max-width: 1000px;
+            box-shadow: 0 0 12px rgba(0,200,255,0.15);
+        }
+        .open‑page‑btn {
+            display: block;
+            margin:22px 0;
+            padding:18px 24px;
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            color:#ffffff;
+            text-decoration:none;
+            border‑radius:8px;
+            transition: 0.25s ease;
+        }
+        .open‑page‑btn:hover{
+            transform: translateY(-3px);
+            box-shadow: 0 6px 18px rgba(0,200,255,0.25);
+        }
+        .open‑page‑btn h3{
+            font-size:1.25rem;
+            margin‑bottom:6px;
+        }
+        .open‑page‑btn p{
+            opacity:0.88;
+            font‑size:0.98rem;
+        }
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 20px 0;
+            border-top: 1px solid rgba(0, 200, 255, 0.2);
+            color: #e0e0ff;
+            font-size: 0.9rem;
+        }
+        .sidebar-footer .contact-item {
+            margin: 8px 0;
+            padding-left: 15px;
+        }
+        .sidebar-footer a {
+            color: #00c8ff;
+            text-decoration: none;
+        }
+        .sidebar-footer a:hover {
+            text-decoration: underline;
+        }
+        .creator-info {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../../home/index.html" class="main-nav">Home</a>
+            <a href="../../about/about.html" class="main-nav">About Me</a>
+            <a href="../../achievements/achievements.html" class="main-nav">Achievements</a>
+            <a href="../physics-research.html" class="main-nav active">Physics Research</a>
+            <div class="sub-nav-container">
+                <a href="../quantum-projects/quantum-overview.html" class="sub-nav">Computational Quantum Mechanics Project</a>
+                <a href="../climate-modeling-project/climate.html" class="sub-nav">Climate Modeling Project</a>
+                <a href="../tess/tess.html" class="sub-nav active">Eclipse-Timing Analysis</a>
+            </div>
+            <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
+            <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../../contact/index.html" class="main-nav">Contact</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <h1>Computational Quantum Mechanics Project</h1>
+        <div class="research-section">
+            <!-- 第一项打开 quantum‑overview‑backup.html，新标签页 -->
+            <a href="././tess-introduction.html" target="_blank" class="open‑page‑btn">
+                <h3>Background</h3>
+                <p>An introduction to eclipse timing, TESS photometry, and the O‑C method for eclipsing binary research.</p>
+            </a>
+
+            <!-- 第二项打开你的科研页面 research‑page.html -->
+            <a href="././tess-pdf.html" target="_blank" class="open‑page‑btn">
+                <h3>Eclipse-Timing Analysis of TIC 233720276 Using TESS Observations</h3>
+                <p>Original research: eclipse minimum fitting, O‑C diagram construction and dynamical analysis of TIC 233720276.</p>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

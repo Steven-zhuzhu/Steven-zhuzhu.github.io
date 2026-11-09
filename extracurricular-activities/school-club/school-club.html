@@ -141,7 +141,6 @@
             margin-bottom: 30px;
             font-size: 1.05em;
         }
-
         /* 核心布局：固定2列，强制左2右3 */
         .club-grid {
             display: grid;
@@ -151,7 +150,6 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-
         /* 卡片位置精准控制（核心修正） */
         .card-1 {
             grid-column: 1;
@@ -173,7 +171,6 @@
             grid-column: 2;
             grid-row: 3; /* 右列第3行：脱口秀社 → 右列共3个 */
         }
-
         .club-card {
             background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05));
             border-radius: 8px;
@@ -248,6 +245,32 @@
             transform: scale(1.05);
         }
 
+        /* ========== 图片弹窗预览新增样式 ========== */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #165DFF;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(22, 93, 255, 0.4);
+        }
+
         /* 响应式适配：小屏幕自动单列 */
         @media (max-width: 992px) {
             .sidebar {
@@ -284,7 +307,7 @@
         <a href="../../about/about.html" class="sidebar-nav-item">About Me</a>
         <a href="../../achievements/achievements.html" class="sidebar-nav-item">Achievements</a>
         <a href="../../physics-research/physics-research.html" class="sidebar-nav-item">Physics Research</a>
-        <a href="../../climate-modeling-project/climate.html" class="sidebar-nav-item">Climate Modeling Project</a>
+        <!--<a href="../../climate-modeling-project/climate.html" class="sidebar-nav-item">Climate Modeling Project</a>-->
         <a href="../../medcine-AI/medcineAI.html" class="sidebar-nav-item">Medcine AI App Design</a>
         <a href="../../extracurricular-activities/activities.html" class="sidebar-nav-item active">Extracurricular Activities</a>
         
@@ -302,7 +325,7 @@
         
         <!-- Volunteer & Services 菜单（修改后，与School Club结构一致） -->
         <div class="level1-menu">
-            <a href="../volunteer-and-services/volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</div>
+            <a href="../volunteer-and-services/volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</a>
             <div class="level2-container" id="volunteerSub">
                 <div class="sub-nav-container-level2" id="volunteerSubLevel2"></div>
                 <a href="../../extracurricular-activities/volunteer-and-services/reading-club.html" class="level2-text">Reading Club</a>
@@ -310,11 +333,9 @@
                 <a href="../../extracurricular-activities/volunteer-and-services/science.html" class="level2-text">Science Museum Volunteer</a>
             </div>
         </div>
-
         <a href="../../my-leisure-hobbies/hobbies.html" class="sidebar-nav-item">Leisure Hobbies</a>
         <a href="../../my-favorite-books/my-books.html" class="sidebar-nav-item">Reading to the World</a>
         <a href="../../contact/index.html" class="sidebar-nav-item">Contact</a>
-
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -330,19 +351,17 @@
             </div>
         </div>
     </nav>
-
     <main class="main-content">
         <h2 class="section-heading">School Club</h2>
         <p class="intro-text">I lead and participate in multiple school clubs, focusing on academic exchange, skill development and peer interaction.</p>
-
         <div class="club-grid">
             <!-- 左列第1个：天文社（带2张图） -->
             <div class="club-card card-1">
                 <h3><i>🌌</i> Astronomy Club</h3>
                 <p>Club Leader. Organize stargazing activities, astronomical knowledge lectures and solar system model exhibitions for 30+ members.</p>
                 <div class="club-images">
-                    <img src="../school-club/astronomy/astronomy-1.png" alt="Stargazing activity with telescope" class="club-image">
-                    <img src="../school-club/astronomy/astronomy-2.png" alt="Solar system model exhibition" class="club-image">
+                    <img src="../school-club/astronomy/astronomy-1.png" data-full="../school-club/astronomy/astronomy-1.png" alt="Stargazing activity with telescope" class="club-image">
+                    <img src="../school-club/astronomy/astronomy-2.png" data-full="../school-club/astronomy/astronomy-2.png" alt="Solar system model exhibition" class="club-image">
                 </div>
                 <a href="./astronomy.html" class="club-btn">View Details →</a>
             </div>
@@ -352,8 +371,8 @@
                 <h3><i>🔬</i> Physics Club</h3>
                 <p>Core Member. Host physics experiment demonstrations, Olympiad training sessions and university physics topic sharing.</p>
                 <div class="club-images">
-                    <img src="../school-club/physics/physics-1.png" alt="Physics experiment demonstration" class="club-image">
-                    <img src="../school-club/physics/physics-2.png" alt="Physics Olympiad training session" class="club-image">
+                    <img src="../school-club/physics/physics-1.png" data-full="../school-club/physics/physics-1.png" alt="Physics experiment demonstration" class="club-image">
+                    <img src="../school-club/physics/physics-2.png" data-full="../school-club/physics/physics-2.png" alt="Physics Olympiad training session" class="club-image">
                 </div>
                 <a href="./physics.html" class="club-btn">View Details →</a>
             </div>
@@ -361,10 +380,10 @@
             <!-- 右列第1个：羽毛球社（带2张图） -->
             <div class="club-card card-3">
                 <h3><i>🏸</i> Badminton Club</h3>
-                <p>Team Member. Participate in inter-school badminton matches, organize weekly training sessions for beginners.</p>
+                <p>Team Member. Participate in inter‑school badminton matches, organize weekly training sessions for beginners.</p>
                 <div class="club-images">
-                    <img src="../school-club/badminton/badminton-1.jpg" alt="Inter-school badminton match" class="club-image">
-                    <img src="../school-club/badminton/badminton-2.jpg" alt="Badminton training for beginners" class="club-image">
+                    <img src="../school-club/badminton/badminton-1.jpg" data-full="../school-club/badminton/badminton-1.jpg" alt="Inter‑school badminton match" class="club-image">
+                    <img src="../school-club/badminton/badminton-2.jpg" data-full="../school-club/badminton/badminton-2.jpg" alt="Badminton training for beginners" class="club-image">
                 </div>
                 <a href="./badminton.html" class="club-btn">View Details →</a>
             </div>
@@ -374,20 +393,30 @@
                 <h3><i>🇺🇳</i> MUN</h3>
                 <p>Delegate. Participate in regional MUN conferences, represent "Canada" in discussions on international scientific cooperation topics.</p>
                 <div class="club-images">
-                    <img src="../school-club/MUN/mun-1.png" alt="Regional MUN conference scene" class="club-image">
-                    <img src="../school-club/MUN/mun-6.jpg" alt="MUN topic discussion session" class="club-image">
+                    <img src="../school-club/MUN/mun-1.png" data-full="../school-club/MUN/mun-1.png" alt="Regional MUN conference scene" class="club-image">
+                    <img src="../school-club/MUN/mun-6.jpg" data-full="../school-club/MUN/mun-6.jpg" alt="MUN topic discussion session" class="club-image">
                 </div>
                 <a href="./MUN.html" class="club-btn">View Details →</a>
             </div>
             
-            <!-- 右列第3个：脱口秀社（无图）→ 右列共3个 -->
+            <!-- 右列第3个：脱口秀社 → 右列共3个 -->
             <div class="club-card card-5">
                 <h3><i>🎤</i> Talkshow Club</h3>
                 <p>Performer & Planner. Organize school talkshow contests, create scripts around academic life and youth topics.</p>
-                <a href="./talkshow.html" class="club-btn">View Details →</a>
+                <div class="club-images">
+            <img src="../school-club/talkshow/talkshow-2.png" data-full="../school-club/talkshow/talkshow-2.png" alt="Talkshow Club topic discussion session" class="club-image">
             </div>
+            <a href="./talkshow.html" class="club-btn">View Details →</a>
+            </div>
+            
+           
         </div>
     </main>
+
+    <!--图片预览弹窗 DOM-->
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" src="" alt="preview big image">
+    </div>
 
     <script>
         // 等待DOM完全加载后再执行脚本
@@ -396,10 +425,8 @@
             const schoolClubSub = document.getElementById('schoolClubSub');
             const volunteerBtn = document.getElementById('volunteerBtn');
             const volunteerSub = document.getElementById('volunteerSub');
-
             // 默认展开School Club二级菜单
             schoolClubSub.style.display = 'block';
-
             // School Club菜单展开/收起
             schoolClubBtn.addEventListener('click', () => {
                 // 切换School Club子菜单显示状态
@@ -411,7 +438,6 @@
                 schoolClubBtn.classList.toggle('active', !isDisplayed);
                 volunteerBtn.classList.remove('active');
             });
-
             // Volunteer & Services菜单展开/收起
             volunteerBtn.addEventListener('click', () => {
                 // 切换Volunteer子菜单显示状态
@@ -423,6 +449,37 @@
                 volunteerBtn.classList.toggle('active', !isDisplayed);
                 schoolClubBtn.classList.remove('active');
             });
+
+            // ========== 图片点击放大预览逻辑 ==========
+            const imageModal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const thumbImages = document.querySelectorAll('img[data-full]');
+
+            thumbImages.forEach(img => {
+                img.style.cursor = 'pointer';
+                img.addEventListener('click', function(){
+                    const fullSrc = this.getAttribute('data-full');
+                    modalImg.src = fullSrc;
+                    imageModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                })
+            })
+
+            // 点击蒙层关闭弹窗
+            imageModal.addEventListener('click', function(){
+                imageModal.classList.remove('active');
+                modalImg.src = "";
+                document.body.style.overflow = '';
+            })
+
+            // ESC按键关闭弹窗
+            document.addEventListener('keydown', function(e){
+                if(e.key === 'Escape' && imageModal.classList.contains('active')){
+                    imageModal.classList.remove('active');
+                    modalImg.src = "";
+                    document.body.style.overflow = '';
+                }
+            })
         });
     </script>
 </body>

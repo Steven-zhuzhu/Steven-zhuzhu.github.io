@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Eclipse‑Timing Analysis Background - Steven Zhu</title>
+    <style>
+        /* 样式完全保留，不变 */
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Arial', sans-serif; }
+        body {
+            display: flex;
+            background: #0a0f25;
+            color: #e0e0ff;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 250px;
+            background: rgba(10, 15, 37, 0.95);
+            padding: 20px;
+            height: 100vh;
+            position: fixed;
+            display: flex;
+            flex-direction: column;
+            border-right: 1px solid #00c8ff;
+        }
+        .sidebar .main-nav {
+            display: block !important;
+            color: #e0e0ff;
+            text-decoration: none;
+            padding: 12px 15px;
+            margin: 6px 0;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .sidebar .main-nav.active {
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            color: white;
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) {
+            background: rgba(0, 200, 255, 0.1);
+            color: #00c8ff;
+        }
+        .sub-nav-container {
+            display: block !important;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+        }
+        .sub-sub-nav-container {
+            display: block !important;
+            margin-left: 15px;
+            margin-top: 5px;
+            margin-bottom: 10px;
+        }
+        .sub-nav {
+            display: block !important;
+            color: #e0e0ff;
+            text-decoration: none;
+            padding: 8px 10px;
+            margin: 3px 0;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .sub-sub-nav {
+            display: block !important;
+            color: #e0e0ff;
+            text-decoration: none;
+            padding: 6px 10px;
+            margin: 2px 0;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .sub-nav:hover, .sub-nav.active,
+        .sub-sub-nav:hover, .sub-sub-nav.active {
+            background: rgba(0, 200, 255, 0.1);
+            color: #00c8ff;
+            font-weight: 500;
+        }
+        .main {
+            margin-left: 250px;
+            padding: 60px 80px;
+            width: calc(100% - 250px);
+            line-height: 1.8;
+        }
+        .main h1 {
+            color: #00c8ff;
+            font-size: 2.2rem;
+            margin-bottom: 30px;
+            border-bottom: 2px solid #00c8ff;
+            padding-bottom: 15px;
+        }
+        .research-section {
+            background: linear-gradient(135deg, rgba(0, 119, 255, 0.2), rgba(106, 0, 255, 0.2));
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            max-width: 1000px;
+            box-shadow: 0 0 12px rgba(0,200,255,0.15);
+        }
+        .research-section h3 {
+            color: #00c8ff;
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        .research-section h3::before {
+            content: "🔬";
+            font-size: 1.2rem;
+        }
+        .research-section p {
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
+        .research-section ul {
+            padding-left: 20px;
+            margin-bottom: 15px;
+        }
+        .research-section li {
+            margin: 8px 0;
+            font-size: 1.05rem;
+        }
+        .project-link {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 8px 15px;
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            transition: all 0.2s;
+            margin-right:12px;
+        }
+        .project-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 10px rgba(0,200,255,0.3);
+        }
+        /* 天文图片画廊样式 */
+        .astro-gallery{
+            display:grid;
+            grid-template-columns: 1fr 1fr;
+            gap:16px;
+            margin:24px 0;
+        }
+        .astro-gallery img{
+            width:100%;
+            border-radius:8px;
+            border:1px solid rgba(0,200,255,0.3);
+        }
+        .sidebar-footer {
+            margin-top: auto;
+            padding: 20px 0;
+            border-top: 1px solid rgba(0, 200, 255, 0.2);
+            color: #e0e0ff;
+            font-size: 0.9rem;
+        }
+        .sidebar-footer .contact-item {
+            margin: 8px 0;
+            padding-left: 15px;
+        }
+        .sidebar-footer a {
+            color: #00c8ff;
+            text-decoration: none;
+        }
+        .sidebar-footer a:hover {
+            text-decoration: underline;
+        }
+        .creator-info {
+            margin-top: 15px;
+            font-size: 0.8rem;
+            color: rgba(255,255,255,0.7);
+            padding-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 左侧导航完全保留原样 -->
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../../home/index.html" class="main-nav">Home</a>
+            <a href="../../about/about.html" class="main-nav">About Me</a>
+            <a href="../../achievements/achievements.html" class="main-nav">Achievements</a>
+            <a href="../physics-research.html" class="main-nav active">Physics Research</a>
+            <div class="sub-nav-container">
+                <a href="../quantum-projects/quantum-overview.html" class="sub-nav">Computational Quantum Mechanics Project</a>
+                <div class="sub-sub-nav-container">
+                </div>
+                <a href="../climate-modeling-project/climate.html" class="sub-nav">Climate Modeling Project</a>
+                <a href="../tess/tess.html" class="sub-nav active">Eclipse‑Timing Analysis</a>
+            </div>
+            <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
+            <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../../contact/index.html" class="main-nav">Contact</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven‑zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <a href="../tess/tess.html" class="project-link">← Back</a>
+        <h1>Eclipse‑Timing Analysis Background</h1>
+
+        <div class="research-section">
+            <h3>Eclipsing Binary Star Systems</h3>
+            <p>Eclipsing binaries are multi‑star systems whose orbital plane lies nearly edge‑on along our line of sight. As the two stars revolve around one another, they periodically eclipse each other, producing regular, repeating dips in the observed brightness. These systems serve as powerful astrophysical laboratories: precise measurements of their orbits enable us to determine fundamental stellar parameters and advance our understanding of stellar evolution and internal stellar physics.</p>
+
+            <!-- 四张天文星云图片，2列网格布局，替换src为你的图片文件名 -->
+            <!--<div class="astro-gallery">
+                <img src="./astro1.jpg" alt="Astronomy image 1">
+                <img src="./astro2.jpg" alt="Astronomy image 2">
+                <img src="./astro3.jpg" alt="Astronomy image 3">
+                <img src="./astro4.jpg" alt="Astronomy image 4">
+                
+            </div>-->
+            
+            <a href="./tess-pdf.html" target="_blank" class="project-link">View Full Research Work →</a>
+            <a href="../tess/tess.html" class="project-link">← Back </a>
+        </div>
+
+        <div class="research-section">
+            <h3>Causes of Orbital‑Period Variations</h3>
+            <p>The orbital periods of eclipsing binaries are not always perfectly constant. Apparent or real period variations can arise from several physical mechanisms: stellar mass transfer between the binary components, mass loss via stellar winds, tidal interactions, the light‑travel time effect induced by an unseen tertiary companion, and stellar magnetic activity cycles. Measuring these subtle period changes with high precision is critical. It allows us to constrain the evolutionary history of the binary, reconstruct its mass transfer record, and search for hidden third bodies in the system.</p>
+            
+            <a href="./tess-pdf.html" target="_blank" class="project-link">View Full Research Work →</a>
+            <a href="../tess/tess.html" class="project-link">← Back</a>
+        </div>
+
+        <div class="research-section">
+            <h3>Research Objective of This Project</h3>
+            <p>In this work, we perform eclipse‑timing analysis on the eclipsing binary TIC 233720276 using high‑cadence photometric data from the TESS mission. We derive accurate mid‑eclipse times, construct an O‑C diagram over a 5.33‑year baseline, and test whether a constant‑period ephemeris fits both eclipse types or whether the primary and secondary eclipses drift apart — a signature that would point beyond a simple change in the orbital period.</p>
+
+            <!-- 返回与跳转按钮，保留原有样式 -->
+            
+            <a href="./tess-pdf.html" target="_blank" class="project-link">View Full Research Work →</a>
+            <a href="../tess/tess.html" class="project-link">← Back</a>
+        </div>
+    </div>
+</body>
+</html>

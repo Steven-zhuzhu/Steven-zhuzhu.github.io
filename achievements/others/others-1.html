@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Other Achievements - Steven Zhu</title>
+    <style>
+        /* 复用样式 + 全局重置 + 优先级修复 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            text-decoration: none;
+            list-style: none;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff; 
+            min-height: 100vh; 
+        }
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10,15,37,0.95); 
+            padding: 20px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00c8ff;
+            z-index: 100;
+        }
+        .sidebar .main-nav { 
+            display: block !important; 
+            color: #e0e0ff !important; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0077ff 0%, #6a00ff 100%) !important; 
+            color: white !important; 
+            font-weight: 500; 
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0,200,255,0.1) !important; 
+            color: #00c8ff !important; 
+        }
+        .sub-nav-container { 
+            display: block !important; 
+            margin-left: 15px; 
+            margin-top: 5px; 
+            margin-bottom: 15px; 
+        }
+        .sidebar .sub-nav { 
+            display: block !important; 
+            color: #e0e0ff !important; 
+            text-decoration: none; 
+            padding: 8px 10px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            background: transparent;
+        }
+        .sidebar .sub-nav.active { 
+            background: rgba(0,200,255,0.1) !important; 
+            color: #00c8ff !important; 
+        }
+        .sidebar .sub-nav:hover { 
+            background: #002b50 !important; 
+            color: #00c8ff !important; 
+        }
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8; 
+        }
+        .main h1 { 
+            color: #00c8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00c8ff; 
+            padding-bottom: 15px; 
+        }
+        .others-section { 
+            background: linear-gradient(135deg, rgba(0,119,255,0.2), rgba(106,0,255,0.2)); 
+            border-radius: 10px; 
+            padding: 20px 25px; 
+            max-width: 900px; 
+            box-shadow: 0 0 12px rgba(0,200,255,0.15); 
+        }
+        .others-section h3 { 
+            color: #00c8ff; 
+            font-size: 1.3rem; 
+            margin-bottom: 15px; 
+        }
+        .others-section ul { 
+            padding-left: 20px; 
+            list-style: disc !important;
+        }
+        .others-section li { 
+            margin: 10px 0; 
+            font-size: 1.1rem; 
+            list-style: disc !important;
+        }
+        .sidebar-footer { 
+            margin-top: auto; 
+            padding: 20px 0; 
+            border-top: 1px solid rgba(0,200,255,0.2); 
+            color: #e0e0ff; 
+            font-size: 0.9rem; 
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 15px; 
+        }
+        .sidebar-footer a { 
+            color: #00c8ff !important; 
+            text-decoration: none; 
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.8rem; 
+            color: rgba(255,255,255,0.7); 
+            padding-left: 15px; 
+        }
+        /* 核心新增：右侧主内容区3×3照片画廊样式 */
+        .main-photo-gallery-3x3 {
+            margin-top: 1.5rem; /* 与上方文字内容保持一行距离，可微调 */
+            max-width: 900px; /* 和上方内容区块宽度一致，视觉对齐 */
+            display: grid;
+            grid-template-columns: repeat(3, 1fr); /* 3列布局，自动3行 */
+            gap: 12px; /* 图片之间的间距，适配页面风格 */
+        }
+        .main-photo-gallery-3x3 .photo-card {
+            border-radius: 8px;
+            border: 1px solid rgba(0,200,255,0.3); /* 科技蓝边框，和页面统一 */
+            overflow: hidden;
+            background: rgba(0,119,255,0.1); /* 留白背景色，适配网页主题 */
+            transition: all 0.3s ease;
+        }
+        .main-photo-gallery-3x3 .photo-card:hover {
+            border-color: #00c8ff; /* hover高亮边框 */
+            box-shadow: 0 0 10px rgba(0,200,255,0.2); /* 轻微阴影 */
+            transform: scale(1.02); /* 轻微放大，增强交互 */
+        }
+        .main-photo-gallery-3x3 img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 核心：完整显示图片，不裁剪，自动缩放适配 */
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <!-- 路径保持原有修正，无需改动 -->
+            <a href="../../home/index.html" class="main-nav">Home</a>
+            <a href="../../about/about.html" class="main-nav">About Me</a>
+            <a href="../achievements.html" class="main-nav active">Achievements</a>
+            <div class="sub-nav-container">
+                <a href="../competition-awards/competition.html" class="sub-nav">Competition Awards</a>
+                <a href="../academic-awards/academic.html" class="sub-nav">Academic Awards</a>
+                <a href="./others.html" class="sub-nav active">Others</a>
+            </div>
+            <a href="../../physics-research/quantum-projects/quantum-overview.html" class="main-nav">Physics Research</a>
+            <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
+            <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
+            <a href="../../contact/index.html" class="main-nav">Contact</a>
+        </div>
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">© Created by Wuhua (Steven) Zhu</div>
+        </div>
+    </div>
+    <div class="main">
+        <h1>Other Achievements</h1>
+        <div class="others-section">
+            <h3>Extracurricular & Social Achievements</h3>
+            <ul>
+                
+                <li>Awarded the Team Champion of the Regional Badminton Competition 2025</li>
+                <li>Won the Group Special Award at the Guangdong Greater Bay Area Model United Nations (MUN)</li>
+                <li>Student Council, Core Member in Activities Department</li>
+                <li>President of School Astronomy Club (2024-Present)</li>
+                <li>Vice President of School Physics Club (2024-Present)</li>
+            </ul>
+        </div>
+
+        <!-- 核心新增：右侧内容区下方3×3照片区域 -->
+        <div class="main-photo-gallery-3x3">
+            
+            <div class="photo-card"><img src="../../images/others-3.jpg" alt="Other achievement photo 3"></div>
+            <div class="photo-card"><img src="../../images/others-4.jpg" alt="Other achievement photo 4"></div>
+            <div class="photo-card"><img src="../../images/others-5.jpg" alt="Other achievement photo 5"></div>
+            <div class="photo-card"><img src="../../images/others-6.jpg" alt="Other achievement photo 6"></div>
+            <div class="photo-card"><img src="../../images/others-7.png" alt="Other achievement photo 7"></div>
+            <div class="photo-card"><img src="../../images/others-8.jpg" alt="Other achievement photo 8"></div>
+            <!--<div class="photo-card"><img src="../../images/others-9.png" alt="Other achievement photo 9"></div>-->
+        </div>
+    </div>
+</body>
+</html>

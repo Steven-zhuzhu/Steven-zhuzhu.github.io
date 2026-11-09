@@ -22,8 +22,8 @@
             --dark-blue: #0a0f25;         
             --sidebar-bg: rgba(10,15,37,0.95); 
             --light-gray: #0a1428; /* 深蓝色背景 */
-            --chapter-bg: rgba(0, 40, 80, 0.8); /* 半透明深蓝色卡片背景（和简介框一致） */
-            --chapter-border: 4px solid var(--primary-blue); /* 左侧浅蓝边框 */
+            --chapter-bg: rgba(0, 40, 80, 0.8); /* 半透明深蓝色卡片背景（统一所有框） */
+            --chapter-border: 4px solid var(--primary-blue); /* 左侧浅蓝边框（统一所有框） */
         }
 
         * { 
@@ -47,7 +47,7 @@
             background-position: 0 0, 10px 10px;
         }
 
-        /* 左侧侧边栏：和主页完全一致的样式 + physics-world 适配 */
+        /* 左侧侧边栏：无修改，和主页保持一致 */
         .sidebar { 
             width: 250px; 
             background: var(--sidebar-bg); 
@@ -59,12 +59,9 @@
             border-right: 1px solid var(--primary-blue);
             z-index: 100;
         }
-
-        /* 一级导航按钮：和主页完全一致 */
         .sidebar .main-nav { 
             display: block !important; 
             color: var(--text-light) !important; 
-            text-decoration: none; 
             padding: 12px 15px; 
             margin: 6px 0; 
             border-radius: 6px; 
@@ -73,65 +70,38 @@
             transition: all 0.3s;
             background: transparent;
         }
-
         .sidebar .main-nav.active { 
             background: var(--card-gradient) !important; 
             color: white !important; 
             font-weight: 500;
-            /* 新增：physics-world 左侧边框样式 */
             border-left: 4px solid var(--primary-blue);
             padding-left: 11px;
         }
-
         .sidebar .main-nav:hover:not(.active) { 
             background: rgba(0, 200, 255, 0.1) !important; 
             color: var(--primary-blue) !important; 
         }
-
-        /* 子目录容器：和主页完全一致的显隐逻辑 */
         .sub-nav-container, .physics-sub-container { 
-            display: none; /* 默认隐藏 */
+            display: none; 
             margin-left: 15px;
             margin-top: 5px;
             margin-bottom: 15px;
         }
-
-        .sub-nav-container.active, .physics-sub-container.active {
-            display: block !important; /* 激活时显示 */
-        }
-
-        /* 子菜单样式：和主页完全统一 */
+        .sub-nav-container.active, .physics-sub-container.active { display: block !important; }
         .sub-nav, .physics-sub-level2, .physics-sub-level3 { 
             display: block !important;
             color: var(--text-light) !important; 
-            text-decoration: none; 
             border-radius: 4px; 
             transition: all 0.3s;
             background: transparent;
         }
-
-        .sub-nav {
-            padding: 8px 10px; 
-            font-size: 0.9rem; 
-        }
-
-        .physics-sub-level2 {
-            padding: 10px 15px;
-            font-size: 0.95rem;
-        }
-
-        .physics-sub-level3 {
-            padding: 8px 10px;
-            margin: 3px 0 3px 15px;
-            font-size: 0.9rem;
-        }
-
+        .sub-nav { padding: 8px 10px; font-size: 0.9rem; }
+        .physics-sub-level2 { padding: 10px 15px; font-size: 0.95rem; }
+        .physics-sub-level3 { padding: 8px 10px; margin: 3px 0 3px 15px; font-size: 0.9rem; }
         .sub-nav:hover, .physics-sub-level2:hover, .physics-sub-level3:hover { 
             background: rgba(0, 200, 255, 0.1) !important; 
             color: var(--primary-blue) !important; 
         }
-
-        /* 侧边栏底部：和主页完全一致 */
         .sidebar-footer { 
             margin-top: auto; 
             padding: 20px 0; 
@@ -139,21 +109,9 @@
             color: var(--text-light); 
             font-size: 0.9rem; 
         }
-
-        .sidebar-footer .contact-item { 
-            margin: 8px 0; 
-            padding-left: 15px; 
-        }
-
-        .sidebar-footer a { 
-            color: var(--primary-blue); 
-            text-decoration: none; 
-        }
-
-        .sidebar-footer a:hover { 
-            text-decoration: underline; 
-        }
-
+        .sidebar-footer .contact-item { margin: 8px 0; padding-left: 15px; }
+        .sidebar-footer a { color: var(--primary-blue); text-decoration: none; }
+        .sidebar-footer a:hover { text-decoration: underline; }
         .creator-info { 
             margin-top: 15px; 
             font-size: 0.8rem; 
@@ -161,7 +119,7 @@
             padding-left: 15px; 
         }
 
-        /* 右侧主内容区：适配physics-world 深蓝色背景+左侧浅蓝边框 */
+        /* 右侧主内容区：无修改 */
         .main-content {
             margin-left: 250px; 
             padding: 30px 40px; 
@@ -169,27 +127,21 @@
             position: relative;
             z-index: 1;
             line-height: 1.8;
-            /* 新增：physics-world 背景色 */
             background-color: var(--light-gray);
             color: var(--text-white);
             min-height: 100vh;
         }
 
-        /* 核心修改：卡片适配physics-world 深蓝色背景+左侧浅蓝边框 */
-        .card {
-            background: var(--chapter-bg); /* 替换为physics-world深蓝色背景 */
+        /* 核心统一样式：所有卡片共用，样式完全一致 */
+        .core-card {
+            background: var(--chapter-bg);
             padding: 25px;
             border-radius: 12px;
-            margin-bottom: 30px;
             box-shadow: var(--shadow);
-            max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
-            /* 新增：physics-world 左侧浅蓝边框 */
             border-left: var(--chapter-border);
         }
-
-        .card h2 {
+        /* 统一标题样式：所有框的标题字体/大小/颜色/边框完全一致 */
+        .core-card h2, .image-gallery h2 {
             font-size: 1.5rem;
             margin-bottom: 20px;
             border-bottom: 2px solid var(--primary-blue);
@@ -199,24 +151,36 @@
             width: 100%;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
-        .card p {
+        /* 简介框标题专属：拉开字间距 */
+        .bio-card h2 {
+            letter-spacing: 2px; /* 标题字符间距 */
+        }
+        /* 统一正文样式：所有框的文字字体/大小/颜色/行高完全一致 */
+        .core-card p, .core-card span {
             line-height: 1.6;
-            margin-bottom: 15px;
-            color: var(--text-white); /* 改为白色文字，适配深色背景 */
+            color: var(--text-white);
+            font-size: 1rem;
+            font-family: 'Arial', sans-serif;
         }
 
+        /* 简介框专属：单独的间距+折叠样式 */
+        .bio-card {
+            max-width: 900px;
+            margin: 0 auto 30px;
+        }
         .bio-content {
-            max-height: 120px;
+            max-height: 220px; /* 精准折叠，适配简介内容 */
             overflow: hidden;
             transition: max-height 0.5s ease;
             max-width: 100%;
         }
-
-        .bio-content.expanded {
-            max-height: 600px;
+        /* 简介框正文专属：拉开字符间距+微调行高，解决拥挤问题 */
+        .bio-content p {
+            letter-spacing: 0.5px; /* 一句话内字符轻微间隔，不拥挤 */
+            line-height: 1.8;      /* 行间距舒展，阅读更舒适 */
+            margin-bottom: 12px;   /* 段落之间加间距，区分更清晰 */
         }
-
+        .bio-content.expanded { max-height: 800px; } /* 展开显示全部 */
         .toggle-btn {
             padding: 8px 16px;
             border: none;
@@ -228,138 +192,153 @@
             transition: all 0.3s ease;
             box-shadow: 0 0 8px rgba(0, 200, 255, 0.2);
             margin-top: 10px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
         }
-
         .toggle-btn:hover {
             background: var(--btn-hover);
             box-shadow: 0 0 12px rgba(0, 200, 255, 0.4);
             transform: translateY(-2px);
         }
 
-        /* 【核心修改】诗歌容器：改为弹性布局（诗歌+照片），和简介框同宽 */
-        .poem-container {
-            margin-top: 20px;
+        /* 核心布局：双列容器 - 左侧量子诗+4图+星尘诗，右侧黑洞诗+4图，顶部对齐 */
+        .poem-gallery-container {
             max-width: 900px;
-            margin-left: auto;
-            margin-right: auto;
+            margin: 0 auto 30px;
             display: flex;
             gap: 20px;
-            align-items: center;
+            align-items: flex-start;
         }
-        /* 【核心修改】诗歌区块：背景和简介框一致，移除原有背景图，保留左侧浅蓝边框 */
-        .poem-block {
-            flex: 3; /* 诗歌占比更大 */
-            background: var(--chapter-bg) !important; /* 和简介框一致的深蓝色背景 */
-            background-blend-mode: unset !important;
-            padding: 30px 20px;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            border-left: var(--chapter-border) !important; /* 保留左侧浅蓝边框 */
-            border: none !important; /* 移除原有渐变边框 */
-            line-height: 1.6; /* 提高行高，更易阅读 */
-            font-size: 1.05rem;
-            text-align: center;
+        /* 左侧容器：量子诗 + 4图 + 星尘诗，1列布局，统一间距20px */
+        .left-poem-gallery {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-        /* 诗歌照片容器：和整体风格统一 */
-        .poem-photo {
-            flex: 2; /* 照片占比适中 */
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            border-left: var(--chapter-border); /* 统一左侧浅蓝边框 */
-            height: 100%;
-            min-height: 400px;
+        /* 右侧容器：黑洞诗 + 4图，1列布局，间距20px */
+        .right-poems-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-        /* 诗歌照片自适应 */
-        .poem-photo img {
+        /* 单首诗的卡片：复用core-card，样式统一 */
+        .single-poem-card {
             width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-            filter: brightness(0.9); /* 微调亮度，适配深色风格 */
         }
-
-        .poem-stanza {
-            margin-bottom: 20px !important; /* 优化诗节间距 */
-        }
-
-        .poem-block span {
-            display: block;
-            transition: all 0.3s ease;
-            color: #00c8ff;
-            text-shadow: 0 0 2px #ffffff, 0 0 3px #000000;
-            font-weight: 500;
-        }
-
-        .poem-block span:hover {
-            color: #00e5ff;
-            text-shadow: 0 0 8px #00e5ff, 0 0 15px var(--primary-purple), 0 0 2px #ffffff;
-            transform: scale(1.03);
-        }
-
+        /* 诗歌专属微调：仅优化排版美感，不修改核心样式 */
         .poem-meta {
             font-style: italic;
             color: #e0f7ff !important;
-            text-shadow: 0 0 2px #ffffff, 0 0 3px #000;
-            font-weight: 600;
-            margin-bottom: 25px;
             text-align: center;
             font-size: 1.1rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+        .poem-stanza {
+            margin-bottom: 15px !important;
+            text-align: center;
+        }
+        .single-poem-card span {
+            display: block;
+            margin-bottom: 6px !important;
+            color: #00c8ff;
+            text-shadow: 0 0 2px #ffffff, 0 0 3px #000000;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        .single-poem-card span:hover {
+            color: #00e5ff;
+            text-shadow: 0 0 8px #00e5ff, 0 0 15px var(--primary-purple), 0 0 2px #ffffff;
+            transform: scale(1.02);
         }
 
-        /* 图片展示区域：适配physics-world 深蓝色背景+左侧浅蓝边框 */
+        /* 通用图片展示容器：所有图片框复用，样式和核心卡片完全一致 */
         .image-gallery {
-            max-width: 900px;
-            margin: 30px auto;
+            width: 100%;
             padding: 25px;
-            background: var(--chapter-bg); /* 替换为physics-world深蓝色背景 */
+            background: var(--chapter-bg);
             border-radius: 12px;
             box-shadow: var(--shadow);
-            /* 新增：physics-world 左侧浅蓝边框 */
             border-left: var(--chapter-border);
         }
-
-        .image-gallery h2 {
-            font-size: 1.5rem;
-            margin-bottom: 20px;
-            border-bottom: 2px solid var(--primary-blue);
-            padding-bottom: 8px;
-            color: var(--primary-blue);
-            text-align: center;
-            width: 100%;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        /* 核心修改：大屏4列布局，适配8张图片 */
-        .gallery-grid {
+        /* 4图网格：2列布局，间距20px，适配所有4图框 */
+        .gallery-grid-4 {
             display: grid;
-            grid-template-columns: repeat(4, 1fr); /* 大屏4列 */
-            gap: 15px; /* 缩小间距，适配更多图片 */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
         }
-
+        /* 2图网格：2列均分，间距20px，适配所有2图框 */
+        .gallery-grid-2 {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        /* 图片项通用样式：所有图片框的图片项样式统一，hover动效一致 */
         .gallery-item {
             border-radius: 8px;
             overflow: hidden;
             box-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
             transition: all 0.3s ease;
-            /* 新增：physics-world 左侧浅蓝边框 */
             border-left: 4px solid var(--primary-blue);
             background-color: rgba(0, 40, 80, 0.7);
         }
-
         .gallery-item:hover {
             transform: translateY(-5px);
             box-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
             background-color: rgba(0, 86, 179, 0.5);
         }
-
         .gallery-item img {
             width: 100%;
-            height: 160px; /* 略微降低高度，适配4列布局 */
+            height: 200px;
             object-fit: cover;
             display: block;
         }
 
+        /* 底部满宽图片区：保留原有样式，和整体风格统一 */
+        .full-width-gallery {
+            max-width: 900px;
+            margin: 0 auto 30px;
+            padding: 25px;
+            background: var(--chapter-bg);
+            border-radius: 12px;
+            box-shadow: var(--shadow);
+            border-left: var(--chapter-border);
+        }
+        .two-col-gallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        .gallery-col {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .bottom-gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 200, 255, 0.3);
+            transition: all 0.3s ease;
+            border-left: 4px solid var(--primary-blue);
+            background-color: rgba(0, 40, 80, 0.7);
+            height: 220px;
+        }
+        .bottom-gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 0 20px rgba(0, 200, 255, 0.5);
+            background-color: rgba(0, 86, 179, 0.5);
+        }
+        .bottom-gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+        }
+
+        /* 宇航员动画：无修改 */
         .cartoon-astronaut {
             position: absolute;
             top: 30%;
@@ -374,25 +353,19 @@
             filter: drop-shadow(0 0 10px var(--primary-blue));
             animation: astronaut-float 10s ease-in-out infinite;
         }
-
         @keyframes astronaut-float {
             0% { transform: translateY(-50%) rotate(0deg); }
             50% { transform: translateY(-55%) rotate(3deg); }
             100% { transform: translateY(-50%) rotate(0deg); }
         }
 
-        /* 响应式适配：优化8张图片的布局 + 诗歌+照片移动端适配 */
+        /* 响应式适配：移动端自动改为1列布局，所有图片框适配 */
         @media (max-width: 1024px) {
-            /* 中屏改为2列 */
-            .gallery-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .gallery-item img {
-                height: 180px; /* 恢复高度 */
-            }
+            .gallery-item img { height: 190px; }
+            .bottom-gallery-item { height: 200px; }
         }
-
         @media (max-width: 768px) {
+            /* 移动端侧边栏改顶部 */
             .sidebar {
                 width: 100%;
                 height: auto;
@@ -400,75 +373,46 @@
                 border-right: none;
                 border-bottom: 1px solid var(--primary-blue);
             }
-
             .main-content {
                 margin-left: 0;
                 width: 100%;
                 padding: 20px;
-                background-color: var(--bg-dark); /* 移动端统一背景 */
+                background-color: var(--bg-dark);
             }
-
-            .card {
+            /* 所有卡片移动端适配 */
+            .core-card, .image-gallery, .full-width-gallery {
                 max-width: 100%;
                 padding: 20px;
-                border-left: 3px solid var(--primary-blue); /* 移动端缩小边框 */
+                border-left: 3px solid var(--primary-blue);
             }
-
-            /* 【移动端适配】诗歌容器改为上下布局，取消左右排列 */
-            .poem-container {
+            .bio-card { margin-bottom: 20px; }
+            .bio-content { max-height: 320px; } /* 适配正文行高调整，避免折叠漏字 */
+            /* 移动端核心布局改为1列，取消左右分栏 */
+            .poem-gallery-container {
                 flex-direction: column;
                 gap: 15px;
                 max-width: 100%;
-                padding: 0;
             }
-            .poem-block {
-                padding: 20px;
-                line-height: 1.5;
-                border-left: 3px solid var(--primary-blue);
-                width: 100%;
-            }
-            .poem-photo {
-                min-height: 250px;
-                width: 100%;
-                border-left: 3px solid var(--primary-blue);
-            }
-
-            .poem-stanza {
-                margin-bottom: 15px !important;
-            }
-
-            .poem-block span:hover {
+            .single-poem-card span:hover {
                 transform: none;
                 text-shadow: 0 0 2px #ffffff, 0 0 3px #000 !important;
             }
-
-            .cartoon-astronaut {
-                display: none;
-            }
-
-            /* 小屏改为1列 */
-            .image-gallery {
-                max-width: 100%;
-                padding: 20px;
-                border-left: 3px solid var(--primary-blue);
-            }
-
-            .gallery-grid {
+            /* 移动端图片网格全改为1列，图片更高清 */
+            .cartoon-astronaut { display: none; }
+            .gallery-grid-4, .gallery-grid-2 {
                 grid-template-columns: 1fr;
                 gap: 20px;
             }
-
-            .gallery-item img {
-                height: 200px; /* 进一步提高高度，优化显示 */
-            }
+            .gallery-item img { height: 220px; }
+            .two-col-gallery { grid-template-columns: 1fr; }
+            .bottom-gallery-item { height: 220px; }
         }
     </style>
 </head>
 <body>
-    <!-- 左侧导航栏：按键名称完全匹配图片 -->
+    <!-- 左侧导航栏：无修改 -->
     <div class="sidebar">
         <div class="sidebar-nav">
-            <!-- 匹配图片的导航按键名称 -->
             <a href="../home/index.html" class="main-nav" data-target="none">Home</a>
             <a href="./about.html" class="main-nav active" data-target="none">About Me</a>
             <a href="../achievements/achievements.html" class="main-nav" data-target="none">Achievements</a>
@@ -495,15 +439,12 @@
                     <a href="../physics-research/climate-modeling-project/climate.html" class="physics-sub-level3">Climate Project Overview</a>
                 </div>
             </div>
-            <!-- 替换为图片中的名称 -->
             <a href="../medcine-AI/medcineAI.html" class="main-nav" data-target="none">Medcine AI App Design</a>
             <a href="../extracurricular-activities/activities.html" class="main-nav" data-target="none">Extracurricular Activities</a>
             <a href="../my-leisure-hobbies/hobbies.html" class="main-nav" data-target="none">Leisure Hobbies</a>
             <a href="../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
             <a href="../contact/index.html" class="main-nav" data-target="none">Contact</a>
         </div>
-
-        <!-- 侧边栏底部：保留原有内容 -->
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -523,125 +464,188 @@
         </div>
     </div>
 
-    <!-- 右侧主内容区：完整内容 -->
+    <!-- 右侧主内容区：按要求重构布局 -->
     <main class="main-content">
-        <!-- 卡通宇航员装饰 -->
         <div class="cartoon-astronaut"></div>
 
-        <!-- 个人简介卡片 -->
-        <div class="card">
+        <!-- 第一框：个人简介（样式不变，交互保留） -->
+        <div class="core-card bio-card">
             <h2>A Different Kind of Supernova: My Journey</h2>
             <div class="bio-content" id="bioContent">
-                <p>I am drawn to astronomy, for in the universe’s boundless grandeur, I find my own worries vanishingly small.<p>
-                <p>I am equally drawn to physics, driven by the desire to peel back the surface of things and uncover the underlying laws that bind all matter. </p>
-                <p>Yet life is not all contemplation. On the badminton court, every smash fuels my spirit, gifting me a split-second boldness that echoes in all walks of life.</p>
-                <p>In quieter moments, I write poems and stage plays for children, trying to speak plain truths in simple words. </p>
-                <P>And when words do run out, I turn to my violin—music never struggles to express what language can not.<p>
-                <p>All these threads—the wonder, the logic, the release, and the expression—weave together into what I hold dearest: a commitment to supporting people with physical disabilities. It is how I pay forward the kindness I once received as a child while struggling with speech articulation difficulties.</p>  
-                </div>
+                <p>As a child with a speech disorder, I spent years piercing that barrier to find my voice.</p>
+                <p>I am drawn to astronomy, where the universe's boundless grandeur makes my own worries seem vanishingly small.</p>
+                <p>Physics, however, captivates me even more, driven by the desire to peel back the surface of things and uncover the underlying laws that bind all matter.</p>
+                <p>Yet I craft my world with my hands as with my mind. Every afternoon, my youth finds its voice on the badminton court. There, every smash fuels my spirit, gifting me a split-second boldness that echoes through all walks of life.</p>
+                <p>In quieter moments, I immerse myself in imaginary worlds, reading books and writing poems. I also write stage plays for children, striving to speak plain truths in simple words.</p>
+                <p>And when words run out, I turn to my violin—music never struggles to express what language can’t.</p>
+                <p>These passions converge, forming the elements of my universe as I strive to become my own kind of supernova.</p>
+            </div>
             <button class="toggle-btn" id="toggleBtn">Read More</button>
         </div>
 
-        <!-- 诗歌板块：核心修改→诗歌+照片左右布局，背景和简介框一致 -->
-        <div class="poem-container">
-            <div class="poem-block">
-                <div class="poem-meta">Quantum Sonnet · 2024</div>
-                <div class="poem-stanza">
-                    <span>In the void where particles dance and fade,</span>
-                    <span>I find a truth that cannot be betrayed—</span>
-                    <span>Not in the stars, nor in the earthly frame,</span>
-                    <span>But in the math that bears the cosmic name.</span>
+        <!-- 核心布局：左列=量子诗→4张旅程图→星尘诗 | 右列=黑洞诗→4张探索图 -->
+        <div class="poem-gallery-container">
+            <!-- 左侧列：核心排布 - 量子诗 → Moments in My Journey 4图 → 星尘诗 -->
+            <div class="left-poem-gallery">
+                <!-- 左侧第一个框：Quantum Sonnet · 2024 -->
+                <!--<div class="core-card single-poem-card">
+                    <h2>Quantum Sonnet · 2024</h2>
+                    <div class="poem-meta">My Quantum Inspiration</div>
+                    <div class="poem-meta">by Steven Zhu</div>
+                    <div class="poem-stanza">
+                        <span>In the void where particles dance and fade,</span>
+                        <span>I find a truth that cannot be betrayed—</span>
+                        <span>Not in the stars, nor in the earthly frame,</span>
+                        <span>But in the math that bears the cosmic name.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>A wave, a particle, both and none,</span>
+                        <span>The universe hums to its own drum—</span>
+                        <span>We grasp at shadows, reach for light,</span>
+                        <span>Yet mystery is our constant night.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>So I walk the line between the known and unknown,</span>
+                        <span>With equations as my compass, wonder as my throne—</span>
+                        <span>For in the quest to understand the sky,</span>
+                        <span>I find myself, and why I try.</span>
+                    </div>
+                </div>-->
+
+                
+                
+                <!-- 紧跟4张图：Moments in My Journey 原有图片不变 -->
+                <div class="image-gallery">
+                    <h2>Moments in My Journey</h2>
+                    <div class="gallery-grid-4">
+                        <div class="gallery-item"><img src="../images/about1.png" alt="Physics Lab"></div>
+                        <div class="gallery-item"><img src="../images/about3.jpg" alt="Astronomy Observation"></div>
+                        <div class="gallery-item"><img src="../images/about9.jpg" alt="Quantum Research"></div>
+                        <div class="gallery-item"><img src="../images/about1.jpg" alt="Academic Conference"></div>
+                    </div>
                 </div>
-                <div class="poem-stanza">
-                    <span>A wave, a particle, both and none,</span>
-                    <span>The universe hums to its own drum—</span>
-                    <span>We grasp at shadows, reach for light,</span>
-                    <span>Yet mystery is our constant night.</span>
+
+
+                  <!-- 黑洞诗紧跟4张图：Cosmic Exploration & Research 原有图片不变 -->
+                <div class="image-gallery">
+                    <!--<h2>Cosmic Exploration & Research</h2>-->
+                    <div class="gallery-grid-4">
+                        <div class="gallery-item"><img src="../images/about5.jpg" alt="Coding Session"></div>
+                        <div class="gallery-item"><img src="../images/about6.jpg" alt="Book Reading"></div>
+                        <div class="gallery-item"><img src="../images/about8.jpg" alt="Stargazing"></div>
+                        <div class="gallery-item"><img src="../images/about4.jpg" alt="Astronomy Observation"></div>
+                    </div>
                 </div>
-                <div class="poem-stanza">
-                    <span>So I walk the line between the known and unknown,</span>
-                    <span>With equations as my compass, wonder as my throne—</span>
-                    <span>For in the quest to understand the sky,</span>
-                    <span>I find myself, and why I try.</span>
-                </div>
-            </div>
-            <!-- 诗歌旁的照片：物理/宇宙主题，你可替换为自己的照片 -->
-            <div class="poem-photo">
-                <img src="https://images.unsplash.com/photo-1502134249126-9f3755a50d78?q=80&w=1931&auto=format&fit=crop" alt="Cosmic Physics & Quantum Exploration">
             </div>
         </div>
 
-        <!-- 图片展示区域 -->
-        <div class="image-gallery">
-            <h2>Moments in My Journey</h2>
-            <div class="gallery-grid">
-                <!-- 图片1 -->
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1544126592-f6d913b5644c?q=80&w=1935&auto=format&fit=crop" alt="Physics Lab">
+
+                <!-- 4图下方：Stardust in My Veins · 2023 -->
+                <!--<div class="core-card single-poem-card">
+                    <h2>Stardust in My Veins · 2023</h2>
+                    <div class="poem-meta">My Universe in Words</div>
+                    <div class="poem-meta">by Steven Zhu</div>
+                    <div class="poem-stanza">
+                        <span>We are all stardust, forged in fire,</span>
+                        <span>Born from the breath of a dying star's desire—</span>
+                        <span>To reach beyond the dark, to touch the light,</span>
+                        <span>To live, to learn, to chase the infinite night.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>So I chase the stars, with mind and heart,</span>
+                        <span>To unravel the secrets that tear apart</span>
+                        <span>The veil of ignorance, the fog of doubt,</span>
+                        <span>For in the stars, my true self I find out.</span>
+                    </div>
                 </div>
-                <!-- 图片2 -->
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1526886923050-ecd9e00837f0?q=80&w=1935&auto=format&fit=crop" alt="Astronomy Observation">
-                </div>
-                <!-- 图片3 -->
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1584970125669-1b31c43fa8d8?q=80&w=1935&auto=format&fit=crop" alt="Quantum Research">
-                </div>
-                <!-- 图片4 -->
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1517021897933-0e0319cfbc28?q=80&w=1974&auto=format&fit=crop" alt="Academic Conference">
-                </div>
-                <!-- 图片5 -->
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1507721999472-8ed4421c4af2?q=80&w=1935&auto=format&fit=crop" alt="Coding Session">
-                </div>
-                <!-- 图片6 -->
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1595211877493-41a4e5f236b7?q=80&w=1935&auto=format&fit=crop" alt="Book Reading">
-                </div>
-                <!-- 图片7 -->
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1935&auto=format&fit=crop" alt="Collaboration">
-                </div>
-                <!-- 图片8 -->
-                <div class="gallery-item">
-                    <img src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1935&auto=format&fit=crop" alt="Stargazing">
+            </div>-->
+
+            <!-- 右侧列：单独排布 - Towards a Black Hole → 4张探索图 原有内容不变 -->
+            <!--<div class="right-poems-container">
+                <div class="core-card single-poem-card">
+                    <h2>Towards a Black Hole I Still Dream to Go  · 2018</h2>
+                    <div class="poem-meta">My Cosmic Dream</div>
+                    <div class="poem-meta">by Steven Zhu</div>
+                    <div class="poem-stanza">
+                        <span>Not to the Sahara's burning sand,</span>
+                        <span>Nor Antarctica's icy stand;</span>
+                        <span>The lost Atlantis' ancient glow,</span>
+                        <span>Or Mars' life that we don't know,</span>
+                        <span>But toward a black hole I long to go.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>As an astronaut, I take my flight,</span>
+                        <span>Toward the central core, where the stars shine bright;</span>
+                        <span>Past super-planets, massive and grand,</span>
+                        <span>Soon to be consumed by the black hole's command.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>I see a hot ice planet, a frozen delight,</span>
+                        <span>But gravity pulls me away from its sight;</span>
+                        <span>Then a white dwarf star, with a heat-absorbing might,</span>
+                        <span>Explodes into a super-planet, launching me in flight.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>Into the black hole, I take a dive,</span>
+                        <span>Feeling the sun's rays, as if alive;</span>
+                        <span>But got soon engulfed, spin in strife,</span>
+                        <span>Witnessing the universe's heart, full of fabled life.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>With the most massive gravity, it reigns supreme,</span>
+                        <span>Infinite matter, in space so extreme;</span>
+                        <span>Unfathomable size, yet small like a dream,</span>
+                        <span>Even light cannot escape its beam.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>From a behemoth of the cosmos, a dragon of old,</span>
+                        <span>I pull out a snowball, so tiny, yet bold</span>
+                        <span>Ten times Earth's weight, instantly swallowed.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>In space's vastness, I twist and twirl, uncontrolled.</span>
+                    </div>
+                    <div class="poem-stanza">
+                        <span>But then I suddenly awaken,</span>
+                        <span>From my bed, my dreams are shaken;</span>
+                        <span>"Don't daydream now, it's time for school,"</span>
+                        <span>I realize, alas, my adventure's only a fool's tool.</span>
+                    </div>
+                </div>-->
+
+                <!-- 黑洞诗紧跟4张图：Cosmic Exploration & Research 原有图片不变 -->
+                <!--<div class="image-gallery">
+                    <h2>Cosmic Exploration & Research</h2>
+                    <div class="gallery-grid-4">
+                        <div class="gallery-item"><img src="../images/about5.jpg" alt="Coding Session"></div>
+                        <div class="gallery-item"><img src="../images/about6.jpg" alt="Book Reading"></div>
+                        <div class="gallery-item"><img src="../images/about8.jpg" alt="Stargazing"></div>
+                        <div class="gallery-item"><img src="../images/about4.jpg" alt="Astronomy Observation"></div>
+                    </div>
                 </div>
             </div>
+        </div>-->
+
+       
         </div>
     </main>
 
-    <!-- 展开/收起简介的JS -->
+    <!-- 交互JS：无修改，保留简介展开/收起 -->
     <script>
-        // 获取元素
         const bioContent = document.getElementById('bioContent');
         const toggleBtn = document.getElementById('toggleBtn');
-        
-        // 绑定点击事件
         toggleBtn.addEventListener('click', function() {
             bioContent.classList.toggle('expanded');
-            // 切换按钮文字
-            if (bioContent.classList.contains('expanded')) {
-                toggleBtn.textContent = 'Read Less';
-            } else {
-                toggleBtn.textContent = 'Read More';
-            }
+            toggleBtn.textContent = bioContent.classList.contains('expanded') ? 'Read Less' : 'Read More';
         });
 
-        // 导航子菜单显隐逻辑（可选，如需激活可取消注释）
+        // 导航子菜单显隐逻辑（可选取消注释启用）
         // const achievementsNav = document.querySelector('a[href="../achievements/achievements.html"]');
         // const achievementsSub = document.getElementById('achievements-sub');
-        // achievementsNav.addEventListener('click', function(e) {
-        //     e.preventDefault();
-        //     achievementsSub.classList.toggle('active');
-        // });
-
+        // achievementsNav.addEventListener('click', function(e) {e.preventDefault();achievementsSub.classList.toggle('active');});
         // const physicsNav = document.querySelector('a[href="../physics-research/physics-research.html"]');
         // const physicsSub = document.getElementById('physics-sub');
-        // physicsNav.addEventListener('click', function(e) {
-        //     e.preventDefault();
-        //     physicsSub.classList.toggle('active');
-        // });
+        // physicsNav.addEventListener('click', function(e) {e.preventDefault();physicsSub.classList.toggle('active');});
     </script>
 </body>
 </html>

@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine AI - Project & Business Report</title>
+    <style>
+        /* 全局样式：完全复用深蓝科技风 + 统一对齐基准 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            vertical-align: baseline;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 左侧侧边栏样式 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px 15px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00b8ff; 
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin; 
+            scrollbar-color: #0088ff rgba(10, 15, 37, 0.5); 
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: rgba(10, 15, 37, 0.5); border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #0088ff; border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: #00b8ff; }
+
+        .sidebar-nav { 
+            flex: 1; 
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        /* 主导航样式 */
+        .sidebar .main-nav { 
+            display: block; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            position: relative; 
+            text-align: left;
+            width: 100%;
+            border: none;
+            background: transparent;
+        }
+        .main-nav::after {
+            content: "▶";
+            font-size: 0.7rem;
+            color: #00b8ff;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            line-height: 1;
+        }
+        .main-nav.expanded::after {
+            transform: translateY(-50%) rotate(90deg);
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%); 
+            color: white; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff;
+        }
+
+        /* 子菜单样式 */
+        .sub-nav-container {
+            display: block; 
+            margin-left: 15px; 
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: calc(100% - 15px); 
+        }
+        .sub-nav { 
+            display: block; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 8px 15px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            width: 100%;
+            text-align: left; 
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sub-nav.active { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff; 
+            font-weight: 500;
+        }
+        .sub-nav:hover:not(.active) { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff;
+        }
+
+        /* 右侧主内容区 */
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8;
+            text-align: left;
+            overflow-x: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #0a0f25;
+        }
+        .main h1 { 
+            color: #00b8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00b8ff; 
+            padding-bottom: 15px;
+            width: 100%;
+            max-width: 1200px; 
+        }
+        
+        /* PDF内容展示区 */
+        .pdf-section {
+            background: linear-gradient(135deg, rgba(0, 136, 255, 0.2), rgba(0, 102, 204, 0.2));
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            max-width: 1200px;
+            box-shadow: 0 0 12px rgba(0,184,255,0.15);
+            text-align: left;
+            width: 100%;
+        }
+        .pdf-section h2 {
+            color: #1ab8ff; 
+            font-size: 1.8rem; 
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            line-height: 1;
+        }
+        .pdf-section h2::before {
+            content: "📋"; 
+            font-size: 1.3rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .pdf-section h3 {
+            color: #00b8ff; 
+            font-size: 1.3rem; 
+            margin: 20px 0 15px;
+        }
+        .pdf-section h4 {
+            color: #4dc3ff; 
+            font-size: 1.1rem; 
+            margin: 15px 0 10px;
+        }
+        .pdf-section p {
+            font-size: 1.0rem; 
+            color: #d0d4ff; 
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+        .pdf-section ul, .pdf-section ol {
+            margin: 10px 0 15px 25px;
+            color: #d0d4ff;
+        }
+        .pdf-section li {
+            margin-bottom: 8px;
+        }
+        .pdf-section table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 0.9rem;
+        }
+        .pdf-section th {
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%);
+            color: white;
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #00b8ff;
+        }
+        .pdf-section td {
+            padding: 10px;
+            border: 1px solid rgba(0, 184, 255, 0.3);
+            color: #d0d4ff;
+            background: rgba(10, 15, 37, 0.5);
+        }
+        .pdf-section tr:nth-child(even) td {
+            background: rgba(10, 15, 37, 0.7);
+        }
+        .pdf-section .highlight {
+            color: #1ab8ff;
+            font-weight: 600;
+        }
+
+        /* 侧边栏底部 */
+        .sidebar-footer { 
+            padding: 20px 15px; 
+            border-top: 1px solid rgba(0, 184, 255, 0.2); 
+            color: #d0d4ff; 
+            font-size: 0.85rem; 
+            text-align: left;
+            margin-top: auto;
+            width: 100%;
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 0; 
+            display: flex;
+            align-items: center;
+            gap: 5px; 
+        }
+        .sidebar-footer a { 
+            color: #1ab8ff; 
+            text-decoration: none;
+            flex: 1;
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.75rem; 
+            color: rgba(220, 224, 255, 0.7); 
+            padding-left: 0; 
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../home/index.html" class="main-nav">Home</a>
+            <a href="../about/about.html" class="main-nav">About Me</a>
+            <a href="../achievements/achievements.html" class="main-nav">Achievements</a>
+            <a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a>
+            <a href="../medcineAI.html" class="main-nav active expanded" data-target="medicine-ai">Medicine AI APP Design</a>
+            <div class="sub-nav-container">
+                <button class="sub-nav active">Project Report &Business Plan</button>
+                <a href="./2.html" class="sub-nav">Website Link&Program Code</a>
+            </div>
+            <a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a>
+            <a href="../contact/index.html" class="main-nav">Contact</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <h1 id="content-title">Medcine AI App Business Plan Project Report</h1>
+        
+        <!-- Project Report &Business Plan 内容区 -->
+        <div id="full-document-content" class="pdf-section">
+            <h3>1. Project Plan - Medicine AI</h3>
+            <h4>1.1 Project Overview</h4>
+            <p><span class="highlight">Project Background:</span> With the global aging population and increasing chronic disease patients, there is an urgent demand for continuous and convenient health management services. The elderly often face memory decline, difficulty understanding professional medical terms, and medication forgetting issues. Chronic disease patients need personalized dietary and rehabilitation guidance for long-term treatment.</p>
+            <p><span class="highlight">Project Objectives:</span></p>
+            <ul>
+                <li>Develop an AI-powered health management app integrating doctor's note recognition, medication reminders, personalized health recommendations, and daily health report sharing</li>
+                <li>Solve pain points of elderly and chronic disease patients in health management, improve medication adherence</li>
+                <li>Establish stable user base and cooperative relationships with hospitals/insurance companies, achieve sustainable operation</li>
+            </ul>
+
+            <h4>1.2 Project Team</h4>
+            <table>
+                <tr>
+                    <th>Role</th>
+                    <th>Name</th>
+                    <th>Responsibilities</th>
+                    <th>Professional Background</th>
+                </tr>
+                <tr>
+                    <td>Leader & Project Manager</td>
+                    <td>James</td>
+                    <td>Overall project planning & management</td>
+                    <td>Rich project management experience</td>
+                </tr>
+                <tr>
+                    <td>Backend Technical Developer</td>
+                    <td>Steven</td>
+                    <td>App development, OCR integration, AI model training</td>
+                    <td>Computer science background</td>
+                </tr>
+                <tr>
+                    <td>Technical Support</td>
+                    <td>Tony</td>
+                    <td>Video production, technical auxiliary work</td>
+                    <td>Computer science & photography</td>
+                </tr>
+                <tr>
+                    <td>Business Manager</td>
+                    <td>Fred</td>
+                    <td>Market research, business cooperation, promotion</td>
+                    <td>Economic and business background (inspired by family's chronic disease management)</td>
+                </tr>
+                <tr>
+                    <td>Business Manager</td>
+                    <td>Ricky</td>
+                    <td>Revenue model design, insurance company cooperation</td>
+                    <td>Economic and business background</td>
+                </tr>
+            </table>
+
+            <h4>1.3 Project Development Plan</h4>
+            <p><span class="highlight">Technology Development:</span></p>
+            <ol>
+                <li><strong>Phase 1 (1-3 months):</strong> Complete core function design, OCR integration, initial AI model training, obtain 200 sets of medical data</li>
+                <li><strong>Phase 2 (4-6 months):</strong> Develop core functions (doctor's note recognition, medication reminder), complete 500-set TextCNN model training</li>
+                <li><strong>Phase 3 (7-9 months):</strong> Integrate AI + human service mechanism, optimize interface with PyQt5, add voice command functions</li>
+                <li><strong>Phase 4 (10-12 months):</strong> Comprehensive system testing, fix issues, optimize efficiency and stability</li>
+            </ol>
+
+            <h4>1.4 Project Protection Measures</h4>
+            <ul>
+                <li><strong>Intellectual Property Protection:</strong> Apply for copyright for app interface design</li>
+                <li><strong>Trade Secret Protection:</strong> Protect core technology and proprietary knowledge base with confidentiality agreements</li>
+                <li><strong>Data Security Protection:</strong> Establish data security management system, use advanced encryption technology</li>
+            </ul>
+
+            <h4>1.5 Project Schedule and Milestones</h4>
+            <table>
+                <tr>
+                    <th>Milestone</th>
+                    <th>Time Node</th>
+                    <th>Key Tasks</th>
+                </tr>
+                <tr>
+                    <td>M1</td>
+                    <td>End of Month 3</td>
+                    <td>OCR integration, initial AI model training, 200 sets of medical data</td>
+                </tr>
+                <tr>
+                    <td>M2</td>
+                    <td>End of Month 6</td>
+                    <td>Core function development, 500-set TextCNN training, preliminary test passed</td>
+                </tr>
+                <tr>
+                    <td>M3</td>
+                    <td>End of Month 9</td>
+                    <td>AI + human service integration, interface optimization, preliminary user testing</td>
+                </tr>
+                <tr>
+                    <td>M4</td>
+                    <td>End of Month 12</td>
+                    <td>Comprehensive testing, official app launch</td>
+                </tr>
+            </table>
+
+            <h4>1.6 Project Budget (Initial: ¥700,000)</h4>
+            <table>
+                <tr>
+                    <th>Expense Item</th>
+                    <th>Amount (RMB)</th>
+                    <th>Remarks</th>
+                </tr>
+                <tr>
+                    <td>Product Development</td>
+                    <td>400,000</td>
+                    <td>Technical team recruitment, R&D, model training</td>
+                </tr>
+                <tr>
+                    <td>Marketing and Sales</td>
+                    <td>150,000</td>
+                    <td>Brand promotion, social media ads, health fairs</td>
+                </tr>
+                <tr>
+                    <td>Business Expenses</td>
+                    <td>50,000</td>
+                    <td>Administration, infrastructure, customer service</td>
+                </tr>
+                <tr>
+                    <td>Regulations and Legal</td>
+                    <td>100,000</td>
+                    <td>Platform compliance, approvals, legal consultation</td>
+                </tr>
+            </table>
+
+            <hr style="border: 1px solid rgba(0, 184, 255, 0.3); margin: 20px 0;">
+            
+            <h3>2. Business Report - Medicine AI</h3>
+            <h4>2.1 Market Analysis</h4>
+            <p><span class="highlight">Target Market:</span></p>
+            <ul>
+                <li>Core Users: Elderly (60+), chronic disease patients, family caregivers</li>
+                <li>Potential Users: All-age chronic disease patients, hospitals, insurance companies</li>
+            </ul>
+
+            <p><span class="highlight">Market Size and Growth Potential:</span></p>
+            <ul>
+                <li>Global: Elderly population expected to reach 2.1 billion</li>
+                <li>US: 65+ population will exceed under-18 by 2034, reach 80 million by 2040</li>
+                <li>China: 60+ population accounts for 20% currently, expected to rise to 30% by 2033, 65+ will exceed 300 million by 2050</li>
+                <li>Market Demand: 50% elderly medication non-adherence rate, huge market space</li>
+            </ul>
+
+            <h4>2.2 Competitive Analysis</h4>
+            <table>
+                <tr>
+                    <th>Competitor</th>
+                    <th>Core Features</th>
+                    <th>Disadvantages</th>
+                    <th>Medicine AI Advantages</th>
+                </tr>
+                <tr>
+                    <td>iCare</td>
+                    <td>Alarm with checkbox, medication history</td>
+                    <td>Lack AI, image/voice recognition, personalized suggestions</td>
+                    <td>Advanced AI, OCR, TextCNN, daily reports, personalized advice</td>
+                </tr>
+                <tr>
+                    <td>MediMemo</td>
+                    <td>Doctor's note photo, monthly family report</td>
+                    <td>No personalized services based on medical history</td>
+                    <td>Real-time reminders with pill images, AI recommendations, daily reports</td>
+                </tr>
+                <tr>
+                    <td>Pill Reminder</td>
+                    <td>Basic medication reminder</td>
+                    <td>No doctor's note processing, family sharing</td>
+                    <td>Comprehensive note recognition, multi-dimensional health management</td>
+                </tr>
+                <tr>
+                    <td>DingNing</td>
+                    <td>Simple medication reminder</td>
+                    <td>No advanced technology, single function</td>
+                    <td>Strong data processing, AI + human service combination</td>
+                </tr>
+            </table>
+
+            <h4>2.3 Business Model</h4>
+            <p><span class="highlight">Revenue Streams:</span></p>
+            <ul>
+                <li><strong>Personal Membership Fees:</strong>
+                    <ul>
+                        <li>Basic Version: Free (basic medication reminder)</li>
+                        <li>Premium Version: $9.9/month or ¥70/month (AI personalized suggestions, AI doctor consultation)</li>
+                        <li>Premium Plus Version: Real-time doctor consultation, appointment booking (coming soon)</li>
+                    </ul>
+                </li>
+                <li><strong>Cooperation Revenue:</strong> Revenue sharing with hospitals and insurance companies (integrate app into insurance packages, reduce claim costs)</li>
+            </ul>
+
+            <h4>2.4 Cost Structure</h4>
+            <table>
+                <tr>
+                    <th>Cost Item</th>
+                    <th>Amount</th>
+                    <th>Remarks</th>
+                </tr>
+                <tr>
+                    <td>App Store Fees</td>
+                    <td>¥2,000/year</td>
+                    <td>Fixed listing cost</td>
+                </tr>
+                <tr>
+                    <td>Social Media Advertising</td>
+                    <td>¥100,000/year</td>
+                    <td>Variable cost, adjustable</td>
+                </tr>
+                <tr>
+                    <td>Server & Cloud Infrastructure</td>
+                    <td>¥500/month</td>
+                    <td>Grows with user base</td>
+                </tr>
+                <tr>
+                    <td>Hosting & Maintenance</td>
+                    <td>¥700/month</td>
+                    <td>Regular system update</td>
+                </tr>
+                <tr>
+                    <td>Employee Salaries</td>
+                    <td>¥400,000/year</td>
+                    <td>2 AI engineers, 1 customer service, 1 manager</td>
+                </tr>
+                <tr>
+                    <td>Marketing & Promotion</td>
+                    <td>¥15,000/month</td>
+                    <td>Health fairs, community promotion</td>
+                </tr>
+                <tr>
+                    <td>Legal & Compliance</td>
+                    <td>¥5,000/month</td>
+                    <td>Legal consultation, compliance review</td>
+                </tr>
+            </table>
+
+            <h4>2.5 Profit Forecast</h4>
+            <p>Monthly cost (Y1) ~¥70,000, break-even with 1,000 paid members/month. Expected profitability in Y2 with growing user base and institutional cooperation.</p>
+
+            <h4>2.6 Marketing Strategy</h4>
+            <ul>
+                <li><strong>Social Media Promotion:</strong> Targeted ads on TikTok/YouTube/Bilibili (24-50yo users), highlight core functions and advantages</li>
+                <li><strong>Community Outreach:</strong> Cooperate with hospitals/nursing homes, participate in health expos (¥50,000 for elderly community advertising)</li>
+                <li><strong>App Store Optimization:</strong> Optimize keywords, collect user reviews, improve app rating and reputation</li>
+            </ul>
+
+            <h4>2.7 Risk Analysis and Mitigation Measures</h4>
+            <table>
+                <tr>
+                    <th>Risk Type</th>
+                    <th>Specific Risks</th>
+                    <th>Mitigation Measures</th>
+                </tr>
+                <tr>
+                    <td>Legal & Ethical</td>
+                    <td>AI regulation disputes</td>
+                    <td>Professional legal team, compliance review, follow policy changes</td>
+                </tr>
+                <tr>
+                    <td>Data Security</td>
+                    <td>User data leakage</td>
+                    <td>Advanced encryption, security management system, confidentiality agreements</td>
+                </tr>
+                <tr>
+                    <td>Market Competition</td>
+                    <td>New competitors entry</td>
+                    <td>Increase R&D investment, strengthen brand building, expand cooperation channels</td>
+                </tr>
+                <tr>
+                    <td>User Adoption</td>
+                    <td>Low elderly acceptance</td>
+                    <td>Simplify interface, add voice commands, provide user training</td>
+                </tr>
+            </table>
+
+            <h4>2.8 Fundraising Plan</h4>
+            <p><span class="highlight">Funding Needs:</span> Initial ¥700,000 (development, marketing, legal), follow-up funding from VC after product validation.</p>
+            <p><span class="highlight">Funding Sources:</span> Angel investors (medical/related industry), venture capital, government grants/subsidies.</p>
+
+            <h4>2.9 Development Vision</h4>
+            <p>Become a leading AI-based public health management service provider, provide convenient and personalized health management solutions for global elderly and chronic disease patients, improve quality of life, reduce care burden and medical costs.</p>
+
+            <hr style="border: 1px solid rgba(0, 184, 255, 0.3); margin: 20px 0;">
+            
+            <h3>3. Key Performance Metrics</h3>
+            <h4>3.1 Development Metrics</h4>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Current Value</th>
+                    <th>Target (Month 6)</th>
+                    <th>Target (Launch)</th>
+                </tr>
+                <tr>
+                    <td>Development Progress</td>
+                    <td>75%</td>
+                    <td>90%</td>
+                    <td>100%</td>
+                </tr>
+                <tr>
+                    <td>AI Training Datasets</td>
+                    <td>500+</td>
+                    <td>800+</td>
+                    <td>1000+</td>
+                </tr>
+                <tr>
+                    <td>OCR Recognition Accuracy</td>
+                    <td>85%</td>
+                    <td>92%</td>
+                    <td>95%</td>
+                </tr>
+                <tr>
+                    <td>User Interface Iterations</td>
+                    <td>3</td>
+                    <td>5</td>
+                    <td>6</td>
+                </tr>
+            </table>
+
+            <h4>3.2 Business Metrics</h4>
+            <table>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                    <th>Notes</th>
+                </tr>
+                <tr>
+                    <td>Break-even Point</td>
+                    <td>1,000 paid members/month</td>
+                    <td>Based on ¥70/month premium pricing</td>
+                </tr>
+                <tr>
+                    <td>Premium Pricing</td>
+                    <td>$9.9/month / ¥70/month</td>
+                    <td>Regional pricing strategy</td>
+                </tr>
+                <tr>
+                    <td>Monthly Fixed Costs (Y1)</td>
+                    <td>¥70,000</td>
+                    <td>Salaries + infrastructure + marketing</td>
+                </tr>
+                <tr>
+                    <td>Customer Acquisition Cost</td>
+                    <td>¥50/user</td>
+                    <td>Based on initial marketing budget</td>
+                </tr>
+            </table>
+
+            <h4>3.3 Market Metrics</h4>
+            <ul>
+                <li>Global Elderly Population (Projected): 2.1 Billion</li>
+                <li>China 60+ Population (2033 Projection): 30% of total population</li>
+                <li>US 65+ Population (2040 Projection): 80 Million</li>
+                <li>Elderly Medication Non-Adherence Rate: 50%</li>
+                <li>Target Market Penetration (Y2): 0.1% of core segment</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>

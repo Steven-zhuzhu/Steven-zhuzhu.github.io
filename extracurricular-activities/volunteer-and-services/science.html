@@ -66,13 +66,13 @@
             border-radius: 4px;
             transition: all 0.3s ease;
         }
-        .sub-nav.active { 
+        .sub-nav.active {
             color: #165DFF; /* 二级激活态主蓝色文字 */
-            font-weight: 500; 
-        } 
-        .sub-nav:hover { 
+            font-weight: 500;
+        }
+        .sub-nav:hover {
             color: #38BDF8; /* 二级hover浅蓝色 */
-            background-color: #1E293B; 
+            background-color: #1E293B;
         }
         .sidebar-footer {
             border-top: 1px solid #1E293B; /* 底部分隔线色 */
@@ -126,7 +126,7 @@
             margin-bottom: 20px; /* 与图片区域增加间距 */
         }
         .club-detail-content h4 {
-            color: #00c8ff; <!-- #F8FAFC;-->
+            color: #00c8ff;
             font-size: 1.2em;
             margin: 20px 0 10px;
         }
@@ -147,7 +147,7 @@
             overflow: hidden;
             box-shadow: 0 2px 10px rgba(0,0,0,0.15);
             /* 蓝色背景框 */
-            background-color: #165DFF; 
+            background-color: #165DFF;
             padding: 8px; /* 背景框的内边距，控制蓝色边框宽度 */
         }
         /* 图片容器 - 缩小图片尺寸 */
@@ -163,10 +163,38 @@
             height: 100%;
             object-fit: cover; /* 保持图片比例，填充容器 */
             transition: transform 0.3s ease; /* 缩放过渡效果 */
+            cursor: pointer;
         }
         .photo-item:hover .photo-inner img {
             transform: scale(1.05); /* 鼠标悬浮时轻微缩放 */
         }
+
+        /* ========== 图片弹窗预览 ========== */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #165DFF;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(22, 93, 255, 0.4);
+        }
+
         @media (max-width: 992px) {
             .sidebar {
                 width: 100%;
@@ -194,38 +222,28 @@
             <li><a href="../../about/about.html" class="main-nav">About Me</a></li>
             <li><a href="../../achievements/achievements.html" class="main-nav">Achievements</a></li>
             <li><a href="../../physics-research/physics-research.html" class="main-nav">Physics Research</a></li>
-            
+
             <li><a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a></li>
             <!-- 课外活动导航 + 子菜单（Astronomy Club激活） -->
             <li>
                 <a href="../activities.html" class="main-nav active">Extracurricular Activities</a>
                 <div class="sub-nav-container">
                     <a href="../school-club/school-club.html" class="sub-nav">School Club</a>
-                    
-                    <!--<div class="sub-nav-container" style="padding-left: 15px;">
-                        <a href="../school-club/astronomy.html" class="sub-nav">Astronomy Club</a>
-                        <a href="../school-club/physics.html" class="sub-nav">Physics Club</a>
-                        <a href="../school-club/badminton.html" class="sub-nav">Badminton Club</a>
-                        <a href="../school-club/MUN.html" class="sub-nav">MUN</a>
-                        <a href="../school-club/talkshow.html" class="sub-nav">Talkshow Club</a>
-                    </div>-->
+
                 </div>
             </li>
             <a href="../../extracurricular-activities/volunteer-and-services/volunteer-services.html" class="sub-nav">Volunteer & Services</a>
-
             <div class="sub-nav-container">
-                   
+
             <div class="sub-nav-container" style="padding-left: 15px;">
                         <a href="./reading.html" class="sub-nav">Reading Club</a>
                         <a href="./voice.html" class="sub-nav">Voice Museum</a>
                         <a href="./science.html" class="sub-nav  active">Science Museum Volunteer</a>
                     </div>
-
             <li><a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a></li>
             <li><a href="../../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a></li>
             <li><a href="../../contact/index.html" class="main-nav">Contact</a></li>
         </ul>
-
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -241,23 +259,21 @@
             </div>
         </div>
     </nav>
-
     <!-- 主内容区 -->
     <main class="main-content">
         <div class="club-detail-header">
             <i>🌌</i>
             <h2>Shenzhen Science Museum</h2>
         </div>
-              
+
         <div class="club-detail-content">
             <h4>From Science Lover to Volunteer Guide (2015 - Present)</h4>
-            
+
             <p>As a science enthusiast, I truly found my niche at the Shenzhen Science Museum. What started as a journey of curiosity about science has evolved into a regular commitment — I volunteer as a docent there almost every other weekend, turning my passion for science into meaningful sharing with others.</p>
-           
+
             <p style="color: #00c8ff; font-weight: 500; margin: 15px 0 8px 0;">What I Do</p>
             <p style="font-size: 1.1rem; line-height: 1.8;">As a volunteer docent, I explain scientific principles and exhibits in an accessible way, answer visitors’ questions patiently, and help more people discover the joy of science and spark their interest in scientific exploration.</p>
         </div>
-
         <!-- 新增2x2图片网格区域 - 调整结构适配新样式 -->
         <div class="photo-grid">
             <div class="photo-item">
@@ -282,5 +298,43 @@
             </div>
         </div>
     </main>
+
+    <!--弹窗DOM -->
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" src="" alt="preview big image">
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // 图片放大预览，不使用data属性，直接读取src
+            const imageModal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const thumbImages = document.querySelectorAll('.photo-inner img');
+
+            thumbImages.forEach(img => {
+                img.addEventListener('click', function(){
+                    modalImg.src = this.src;
+                    imageModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                })
+            })
+
+            //点击蒙层关闭
+            imageModal.addEventListener('click', function(){
+                imageModal.classList.remove('active');
+                modalImg.src = "";
+                document.body.style.overflow = '';
+            })
+
+            //ESC按键关闭弹窗
+            document.addEventListener('keydown', function(e){
+                if(e.key === 'Escape' && imageModal.classList.contains('active')){
+                    imageModal.classList.remove('active');
+                    modalImg.src = "";
+                    document.body.style.overflow = '';
+                }
+            })
+        });
+    </script>
 </body>
 </html>

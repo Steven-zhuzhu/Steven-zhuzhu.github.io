@@ -368,19 +368,27 @@
             <li><a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a></li>
             <li><a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a></li>
            
-            <!-- Reading to the World：子菜单默认关闭（核心修改） -->
-            <li class="menu-item">
-                <input type="checkbox" id="toggle-reading" class="menu-toggle"> <!-- 移除checked属性，默认未选中 -->
-                <label for="toggle-reading" class="main-nav active">Reading to the World</label>
-                <div class="sub-nav-container reading-sub">
-                    <a href="./my-childhood-audio-book/audio-books.html" 
-                       class="sub-nav-level2" 
-                       id="sidebar-audio">My Childhood Audio Books</a>
-                    <a href="./my-physics-world/physics-world.html" 
-                       class="sub-nav-level2" 
-                       id="sidebar-physics">My Physics World</a>
+           
+     
+
+
+            <!-- 核心修正：Reading to the World 主菜单改为可点击，路径指向my-favorite-books/my-books.html -->
+            <li class="menu-item main-nav-wrapper">
+                <input type="checkbox" id="toggle-reading" class="menu-toggle" checked>
+                <!--<label for="toggle-reading" class="toggle-label">▼</label>-->
+                <a href="../my-books.html" class="main-nav active nav-link">Reading to the World</a>
+                <div class="reading-sub">
+                    <!-- 修正：当前页面路径（my-childhood-audio-book/audio-books.html） -->
+                    <a href="./my-childhood-audio-book/audio-books.html" class="sub-nav-level2 nav-link">My Childhood Audio Book</a>
+                    <!-- 修正：My Physics World 路径指向my-physics-world/physics-world.html -->
+                    <a href="./my-physics-world/physics-world.html" class="sub-nav-level2 nav-link">My Physics World</a>
                 </div>
             </li>
+           
+           
+            <!-- Reading to the World：子菜单默认关闭（核心修改） -->
+            
+              
 
             <!-- 主菜单项 -->
             <li><a href="../contact/index.html" class="main-nav">Contact</a></li>
@@ -408,13 +416,13 @@
                 <h1 class="main-title">Reading Shapes My World</h1>
                 
                 <div class="narrative-text" id="narrativeText">
-                    As a child, silence was never my choice—it was a cage forged by dysarthria. Simple syllables felt like insurmountable peaks; I couldn’t string together a clear phrase until I was six, and it wasn’t until fourth grade that I dared to speak up loudly in class. For years, I existed in a transparent bubble, listening to the world’s chatter while my own voice remained trapped inside.
+                    As a child, silence was never my choice—it was a cage forged by dysarthria，where simple syllables felt like insurmountable peaks. I couldn’t string together a clear phrase until I was six, and it wasn’t until fourth grade that I dared to speak up loudly in class. For years, I existed in a transparent bubble, listening to the world’s chatter while my own voice remained trapped inside.
                     <br><br>
-                    It was my mother’s unwavering love and selfless sacrifice that pierced this barrier. A PhD in Electrical Engineering with a promising career, she made the hardest decision of her life: to step away from her lifelong professional passion to walk beside me every step of this arduous journey. To awaken my sluggish oral nerves, she turned the tedious training into a playful game: dipping cotton swabs in sugar syrup, she applied it repeatedly to the sides of my tongue, using sweetness to stimulate neural sensation; then she dotted the syrup around my lips and cheeks, teasing me to stick out my tongue to lick it off. What felt like a fun treasure hunt at first soon turned into a grueling routine—thousands of repetitions, until my tongue ached and my jaw grew stiff, yet I never asked to pause. Night after night, she sat under the lamplight, her hand wrapped around mine as we traced letters in tattered picture books. She had me watch her mouth in the mirror, feel the vibration of each sound, and I followed along, repeating syllables a thousand times over—even when my throat burned and my eyes grew heavy from fatigue. Her throat grew hoarse too, but her patience never wavered, and neither did mine. Those dog-eared pages, sugary swabs, and game-filled yet gritty repetitions quietly planted the seeds of reading in the loneliness of my childhood.
+                    It was my mother’s unwavering love and selfless sacrifice that pierced this barrier. A PhD in Electrical Engineering with a promising career, she made the hardest decision of her life: to step away from her lifelong professional passion to walk beside me every step of this arduous journey. To awaken my sluggish oral nerves, she turned the tedious training into a playful game: dipping cotton swabs in sugar syrup, she applied it repeatedly to the sides of my tongue, using sweetness to stimulate neural sensation.Then she dotted the syrup around my lips and cheeks, teasing me to stick out my tongue to lick it off. What felt like a fun treasure hunt at first soon turned into a grueling routine—thousands of repetitions, until my tongue ached and my jaw grew stiff, yet I never asked to pause. Night after night, she sat under the lamplight, her hand wrapped around mine as we traced letters in tattered picture books. She had me watch her mouth in the mirror, feel the vibration of each sound, and I followed along, repeating syllables a thousand times over—even when my throat burned and my eyes grew heavy from fatigue. Her throat grew hoarse too, but her patience never wavered, and neither did mine. Those dog-eared pages, sugary swabs, and game-filled yet gritty repetitions quietly planted the seeds of reading in the loneliness of my childhood.
                     <br><br>
-                    When playground laughter felt out of reach, when classroom questions made me shrink into my seat, books became my safest haven. Poetry’s rhythm soothed my insecurities, fairy tales’ magic ignited my imagination, history’s depth taught me resilience, and the fiery courage of biographical heroes showed me that limitations could be overcome. In the world of words, I never feared mispronouncing a sound or being mocked—I only had to follow the text to touch something vast and wonderful. That curiosity slowly took root and bloomed, eventually leading me to physics: my obsession with the universe’s hidden laws is nothing but the spark first lit by those early reads.
+                    When playground laughter felt out of reach, when classroom questions made me shrink into my seat, books became my safest haven. Poetry’s rhythm soothed my insecurities, fairy tales’ magic ignited my imagination, history’s depth taught me resilience, and the fiery courage of biographical heroes showed me that limitations could be overcome. In the world of words, I never feared mispronouncing a sound or being mocked—I only had to follow the text to touch something vast and wonderful. That curiosity slowly took root and bloomed, eventually leading me to physics. My obsession with the universe’s hidden laws is nothing but the spark first lit by those early reads.
                     <br><br>
-                    Reading was never just about recognizing words—it was the light that illuminated my silent childhood, the spiritual anchor that carried me through darkness. In days when I couldn’t express myself smoothly, it gave me a way to converse with the world; in loneliness, it nourished me with strength, helping me gradually break free from the chains of dysarthria. Every page turn was a spiritual growth; every story infused me with confidence for life. Today, I can express my thoughts clearly and unravel the mysteries of the universe through physics equations. The starting point of this ability was the training path my mother paved with love and perseverance, but the courage and vision to truly explore the world came from the power of reading. It didn’t just teach me to "speak"—it guided me to find my life’s direction, teaching me to write my own life story with curiosity and passion.
+                    Reading was never just about recognizing words—it was the light that illuminated my silent childhood, the spiritual anchor that carried me through darkness. In days when I couldn’t express myself smoothly, it gave me a way to converse with the world. In loneliness, it nourished me with strength, helping me gradually break free from the chains of dysarthria. Every page turn was a spiritual growth. Every story infused me with confidence for life. Today, I can express my thoughts clearly and unravel the mysteries of the universe through physics equations. The starting point of this ability was the training path my mother paved with love and perseverance, but the courage and vision to truly explore the world came from the power of reading. It didn’t just teach me to speak it guided me to find my life’s direction, teaching me to write my own life story with curiosity and passion.
                 </div>
 
                 <div class="toggle-btn-group">

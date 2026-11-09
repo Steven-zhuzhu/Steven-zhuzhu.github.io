@@ -12,14 +12,12 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
-
         body {
             background-color: #0F172A; /* 全局统一深色背景 */
             color: #F8FAFC;
             display: flex;
             min-height: 100vh;
         }
-
         /* 侧边栏样式 - 1:1复用astronomy.html，保证颜色完全一致 */
         .sidebar {
             width: 280px;
@@ -31,7 +29,6 @@
             overflow-y: auto;
             border-right: 3px solid #165DFF; /* 统一主蓝色 */
         }
-
         .sidebar-nav-item {
             color: #E2E8F0;
             text-decoration: none;
@@ -44,22 +41,18 @@
             cursor: pointer;
             margin: 4px 0;
         }
-
         .sidebar-nav-item.active {
             background-color: #165DFF; /* 激活态主蓝色背景 */
             color: #FFFFFF;
             font-weight: 600;
         }
-
         .sidebar-nav-item:hover:not(.active) {
             background-color: #1E293B; /* hover深色背景 */
             color: #38BDF8; /* hover浅蓝色文字 */
         }
-
         .level1-menu {
             margin: 8px 0;
         }
-
         /* 核心样式：和astronomy.html一致的层级菜单样式 */
         .level1-text {
             color: #94A3B8;
@@ -72,23 +65,19 @@
             transition: all 0.3s ease;
             cursor: pointer;
         }
-
         .level1-text.active {
             color: #FFFFFF; /* 激活态白色文字 */
             font-weight: 600;
         }
-
         .level1-text:hover {
             color: #38BDF8; /* 和其他hover一致的浅蓝色 */
             background-color: #1E293B; /* 和其他hover一致的深色背景 */
         }
-
         .level2-container {
             display: none;
             padding-left: 20px;
             margin-top: 2px;
         }
-
         .level2-text {
             color: #94A3B8;
             text-decoration: none;
@@ -98,49 +87,40 @@
             border-radius: 6px;
             transition: all 0.3s ease;
         }
-
         .level2-text.active {
             color: #165DFF; /* 二级激活态主蓝色文字 */
             font-weight: 500;
         }
-
         .level2-text:hover {
             color: #38BDF8; /* 二级hover浅蓝色 */
             background-color: #1E293B;
         }
-
         .sidebar-footer {
             border-top: 1px solid #1E293B;
             padding-top: 20px;
             margin-top: 30px;
         }
-
         .contact-item {
             margin: 15px 0;
             font-size: 14px;
         }
-
         .contact-item span {
             color: #94A3B8;
             margin-right: 8px;
         }
-
         .contact-item a {
             color: #38BDF8;
             text-decoration: none;
         }
-
         .contact-item a:hover {
             color: #7DD3FC;
             text-decoration: underline;
         }
-
         .creator-info {
             margin-top: 30px;
             color: #64748B;
             font-size: 13px;
         }
-
         /* 主体内容区域 - 完全匹配astronomy.html的样式 */
         .main-content {
             flex: 1;
@@ -150,7 +130,6 @@
             min-height: 100vh;
             color: #F8FAFC;
         }
-
         .section-heading {
             font-size: 1.8em;
             font-weight: 700;
@@ -159,20 +138,17 @@
             padding-bottom: 10px;
             border-bottom: 3px solid #165DFF; /* 统一主蓝色边框 */
         }
-
         .intro-text {
             line-height: 1.8;
             color: #94A3B8;
             margin-bottom: 30px;
             font-size: 1.05em;
         }
-
         /* MUN卡片样式 - 匹配astronomy.html的卡片风格 */
         .club-detail-container {
             max-width: 1000px;
             margin: 0 auto;
         }
-
         .detail-card {
             background: linear-gradient(135deg, rgba(22, 93, 255, 0.15), rgba(22, 93, 255, 0.05)); /* 主蓝色渐变 */
             border-radius: 8px;
@@ -181,7 +157,6 @@
             margin-bottom: 30px;
             border-left: 3px solid #165DFF; /* 统一主蓝色边框 */
         }
-
         .detail-card h3 {
             color: #F8FAFC;
             font-size: 1.4em;
@@ -190,18 +165,15 @@
             align-items: center;
             gap: 8px;
         }
-
         .detail-card h3 i {
             color: #38BDF8; /* 浅蓝色图标 */
         }
-
         .detail-card p {
             line-height: 1.8;
             color: #94A3B8;
             margin-bottom: 20px;
             font-size: 1.05em;
         }
-
         .activity-list {
             list-style-type: disc;
             padding-left: 25px;
@@ -209,11 +181,9 @@
             line-height: 1.9;
             margin-bottom: 20px;
         }
-
         .activity-list li {
             margin-bottom: 10px;
         }
-
         /* 新增：照片展示区域样式 */
         .mun-photos {
             margin: 40px 0;
@@ -223,7 +193,6 @@
             border-left: 3px solid #165DFF;
             box-shadow: 0 2px 15px rgba(22, 93, 255, 0.15);
         }
-
         .mun-photos h4 {
             color: #F8FAFC;
             font-size: 1.2em;
@@ -232,36 +201,31 @@
             align-items: center;
             gap: 8px;
         }
-
         .mun-photos h4 i {
             color: #38BDF8;
         }
-
         .photo-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
             gap: 20px;
         }
-
         .photo-item {
             border-radius: 6px;
             overflow: hidden;
             box-shadow: 0 3px 10px rgba(22, 93, 255, 0.2);
             transition: all 0.3s ease;
         }
-
         .photo-item:hover {
             transform: scale(1.03);
             box-shadow: 0 5px 15px rgba(22, 93, 255, 0.3);
         }
-
         .photo-item img {
             width: 100%;
             height: 200px;
             object-fit: cover;
             display: block;
+            cursor: pointer;
         }
-
         .back-btn {
             background-color: #165DFF; /* 统一主蓝色按钮 */
             color: #FFFFFF;
@@ -275,11 +239,36 @@
             transition: all 0.3s ease;
             margin-top: 10px;
         }
-
         .back-btn:hover {
             background-color: #38BDF8; /* hover浅蓝色 */
             color: #0F172A;
             transform: scale(1.05);
+        }
+
+        /* ========== 图片弹窗预览样式 ========== */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #165DFF;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(22, 93, 255, 0.4);
         }
 
         /* 响应式适配 - 完全匹配astronomy.html，新增照片区域的响应式 */
@@ -291,22 +280,18 @@
                 border-right: none;
                 border-bottom: 3px solid #165DFF;
             }
-
             .main-content {
                 margin-left: 0;
                 padding: 30px 20px;
             }
-
             .photo-grid {
                 grid-template-columns: repeat(2, 1fr);
             }
         }
-
         @media (max-width: 576px) {
             .photo-grid {
                 grid-template-columns: 1fr;
             }
-
             .photo-item img {
                 height: 180px;
             }
@@ -320,7 +305,7 @@
         <a href="../../about/about.html" class="sidebar-nav-item">About Me</a>
         <a href="../../achievements/achievements.html" class="sidebar-nav-item">Achievements</a>
         <a href="../../physics-research/physics-research.html" class="sidebar-nav-item">Physics Research</a>
-        <a href="../../climate-modeling-project/climate.html" class="sidebar-nav-item">Climate Modeling Project</a>
+        
         <a href="../../medcine-AI/medcineAI.html" class="sidebar-nav-item">Medcine AI App Design</a>
         <a href="../../extracurricular-activities/activities.html" class="sidebar-nav-item active">Extracurricular Activities</a>
         
@@ -336,18 +321,16 @@
             </div>
         </div>
         <div class="level1-menu"></div>
-         <a href="../volunteer-and-services/volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</div>
+         <a href="../volunteer-and-services/volunteer-services.html" class="level1-text" id="volunteerBtn">Volunteer & Services</a>
        
         <div class="level2-container" id="volunteerSub">
             <a href="../../extracurricular-activities/volunteer-and-services/reading-club.html" class="level2-text">Reading Club</a>
             <a href="../../extracurricular-activities/volunteer-and-services/voice-museum.html" class="level2-text">Voice Museum</a>
             <a href="../../extracurricular-activities/volunteer-and-services/science.html" class="level2-text">Science Museum Volunteer</a>
         </div>
-
         <a href="../../my-leisure-hobbies/hobbies.html" class="sidebar-nav-item">Leisure Hobbies</a>
         <a href="../../my-favorite-books/my-books.html" class="sidebar-nav-item">Reading to the World</a>
         <a href="../../contact/index.html" class="sidebar-nav-item">Contact</a>
-
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -363,12 +346,10 @@
             </div>
         </div>
     </nav>
-
     <!-- 主体内容区域 - 匹配astronomy.html的布局和样式，新增照片区域 -->
     <main class="main-content">
         <h2 class="section-heading">Model United Nations (MUN)</h2>
         <p class="intro-text"></p>
-
         <div class="club-detail-container">
             <div class="detail-card">
                 <h3><i>🌍</i>Breaking Silence, Speaking Boldly: MUN Voice </h3>
@@ -376,7 +357,6 @@
                 <p class="intro-text">From fearing to speak up to standing on the MUN debate stage, reading gave me the wings to express myself bravely.</p>
                 <p class="intro-text">Teaming up with my peers, I competed in the Guangdong Greater Bay Area Model United Nations Debate Competition and we won the Group Special Award🏆.</p>
             </div>
-
             <!-- 新增：MUN照片展示区域 -->
             <div class="mun-photos">
                 <h4><i>📷</i>MUN Activity Photos</h4>
@@ -401,23 +381,23 @@
                     </div>
                 </div>
             </div>
-
             <a href="./school-club.html" class="back-btn">← Back to School Club List</a>
         </div>
     </main>
 
-    <!-- 交互脚本 - 完全匹配astronomy.html的菜单交互 -->
+    <!--弹窗DOM -->
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" src="" alt="preview big image">
+    </div>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const schoolClubBtn = document.getElementById('schoolClubBtn');
             const schoolClubSub = document.getElementById('schoolClubSub');
             const volunteerBtn = document.getElementById('volunteerBtn');
             const volunteerSub = document.getElementById('volunteerSub');
-
             // 默认展开School Club二级菜单
             schoolClubSub.style.display = 'block';
-
-            // School Club菜单展开/收起
             schoolClubBtn.addEventListener('click', () => {
                 const isDisplayed = schoolClubSub.style.display === 'block';
                 schoolClubSub.style.display = isDisplayed ? 'none' : 'block';
@@ -425,8 +405,6 @@
                 schoolClubBtn.classList.toggle('active', !isDisplayed);
                 volunteerBtn.classList.remove('active');
             });
-
-            // Volunteer & Services菜单展开/收起
             volunteerBtn.addEventListener('click', () => {
                 const isDisplayed = volunteerSub.style.display === 'block';
                 volunteerSub.style.display = isDisplayed ? 'none' : 'block';
@@ -434,6 +412,35 @@
                 volunteerBtn.classList.toggle('active', !isDisplayed);
                 schoolClubBtn.classList.remove('active');
             });
+
+            // 图片放大：直接读取img.src，无自定义data属性
+            const imageModal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImg');
+            const thumbImages = document.querySelectorAll('.photo-item img');
+
+            thumbImages.forEach(img => {
+                img.addEventListener('click', function(){
+                    modalImg.src = this.src;
+                    imageModal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                })
+            })
+
+            //点击蒙层关闭
+            imageModal.addEventListener('click', function(){
+                imageModal.classList.remove('active');
+                modalImg.src = "";
+                document.body.style.overflow = '';
+            })
+
+            //ESC按键关闭弹窗
+            document.addEventListener('keydown', function(e){
+                if(e.key === 'Escape' && imageModal.classList.contains('active')){
+                    imageModal.classList.remove('active');
+                    modalImg.src = "";
+                    document.body.style.overflow = '';
+                }
+            })
         });
     </script>
 </body>

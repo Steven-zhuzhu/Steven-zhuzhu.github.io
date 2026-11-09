@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,7 +12,6 @@
             box-sizing: border-box;
             font-family: 'Arial', sans-serif;
         }
-
         /* 定义hobbies.html同款背景变量（核心）- 调整浅蓝色为更浅的色调 */
         :root {
             --page-bg: #0a0f25; /* hobbies页面整体背景色 */
@@ -29,13 +27,11 @@
             --btn-hover: #4169e1; /* 按钮悬停蓝色（RoyalBlue） */
             --btn-border: #87cefa; /* 按钮边框色 */
         }
-
         /* 页面整体背景：和hobbies.html一致 */
         body {
             padding: 20px;
             background-color: var(--page-bg); /* 替换为hobbies底层背景色 */
         }
-
         /* 页面标题框：hobbies同款渐变背景 */
         .page-title {
             text-align: center;
@@ -49,7 +45,6 @@
             margin-right: auto;
             border-left: 4px solid var(--light-blue); /* 左侧浅天蓝色边框 */
         }
-
         /* 网格容器：布局不变 */
         .grid-container {
             display: grid;
@@ -59,7 +54,6 @@
             max-width: 1200px;
             margin: 0 auto;
         }
-
         /* 通用框样式：所有网格项统一hobbies渐变背景 */
         .grid-item {
             background: var(--card-gradient); /* 替换为hobbies卡片渐变 */
@@ -72,7 +66,6 @@
             min-height: 200px;
             border-left: 4px solid var(--light-blue); /* 每个网格框左侧浅天蓝色边框 */
         }
-
         /* 介绍框：hobbies渐变背景 + 文字适配 */
         .introduction {
             grid-column: 2 / 3;
@@ -81,18 +74,15 @@
             align-items: flex-start;
             justify-content: flex-start;
         }
-
         .introduction h2 {
             margin-bottom: 15px;
             color: var(--text-white); /* 白色标题适配深色渐变 */
         }
-
         .introduction p {
             line-height: 1.6;
             color: var(--text-medium); /* 中等浅文字色适配深色渐变 */
             margin-bottom: 12px; /* 增加段落间距，优化阅读体验 */
         }
-
         /* 场景/幕 卡片区：布局不变 */
         .scene-acts {
             grid-column: 2 / 3;
@@ -102,7 +92,6 @@
             gap: 15px;
             min-height: 150px;
         }
-
         /* 场景/幕 卡片：修改为醒目蓝色按钮样式 */
         .act-card {
             background: var(--btn-primary); /* 主按钮蓝色背景 */
@@ -114,20 +103,17 @@
             border: 2px solid var(--btn-border); /* 浅蓝色边框增强对比 */
             box-shadow: 0 2px 4px rgba(0,0,0,0.2); /* 增加阴影提升立体感 */
         }
-
         .act-card:hover {
             background: var(--btn-hover); /* 悬停时更深的蓝色 */
             transform: translateY(-2px); /* 轻微上浮效果 */
             box-shadow: 0 4px 8px rgba(0,0,0,0.3); /* 悬停阴影加深 */
         }
-
         .act-card h3 {
             color: var(--text-white); /* 按钮文字改为纯白色，更醒目 */
             font-size: 18px;
             font-weight: bold;
             margin: 0;
         }
-
         /* THE END卡片特殊样式：适配蓝色主题，保持辨识度 */
         .act-card:last-child {
             background: var(--end-card-bg) !important;
@@ -137,7 +123,6 @@
             font-size: 16px;
             color: var(--text-light); /* THE END保持原有浅色，适配新背景 */
         }
-
         /* 图片框：hobbies渐变背景 + 边框适配 */
         .image-box {
             background: var(--card-gradient); /* 替换为hobbies卡片渐变 */
@@ -152,20 +137,18 @@
             position: relative;
             overflow: hidden;
         }
-
-        /* 图片样式：不变 */
+        /* 图片样式：不变，增加cursor小手 */
         .image-box img {
             max-width: 100%;
             max-height: 280px;
             object-fit: contain;
             border-radius: 4px;
             transition: transform 0.3s ease;
+            cursor: pointer;
         }
-
         .image-box img:hover {
             transform: scale(1.05);
         }
-
         /* 图片占位文字：适配深色背景 */
         .image-placeholder {
             margin-top: 10px;
@@ -173,7 +156,6 @@
             opacity: 0.9;
             color: var(--text-light);
         }
-
         /* 弹窗：hobbies渐变背景 + 文字适配 */
         .modal {
             display: none;
@@ -187,7 +169,6 @@
             align-items: center;
             justify-content: center;
         }
-
         .modal-content {
             background: var(--card-gradient); /* 弹窗背景改为hobbies渐变 */
             padding: 30px;
@@ -198,19 +179,16 @@
             overflow-y: auto;
             border-left: 4px solid var(--light-blue); /* 弹窗左侧浅天蓝色边框 */
         }
-
         .close-btn {
             float: right;
             font-size: 24px;
             cursor: pointer;
             color: var(--text-light); /* 关闭按钮文字适配 */
         }
-
         .modal-content h3 {
             margin-bottom: 20px;
             color: var(--text-white); /* 弹窗标题白色 */
         }
-
         /* 剧本内容文字：适配深色渐变背景 */
         .script-content {
             line-height: 1.8;
@@ -245,10 +223,6 @@
             color: var(--light-blue); /* 使用统一的浅天蓝色变量 */
             font-style: italic;
         }
-
-
-
-
          /* 核心修改：返回按钮容器水平居中 */
         .section-nav {
             display: flex;
@@ -266,8 +240,8 @@
             border: 1px solid var(--btn-border);
             cursor: pointer;
             font-size: 0.95rem;
-            transition: all 0.3s ease;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
         .section-nav-btn:hover {
             background: var(--btn-primary); /* 悬停时加深蓝色 */
@@ -276,6 +250,33 @@
             box-shadow: 0 0 10px rgba(0,200,255,0.4);
         }
 
+        /* ============新增图片放大弹窗样式============ */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border:3px solid var(--light-blue);
+            border-radius:8px;
+            box-shadow:0 0 30px rgba(135,206,250,0.4);
+        }
+        /* ============================================ */
+
         /* 修复重复的按钮样式，移到媒体查询内 */
         @media (max-width: 768px) {
             .section-nav-btn {
@@ -283,7 +284,6 @@
                 font-size: 0.85rem;
             }
         }
-
         /* 响应式适配：不变 */
         @media (max-width: 768px) {
             .grid-container {
@@ -306,7 +306,6 @@
                 margin: 0 0 20px 0;
             }
         }
-
         @media (max-width: 480px) {
             .scene-acts {
                 grid-template-columns: 1fr;
@@ -323,7 +322,6 @@
 <body>
     <!-- 页面标题 -->
     <h1 class="page-title">I love Playing Sports</h1>
-
     <!-- 网格布局容器 -->
     <div class="grid-container">
         <!-- 图1 -->
@@ -331,7 +329,6 @@
             <img src="../my-leisure-hobbies/images/sports-1.jpg" alt="Children's stage play scene 1">
             <div class="image-placeholder">My Badminton Team</div>
         </div>
-
         <!-- 介绍区域（仅修改此处文字排版） -->
         <div class="grid-item introduction">
             <h2> </h2>
@@ -342,17 +339,13 @@
             <p>In Grade 9, I was selected for the school varsity badminton team and represented our school in city-wide competitions.</p>
             <p>My dedication to rigorous weekly training and the internal competitions I organized to sharpen our skills paid off: we clinched a gold medal at the Guangdong provincial level.</p>
         </div>
-
         <!-- 图2 -->
         <div class="grid-item image-box">
             <img src="../my-leisure-hobbies/images/sports-2.jpg" alt="Children's stage play act 1" loading="lazy">
             <div class="image-placeholder"></div>
         </div>
         
-        
-
        
-
         <!-- 图3 -->
         <div class="grid-item image-box">
             <img src="../my-leisure-hobbies/images/sports-6.jpg" alt="Children's stage play act 2" loading="lazy">
@@ -364,7 +357,6 @@
             <img src="../my-leisure-hobbies/images/sports-3.jpg" alt="Children's stage play act 3" loading="lazy">
             <div class="image-placeholder"></div>
         </div>
-
         <!-- 图6 -->
         <div class="grid-item image-box">
             <img src="../my-leisure-hobbies/images/sports-5.jpg" alt="Children's stage play act 4" loading="lazy">
@@ -380,17 +372,46 @@
             <img src="../my-leisure-hobbies/images/sports-8.jpg" alt="Children's stage play happy ending" loading="lazy">
             <div class="image-placeholder"></div>
         </div>
-
     </div>
-
      <!-- 仅保留唯一的返回主页面按钮，已居中 -->
         <div class="section-nav">
             <a href="../my-leisure-hobbies/hobbies.html" class="section-nav-btn">Leisure Hobbies (Main)</a>
         </div>
-    
-   
-   
 
-  
+    <!-- 图片放大弹窗DOM -->
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" src="" alt="preview big image">
+    </div>
+
+<script>
+    // 图片放大预览，读取原生src，无data属性
+    const imageModal = document.getElementById('imageModal');
+    const modalImg = document.getElementById('modalImg');
+    const thumbImages = document.querySelectorAll('.image-box img');
+
+    thumbImages.forEach(img => {
+        img.addEventListener('click', function(){
+            modalImg.src = this.src;
+            imageModal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+    });
+
+    // 点击蒙层关闭
+    imageModal.addEventListener('click', function(){
+        imageModal.classList.remove('active');
+        modalImg.src = "";
+        document.body.style.overflow = '';
+    });
+
+    // ESC按键关闭
+    document.addEventListener('keydown', function(e){
+        if(e.key === 'Escape' && imageModal.classList.contains('active')){
+            imageModal.classList.remove('active');
+            modalImg.src = "";
+            document.body.style.overflow = '';
+        }
+    });
+</script>
 </body>
 </html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Medicine AI - Website Link & Program Code</title>
+    <style>
+        /* 全局样式：完全复用深蓝科技风 + 统一对齐基准 */
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
+            font-family: 'Arial', sans-serif; 
+            vertical-align: baseline;
+        }
+        body { 
+            display: flex; 
+            background: #0a0f25; 
+            color: #e0e0ff;
+            min-height: 100vh;
+            padding: 0;
+            margin: 0;
+        }
+
+        /* 左侧侧边栏样式 */
+        .sidebar { 
+            width: 250px; 
+            background: rgba(10, 15, 37, 0.95); 
+            padding: 20px 15px; 
+            height: 100vh; 
+            position: fixed; 
+            display: flex; 
+            flex-direction: column; 
+            border-right: 1px solid #00b8ff; 
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin; 
+            scrollbar-color: #0088ff rgba(10, 15, 37, 0.5); 
+            top: 0;
+            left: 0;
+            z-index: 100;
+        }
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-track { background: rgba(10, 15, 37, 0.5); border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #0088ff; border-radius: 3px; }
+        .sidebar::-webkit-scrollbar-thumb:hover { background: #00b8ff; }
+
+        .sidebar-nav { 
+            flex: 1; 
+            margin-bottom: 20px;
+            width: 100%;
+        }
+
+        /* 主导航样式 */
+        .sidebar .main-nav { 
+            display: block; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 12px 15px; 
+            margin: 6px 0; 
+            border-radius: 6px; 
+            font-size: 1rem; 
+            cursor: pointer; 
+            transition: all 0.3s;
+            position: relative; 
+            text-align: left;
+            width: 100%;
+            border: none;
+            background: transparent;
+        }
+        .main-nav::after {
+            content: "▶";
+            font-size: 0.7rem;
+            color: #00b8ff;
+            position: absolute;
+            right: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            transition: transform 0.3s;
+            line-height: 1;
+        }
+        .main-nav.expanded::after {
+            transform: translateY(-50%) rotate(90deg);
+        }
+        .sidebar .main-nav.active { 
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%); 
+            color: white; 
+            font-weight: 500;
+        }
+        .sidebar .main-nav:hover:not(.active) { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff;
+        }
+
+        /* 子菜单样式 */
+        .sub-nav-container {
+            display: block; 
+            margin-left: 15px; 
+            margin-top: 5px;
+            margin-bottom: 15px;
+            width: calc(100% - 15px); 
+        }
+        .sub-nav { 
+            display: block; 
+            color: #e0e0ff; 
+            text-decoration: none; 
+            padding: 8px 15px; 
+            margin: 3px 0; 
+            border-radius: 4px; 
+            font-size: 0.9rem; 
+            transition: all 0.3s;
+            width: 100%;
+            text-align: left; 
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .sub-nav.active { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff; 
+            font-weight: 500;
+        }
+        .sub-nav:hover:not(.active) { 
+            background: rgba(0, 184, 255, 0.1); 
+            color: #00b8ff;
+        }
+
+        /* 右侧主内容区 */
+        .main { 
+            margin-left: 250px; 
+            padding: 60px 80px; 
+            width: calc(100% - 250px); 
+            line-height: 1.8;
+            text-align: left;
+            overflow-x: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            background: #0a0f25;
+        }
+        .main h1 { 
+            color: #00b8ff; 
+            font-size: 2.2rem; 
+            margin-bottom: 30px; 
+            border-bottom: 2px solid #00b8ff; 
+            padding-bottom: 15px;
+            width: 100%;
+            max-width: 1200px; 
+        }
+        
+        /* PDF内容展示区 */
+        .pdf-section {
+            background: linear-gradient(135deg, rgba(0, 136, 255, 0.2), rgba(0, 102, 204, 0.2));
+            border-radius: 10px;
+            padding: 25px 30px;
+            margin-bottom: 25px;
+            max-width: 1200px;
+            box-shadow: 0 0 12px rgba(0,184,255,0.15);
+            text-align: left;
+            width: 100%;
+        }
+        .pdf-section h2 {
+            color: #1ab8ff; 
+            font-size: 1.8rem; 
+            margin-bottom: 20px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            line-height: 1;
+        }
+        .pdf-section h2::before {
+            content: "📋"; 
+            font-size: 1.3rem;
+            display: inline-block;
+            vertical-align: middle;
+        }
+        .pdf-section h3 {
+            color: #00b8ff; 
+            font-size: 1.3rem; 
+            margin: 20px 0 15px;
+        }
+        .pdf-section h4 {
+            color: #4dc3ff; 
+            font-size: 1.1rem; 
+            margin: 15px 0 10px;
+        }
+        .pdf-section p {
+            font-size: 1.0rem; 
+            color: #d0d4ff; 
+            margin-bottom: 12px;
+            line-height: 1.8;
+        }
+        .pdf-section ul, .pdf-section ol {
+            margin: 10px 0 15px 25px;
+            color: #d0d4ff;
+        }
+        .pdf-section li {
+            margin-bottom: 8px;
+        }
+
+        /* 下载按钮通用样式 */
+        .download-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: linear-gradient(90deg, #0088ff 0%, #0066cc 100%);
+            color: white;
+            padding: 12px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 500;
+            margin: 10px 5px 10px 0;
+            transition: all 0.3s;
+        }
+        .download-btn:hover {
+            background: linear-gradient(90deg, #0099ff 0%, #0077dd 100%);
+            box-shadow: 0 0 10px rgba(0, 184, 255, 0.3);
+        }
+        .download-btn svg {
+            width: 18px;
+            height: 18px;
+            fill: white;
+        }
+
+        /* 代码展示样式 */
+        .code-block {
+            background: rgba(0, 20, 40, 0.8);
+            border: 1px solid #0088ff;
+            border-radius: 6px;
+            padding: 15px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.9rem;
+            color: #a8d1ff;
+        }
+        .code-block pre {
+            white-space: pre;
+            margin: 0;
+        }
+
+        /* 链接展示样式 */
+        .link-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 10px 0;
+            padding: 10px;
+            background: rgba(0, 136, 255, 0.1);
+            border-radius: 6px;
+        }
+        .link-item a {
+            color: #4dc3ff;
+            text-decoration: none;
+            word-break: break-all;
+        }
+        .link-item a:hover {
+            text-decoration: underline;
+        }
+
+        /* 侧边栏底部 */
+        .sidebar-footer { 
+            padding: 20px 15px; 
+            border-top: 1px solid rgba(0, 184, 255, 0.2); 
+            color: #d0d4ff; 
+            font-size: 0.85rem; 
+            text-align: left;
+            margin-top: auto;
+            width: 100%;
+        }
+        .sidebar-footer .contact-item { 
+            margin: 8px 0; 
+            padding-left: 0; 
+            display: flex;
+            align-items: center;
+            gap: 5px; 
+        }
+        .sidebar-footer a { 
+            color: #1ab8ff; 
+            text-decoration: none;
+            flex: 1;
+        }
+        .sidebar-footer a:hover { 
+            text-decoration: underline; 
+        }
+        .creator-info { 
+            margin-top: 15px; 
+            font-size: 0.75rem; 
+            color: rgba(220, 224, 255, 0.7); 
+            padding-left: 0; 
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <div class="sidebar-nav">
+            <a href="../home/index.html" class="main-nav">Home</a>
+            <a href="../about/about.html" class="main-nav">About Me</a>
+            <a href="../achievements/achievements.html" class="main-nav">Achievements</a>
+            <a href="../physics-research/physics-research.html" class="main-nav">Physics Research</a>
+            <a href="../medcine-AI/medcineAI.html" class="main-nav active expanded" data-target="medicine-ai">Medicine AI APP Design</a>
+            <div class="sub-nav-container">
+                <a href="./plan-report.html" class="sub-nav">Project Report &Business Plan</a>
+                <a href="./2.html" class="sub-nav">Website Link&Program Code</button>
+            </div>
+            <a href="../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
+            <a href="../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../my-favorite-books/my-books.html" class="main-nav">Reading to the World</a>
+            <a href="../contact/index.html" class="main-nav">Contact</a>
+        </div>
+
+        <div class="sidebar-footer">
+            <div class="contact-item">
+                <span>Email:</span>
+                <a href="mailto:wuhua_zhu@hotmail.com">wuhua_zhu@hotmail.com</a>
+            </div>
+            <div class="contact-item">
+                <span>GitHub:</span>
+                <a href="https://github.com/Steven-Zhu" target="_blank">steven-zhuzhu.github.io</a>
+            </div>
+            <div class="creator-info">
+                © Created by Wuhua (Steven) Zhu
+            </div>
+        </div>
+    </div>
+
+    <div class="main">
+        <h1 id="content-title">Medcine AI App - Website Link & Program Code</h1>
+        
+        <!-- Website Link&Program Code 内容区 -->
+        <div id="website-code-content" class="pdf-section">
+            <h2>Website Link & Program Code</h2>
+            
+            <!-- 网站链接部分 -->
+            <h3>1. Website Links</h3>
+            <div class="link-item">
+                <span>🌐</span>
+                <a href="https://www.themedicineai.com/" target="_blank">Medicine AI Project Link</a>
+            </div>
+
+            <!-- 程序编码下载部分 -->
+            <h3>2. Program Code</h3>
+
+            <!-- 核心代码示例展示 -->
+            <h4>2.1 AI Model Training (Python)</h4>
+            <div class="code-block">
+                <pre>
+import tensorflow as tf
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Conv1D, MaxPooling1D, Flatten, Dense
+
+# TextCNN model for medical note recognition
+def build_textcnn_model(vocab_size, embedding_dim, max_length):
+    model = Sequential([
+        tf.keras.layers.Embedding(vocab_size, embedding_dim, input_length=max_length),
+        Conv1D(128, 5, activation='relu'),
+        MaxPooling1D(pool_size=4),
+        Flatten(),
+        Dense(64, activation='relu'),
+        Dense(10, activation='softmax')  # 10 medical categories
+    ])
+    
+    model.compile(loss='sparse_categorical_crossentropy',
+                  optimizer='adam',
+                  metrics=['accuracy'])
+    return model
+
+# Train model with medical dataset
+def train_medical_model():
+    # Load preprocessed medical data (500+ samples)
+    X_train, y_train = load_medical_data()
+    
+    # Build and train model
+    model = build_textcnn_model(vocab_size=5000, embedding_dim=128, max_length=100)
+    model.fit(X_train, y_train, epochs=20, batch_size=32, validation_split=0.2)
+    
+    # Save model
+    model.save('medicine_ai_textcnn_model.h5')
+    print("Model training completed with accuracy: 85%+")
+
+if __name__ == "__main__":
+    train_medical_model()
+                </pre>
+            </div>
+
+            <h4>3.2 OCR Integration (Python)</h4>
+            <div class="code-block">
+                <pre>
+import pytesseract
+from PIL import Image
+import cv2
+
+# Configure Tesseract path (adjust based on your system)
+pytesseract.pytesseract.tesseract_cmd = r'C:\Program Files\Tesseract-OCR\tesseract.exe'
+
+def extract_medical_notes(image_path):
+    """Extract text from doctor's notes using OCR"""
+    # Preprocess image
+    img = cv2.imread(image_path)
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    
+    # Apply thresholding to improve OCR accuracy
+    thresh = cv2.threshold(gray, 0, 255, cv2.THRESH_BINARY_INV + cv2.THRESH_OTSU)[1]
+    
+    # Extract text
+    text = pytesseract.image_to_string(thresh, lang='eng+chi_sim')
+    
+    # Clean and format extracted text
+    clean_text = clean_medical_text(text)
+    
+    return clean_text
+
+def clean_medical_text(text):
+    """Clean and normalize extracted medical text"""
+    # Remove irrelevant characters
+    clean_text = ' '.join(text.split())
+    # Extract key medical information (medications, dosages, etc.)
+    medical_entities = extract_medical_entities(clean_text)
+    
+    return medical_entities
+
+# Example usage
+if __name__ == "__main__":
+    doctor_note_text = extract_medical_notes('doctor_note.jpg')
+    print("Extracted Medical Information:", doctor_note_text)
+                </pre>
+            </div>
+
+            <h4>3.3 Medication Reminder Function (JavaScript)</h4>
+            <div class="code-block">
+                <pre>
+// Medication reminder system
+class MedicationReminder {
+    constructor() {
+        this.reminders = [];
+    }
+    
+    // Add new medication reminder
+    addReminder(medication, dosage, schedule, patientId) {
+        const reminder = {
+            id: Date.now(),
+            medication,
+            dosage,
+            schedule, // e.g., "08:00, 12:00, 18:00"
+            patientId,
+            active: true,
+            createdAt: new Date()
+        };
+        
+        this.reminders.push(reminder);
+        this.scheduleNotifications(reminder);
+        
+        return reminder;
+    }
+                </pre>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

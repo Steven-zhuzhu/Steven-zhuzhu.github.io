@@ -174,6 +174,32 @@
             color: rgba(255,255,255,0.7); 
             padding-left: 15px; 
         }
+
+        /* ========== 图片弹窗预览新增样式（和其他页面保持一致） ========== */
+        .image-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0,0,0,0.85);
+            z-index: 9999;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .image-modal.active {
+            display: flex;
+        }
+        .image-modal img {
+            max-width: 90%;
+            max-height: 90vh;
+            object-fit: contain;
+            border: 3px solid #00c8ff;
+            border-radius: 8px;
+            box-shadow: 0 0 30px rgba(0,200,255,0.4);
+        }
     </style>
 </head>
 <body>
@@ -192,11 +218,10 @@
             <a href="../../physics-research/physics-research.html" class="main-nav">Physics Research</a>
             <a href="../../medcine-AI/medcineAI.html" class="main-nav">Medcine AI App Design</a>
             <a href="../../extracurricular-activities/activities.html" class="main-nav">Extracurricular Activities</a>
-            <a href="../../leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
+            <a href="../../my-leisure-hobbies/hobbies.html" class="main-nav">Leisure Hobbies</a>
             <a href="../../my-favorite-books/my-books.html" class="main-nav" data-target="none">Reading to the World</a>
             <a href="../../contact/index.html" class="main-nav">Contact</a>
         </div>
-
         <div class="sidebar-footer">
             <div class="contact-item">
                 <span>Email:</span>
@@ -211,34 +236,92 @@
     </div>
     <div class="main">
         <h1>Academic Awards</h1>     
-
         <div class="academic-section">
             <h3>High School Academic Achievements</h3>
             <ul>
-                <li>Earn the Distinguished Honor Roll of the school for two consecutive years 2023-2025</li>
-                <li>Maintained outstanding grades 4.0/4.0 in all courses (2023-2025)</li>
-                <li>Top 3 in class for overall academic performance for 2023-2025 consecutive semesters</li>
-                <li>Academic Excellence Scholarship (highest honor) in 2023-2025</li>
-                <li>Win Physics Subject Awards of School for two consecutive years 2023-2025 </li>
+                <li>Earned my school’s the Distinguished Honor Roll of the school for three consecutive years 2023-2026</li>
+                <li>Earned the title of Student of the Year for the 2026 academic year</li>
+                <li>Maintained outstanding grades 4.0 in all courses (2023-2026)</li>
+                <li>Top 3 in class for overall academic performance for 2023-2026 consecutive semesters</li>
+                <li>Academic Excellence Scholarship (highest honor) in 2023-2026</li>
+                <li>Win Physics Subject Awards of School for three consecutive years 2023-2026 </li>
             </ul>
         </div>
         
          <!-- 核心修改：照片画廊移到右侧主内容区域 -->
         <div class="photo-gallery">
             <div class="photo-item">
-                <img src="../../images/honor-roll-5.jpg" alt="Academic photo 1">
+                <img src="../../images/student of the year.jpg" data-full="../../images/honor-roll-1.jpg" alt="Academic photo 1">
             </div>
             <div class="photo-item">
-                <img src="../../images/honor-roll-6.jpg" alt="Academic photo 2">
+                <img src="../../images/honor-roll-1.jpg" data-full="../../images/honor-roll-2.jpg" alt="Academic photo 2">
+            </div>
+             <div class="photo-item">
+                <img src="../../images/honor-roll-2.jpg" data-full="../../images/honor-roll-9.jpg" alt="Academic photo 3">
+            </div>
+             <div class="photo-item">
+                <img src="../../images/honor-roll-10.jpg" data-full="../../images/honor-roll-9.jpg" alt="Academic photo 4">
             </div>
             <div class="photo-item">
-                <img src="../../images/honor-roll-7.jpg" alt="Academic photo 3">
+                <img src="../../images/honor-roll-3.jpg" data-full="../../images/honor-roll-9.jpg" alt="Academic photo 4">
             </div>
             <div class="photo-item">
-                <img src="../../images/honor-roll-8.jpg" alt="Academic photo 4">
+                <img src="../../images/honor-roll-4.jpg" data-full="../../images/honor-roll-9.jpg" alt="Academic photo 4">
+            </div>
+            <div class="photo-item">
+                <img src="../../images/subject award.jpg" data-full="../../images/honor-roll-9.jpg" alt="Academic photo 4">
+            </div>
+            <div class="photo-item">
+                <img src="../../images/honor-roll-11.jpg" data-full="../../images/honor-roll-11.jpg" alt="Academic photo 5">
+            </div>
+            <div class="photo-item">
+                <img src="../../images/honor-roll-7.jpg" data-full="../../images/honor-roll-7.jpg" alt="Academic photo 6">
+            </div>
+            <div class="photo-item">
+                <img src="../../images/honor-roll-8.jpg" data-full="../../images/honor-roll-8.jpg" alt="Academic photo 7">
+            </div>
+             <div class="photo-item">
+                <img src="../../images/honor-roll-12.jpg" data-full="../../images/honor-roll-12.jpg" alt="Academic photo 8">
             </div>
         </div>
-
     </div>
+
+    <!--图片预览弹窗 DOM-->
+    <div class="image-modal" id="imageModal">
+        <img id="modalImg" src="" alt="preview big image">
+    </div>
+
+    <script>
+        // ========== 图片点击放大预览逻辑（和其他页面完全统一） ==========
+        const imageModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const thumbImages = document.querySelectorAll('img[data-full]');
+
+        thumbImages.forEach(img => {
+            img.style.cursor = 'pointer';
+            img.addEventListener('click', function(){
+                const fullSrc = this.getAttribute('data-full');
+                modalImg.src = fullSrc;
+                imageModal.classList.add('active');
+                document.body.style.overflow = 'hidden';
+            })
+        })
+
+        // 点击蒙层关闭弹窗
+        imageModal.addEventListener('click', function(){
+            imageModal.classList.remove('active');
+            modalImg.src = "";
+            document.body.style.overflow = '';
+        })
+
+        // ESC按键关闭弹窗
+        document.addEventListener('keydown', function(e){
+            if(e.key === 'Escape' && imageModal.classList.contains('active')){
+                imageModal.classList.remove('active');
+                modalImg.src = "";
+                document.body.style.overflow = '';
+            }
+        })
+    </script>
 </body>
 </html>
